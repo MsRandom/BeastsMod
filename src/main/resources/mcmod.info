@@ -1,0 +1,16 @@
+[
+{
+  "modid": "beasts",
+  "name": "Beasts",
+  "description": "Adds various mods that make the game more interesting and fun to play.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Ms. Random", "CodaBear1552980"],
+  "credits": "All assets were done by Coda and coded mostly by Ms. Random(Open to commissions at Discord \"Ms. Random#5794\") with the original code being by SoggyMustache",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

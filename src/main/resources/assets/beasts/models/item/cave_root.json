@@ -1,0 +1,7 @@
+{
+"__comment": "Model generated using SoggyMustache's JSON Generator (http://soggymustache.net/tools.html)",
+"parent": "item/generated",
+"textures": {
+"layer0": "beasts:items/cave_root"
+}
+}

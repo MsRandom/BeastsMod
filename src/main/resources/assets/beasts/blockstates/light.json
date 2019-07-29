@@ -1,0 +1,9 @@
+{
+    "variants": {
+        "normal": { "model": "beasts:none" },
+		"facing=east": { "model": "beasts:none"},
+		"facing=west": { "model": "beasts:none"},
+		"facing=north": { "model": "beasts:none"},
+		"facing=south": { "model": "beasts:none"}
+    }
+}

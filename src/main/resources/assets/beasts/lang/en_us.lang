@@ -1,0 +1,12 @@
+entity.monkey_gremlin.name=Gremlin Monkey
+entity.pufferfish_dog.name=Pufferfish Dog
+entity.rabbitman.name=Rabbitman
+entity.coconut_crab.name=Rabbitman
+item.leafy_bone.name=Leafy Bone
+item.carrot_coin.name=Carrot Coin
+item.diamond_carrot.name=Diamond Tipped Carrot
+item.crab_leg.name=Raw Crab Leg
+item.cooked_crab_leg.name=Cooked Crab Leg
+item.coconut.name=Coconut
+tile.coconut.name=Coconut
+itemGroup.beasts=Beasts Items

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " # ",
+    "#c#",
+    " # "
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:gold_nugget"
+    },
+    "c": {
+      "item": "minecraft:carrot"
+    }
+  },
+  "result": {
+    "item": "beasts:carrot_coin"
+  }
+}
