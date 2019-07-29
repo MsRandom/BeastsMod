@@ -2,7 +2,7 @@
 {
   "modid": "beasts",
   "name": "Beasts",
-  "description": "Adds various mods that make the game more interesting and fun to play.",
+  "description": "Adds various mobs that make the game more interesting and fun to play.",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
