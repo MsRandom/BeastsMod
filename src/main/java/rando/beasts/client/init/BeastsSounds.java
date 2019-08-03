@@ -18,7 +18,7 @@ public class BeastsSounds {
         ResourceLocation name = new ResourceLocation(BeastsReference.ID + ":" + s);
         SoundEvent sound = new SoundEvent(name);
         sound.setRegistryName(name);
-        LIST.add(sound);
+        //LIST.add(sound);
         return sound;
     }
 }

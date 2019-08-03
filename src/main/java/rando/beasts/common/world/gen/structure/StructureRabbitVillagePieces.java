@@ -1,6 +1,7 @@
 package rando.beasts.common.world.gen.structure;
 
 import net.minecraft.block.*;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.passive.EntityRabbit;
 import net.minecraft.init.Biomes;
@@ -583,8 +584,10 @@ public class StructureRabbitVillagePieces {
             for (int i = 0; i <= 5; ++i) for (int j = 0; j <= 5; ++j) if (j == 0 || j == 5 || i == 0 || i == 5) this.clearCurrentPositionBlocksUpwards(worldIn, j, 22, i, structureBoundingBoxIn);
             for (int i = 0; i < randomIn.nextInt(3)+1; i++) for (int j = 0; i < randomIn.nextInt(3)+1; i++) for (int k = 0; i < randomIn.nextInt(2)+1; i++) {
                 EntityRabbit entity = new EntityRabbit(worldIn);
-                entity.setLocationAndAngles(getXWithOffset(2 + i + j + k, 2) + 0.5D, getYWithOffset(12), getZWithOffset(2 + i + j + k, 2) + 0.5D, 0.0F, 0.0F);
+                BlockPos pos = worldIn.getTopSolidOrLiquidBlock(new BlockPos(getXWithOffset(2 + i + j + k, 2), getYWithOffset(12), getZWithOffset(2 + i + j + k, 2)));
+                entity.setLocationAndAngles(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, 0.0F, 0.0F);
                 entity.onInitialSpawn(worldIn.getDifficultyForLocation(entity.getPosition()), null);
+                if(worldIn.getBlockState(pos).getMaterial() != Material.WATER) entity.setNoAI(true);
                 worldIn.spawnEntity(entity);
             }
             return true;

@@ -1,7 +1,8 @@
 package rando.beasts.common.block;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
+import net.minecraft.block.BlockFalling;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
@@ -9,6 +10,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
@@ -25,7 +27,7 @@ import javax.annotation.Nullable;
 import java.util.Random;
 
 @SuppressWarnings("deprecation")
-public class BlockCoconut extends BlockContainer {
+public class BlockCoconut extends BlockFalling implements ITileEntityProvider {
 
     private static final AxisAlignedBB AABB =  new AxisAlignedBB(0.25, 0, 0.25, 0.75, 0.2, 0.75);
 
@@ -34,7 +36,24 @@ public class BlockCoconut extends BlockContainer {
         String name = "coconut";
         setUnlocalizedName(name);
         setRegistryName(name);
+        hasTileEntity = true;
         BeastsBlocks.LIST.add(this);
+    }
+
+    @Nonnull
+    public EnumBlockRenderType getRenderType(IBlockState state) {
+        return EnumBlockRenderType.INVISIBLE;
+    }
+
+    public void breakBlock(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
+        super.breakBlock(worldIn, pos, state);
+        worldIn.removeTileEntity(pos);
+    }
+
+    public boolean eventReceived(IBlockState state, World worldIn, BlockPos pos, int id, int param) {
+        super.eventReceived(state, worldIn, pos, id, param);
+        TileEntity tileentity = worldIn.getTileEntity(pos);
+        return tileentity != null && tileentity.receiveClientEvent(id, param);
     }
 
     @Nonnull

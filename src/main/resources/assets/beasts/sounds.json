@@ -1,17 +1,1 @@
-{
-  "monkey.hurt": {
-    "category": "ambient",
-    "sounds": [
-      "beasts:monkey.hurt"
-    ], 
-    "stream": true
-  }, 
- "monkey.idle": {
-    "category": "ambient",
-    "sounds": [
-      "beasts:monkey.idle", 
-      "beasts:monkey.idle2"
-    ], 
-    "stream": true
-    }
-}
+{}
