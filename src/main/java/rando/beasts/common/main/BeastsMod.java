@@ -25,7 +25,7 @@ public class BeastsMod {
 
 	private static Logger logger;
 
-	@SidedProxy(serverSide = BeastsReference.SERVER_PROXY_CLASS, clientSide = BeastsReference.CLIENT_PROXY_CLASS)
+	@SidedProxy(serverSide = BeastsReference.COMMON_PROXY, clientSide = BeastsReference.CLIENT_PROXY)
 	private static CommonProxy proxy;
 
 	@EventHandler
