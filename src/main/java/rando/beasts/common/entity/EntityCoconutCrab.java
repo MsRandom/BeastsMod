@@ -1,6 +1,8 @@
 package rando.beasts.common.entity;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAIFindEntityNearestPlayer;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.monster.EntityMob;
@@ -12,6 +14,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import rando.beasts.common.init.BeastsBlocks;
@@ -26,8 +29,8 @@ public class EntityCoconutCrab extends EntityMob {
 
     public EntityCoconutCrab(World worldIn) {
         super(worldIn);
-        this.setSize(0.2f, 0.3f);
-        this.tasks.addTask(0, new EntityAIWander(this, 0.2) {
+        this.setSize(0.5f, 0.4f);
+        this.tasks.addTask(0, new EntityAIWander(this, 0.5, 50) {
             @Override
             public boolean shouldExecute() {
                 return isOut() && super.shouldExecute();
@@ -50,11 +53,6 @@ public class EntityCoconutCrab extends EntityMob {
     }
 
     @Override
-    protected void collideWithNearbyEntities() {
-        if(isOut()) super.collideWithNearbyEntities();
-    }
-
-    @Override
     protected void entityInit() {
         super.entityInit();
         this.dataManager.register(OUT, false);
@@ -66,11 +64,17 @@ public class EntityCoconutCrab extends EntityMob {
 
     private void setOut() {
         this.dataManager.set(OUT, true);
+        setSize(width, height + 0.2f);
+    }
+
+    @Override
+    public void knockBack(Entity entityIn, float strength, double xRatio, double zRatio) {
+        if(isOut()) super.knockBack(entityIn, strength, xRatio, zRatio);
     }
 
     @Override
     public boolean attackEntityFrom(@Nonnull DamageSource source, float amount) {
-        return isOut() && super.attackEntityFrom(source, amount);
+        return (isOut() || this.isEntityInvulnerable(source)) && super.attackEntityFrom(source, amount);
     }
 
     @Override
@@ -106,5 +110,16 @@ public class EntityCoconutCrab extends EntityMob {
             return true;
         }
         return super.processInteract(player, hand);
+    }
+
+    @Override
+    public void onUpdate() {
+        if(isOut()) super.onUpdate();
+        else {
+            if (this.newPosRotationIncrements > 0 && !this.canPassengerSteer()) this.setPosition(posX, this.posY + (this.interpTargetY - this.posY), posZ);
+            this.moveStrafing *= 0.98F;
+            this.moveForward *= 0.98F;
+            this.travel(this.moveStrafing, this.moveVertical, this.moveForward);
+        }
     }
 }

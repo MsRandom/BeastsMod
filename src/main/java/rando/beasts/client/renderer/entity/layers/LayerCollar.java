@@ -21,7 +21,7 @@ public class LayerCollar implements LayerRenderer<EntityPufferfishDog>
     }
 
     public void doRenderLayer(EntityPufferfishDog entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-        if (entity.isTamed() && !entity.isChild() && !entity.isInvisible()) {
+        if (entity.isTamed() && !entity.isInvisible()) {
             this.render.bindTexture(COLLAR);
             float[] colors = entity.getCollarColor().getColorComponentValues();
             GlStateManager.color(colors[0], colors[1], colors[2]);

@@ -3,17 +3,16 @@ package rando.beasts.common.entity;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIFollowOwner;
-import net.minecraft.entity.ai.EntityAIMate;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWander;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.EnumDyeColor;
+import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
@@ -34,7 +33,6 @@ public class EntityPufferfishDog extends EntityTameable {
 
     private static final DataParameter<Integer> COLLAR_COLOR = EntityDataManager.createKey(EntityPufferfishDog.class, DataSerializers.VARINT);
     private static final DataParameter<Float> THREAT_TIME = EntityDataManager.createKey(EntityPufferfishDog.class, DataSerializers.FLOAT);
-    private static final DataParameter<Boolean> SITTING = EntityDataManager.createKey(EntityPufferfishDog.class, DataSerializers.BOOLEAN);
     private int bounces = 0;
 
     private EntityPufferfishDog(World worldIn) {
@@ -45,10 +43,17 @@ public class EntityPufferfishDog extends EntityTameable {
     @Override
     protected void initEntityAI() {
         super.initEntityAI();
+        this.aiSit = new EntityAISit(this);
+        this.tasks.addTask(2, aiSit);
         this.tasks.addTask(2, new EntityAIMate(this, 1.0D));
         this.tasks.addTask(2, new EntityAISwimming(this));
-        this.tasks.addTask(2, new EntityAIFollowOwner(this, 0.3, 2f, 5f));
-        this.tasks.addTask(2, new EntityAIWander(this, 0.6, 50) {
+        this.tasks.addTask(2, new EntityAIFollowOwner(this, 0.5, 2f, 5f) {
+            @Override
+            public boolean shouldExecute() {
+                return !getInflated() && super.shouldExecute();
+            }
+        });
+        this.tasks.addTask(2, new EntityAIWander(this, 0.5, 50) {
             @Override
             public boolean shouldExecute(){
                 return !isSitting() && super.shouldExecute();
@@ -79,7 +84,6 @@ public class EntityPufferfishDog extends EntityTameable {
         super.entityInit();
         this.dataManager.register(COLLAR_COLOR, EnumDyeColor.RED.getDyeDamage());
         this.dataManager.register(THREAT_TIME, 0.0f);
-        this.dataManager.register(SITTING, false);
     }
 
     protected void playStepSound(BlockPos pos, Block blockIn) {
@@ -136,37 +140,38 @@ public class EntityPufferfishDog extends EntityTameable {
     @Override
     public boolean processInteract(EntityPlayer player, @Nonnull EnumHand hand) {
         ItemStack stack = player.getHeldItem(hand);
-        if (!this.world.isRemote) {
-            if (this.isTamed()) {
-                if (this.isOwner(player)) {
-                    if (stack.isEmpty()) {
-                        this.setSitting(!isSitting());
-                        this.isJumping = false;
-                        this.navigator.clearPath();
-                        return true;
-                    } else if (stack.getItem() == Items.DYE) {
-                        EnumDyeColor color = EnumDyeColor.byDyeDamage(stack.getMetadata());
-                        if (color != this.getCollarColor()) {
-                            this.setCollarColor(color);
-                            if (!player.capabilities.isCreativeMode) stack.shrink(1);
-                            return true;
-                        }
-                    }
+        if (this.isTamed()) {
+            if (!stack.isEmpty() && stack.getItem() == Items.DYE) {
+                EnumDyeColor color = EnumDyeColor.byDyeDamage(stack.getMetadata());
+                if (color != this.getCollarColor()) {
+                    this.setCollarColor(color);
+                    if (!player.capabilities.isCreativeMode) stack.shrink(1);
+                    return true;
                 }
-            } else if (stack.getItem() == BeastsItems.LEAFY_BONE) {
-                if (!player.capabilities.isCreativeMode) stack.shrink(1);
-                if (this.rand.nextInt(3) == 0 && !ForgeEventFactory.onAnimalTame(this, player)) {
-                    this.setTamedBy(player);
-                    this.setHealth(16.0F);
-                    this.setSitting(true);
-                    this.playTameEffect(true);
-                    this.world.setEntityState(this, (byte) 7);
-                } else {
-                    this.playTameEffect(false);
-                    this.world.setEntityState(this, (byte)6);
-                }
+            }
+            if (this.isOwner(player) && !this.world.isRemote && stack.isEmpty()) {
+                this.setSitting(!this.isSitting());
+                this.isJumping = false;
+                this.navigator.clearPath();
                 return true;
             }
+        } else if (stack.getItem() == BeastsItems.LEAFY_BONE) {
+            if (!player.capabilities.isCreativeMode) stack.shrink(1);
+            if (this.rand.nextInt(3) == 0 && !ForgeEventFactory.onAnimalTame(this, player)) {
+                this.isJumping = false;
+                this.navigator.clearPath();
+                this.motionX = 0;
+                this.motionZ = 0;
+                this.setTamedBy(player);
+                this.setHealth(16.0F);
+                this.setSitting(true);
+                this.playTameEffect(true);
+                this.world.setEntityState(this, (byte) 7);
+            } else {
+                this.playTameEffect(false);
+                this.world.setEntityState(this, (byte) 6);
+            }
+            return true;
         }
         return super.processInteract(player, hand);
     }
@@ -193,16 +198,6 @@ public class EntityPufferfishDog extends EntityTameable {
     @Override
     public boolean isBreedingItem(ItemStack stack) {
         return stack.getItem() == Items.SPIDER_EYE;
-    }
-
-    @Override
-    public void setSitting(boolean sitting) {
-        dataManager.set(SITTING, sitting);
-    }
-
-    @Override
-    public boolean isSitting() {
-        return dataManager.get(SITTING);
     }
 
     public EnumDyeColor getCollarColor() {

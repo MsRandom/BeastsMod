@@ -168,7 +168,7 @@ public class ModelPufferFishDog extends ModelBase {
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         if (this.isChild) {
             GlStateManager.scale(0.5F, 0.5F, 0.5F);
-            GlStateManager.translate(0.0F, 24.0F * f5, 4.0F * f5);
+            GlStateManager.translate(0.0F, 24.0F * f5, 1.65F * f5);
         }
         if(entity instanceof EntityPufferfishDog && ((EntityPufferfishDog)entity).getInflated()) this.body.render(f5);
         else this.body_1.render(f5);

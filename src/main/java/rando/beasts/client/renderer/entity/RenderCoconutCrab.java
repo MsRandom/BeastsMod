@@ -1,5 +1,6 @@
 package rando.beasts.client.renderer.entity;
 
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
@@ -16,6 +17,11 @@ public class RenderCoconutCrab extends RenderLiving<EntityCoconutCrab> {
 
     public RenderCoconutCrab(RenderManager rendermanagerIn) {
         super(rendermanagerIn, new ModelCoconut(), 0.1f);
+    }
+
+    @Override
+    protected void preRenderCallback(EntityCoconutCrab entitylivingbaseIn, float partialTickTime) {
+        GlStateManager.translate(-0.2, 0, 0);
     }
 
     @Nullable
