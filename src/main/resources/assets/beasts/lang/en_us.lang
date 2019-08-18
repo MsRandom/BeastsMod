@@ -1,13 +1,34 @@
-entity.monkey_gremlin.name=Gremlin Monkey
-entity.pufferfish_dog.name=Pufferpups
+Entities
+
+entity.pufferfish_dog.name=Pufferpup
 entity.rabbitman.name=Rabbitman
 entity.coconut_crab.name=Coconut Crab
+
+Items
+
 item.leafy_bone.name=Leafy Bone
 item.carrot_coin.name=Carrot Coin
 item.diamond_carrot.name=Diamond Tipped Carrot
 item.crab_leg.name=Raw Crab Leg
 item.cooked_crab_leg.name=Cooked Crab Leg
+item.coconade.name=Coco-Nade
 item.coconut.name=Coconut
+item.barnacle_tongue.name=Raw Barnacle Tongue
+item.cooked_barnacle_tongue.name=Cooked Barnacle Tongue
+item.eel_chop.name=Raw Eel Chop
+item.cooked_eel_chop.name=Cooked Eel Chop
+item.coral_essence_blue.name=Blue Coral Essence
+item.coral_essence_pink.name=Pink Coral Essence
+item.coral_essence_purple.name=Purple Coral Essence
+item.coral_essence_red.name=Red Coral Essence
+item.coral_essence_yellow.name=Yellow Coral Essence
+item.shrimp.name=Raw Shrimp
+item.cooked_shrimp.name=Cooked Shrimp
+item.raw_kebab.name=Raw Shrimp Kebab
+item.cooked_kebab.name=Cooked Shrimp Kebab
+
+Blocks
+
 tile.coconut.name=Coconut
 tile.coral_block_blue.name=Blue Coral
 tile.coral_block_pink.name=Pink Coral
@@ -19,4 +40,9 @@ tile.coral_plant_pink.name=Pink Coral
 tile.coral_plant_purple.name=Purple Coral
 tile.coral_plant_red.name=Red Coral
 tile.coral_plant_yellow.name=Yellow Coral
-itemGroup.beasts=Beasts Items
+tile.white_sand.name=White Sand
+
+Miscellaneous
+
+itemGroup.beasts=Beasts
+item.icon.name=Beasts Icon
