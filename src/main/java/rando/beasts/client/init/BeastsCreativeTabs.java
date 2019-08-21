@@ -11,7 +11,7 @@ public class BeastsCreativeTabs {
     public static final CreativeTabs MAIN = new CreativeTabs(BeastsReference.ID) {
         @Override
         public ItemStack getTabIconItem() {
-            return new ItemStack(BeastsItems.CARROT_COIN);
+            return new ItemStack(BeastsItems.ICON);
         }
     };
 }
