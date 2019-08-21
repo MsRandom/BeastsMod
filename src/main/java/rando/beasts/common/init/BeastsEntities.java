@@ -17,8 +17,10 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.StringUtils;
 import rando.beasts.common.entity.EntityCoconutCrab;
+import rando.beasts.common.entity.EntityLandwhale;
 import rando.beasts.common.entity.EntityPufferfishDog;
 import rando.beasts.common.entity.EntityRabbitman;
+import rando.beasts.common.entity.EntityVileEel;
 import rando.beasts.common.main.BeastsMod;
 import rando.beasts.common.utils.BeastsReference;
 
@@ -32,10 +34,13 @@ public class BeastsEntities {
 	private static int entityId = 0;
 	public static final List<EntityEntry> LIST = new ArrayList<>();
 
-	private static final EntityType COCONUT_CRAB = new EntityType(EntityCoconutCrab.class, 0x655350, 0x42291F, new EntityType.SpawnEntry(EnumCreatureType.MONSTER, 12, 1, 1, BiomeDictionary.getBiomes(BiomeDictionary.Type.BEACH)));
 	private static final EntityType PUFFERFISH_DOG = new EntityType(EntityPufferfishDog.class, 0xFBA70C, 0x429BBA, new EntityType.SpawnEntry(EnumCreatureType.CREATURE, 12, 1, 1, BiomeDictionary.getBiomes(BiomeDictionary.Type.BEACH)));
 	private static final EntityType RABBITMAN = new EntityType(EntityRabbitman.class, 0x4E362D, 0xE5E5E5, null);
+	private static final EntityType COCONUT_CRAB = new EntityType(EntityCoconutCrab.class, 0x3C1C11, 0xA16745, new EntityType.SpawnEntry(EnumCreatureType.CREATURE, 12, 1, 1, BiomeDictionary.getBiomes(BiomeDictionary.Type.BEACH)));
+	private static final EntityType VILE_EEL = new EntityType(EntityVileEel.class, 0x313337, 0x987CAF, new EntityType.SpawnEntry(EnumCreatureType.MONSTER, 12, 1, 1, BiomeDictionary.getBiomes(BiomeDictionary.Type.BEACH)));
+	private static final EntityType LANDWHALE = new EntityType(EntityLandwhale.class, 0x587377, 0xE25AA5, new EntityType.SpawnEntry(EnumCreatureType.CREATURE, 12, 1, 1, BiomeDictionary.getBiomes(BiomeDictionary.Type.BEACH)));
 
+	
 	public static class EntityType {
 		EntityType(Class<? extends Entity> cls, int prim, int sec, SpawnEntry spawn) {
 			String entityName = StringUtils.join(cls.getSimpleName().replace("Entity", "").split("(?=[A-Z])"), "_").toLowerCase();
@@ -44,6 +49,7 @@ public class BeastsEntities {
 			EntityEntry entry = builder.build();
 			entry.setEgg(new EntityList.EntityEggInfo(new ResourceLocation(BeastsReference.ID, entityName), prim, sec));
 			LIST.add(entry);
+		
 		}
 
 		static class SpawnEntry {
