@@ -26,7 +26,7 @@ public class BeastsMod {
 	private static Logger logger;
 
 	@SidedProxy(serverSide = BeastsReference.COMMON_PROXY, clientSide = BeastsReference.CLIENT_PROXY)
-	private static CommonProxy proxy;
+	public static CommonProxy proxy;
 
 	@EventHandler
 	public static void preInit(FMLPreInitializationEvent event) {

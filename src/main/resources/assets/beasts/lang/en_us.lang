@@ -1,11 +1,13 @@
 Entities
 
+entity.vile_eel.name=Vile Eel
 entity.pufferfish_dog.name=Pufferpup
 entity.rabbitman.name=Rabbitman
 entity.coconut_crab.name=Coconut Crab
+entity.landwhale.name=Landwhale
 
 Items
-
+item.reef_mixture.name=Reef Mixture
 item.leafy_bone.name=Leafy Bone
 item.carrot_coin.name=Carrot Coin
 item.diamond_carrot.name=Diamond Tipped Carrot
@@ -26,6 +28,15 @@ item.shrimp.name=Raw Shrimp
 item.cooked_shrimp.name=Cooked Shrimp
 item.raw_kebab.name=Raw Shrimp Kebab
 item.cooked_kebab.name=Cooked Shrimp Kebab
+item.coconut_bowl.name=Coconut Bowl
+item.daggerfish.name=Raw Daggerfish
+item.cooked_daggerfish.name=Cooked Daggerfish
+item.fishstar.name=Fishstar
+item.athapod_chitin.name=Athapod Chitin
+item.spartapod_chitin.name=Spartapod Chitin
+item.spartapod_crest.name=Spartapod Crest
+item.ice_crab_chitin.name=Ice Crab Chitin
+item.worm_tooth.name=Worm Tooth
 
 Blocks
 

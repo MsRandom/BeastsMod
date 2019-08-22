@@ -7,6 +7,6 @@ public class ItemDiamondCarrot extends ItemSword {
 
     public ItemDiamondCarrot() {
         super(ToolMaterial.DIAMOND);
-        BeastsUtil.addToRegistry(this, "diamond_carrot");
+        BeastsUtil.addToRegistry(this, "diamond_carrot", true);
     }
 }

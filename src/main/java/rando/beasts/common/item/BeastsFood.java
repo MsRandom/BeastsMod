@@ -6,6 +6,6 @@ import rando.beasts.common.utils.BeastsUtil;
 public class BeastsFood extends ItemFood {
     public BeastsFood(String name, int amount, float saturation) {
         super(amount, saturation, false);
-        BeastsUtil.addToRegistry(this, name);
+        BeastsUtil.addToRegistry(this, name, true);
     }
 }

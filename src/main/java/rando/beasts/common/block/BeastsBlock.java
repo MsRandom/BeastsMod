@@ -16,6 +16,6 @@ public class BeastsBlock extends Block{
 
 	public BeastsBlock(Material blockMaterialIn, MapColor blockMapColorIn, String name) {
 		super(blockMaterialIn, blockMapColorIn);
-		BeastsUtil.addToRegistry(this, name);
+		BeastsUtil.addToRegistry(this, name, true);
 	}
 }

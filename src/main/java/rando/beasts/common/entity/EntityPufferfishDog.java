@@ -38,6 +38,7 @@ public class EntityPufferfishDog extends EntityTameable {
     private EntityPufferfishDog(World worldIn) {
         super(worldIn);
         this.setSize(0.5f, 0.5f);
+        
     }
 
     @Override
@@ -60,6 +61,9 @@ public class EntityPufferfishDog extends EntityTameable {
             }
         });
     }
+
+    @Override
+    public void fall(float distance, float damageMultiplier) { }
 
     @Override
     public EntityAgeable createChild(@Nonnull EntityAgeable ageable) {

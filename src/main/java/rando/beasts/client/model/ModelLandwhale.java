@@ -140,14 +140,12 @@ public class ModelLandwhale extends ModelBase {
     @Override
     public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
         super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
-        float speed = 0.75f, degree = 0.75f;
-        //imbSwing = entityIn.ticksExisted;
-        //limbSwingAmount = 0.1F;
+        float speed = 0.55f, degree = 0.75f;
         this.armLeft.rotateAngleX = MathHelper.cos(limbSwing * speed * 2.0F) * degree * limbSwingAmount;
         this.armRight.rotateAngleX = MathHelper.cos(limbSwing * speed + (float) Math.PI) * degree * limbSwingAmount;
         this.legLeft.rotateAngleX = MathHelper.cos(limbSwing * speed + (float) Math.PI) * degree * limbSwingAmount;
         this.legRight.rotateAngleX = MathHelper.cos(limbSwing * speed) * degree * limbSwingAmount;   
-        this.tailBase.rotateAngleY = MathHelper.cos(20 + limbSwing * speed * 0.3F) * degree * limbSwingAmount;   
+        this.tailBase.rotateAngleY = MathHelper.cos(20 + limbSwing * speed) * degree * limbSwingAmount;   
     }
     
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {

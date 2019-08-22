@@ -1,5 +1,8 @@
 package rando.beasts.common.proxy;
 
+import net.minecraft.client.model.ModelBiped;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.ForgeModContainer;
@@ -17,4 +20,9 @@ public class CommonProxy {
 		GameRegistry.registerTileEntity(TileEntityCoconut.class, new ResourceLocation(BeastsReference.ID, "coconut"));
 		ForgeModContainer.logCascadingWorldGeneration = false;
 	}
+
+	public ModelBiped getArmorModel(Item armorItem, int id){
+		return null;
+	}
+
 }
