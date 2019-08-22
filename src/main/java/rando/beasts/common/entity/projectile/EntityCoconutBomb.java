@@ -50,7 +50,10 @@ public class EntityCoconutBomb extends EntityThrowable
         if (!this.world.isRemote)
         {
             //@Nullable Entity entityIn, double x, double y, double z, float strength, boolean isFlaming, boolean isSmoking
-            this.world.createExplosion(this, result.getBlockPos().getX(), result.getBlockPos().getY(), result.getBlockPos().getZ(), 1.0F, true);
+            if(result.getBlockPos() != null)
+                this.world.createExplosion(this, result.getBlockPos().getX(), result.getBlockPos().getY(), result.getBlockPos().getZ(), 1.0F, true);
+            else if(result.entityHit != null)
+                this.world.createExplosion(this, result.entityHit.posX, result.entityHit.posY, result.entityHit.posZ, 1.0F, true);
             this.world.setEntityState(this, (byte)3);
             this.setDead();
         }
