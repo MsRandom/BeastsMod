@@ -5,8 +5,11 @@ entity.pufferfish_dog.name=Pufferpup
 entity.rabbitman.name=Rabbitman
 entity.coconut_crab.name=Coconut Crab
 entity.landwhale.name=Landwhale
+entity.skewer_shrimp.name=Skewer Shrimp
+entity.giant_garden_eel.name=Giant Garden Eel
 
 Items
+
 item.reef_mixture.name=Reef Mixture
 item.leafy_bone.name=Leafy Bone
 item.carrot_coin.name=Carrot Coin
@@ -37,6 +40,15 @@ item.spartapod_chitin.name=Spartapod Chitin
 item.spartapod_crest.name=Spartapod Crest
 item.ice_crab_chitin.name=Ice Crab Chitin
 item.worm_tooth.name=Worm Tooth
+item.glow_root.name=Glow Root
+item.spartapod_helmet.name=Spartapod Helmet
+item.spartapod_chest.name=Spartapod Chestplate
+item.spartapod_legs.name=Spartapod Leggings
+item.spartapod_boots.name=Spartapod Boots
+item.coconut_rabbit_stew.name=Rabbit Stew
+item.coconut_mushroom.name=Mushroom Stew
+item.coconut_juice.name=Coconut Juice
+
 
 Blocks
 
@@ -52,6 +64,7 @@ tile.coral_plant_purple.name=Purple Coral
 tile.coral_plant_red.name=Red Coral
 tile.coral_plant_yellow.name=Yellow Coral
 tile.white_sand.name=White Sand
+tile.glow_root.name=Glow Root
 
 Miscellaneous
 

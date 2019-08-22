@@ -51,10 +51,10 @@ public class BeastsItems {
 			return super.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
 		}
 	};
-    public static final Item SPARTAPOD_BOOTS = new ItemCustomArmor("spartapod_boots", SPARTAPODA, 1, EntityEquipmentSlot.FEET);
-    public static final Item SPARTAPOD_LEGS = new ItemCustomArmor("spartapod_legs", SPARTAPODA, 1, EntityEquipmentSlot.LEGS);
-    public static final Item SPARTAPOD_CHEST = new ItemCustomArmor("spartapod_chest", SPARTAPODA, 0, EntityEquipmentSlot.CHEST);
 	public static final Item SPARTAPOD_HELMET = new ItemCustomArmor("spartapod_helmet", SPARTAPOD, 0, EntityEquipmentSlot.HEAD);
+    public static final Item SPARTAPOD_CHEST = new ItemCustomArmor("spartapod_chest", SPARTAPODA, 0, EntityEquipmentSlot.CHEST);
+    public static final Item SPARTAPOD_LEGS = new ItemCustomArmor("spartapod_legs", SPARTAPODA, 1, EntityEquipmentSlot.LEGS);
+    public static final Item SPARTAPOD_BOOTS = new ItemCustomArmor("spartapod_boots", SPARTAPODA, 1, EntityEquipmentSlot.FEET);
 	public static final Item ICON = new BeastsIconItem("icon");
 	public static final Item LEAFY_BONE = new BeastsItem("leafy_bone");
 	public static final Item CARROT_COIN = new BeastsItem("carrot_coin");
@@ -122,6 +122,10 @@ public class BeastsItems {
 			player.inventory.add(1, new ItemStack(COCONUT_BOWL));
 			super.onFoodEaten(stack, worldIn, player);
 		}
+
+		{
+			this.setMaxStackSize(2);
+		}
 	};
 	public static final ItemFood COCONUT_JUICE = new BeastsFood("coconut_juice", 4, 0.5F){
 		@Override
@@ -136,6 +140,10 @@ public class BeastsItems {
 			player.inventory.add(1, new ItemStack(COCONUT_BOWL));
 			super.onFoodEaten(stack, worldIn, player);
 		}
+
+		{
+			this.setMaxStackSize(2);
+		}
 	};
 	public static final ItemFood REEF_MIXTURE = new BeastsFood("reef_mixture", 10, 0.9F){
 		@Override
@@ -144,6 +152,10 @@ public class BeastsItems {
 			player.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 100, 0));
 			player.inventory.add(1, new ItemStack(COCONUT_BOWL));
 			super.onFoodEaten(stack, worldIn, player);
+		}
+
+		{
+			this.setMaxStackSize(2);
 		}
 	};
 }

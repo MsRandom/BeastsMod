@@ -37,7 +37,7 @@ public class BeastsEntities {
 	private static final EntityType VILE_EEL = new EntityType(EntityVileEel.class, 0x313337, 0x987CAF, new EntityType.SpawnEntry(EnumCreatureType.MONSTER, 12, 1, 1, BiomeDictionary.getBiomes(BiomeDictionary.Type.BEACH)));
 	private static final EntityType LANDWHALE = new EntityType(EntityLandwhale.class, 0x587377, 0xE25AA5, new EntityType.SpawnEntry(EnumCreatureType.CREATURE, 12, 1, 1, BiomeDictionary.getBiomes(BiomeDictionary.Type.BEACH)));
 	private static final EntityType COCONADE = new EntityType(EntityCoconutBomb.class);
-	private static final EntityType GIANT_GARDEN_EEL = new EntityType(EntityGiantGardenEel.class, 0x605D4E, 0xFFFE69, new EntityType.SpawnEntry(EnumCreatureType.CREATURE, 12, 1, 1, BiomeDictionary.getBiomes(BiomeDictionary.Type.BEACH)));
+	private static final EntityType GIANT_GARDEN_EEL = new EntityType(EntityGiantGardenEel.class, 0xCECEAF, 0x7A745E, new EntityType.SpawnEntry(EnumCreatureType.CREATURE, 12, 1, 1, BiomeDictionary.getBiomes(BiomeDictionary.Type.BEACH)));
 	private static final EntityType SKEWER_SHRIMP = new EntityType(EntitySkewerShrimp.class, 0xEA4E3C, 0xFFACA3, new EntityType.SpawnEntry(EnumCreatureType.CREATURE, 12, 4, 8, BiomeDictionary.getBiomes(BiomeDictionary.Type.BEACH)));
 
 	public static class EntityType {

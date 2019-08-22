@@ -28,9 +28,9 @@ public class BlockGlowRoot extends Block {
     private boolean isTop;
 
     public BlockGlowRoot(String unloc, boolean b) {
-        super(Material.ROCK, MapColor.STONE);
+        super(Material.GRASS, MapColor.GRASS);
         this.isTop = b;
-        this.setSoundType(SoundType.GROUND);
+        this.setSoundType(SoundType.PLANT);
         BeastsUtil.addToRegistry(this, unloc, false);
         this.setLightLevel(1.0F);
     }
