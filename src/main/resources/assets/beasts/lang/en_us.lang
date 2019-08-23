@@ -49,15 +49,14 @@ item.coconut_rabbit_stew.name=Rabbit Stew
 item.coconut_mushroom.name=Mushroom Stew
 item.coconut_juice.name=Coconut Juice
 
-
 Blocks
 
 tile.coconut.name=Coconut
-tile.coral_block_blue.name=Blue Coral
-tile.coral_block_pink.name=Pink Coral
-tile.coral_block_purple.name=Purple Coral
-tile.coral_block_red.name=Red Coral
-tile.coral_block_yellow.name=Yellow Coral
+tile.coral_block.blue.name=Blue Coral
+tile.coral_block.pink.name=Pink Coral
+tile.coral_block.purple.name=Purple Coral
+tile.coral_block.red.name=Red Coral
+tile.coral_block.yellow.name=Yellow Coral
 tile.coral_plant_blue.name=Blue Coral
 tile.coral_plant_pink.name=Pink Coral
 tile.coral_plant_purple.name=Purple Coral

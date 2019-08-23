@@ -5,12 +5,8 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
-import rando.beasts.common.entity.EntityPufferfishDog;
+import rando.beasts.common.entity.passive.EntityPufferfishDog;
 
-/**
- * ModelVileEel - Coda
- * Created using Tabula 7.0.1
- */
 public class ModelVileEel extends ModelBase {
     public ModelRenderer body;
     public ModelRenderer jaw;

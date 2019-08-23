@@ -17,7 +17,6 @@ import rando.beasts.common.world.gen.structure.RabbitVillageGenerator;
 import java.util.Map;
 
 @SuppressWarnings("unused")
-@Mod.EventBusSubscriber(modid = BeastsReference.ID)
 @Mod(modid = BeastsReference.ID, name = BeastsReference.NAME, version = BeastsReference.VERSION)
 public class BeastsMod {
 

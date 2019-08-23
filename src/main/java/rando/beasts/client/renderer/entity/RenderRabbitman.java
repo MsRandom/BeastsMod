@@ -6,7 +6,7 @@ import net.minecraft.util.ResourceLocation;
 import rando.beasts.client.renderer.entity.layers.LayerRabbitmanItem;
 import rando.beasts.common.utils.BeastsReference;
 import rando.beasts.client.model.ModelRabbitman;
-import rando.beasts.common.entity.EntityRabbitman;
+import rando.beasts.common.entity.passive.EntityRabbitman;
 
 import javax.annotation.Nullable;
 

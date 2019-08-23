@@ -1,4 +1,4 @@
-package rando.beasts.common.entity;
+package rando.beasts.common.entity.monster;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -8,9 +8,6 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
-import rando.beasts.common.utils.BeastsUtil;
-
-import javax.sound.midi.SysexMessage;
 
 public class EntityGiantGardenEel extends EntityMob {
 
@@ -36,12 +33,10 @@ public class EntityGiantGardenEel extends EntityMob {
     }
 
     @Override
-    protected void collideWithEntity(Entity entityIn) {
-    }
+    protected void collideWithEntity(Entity entityIn) {}
 
     @Override
-    public void applyEntityCollision(Entity entityIn) {
-    }
+    public void applyEntityCollision(Entity entityIn) {}
 
     @Override
     protected void applyEntityAttributes() {
@@ -55,27 +50,17 @@ public class EntityGiantGardenEel extends EntityMob {
     @Override
     public void onUpdate() {
         super.onUpdate();
-
-        Entity e = BeastsUtil.getClosestEntityToEntity(this, 4.0D);
-
-        if(e != null){
-            this.getLookHelper().setLookPositionWithEntity(e, 10.0F, 10.0F);
-
+        EntityGiantGardenEel entity = world.getEntitiesWithinAABB(EntityGiantGardenEel.class, getEntityBoundingBox().grow(4)).stream().sorted((entityGiantGardenEel, t1) -> (int) (getDistanceSq(t1) - entityGiantGardenEel.getDistanceSq(t1))).toArray(EntityGiantGardenEel[]::new)[0];
+        if(entity != null){
+            this.getLookHelper().setLookPositionWithEntity(entity, 10.0F, 10.0F);
             if(slamTimer < 90){
                 slamTimer++;
-                if(slamTimer > 3)
-                    slam = false;
-            }
-            else{
+                if(slamTimer > 3) slam = false;
+            } else {
                 slamTimer = 0;
                 slam = true;
-                if(e != null && !e.isDead){
-                    e.attackEntityFrom(DamageSource.causeMobDamage(this), 4.0F);
-                }
+                if(!entity.isDead) entity.attackEntityFrom(DamageSource.causeMobDamage(this), 4.0F);
             }
         }
-
-
-
     }
 }

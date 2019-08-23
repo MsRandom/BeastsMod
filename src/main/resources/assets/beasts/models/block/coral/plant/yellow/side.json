@@ -4,8 +4,7 @@
         "texture": "beasts:blocks/coral/yellow",
         "particle": "beasts:blocks/coral/yellow"
     },
-    "elements": [
-        {   "from": [ 4, 4, 0 ],
+    "elements": [ {   "from": [ 4, 4, 0 ],
             "to": [ 12, 12, 4 ],
             "faces": {
                 "down":  { "texture": "#texture" },

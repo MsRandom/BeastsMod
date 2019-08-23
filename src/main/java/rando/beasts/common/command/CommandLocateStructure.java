@@ -17,19 +17,16 @@ import rando.beasts.common.world.gen.structure.RabbitVillageGenerator;
 public class CommandLocateStructure extends CommandBase {
 
     @Nonnull
-    public String getName()
-    {
+    public String getName() {
         return "locate";
     }
 
-    public int getRequiredPermissionLevel()
-    {
+    public int getRequiredPermissionLevel() {
         return 2;
     }
 
     @Nonnull
-    public String getUsage(@Nonnull ICommandSender sender)
-    {
+    public String getUsage(@Nonnull ICommandSender sender) {
         return "/locateVillage";
     }
 

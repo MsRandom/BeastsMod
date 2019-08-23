@@ -5,7 +5,7 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
-import rando.beasts.common.entity.EntityCoconutCrab;
+import rando.beasts.common.entity.monster.EntityCoconutCrab;
 
 @SuppressWarnings("WeakerAccess")
 public class ModelCoconut extends ModelBase {

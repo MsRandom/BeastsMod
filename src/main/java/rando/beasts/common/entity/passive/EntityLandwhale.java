@@ -1,9 +1,6 @@
-package rando.beasts.common.entity;
+package rando.beasts.common.entity.passive;
 
 import java.util.Objects;
-import java.util.UUID;
-
-import javax.annotation.Nonnull;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityAgeable;
@@ -27,16 +24,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import rando.beasts.common.init.BeastsItems;
 
-public class EntityLandwhale extends EntityAnimal
-{
-    public EntityLandwhale(World worldIn)
-    {
+public class EntityLandwhale extends EntityAnimal {
+    public EntityLandwhale(World worldIn) {
         super(worldIn);
         this.setSize(1.8F, 2.0F);
     }
 
-    protected void initEntityAI()
-    {
+    protected void initEntityAI() {
         this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityAIPanic(this, 2.0D));
         this.tasks.addTask(2, new EntityAIMate(this, 1.0D));
@@ -54,7 +48,6 @@ public class EntityLandwhale extends EntityAnimal
 
     @Override
     protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
-        Item leather = this.getDropItem();
         Item chop = BeastsItems.EEL_CHOP;
         int i = this.rand.nextInt(4);
         if (lootingModifier > 0) i += this.rand.nextInt(lootingModifier + 1);
@@ -67,46 +60,37 @@ public class EntityLandwhale extends EntityAnimal
     	super.onUpdate();
     }
     
-    protected void applyEntityAttributes()
-    {
+    protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(60.0D);
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.18D);
     }
 
-    protected SoundEvent getAmbientSound()
-    {
+    protected SoundEvent getAmbientSound() {
         return null;
     }
 
-    protected SoundEvent getHurtSound(DamageSource damageSourceIn)
-    {
+    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
         return null;
     }
 
-    protected SoundEvent getDeathSound()
-    {
+    protected SoundEvent getDeathSound() {
         return null;
     }
 
-    protected void playStepSound(BlockPos pos, Block blockIn)
-    {
+    protected void playStepSound(BlockPos pos, Block blockIn) {
         this.playSound(SoundEvents.ENTITY_COW_STEP, 0.15F, 1.0F);
     }
 
-
-    protected float getSoundVolume()
-    {
+    protected float getSoundVolume() {
         return 0.4F;
     }
 
-    public EntityLandwhale createChild(EntityAgeable ageable)
-    {
+    public EntityLandwhale createChild(EntityAgeable ageable) {
         return new EntityLandwhale(this.world);
     }
 
-    public float getEyeHeight()
-    {
+    public float getEyeHeight() {
         return this.isChild() ? this.height : 2.0F;
     }
 }

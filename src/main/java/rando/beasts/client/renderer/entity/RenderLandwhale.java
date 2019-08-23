@@ -7,8 +7,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import rando.beasts.client.model.ModelLandwhale;
-import rando.beasts.common.entity.EntityLandwhale;
-import rando.beasts.common.entity.EntityVileEel;
+import rando.beasts.common.entity.passive.EntityLandwhale;
 import rando.beasts.common.utils.BeastsReference;
 
 @SideOnly(Side.CLIENT)

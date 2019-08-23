@@ -1,0 +1,9 @@
+{
+  "variants": {
+    "color=blue": { "model": "beasts:coral/block/blue" },
+    "color=pink": { "model": "beasts:coral/block/pink" },
+    "color=purple": { "model": "beasts:coral/block/purple" },
+    "color=red": { "model": "beasts:coral/block/red" },
+    "color=yellow": { "model": "beasts:coral/block/yellow" }
+  }
+}

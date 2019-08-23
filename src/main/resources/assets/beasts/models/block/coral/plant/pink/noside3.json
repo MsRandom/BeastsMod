@@ -5,14 +5,12 @@
         "inside": "beasts:blocks/coral/pink",
         "particle": "beasts:blocks/coral/pink"
     },
-    "elements": [
-        {   "from": [ 4, 4, 4 ],
+    "elements": [ {   "from": [ 4, 4, 4 ],
             "to": [ 12, 12, 12 ],
             "faces": {
                 "north": { "texture": "#inside" }
             }
-        },
-        {   "from": [ 4, 4, 3 ],
+        }, {   "from": [ 4, 4, 3 ],
             "to": [ 12, 12, 4 ],
             "faces": {
                 "down":  { "texture": "#texture" },

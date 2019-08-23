@@ -4,7 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
-import rando.beasts.common.entity.EntityRabbitman;
+import rando.beasts.common.entity.passive.EntityRabbitman;
 
 public class LayerRabbitmanItem implements LayerRenderer<EntityRabbitman> {
 

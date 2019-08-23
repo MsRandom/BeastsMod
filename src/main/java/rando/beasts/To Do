@@ -1,10 +1,8 @@
-	
-ITEMS:
-	
-	Icon Item needs to render twice as big when in game/in a gui
+	todo: this is literally the worst place to put a TODO list -Ash
 
-	Coral Essences need to be dropped from coral
-	
+
+ITEMS:
+
 	Coral Saplings need crafting recipes + need functionality
 	
 	Barnacle Tongue needs to be added as a drop from whipping barnacles
@@ -12,11 +10,8 @@ ITEMS:
 	Daggerfish need to be catchable and smeltable into cooked daggerfish
 	
 	Fishstars need to be catchable
-	
 
 
 Mobs: 
 	
 	Vile Eel needs to 'bite' mobs, basically just an animation when it attacks
-	
-	Pufferpups shouldn't be able to take fall damage

@@ -7,10 +7,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.MathHelper;
 
-/**
- * ModelLandwhale - Coda
- * Created using Tabula 7.0.1
- */
 public class ModelLandwhale extends ModelBase {
     public ModelRenderer body;
     public ModelRenderer armLeft;

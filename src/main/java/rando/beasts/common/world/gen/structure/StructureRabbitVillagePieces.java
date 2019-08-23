@@ -21,7 +21,7 @@ import net.minecraft.world.gen.structure.MapGenStructureIO;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraft.world.gen.structure.StructureComponent;
 import net.minecraft.world.gen.structure.template.TemplateManager;
-import rando.beasts.common.entity.EntityRabbitman;
+import rando.beasts.common.entity.passive.EntityRabbitman;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

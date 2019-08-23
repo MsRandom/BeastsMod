@@ -4,9 +4,8 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
-import rando.beasts.client.model.ModelCoconut;
 import rando.beasts.client.model.ModelGiantGardenEel;
-import rando.beasts.common.entity.EntityGiantGardenEel;
+import rando.beasts.common.entity.monster.EntityGiantGardenEel;
 import rando.beasts.common.utils.BeastsReference;
 
 import javax.annotation.Nonnull;

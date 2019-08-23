@@ -1,6 +1,7 @@
 package rando.beasts.common.proxy;
 
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -21,8 +22,7 @@ public class CommonProxy {
 		ForgeModContainer.logCascadingWorldGeneration = false;
 	}
 
-	public ModelBiped getArmorModel(Item armorItem, int id){
+	public ModelBiped getArmorModel(Item armorItem, EntityEquipmentSlot armorSlot){
 		return null;
 	}
-
 }

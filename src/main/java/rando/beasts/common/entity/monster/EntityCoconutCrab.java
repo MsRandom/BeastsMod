@@ -1,8 +1,7 @@
-package rando.beasts.common.entity;
+package rando.beasts.common.entity.monster;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIFindEntityNearestPlayer;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.monster.EntityMob;
@@ -14,7 +13,6 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import rando.beasts.common.init.BeastsBlocks;
@@ -74,7 +72,7 @@ public class EntityCoconutCrab extends EntityMob {
 
     @Override
     public boolean attackEntityFrom(@Nonnull DamageSource source, float amount) {
-        return (isOut() || this.isEntityInvulnerable(source)) && super.attackEntityFrom(source, amount);
+        return (isOut() || (source != DamageSource.OUT_OF_WORLD && !source.isCreativePlayer())) && super.attackEntityFrom(source, amount);
     }
 
     @Override
@@ -116,6 +114,7 @@ public class EntityCoconutCrab extends EntityMob {
     public void onUpdate() {
         if(isOut()) super.onUpdate();
         else {
+            if (!this.world.isRemote && this.world.getDifficulty() == EnumDifficulty.PEACEFUL) this.setDead();
             if (this.newPosRotationIncrements > 0 && !this.canPassengerSteer()) this.setPosition(posX, this.posY + (this.interpTargetY - this.posY), posZ);
             this.moveStrafing *= 0.98F;
             this.moveForward *= 0.98F;

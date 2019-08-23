@@ -1,4 +1,4 @@
-package rando.beasts.common.entity;
+package rando.beasts.common.entity.monster;
 
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -29,8 +29,7 @@ public class EntitySkewerShrimp extends EntityMob {
         getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(6);
     }
 
-    public EnumCreatureAttribute getCreatureAttribute()
-    {
+    public EnumCreatureAttribute getCreatureAttribute() {
         return EnumCreatureAttribute.ARTHROPOD;
     }
 

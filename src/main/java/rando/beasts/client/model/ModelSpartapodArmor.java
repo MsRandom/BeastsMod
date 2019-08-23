@@ -19,11 +19,13 @@ public class ModelSpartapodArmor extends ModelBiped {
         this.helmetBase.addBox(-4.5F, -8.5F, -4.5F, 9, 11, 9, 0.0F);
         this.helmetBase.addChild(this.headFin);
         this.bipedHead.addChild(this.helmetBase);
-    }
-
-    @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
-        super.render(entity, f, f1, f2, f3, f4, f5);
-        setRotationAngles(f, f1, f2, f3, f4, f5, entity);
+        //if this is planned to be used as more than just a helmet then this will need to be changed
+        this.bipedHead.showModel = true;
+        this.bipedHeadwear.showModel = true;
+        this.bipedBody.showModel = false;
+        this.bipedRightArm.showModel = false;
+        this.bipedLeftArm.showModel = false;
+        this.bipedRightLeg.showModel = false;
+        this.bipedLeftLeg.showModel = false;
     }
 }

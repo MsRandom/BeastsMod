@@ -7,8 +7,8 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import rando.beasts.common.utils.BeastsReference;
-import rando.beasts.common.entity.EntityPufferfishDog;
-import rando.beasts.common.entity.EntityRabbitman;
+import rando.beasts.common.entity.passive.EntityPufferfishDog;
+import rando.beasts.common.entity.passive.EntityRabbitman;
 
 @SuppressWarnings("unused")
 @Mod.EventBusSubscriber(modid = BeastsReference.ID)

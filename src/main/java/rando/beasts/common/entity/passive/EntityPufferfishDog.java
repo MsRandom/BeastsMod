@@ -1,9 +1,8 @@
-package rando.beasts.common.entity;
+package rando.beasts.common.entity.passive;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.passive.EntityAnimal;
@@ -12,7 +11,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.EnumDyeColor;
-import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
@@ -38,7 +36,6 @@ public class EntityPufferfishDog extends EntityTameable {
     private EntityPufferfishDog(World worldIn) {
         super(worldIn);
         this.setSize(0.5f, 0.5f);
-        
     }
 
     @Override
@@ -182,7 +179,7 @@ public class EntityPufferfishDog extends EntityTameable {
 
     @Override
     public boolean attackEntityFrom(@Nonnull DamageSource source, float amount) {
-        if (source != DamageSource.FALL || !getInflated()) {
+        if (source != DamageSource.FALL) {
             if(source.getImmediateSource() != null) setInflated(true);
             return super.attackEntityFrom(source, amount);
         }

@@ -1,10 +1,8 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "ingredients": [
-    {
+  "ingredients": [ {
       "item": "minecraft:bone"
-    },
-    {
+    }, {
       "type": "forge:ore_dict",
       "ore": "treeLeaves"
     }

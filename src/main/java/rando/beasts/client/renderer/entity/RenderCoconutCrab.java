@@ -5,7 +5,7 @@ import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 import rando.beasts.client.model.ModelCoconut;
-import rando.beasts.common.entity.EntityCoconutCrab;
+import rando.beasts.common.entity.monster.EntityCoconutCrab;
 import rando.beasts.common.utils.BeastsReference;
 
 import javax.annotation.Nonnull;

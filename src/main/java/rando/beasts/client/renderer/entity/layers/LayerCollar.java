@@ -7,16 +7,14 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import rando.beasts.client.renderer.entity.RenderPufferfishDog;
 import rando.beasts.common.utils.BeastsReference;
-import rando.beasts.common.entity.EntityPufferfishDog;
+import rando.beasts.common.entity.passive.EntityPufferfishDog;
 
 @SideOnly(Side.CLIENT)
-public class LayerCollar implements LayerRenderer<EntityPufferfishDog>
-{
+public class LayerCollar implements LayerRenderer<EntityPufferfishDog> {
     private static final ResourceLocation COLLAR = new ResourceLocation(BeastsReference.ID, "textures/entity/pufferfish_dog/collar.png");
     private final RenderPufferfishDog render;
 
-    public LayerCollar(RenderPufferfishDog render)
-    {
+    public LayerCollar(RenderPufferfishDog render) {
         this.render = render;
     }
 

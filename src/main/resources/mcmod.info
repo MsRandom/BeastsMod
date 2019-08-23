@@ -1,5 +1,4 @@
-[
-{
+[ {
   "modid": "beasts",
   "name": "Beasts",
   "description": "Adds various mobs that make the game more interesting and fun to play.",
@@ -7,7 +6,7 @@
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authorList": ["SoggyMustache", ""Ms. Random", "CodaBear1552980"],
+  "authorList": ["CodaBear1552980", "Ms. Random", "SoggyMustache"],
   "credits": "All assets were done by Coda and coded mostly by Ms. Random(Open to commissions at Discord \"Ms. Random#5794\") with the original code being by SoggyMustache who is also open to commissions please he needs money he is a desperate pp head, just google him you should find his website and then you can contact thim through his curse account or twitch or whatever idc I just want money to buy more anime figures. Thank you enjoy the mod. You actaully read this far, wow congrats on being a faggot.",
   "logoFile": "",
   "screenshots": [],

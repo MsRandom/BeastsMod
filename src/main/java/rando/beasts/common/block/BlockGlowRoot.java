@@ -8,6 +8,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -23,47 +24,42 @@ import rando.beasts.common.utils.BeastsUtil;
 import javax.annotation.Nullable;
 import java.util.Random;
 
+@SuppressWarnings("deprecation")
 public class BlockGlowRoot extends Block {
 
     private boolean isTop;
 
-    public BlockGlowRoot(String unloc, boolean b) {
+    public BlockGlowRoot(String name, boolean top) {
         super(Material.GRASS, MapColor.GRASS);
-        this.isTop = b;
+        this.isTop = top;
         this.setSoundType(SoundType.PLANT);
-        BeastsUtil.addToRegistry(this, unloc, false);
+        BeastsUtil.addToRegistry(this, name, false, ItemBlock::new);
         this.setLightLevel(1.0F);
     }
 
-    public boolean canBlockStay(World worldIn, BlockPos pos, IBlockState state)
-    {
-        if(isTop){
-            return worldIn.getBlockState(pos.up()).getBlock() != Blocks.AIR;
-        }
-        return worldIn.getBlockState(pos.up()).getBlock() == BeastsBlocks.GLOW_ROOT_TOP;
+
+    private boolean canBlockStay(World worldIn, BlockPos pos) {
+        BlockPos up = pos.up();
+        if(isTop) return worldIn.getBlockState(up).getBlock() != Blocks.AIR;
+        return worldIn.getBlockState(up).getBlock() == BeastsBlocks.GLOW_ROOT_TOP;
     }
 
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
-    {
+    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
         super.neighborChanged(state, worldIn, pos, blockIn, fromPos);
         this.checkAndDropBlock(worldIn, pos, state);
     }
 
     @Nullable
-    public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos)
-    {
+    public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
         return NULL_AABB;
     }
 
-    public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
-    {
+    public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
         this.checkAndDropBlock(worldIn, pos, state);
     }
 
-    protected void checkAndDropBlock(World worldIn, BlockPos pos, IBlockState state)
-    {
-        if (!this.canBlockStay(worldIn, pos, state))
-        {
+    private void checkAndDropBlock(World worldIn, BlockPos pos, IBlockState state) {
+        if (!this.canBlockStay(worldIn, pos)) {
             this.dropBlockAsItem(worldIn, pos, state, 0);
             worldIn.setBlockState(pos, Blocks.AIR.getDefaultState(), 3);
         }
@@ -71,54 +67,38 @@ public class BlockGlowRoot extends Block {
 
     @Override
     public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
-        if (isTop)
-        {
-            if (player.capabilities.isCreativeMode)
-            {
-                worldIn.setBlockToAir(pos.down());
-            }
-            else
-            {
-                worldIn.destroyBlock(pos.down(),true);
-            }
+        if (isTop) {
+            if (player.capabilities.isCreativeMode) worldIn.setBlockToAir(pos.down());
+            else worldIn.destroyBlock(pos.down(),true);
         }
-        else
-        {
-            worldIn.setBlockState(pos.up(), Blocks.AIR.getDefaultState(), 2);
-        }
-
+        else worldIn.setBlockState(pos.up(), Blocks.AIR.getDefaultState(), 2);
         super.onBlockHarvested(worldIn, pos, state, player);
     }
 
-    public boolean isReplaceable(World worldIn, BlockPos pos)
-    {
+    @Override
+    public boolean isReplaceable(IBlockAccess worldIn, BlockPos pos) {
         return false;
     }
 
-    public boolean isOpaqueCube(IBlockState state)
-    {
+    public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
 
-    public boolean isFullCube(IBlockState state)
-    {
+    public boolean isFullCube(IBlockState state) {
         return false;
     }
 
-    public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face)
-    {
+    public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
         return BlockFaceShape.UNDEFINED;
     }
 
     @SideOnly(Side.CLIENT)
-    public BlockRenderLayer getBlockLayer()
-    {
+    public BlockRenderLayer getBlockLayer() {
         return BlockRenderLayer.TRANSLUCENT;
     }
 
     @Override
-    public Item getItemDropped(IBlockState state, Random rand, int fortune)
-    {
+    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
         return isTop ? Item.getItemFromBlock(Blocks.AIR) : BeastsItems.GLOW_ROOT;
     }
 }

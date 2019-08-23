@@ -6,8 +6,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.world.World;
 import rando.beasts.common.entity.projectile.EntityCoconutBomb;
+
+import java.util.Objects;
 
 public class ItemCoconade extends BeastsItem {
 
@@ -15,26 +19,17 @@ public class ItemCoconade extends BeastsItem {
         super(name);
     }
 
-    public net.minecraft.util.ActionResult<net.minecraft.item.ItemStack> onItemRightClick(
-            net.minecraft.world.World worldIn, net.minecraft.entity.player.EntityPlayer playerIn,
-            net.minecraft.util.EnumHand handIn) {
-        ItemStack itemstack = playerIn.getHeldItem(handIn);
-
-        if (!playerIn.capabilities.isCreativeMode) {
-            itemstack.shrink(1);
-        }
-
-        worldIn.playSound((EntityPlayer) null, playerIn.posX, playerIn.posY, playerIn.posZ,
-                SoundEvents.ENTITY_EGG_THROW, SoundCategory.PLAYERS, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-
+    @Override
+    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
+        ItemStack stack = playerIn.getHeldItem(handIn);
+        if (!playerIn.capabilities.isCreativeMode) stack.shrink(1);
+        worldIn.playSound(null, playerIn.getPosition(), SoundEvents.ENTITY_EGG_THROW, SoundCategory.PLAYERS, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
         if (!worldIn.isRemote) {
-            EntityCoconutBomb entityegg = new EntityCoconutBomb(worldIn, playerIn);
-            entityegg.shoot(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
-            worldIn.spawnEntity(entityegg);
+            EntityCoconutBomb egg = new EntityCoconutBomb(worldIn, playerIn);
+            egg.shoot(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
+            worldIn.spawnEntity(egg);
         }
-
-        playerIn.addStat(StatList.getObjectUseStats(this));
-        return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemstack);
+        playerIn.addStat(Objects.requireNonNull(StatList.getObjectUseStats(this)));
+        return new ActionResult<>(EnumActionResult.SUCCESS, stack);
     }
-
 }

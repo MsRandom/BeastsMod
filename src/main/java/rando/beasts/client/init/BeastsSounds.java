@@ -11,14 +11,12 @@ public class BeastsSounds {
 
     public static final List<SoundEvent> LIST = new ArrayList<>();
 
-    public static final SoundEvent MONKEY_HURT = create("monkey.hurt");
-    public static final SoundEvent MONKEY_IDLE = create("monkey.idle");
-
+    //TODO currently unused since there are no sounds
     private static SoundEvent create(String s) {
-        ResourceLocation name = new ResourceLocation(BeastsReference.ID + ":" + s);
+        ResourceLocation name = new ResourceLocation(BeastsReference.ID, s);
         SoundEvent sound = new SoundEvent(name);
         sound.setRegistryName(name);
-        //LIST.add(sound);
+        LIST.add(sound);
         return sound;
     }
 }

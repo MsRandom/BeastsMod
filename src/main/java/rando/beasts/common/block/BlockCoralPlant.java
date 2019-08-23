@@ -23,6 +23,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import rando.beasts.common.init.BeastsBlocks;
+import rando.beasts.common.init.BeastsItems;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -55,7 +56,7 @@ public class BlockCoralPlant extends Block {
         Block block3 = worldIn.getBlockState(pos.east()).getBlock();
         Block block4 = worldIn.getBlockState(pos.south()).getBlock();
         Block block5 = worldIn.getBlockState(pos.west()).getBlock();
-        return state.withProperty(DOWN, block == this || block instanceof BlockCoral || block == BeastsBlocks.WHITE_SAND).withProperty(UP, block1 == this || block1 instanceof BlockCoral).withProperty(NORTH, block2 == this || block2 instanceof BlockCoral).withProperty(EAST, block3 == this || block3 instanceof BlockCoral).withProperty(SOUTH, block4 == this || block4 instanceof BlockCoral).withProperty(WEST, block5 == this || block5 instanceof BlockCoral);
+        return state.withProperty(DOWN, block == this || block instanceof BlockCoral || block == Blocks.SAND).withProperty(UP, block1 == this || block1 instanceof BlockCoral).withProperty(NORTH, block2 == this || block2 instanceof BlockCoral).withProperty(EAST, block3 == this || block3 instanceof BlockCoral).withProperty(SOUTH, block4 == this || block4 instanceof BlockCoral).withProperty(WEST, block5 == this || block5 instanceof BlockCoral);
     }
 
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
@@ -93,7 +94,9 @@ public class BlockCoralPlant extends Block {
 
     @Override
     public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-        if(world instanceof World && ((World)world).rand.nextInt(5 / (fortune==0 ? 1 : fortune)) == 5) drops.add(new ItemStack(Item.getItemFromBlock(BeastsBlocks.CORAL_BLOCKS[BeastsBlocks.indexOf(BeastsBlocks.CORAL_PLANTS, this)])));
+        Random rand = world instanceof World ? ((World) world).rand : RANDOM;
+        if (rand.nextFloat() <= 0.5f) drops.add(new ItemStack(BeastsBlocks.CORAL_BLOCK, 1, BeastsBlocks.CORAL_PLANTS.indexOf(this)));
+        if (rand.nextFloat() <= 0.15f) drops.add(new ItemStack(BeastsItems.CORAL_ESSENCE, 1, BeastsBlocks.CORAL_PLANTS.indexOf(this)));
     }
 
     public boolean isFullCube(IBlockState state) {
@@ -121,11 +124,11 @@ public class BlockCoralPlant extends Block {
             if (block == this) {
                 if (!flag && !flag1) return false;
                 Block block1 = wordIn.getBlockState(blockpos.down()).getBlock();
-                if (block1 == this || block1 == BeastsBlocks.WHITE_SAND) return true;
+                if (block1 == this || block1 == Blocks.SAND) return true;
             }
         }
         Block block2 = wordIn.getBlockState(pos.down()).getBlock();
-        return block2 == this || block2 == BeastsBlocks.WHITE_SAND;
+        return block2 == this || block2 == Blocks.SAND;
     }
 
     protected BlockStateContainer createBlockState() {
@@ -144,7 +147,7 @@ public class BlockCoralPlant extends Block {
     @SideOnly(Side.CLIENT)
     public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
         Block block = blockAccess.getBlockState(pos.offset(side)).getBlock();
-        return block != this && !(block instanceof BlockCoral) && (side != EnumFacing.DOWN || block != BeastsBlocks.WHITE_SAND);
+        return block != this && !(block instanceof BlockCoral) && (side != EnumFacing.DOWN || block != Blocks.SAND);
     }
 
     public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
@@ -152,7 +155,7 @@ public class BlockCoralPlant extends Block {
     }
 
     public boolean generatePlant(World worldIn, BlockPos pos, Random rand) {
-        if(worldIn.getBlockState(pos.down()) == BeastsBlocks.WHITE_SAND) {
+        if(worldIn.getBlockState(pos.down()).getBlock() == Blocks.SAND) {
             worldIn.setBlockState(pos, getDefaultState(), 2);
             growTreeRecursive(worldIn, pos, rand, pos, 8, 0);
             return true;

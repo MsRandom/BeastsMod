@@ -1,4 +1,4 @@
-package rando.beasts.common.entity;
+package rando.beasts.common.entity.passive;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCrops;
