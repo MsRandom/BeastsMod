@@ -1,28 +1,30 @@
 package rando.beasts.common.utils.handlers;
 
+import java.util.Objects;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.common.BiomeManager;
+import net.minecraftforge.common.BiomeManager.BiomeEntry;
+import net.minecraftforge.common.BiomeManager.BiomeType;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.client.registry.IRenderFactory;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityEntry;
-import rando.beasts.common.init.BeastsEntities;
-import rando.beasts.common.init.BeastsBlocks;
-import rando.beasts.common.init.BeastsItems;
 import rando.beasts.client.init.BeastsSounds;
+import rando.beasts.common.init.BeastsBiomes;
+import rando.beasts.common.init.BeastsBlocks;
+import rando.beasts.common.init.BeastsEntities;
+import rando.beasts.common.init.BeastsItems;
 import rando.beasts.common.utils.BeastsReference;
-
-import java.util.Map;
-import java.util.Objects;
+import rando.beasts.common.world.biome.BiomeDriedReef;
 
 @SuppressWarnings("unused")
 @Mod.EventBusSubscriber(modid = BeastsReference.ID)
@@ -58,5 +60,12 @@ public class RegistryHandler {
     public static void registerRenders(ModelRegistryEvent event) {
         for (Item item : BeastsItems.LIST) ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(Objects.requireNonNull(item.getRegistryName()), "inventory"));
         for (Block block : BeastsBlocks.LIST) ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), 0, new ModelResourceLocation(Objects.requireNonNull(block.getRegistryName()), "inventory"));
+    }
+    
+    @SubscribeEvent
+    public static void registerBiomes(RegistryEvent.Register<Biome> event) {
+        event.getRegistry().register(BeastsBiomes.DRIED_REEF);
+        BiomeManager.addBiome(BiomeType.WARM, new BiomeEntry(BeastsBiomes.DRIED_REEF, BiomeDriedReef.WEIGTH));
+        BiomeManager.addSpawnBiome(BeastsBiomes.DRIED_REEF);
     }
 }

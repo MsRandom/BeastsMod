@@ -1,5 +1,7 @@
 package rando.beasts.common.world.biome;
 
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockStone;
 import net.minecraft.block.state.IBlockState;
@@ -9,9 +11,10 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import rando.beasts.common.init.BeastsBlocks;
 
-import java.util.Random;
-
 public class BiomeDriedReef extends BeastsBiome {
+	
+	//this defines chance to generate biome in the world
+	public static final int WEIGTH = 50;
 
     private static final WorldGenBlob ROCK_GENERATOR = new WorldGenBlob(Blocks.STONE.getDefaultState());
     private static final WorldGenBlob ANDESITE_GENERATOR = new WorldGenBlob(Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.ANDESITE));
