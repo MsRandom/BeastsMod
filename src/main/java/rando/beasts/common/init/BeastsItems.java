@@ -21,6 +21,7 @@ public class BeastsItems {
 	private static final ItemArmor.ArmorMaterial SPARTAPOD = EnumHelper.addArmorMaterial("spartapod", "beasts:spartapod", 15, new int[]{2, 5, 6, 2}, 12, SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 0.0F);
 	private static final ItemArmor.ArmorMaterial SPARTAPODA = EnumHelper.addArmorMaterial("spartapoda", "beasts:spartapoda", 15, new int[]{2, 5, 6, 2}, 12, SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 0.0F);
 
+	public static final Item BEASTS_PAINTING = new ItemBeastsPainting("beasts_painting");
 	public static final Item ICON = new BeastsIconItem();
 	public static final Item GLOW_ROOT = new ItemGlowRoot();
 	public static final Item LEAFY_BONE = new BeastsItem("leafy_bone");
