@@ -7,6 +7,7 @@ entity.coconut_crab.name=Coconut Crab
 entity.landwhale.name=Landwhale
 entity.skewer_shrimp.name=Skewer Shrimp
 entity.giant_garden_eel.name=Giant Garden Eel
+entity.beasts_painting.name=Painting
 
 Items
 
@@ -48,6 +49,8 @@ item.spartapod_boots.name=Spartapod Boots
 item.coconut_rabbit_stew.name=Rabbit Stew
 item.coconut_mushroom.name=Mushroom Stew
 item.coconut_juice.name=Coconut Juice
+item.beasts_painting.name=Painting
+
 
 Blocks
 

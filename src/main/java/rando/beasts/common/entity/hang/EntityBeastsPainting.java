@@ -111,7 +111,7 @@ public class EntityBeastsPainting extends EntityHanging implements IEntityAdditi
 
         if (this.art == null)
         {
-            this.art = EntityBeastsPainting.EnumArt.OKAPI;
+            this.art = EntityBeastsPainting.EnumArt.WHALE;
         }
 
         super.readEntityFromNBT(tagCompund);
@@ -160,7 +160,12 @@ public class EntityBeastsPainting extends EntityHanging implements IEntityAdditi
 
     public static enum EnumArt
     {
-        OKAPI("Okapi", 16, 16, 0, 0);
+        WHALE("Whale", 32, 16, 0, 0),
+        CRAB("Crab", 16, 16, 32, 0),
+        TURTLE("Turtle", 16, 16, 0, 16),
+        PUFFER("Puffer", 16, 16, 16, 16),
+        SHRIMP("Shrimp", 16, 16, 32, 16),
+        GARDEN_EEL("Garden Eel", 16, 32, 48, 0);
 
 
         public final String title;
