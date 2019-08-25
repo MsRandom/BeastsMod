@@ -4,6 +4,7 @@ import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
+import net.minecraft.entity.ai.EntityAIPanic;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.monster.EntityMob;
@@ -18,7 +19,8 @@ public class EntitySkewerShrimp extends EntityMob {
         this.tasks.addTask(0, new EntityAIWander(this, 0.6F));
         this.targetTasks.addTask(0, new EntityAIHurtByTarget(this, true));
         this.tasks.addTask(1, new EntityAIAttackMelee(this, 0.6F, true));
-        this.tasks.addTask(4, new EntityAISwimming(this));
+        this.tasks.addTask(2, new EntityAIPanic(this, 0.0D));
+        this.tasks.addTask(3, new EntityAISwimming(this));
     }
 
     @Override
@@ -26,7 +28,7 @@ public class EntitySkewerShrimp extends EntityMob {
         super.applyEntityAttributes();
         getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1F);
         getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.6F);
-        getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(6);
+        getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20);
     }
 
     public EnumCreatureAttribute getCreatureAttribute() {

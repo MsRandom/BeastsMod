@@ -3,6 +3,7 @@ package rando.beasts.client.model;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.math.MathHelper;
 
 public class ModelSkewerShrimp extends ModelBase {
     public ModelRenderer body;
@@ -109,6 +110,30 @@ public class ModelSkewerShrimp extends ModelBase {
         this.body.render(f5);
     }
 
+    @Override
+    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
+        super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
+        float speed = 0.75f, degree = 0.75f;
+//		limbSwing = entityIn.ticksExisted;
+//		limbSwingAmount = 0.4F;
+        this.leg.rotateAngleX = MathHelper.cos(limbSwing * speed) * degree * limbSwingAmount;
+        this.leg_1.rotateAngleX = MathHelper.cos(60 + limbSwing * speed) * degree * limbSwingAmount;
+        this.leg_2.rotateAngleX = MathHelper.cos(limbSwing * speed) * degree * limbSwingAmount;
+        this.leg_3.rotateAngleX = MathHelper.cos(60 + limbSwing * speed) * degree * limbSwingAmount;
+        
+        this.leg_4.rotateAngleX = MathHelper.cos(limbSwing * speed) * degree * limbSwingAmount;
+        this.leg_5.rotateAngleX = MathHelper.cos(60 + limbSwing * speed) * degree * limbSwingAmount;
+        this.leg_6.rotateAngleX = MathHelper.cos(limbSwing * speed) * degree * limbSwingAmount;
+        this.leg_7.rotateAngleX = MathHelper.cos(60 + limbSwing * speed) * degree * limbSwingAmount;
+        
+        this.rightWhisker.rotateAngleY = MathHelper.cos(limbSwing * speed * 0.7F) * degree * limbSwingAmount * 0.5F;   
+        this.leftWhisker.rotateAngleY = MathHelper.cos(3.15F -limbSwing * speed * 0.7F) * degree * limbSwingAmount * 0.5F;   
+        
+        this.tailBase.rotateAngleY = MathHelper.cos(20 + limbSwing * speed * 0.7F) * degree * limbSwingAmount;   
+        this.tailMid.rotateAngleY = MathHelper.cos(10 + limbSwing * speed * 0.7F) * degree * limbSwingAmount;   
+        this.tailEnd.rotateAngleY = MathHelper.cos(limbSwing * speed * 0.7F) * degree * limbSwingAmount;   
+    }
+    
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
         modelRenderer.rotateAngleX = x;
         modelRenderer.rotateAngleY = y;

@@ -189,7 +189,6 @@ public class ModelPufferFishDog extends ModelBase {
         super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
         float speed = 0.75f, degree = 1.45f;
         if(((EntityPufferfishDog)entityIn).isSitting()){
-            this.body_1.rotateAngleX = -0.2617993877991494F;
             this.rightArm_1.rotateAngleZ = 0.2617993877991494F;
             this.leftLeg_1.rotateAngleX = -1.0821041362364843F;
             this.leftLeg_1.rotateAngleZ = -0.2617993877991494F;
