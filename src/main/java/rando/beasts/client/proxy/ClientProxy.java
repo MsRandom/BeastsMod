@@ -1,5 +1,6 @@
 package rando.beasts.client.proxy;
 
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
