@@ -8,7 +8,7 @@ import net.minecraft.util.math.MathHelper;
 import rando.beasts.common.entity.passive.EntityPufferfishDog;
 
 public class ModelPufferFishDog extends ModelBase {
-	public ModelRenderer body;
+    public ModelRenderer body;
     public ModelRenderer body_1;
     public ModelRenderer leftArm;
     public ModelRenderer tail;
@@ -174,15 +174,15 @@ public class ModelPufferFishDog extends ModelBase {
         this.body_1.addChild(this.spikes_5);
     }
 
-	    @Override
-	    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
-	        if (this.isChild) {
-	            GlStateManager.scale(0.5F, 0.5F, 0.5F);
-	            GlStateManager.translate(0.0F, 24.0F * f5, 1.65F * f5);
-	        }
-	        if(entity instanceof EntityPufferfishDog && ((EntityPufferfishDog)entity).getInflated()) this.body.render(f5);
-	        else this.body_1.render(f5);
-	    }
+    @Override
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+        if (this.isChild) {
+            GlStateManager.scale(0.5F, 0.5F, 0.5F);
+            GlStateManager.translate(0.0F, 24.0F * f5, 1.65F * f5);
+        }
+        if(entity instanceof EntityPufferfishDog && ((EntityPufferfishDog)entity).getInflated()) this.body.render(f5);
+        else this.body_1.render(f5);
+    }
 
     @Override
     public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {

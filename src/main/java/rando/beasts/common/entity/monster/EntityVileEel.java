@@ -48,7 +48,7 @@ public class EntityVileEel extends EntityMob {
 
     @Override
     protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
-        Item chop = BeastsItems.EEL_CHOP;
+        Item chop = isBurning() ? BeastsItems.COOKED_EEL_CHOP : BeastsItems.EEL_CHOP;
         int i = this.rand.nextInt(4);
         if (lootingModifier > 0) i += this.rand.nextInt(lootingModifier + 1);
         for (int j = 0; j < i; ++j) this.dropItem(chop, 1);

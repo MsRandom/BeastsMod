@@ -11,7 +11,7 @@ public class ItemBarnacleTongue extends BeastsFood {
     private final int potionDuration;
 
     public ItemBarnacleTongue(boolean cooked, int amount, float saturation, int potionDuration) {
-        super((cooked?"cooked":"") + "barnacle_tongue", amount, saturation);
+        super((cooked?"cooked_":"") + "barnacle_tongue", amount, saturation);
         this.potionDuration = potionDuration;
     }
 

@@ -43,7 +43,7 @@ public class BlockCoralPlant extends Block {
         String name = "coral_plant_" + color.getName();
         setUnlocalizedName(name);
         setRegistryName(name);
-        setHardness(0.3F);
+        setHardness(2.0F);
         setSoundType(SoundType.PLANT);
         this.setDefaultState(this.blockState.getBaseState().withProperty(NORTH, false).withProperty(EAST, false).withProperty(SOUTH, false).withProperty(WEST, false).withProperty(UP, false).withProperty(DOWN, false));
         BeastsBlocks.LIST.add(this);

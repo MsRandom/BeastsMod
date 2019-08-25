@@ -38,7 +38,7 @@ public class BiomeDriedReef extends BeastsBiome {
 
     @Override
     public void decorate(World worldIn, Random rand, BlockPos pos) {
-        int i = rand.nextInt(2);
+        int i = rand.nextInt(4);
         for (int j = 0; j < i; ++j) {
             int k = rand.nextInt(16) + 8;
             int l = rand.nextInt(16) + 8;

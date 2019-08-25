@@ -1,6 +1,5 @@
 package rando.beasts.common.entity.monster;
 
-import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
@@ -8,17 +7,15 @@ import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
@@ -48,6 +45,7 @@ public class EntityCoconutCrab extends EntityMob {
                 return isOut() && super.shouldExecute();
             }
         });
+        this.setNoAI(true);
     }
 
     @Override
@@ -71,6 +69,7 @@ public class EntityCoconutCrab extends EntityMob {
     private void setOut() {
         this.dataManager.set(OUT, true);
         setSize(width, height + 0.2f);
+        this.setNoAI(false);
     }
 
     @Override
@@ -91,14 +90,12 @@ public class EntityCoconutCrab extends EntityMob {
     @Override
     protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
         Item coconut = this.getDropItem();
-        Item leg = BeastsItems.CRAB_LEG;
+        Item leg = isBurning() ? BeastsItems.COOKED_CRAB_LEG : BeastsItems.CRAB_LEG;
         int i = this.rand.nextInt(2);
         if (lootingModifier > 0) i += this.rand.nextInt(lootingModifier + 1);
         for (int j = 0; j < i; ++j) this.dropItem(leg, 1);
         this.dropItem(Objects.requireNonNull(coconut), 1);
-        if(this.getHeldItem(EnumHand.MAIN_HAND) != null && this.getHeldItem(EnumHand.MAIN_HAND) != ItemStack.EMPTY){
-            this.entityDropItem(this.getHeldItem(EnumHand.MAIN_HAND), 0);
-        }
+        if(!this.getHeldItem(EnumHand.MAIN_HAND).isEmpty()) this.entityDropItem(this.getHeldItem(EnumHand.MAIN_HAND), 0);
     }
 
     @Override
@@ -121,45 +118,25 @@ public class EntityCoconutCrab extends EntityMob {
         return super.processInteract(player, hand);
     }
 
-    protected SoundEvent getAmbientSound() {
-        return null;
-    }
-
-    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return null;
-    }
-
-    protected SoundEvent getDeathSound() {
-        return null;
-    }
-
-    protected void playStepSound(BlockPos pos, Block blockIn) {
-        this.playSound(SoundEvents.ENTITY_SPIDER_STEP, 0.15F, 1.0F);
-    }
-    
     @Override
     public void onUpdate() {
         if(isOut()) {
             super.onUpdate();
-            if(this.getHeldItem(EnumHand.MAIN_HAND) == null || (this.getHeldItem(EnumHand.MAIN_HAND) != null && this.getHeldItem(EnumHand.MAIN_HAND) == ItemStack.EMPTY)) {
+            if(this.getHeldItem(EnumHand.MAIN_HAND).isEmpty()) {
                 List<EntityItem> list = this.world.getEntitiesWithinAABB(EntityItem.class, this.getEntityBoundingBox().grow(8.0D));
                 double d0 = Double.MAX_VALUE;
                 EntityItem item = null;
 
-                for (EntityItem itm : list) {
-                    if (itm.getItem().getItem() instanceof ItemSword) {
-                        if (this.getDistanceSq(itm) < d0) {
-                            item = itm;
-                            d0 = this.getDistanceSq(itm);
-                        }
+                for (EntityItem itm : list) if (itm.getItem().getItem() instanceof ItemSword) {
+                    if (this.getDistanceSq(itm) < d0) {
+                        item = itm;
+                        d0 = this.getDistanceSq(itm);
                     }
                 }
 
-                if (item != null) {
-                    if (!item.isDead) {
-                        this.setHeldItem(EnumHand.MAIN_HAND, item.getItem());
-                        item.setDead();
-                    }
+                if (item != null && !item.isDead) {
+                    this.setHeldItem(EnumHand.MAIN_HAND, item.getItem());
+                    item.setDead();
                 }
             }
         }

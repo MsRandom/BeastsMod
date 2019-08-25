@@ -13,6 +13,7 @@ public class BeastsCoconutBowl extends BeastsFood {
     public BeastsCoconutBowl(String name, int amount, float saturation, PotionEffect... effects) {
         super(name, amount, saturation);
         this.effects = effects;
+        setMaxStackSize(2);
     }
 
     @Override

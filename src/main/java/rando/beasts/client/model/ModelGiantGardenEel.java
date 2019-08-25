@@ -3,8 +3,6 @@ package rando.beasts.client.model;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.math.MathHelper;
-import rando.beasts.common.entity.monster.EntityGiantGardenEel;
 
 public class ModelGiantGardenEel extends ModelBase {
     public ModelRenderer body;
@@ -42,20 +40,6 @@ public class ModelGiantGardenEel extends ModelBase {
         this.body.render(f5);
     }
 
-    @Override
-    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
-        super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
-        float speed = 0.55f, degree = 0.75f;
-        if(((EntityGiantGardenEel)entityIn).slam) {
-        	
-            this.body.rotateAngleX = MathHelper.cos(limbSwing * speed * 2.0F) * degree * limbSwingAmount;
-        	
-        }
-        else {} 
-    }
-
-
-    
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
         modelRenderer.rotateAngleX = x;
         modelRenderer.rotateAngleY = y;

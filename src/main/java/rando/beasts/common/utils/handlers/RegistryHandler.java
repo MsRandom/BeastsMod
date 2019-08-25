@@ -6,6 +6,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.biome.Biome;
@@ -17,11 +18,9 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityEntry;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import rando.beasts.client.init.BeastsSounds;
-import rando.beasts.common.init.BeastsBiomes;
-import rando.beasts.common.init.BeastsBlocks;
-import rando.beasts.common.init.BeastsEntities;
-import rando.beasts.common.init.BeastsItems;
+import rando.beasts.common.init.*;
 import rando.beasts.common.item.IHandleMeta;
 import rando.beasts.common.utils.BeastsReference;
 
@@ -46,16 +45,12 @@ public class RegistryHandler {
         FurnaceRecipes.instance().addSmelting(BeastsItems.BARNACLE_TONGUE, new ItemStack(BeastsItems.COOKED_BARNACLE_TONGUE), 0.35f);
         FurnaceRecipes.instance().addSmelting(BeastsItems.SHRIMP, new ItemStack(BeastsItems.COOKED_SHRIMP), 0.35f);
         FurnaceRecipes.instance().addSmelting(BeastsItems.RAW_KEBAB, new ItemStack(BeastsItems.COOKED_KEBAB), 0.35f);
-        FurnaceRecipes.instance().addSmelting(BeastsItems.DAGGERFISH, new ItemStack(BeastsItems.COOKED_DAGGERFISH), 0.50f);
     }
 
     @SubscribeEvent
     public static void registerBiomes(RegistryEvent.Register<Biome> event) {
         event.getRegistry().registerAll(BeastsBiomes.LIST.toArray(new Biome[0]));
-        BiomeManager.addBiome(BiomeManager.BiomeType.WARM, new BiomeManager.BiomeEntry(BeastsBiomes.DRIED_REEF, 10));
-        BiomeManager.addSpawnBiome(BeastsBiomes.DRIED_REEF);
-        BiomeManager.addStrongholdBiome(BeastsBiomes.DRIED_REEF);
-        BiomeDictionary.addTypes(BeastsBiomes.DRIED_REEF, BiomeDictionary.Type.BEACH, HOT, DRY, SANDY );
+        BeastsBiomes.addTypes(BeastsBiomes.DRIED_REEF, BiomeManager.BiomeType.WARM, 10, BEACH, HOT, DRY, SANDY);
     }
 
     @SubscribeEvent
@@ -66,6 +61,11 @@ public class RegistryHandler {
     @SubscribeEvent
     public static void registerEntities(RegistryEvent.Register<EntityEntry> event) {
         event.getRegistry().registerAll(BeastsEntities.LIST.toArray(new EntityEntry[0]));
+    }
+
+    @SubscribeEvent
+    public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
+        event.getRegistry().registerAll(BeastsRecipes.LIST.toArray(new IRecipe[0]));
     }
 
     @SubscribeEvent
