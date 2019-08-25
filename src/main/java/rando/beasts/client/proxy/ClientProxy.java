@@ -1,15 +1,24 @@
 package rando.beasts.client.proxy;
 
-import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import rando.beasts.client.model.ModelSpartapodArmor;
-import rando.beasts.client.renderer.entity.*;
+import rando.beasts.client.renderer.entity.RenderBeastsPainting;
+import rando.beasts.client.renderer.entity.RenderBranchie;
+import rando.beasts.client.renderer.entity.RenderCoconutBomb;
+import rando.beasts.client.renderer.entity.RenderCoconutCrab;
+import rando.beasts.client.renderer.entity.RenderGiantGardenEel;
+import rando.beasts.client.renderer.entity.RenderLandwhale;
+import rando.beasts.client.renderer.entity.RenderPufferfishDog;
+import rando.beasts.client.renderer.entity.RenderRabbitman;
+import rando.beasts.client.renderer.entity.RenderSkewerShrimp;
+import rando.beasts.client.renderer.entity.RenderVileEel;
 import rando.beasts.client.renderer.tileentity.TileEntityCoconutRenderer;
 import rando.beasts.common.entity.hang.EntityBeastsPainting;
+import rando.beasts.common.entity.monster.EntityBranchie;
 import rando.beasts.common.entity.monster.EntityCoconutCrab;
 import rando.beasts.common.entity.monster.EntityGiantGardenEel;
 import rando.beasts.common.entity.monster.EntitySkewerShrimp;
@@ -41,8 +50,8 @@ public class ClientProxy extends CommonProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntityVileEel.class, RenderVileEel::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityLandwhale.class, RenderLandwhale::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityCoconutBomb.class, RenderCoconutBomb::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityBranchie.class, RenderBranchie::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityBeastsPainting.class, RenderBeastsPainting::new);
-
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCoconut.class, new TileEntityCoconutRenderer());
 	}
 

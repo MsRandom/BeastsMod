@@ -1,5 +1,6 @@
 package rando.beasts.common.entity.monster;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
@@ -7,6 +8,7 @@ import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
@@ -16,6 +18,7 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
@@ -118,6 +121,22 @@ public class EntityCoconutCrab extends EntityMob {
         return super.processInteract(player, hand);
     }
 
+    protected SoundEvent getAmbientSound() {
+        return null;
+    }
+
+    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+        return null;
+    }
+
+    protected SoundEvent getDeathSound() {
+        return null;
+    }
+
+    protected void playStepSound(BlockPos pos, Block blockIn) {
+        this.playSound(SoundEvents.ENTITY_SPIDER_STEP, 0.15F, 1.0F);
+    }
+    
     @Override
     public void onUpdate() {
         if(isOut()) {

@@ -24,7 +24,7 @@ public class RenderLandwhale extends RenderLiving<EntityLandwhale> {
 
 	
 	public RenderLandwhale(RenderManager rm) {
-		super(rm, new ModelLandwhale(), 1.0F);
+		super(rm, new ModelLandwhale(), 1.3F);
 
 	}
 

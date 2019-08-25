@@ -1,5 +1,6 @@
 package rando.beasts.common.entity.monster;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
@@ -8,6 +9,10 @@ import net.minecraft.entity.ai.EntityAIPanic;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import rando.beasts.common.init.BeastsItems;
 
@@ -39,4 +44,25 @@ public class EntitySkewerShrimp extends EntityMob {
     protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
         this.dropItem(BeastsItems.SHRIMP, this.rand.nextInt(2) + 1);
     }
+    
+    protected SoundEvent getAmbientSound() {
+        return SoundEvents.ENTITY_SPIDER_AMBIENT;
+    }
+
+    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+        return SoundEvents.ENTITY_SPIDER_HURT;
+    }
+
+    protected SoundEvent getDeathSound() {
+        return SoundEvents.ENTITY_SPIDER_DEATH;
+    }
+
+    protected void playStepSound(BlockPos pos, Block blockIn) {
+    }
+
+    protected float getSoundVolume() {
+        return 0.4F;
+    }
+
+    
 }

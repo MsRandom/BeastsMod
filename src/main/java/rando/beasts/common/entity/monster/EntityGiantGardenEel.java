@@ -1,12 +1,16 @@
 package rando.beasts.common.entity.monster;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class EntityGiantGardenEel extends EntityMob {
@@ -47,6 +51,26 @@ public class EntityGiantGardenEel extends EntityMob {
         getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1000);
     }
 
+    protected SoundEvent getAmbientSound() {
+        return null;
+    }
+
+    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+        return null;
+    }
+
+    protected SoundEvent getDeathSound() {
+        return null;
+    }
+
+    protected void playStepSound(BlockPos pos, Block blockIn) {
+        this.playSound(SoundEvents.ENTITY_ZOMBIE_STEP, 0.15F, 1.0F);
+    }
+
+    protected float getSoundVolume() {
+        return 0.4F;
+    }
+    
     @Override
     public void onUpdate() {
         super.onUpdate();
