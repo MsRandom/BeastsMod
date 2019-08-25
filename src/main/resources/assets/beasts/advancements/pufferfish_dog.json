@@ -1,0 +1,17 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecraft:stick"
+    },
+    "title": "New Discovery!",
+    "description": "Discover the Pufferfish Dog",
+    "frame": "task",
+    "background": "minecraft:textures/blocks/log_jungle.png"
+  },
+
+  "criteria": {
+    "hasbasicbinos": {
+      "trigger": "beasts:pufferfish_discover"
+    }
+  }
+}
