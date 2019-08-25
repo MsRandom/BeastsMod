@@ -39,6 +39,7 @@ public class BeastsItems {
 	public static final Item COCONUT_MUSHROOM = new BeastsCoconutBowl("coconut_mushroom", 6, 0.7F).setMaxStackSize(2);
 	public static final Item COCONUT_RABBIT_STEW = new BeastsCoconutBowl("coconut_rabbit_stew", 8, 0.7F).setMaxStackSize(2);
 	public static final Item REEF_MIXTURE = new BeastsCoconutBowl("reef_mixture", 10, 0.9F, new PotionEffect(MobEffects.REGENERATION, 100, 0), new PotionEffect(MobEffects.WEAKNESS, 100, 0)).setMaxStackSize(2);
+	public static final Item COCONUT_JUICE = new BeastsCoconutBowl("coconut_juice", 4, 0.5F).setMaxStackSize(2);
 	public static final ItemFood CRAB_LEG = new BeastsFood("crab_leg", 2, 0.1F);
 	public static final ItemFood COOKED_CRAB_LEG = new BeastsFood("cooked_crab_leg", 6, 0.6F);
 	public static final ItemFood COCONUT = new BeastsFood("coconut", 2, 0.4F);
@@ -50,7 +51,6 @@ public class BeastsItems {
 	public static final ItemFood COOKED_KEBAB = new BeastsFood("cooked_kebab", 8, 0.7F); 
 	public static final ItemFood EEL_CHOP = new BeastsFood("eel_chop", 3, 0.3F); 
 	public static final ItemFood COOKED_EEL_CHOP = new BeastsFood("cooked_eel_chop", 8, 0.5F);
-	public static final ItemFood COCONUT_JUICE = new BeastsCoconutBowl("coconut_juice", 4, 0.5F);
 	public static final ItemArmor SPARTAPOD_HELMET = new BeastsArmor("spartapod_helmet", SPARTAPOD, 0, EntityEquipmentSlot.HEAD);
 	public static final ItemArmor SPARTAPOD_CHEST = new BeastsArmor("spartapod_chest", SPARTAPODA, 0, EntityEquipmentSlot.CHEST);
 	public static final ItemArmor SPARTAPOD_LEGS = new BeastsArmor("spartapod_legs", SPARTAPODA, 1, EntityEquipmentSlot.LEGS);
