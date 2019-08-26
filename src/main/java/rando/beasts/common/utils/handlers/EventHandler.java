@@ -39,10 +39,6 @@ public class EventHandler {
     }
 
     @SubscribeEvent
-    public static void craftItem(CraftingEvent event) {
-    }
-
-    @SubscribeEvent
     public static void playerTick(TickEvent.PlayerTickEvent event) {
         EntityPlayer player = event.player;
         if (player.world.isRemote)
