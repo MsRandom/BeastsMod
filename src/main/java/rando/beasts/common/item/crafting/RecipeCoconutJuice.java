@@ -8,14 +8,16 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraft.util.NonNullList;
+import net.minecraft.world.World;
 import rando.beasts.common.init.BeastsItems;
+import rando.beasts.common.init.BeastsRecipes;
 
 public class RecipeCoconutJuice extends ShapelessRecipes {
-
-
+    
     public RecipeCoconutJuice() {
         super("", new ItemStack(BeastsItems.COCONUT_JUICE), NonNullList.from(Ingredient.EMPTY, Ingredient.fromItems(Lists.newArrayList(Item.REGISTRY).stream().filter(item -> item instanceof ItemSword).toArray(Item[]::new)), Ingredient.fromItem(BeastsItems.COCONUT)));
         setRegistryName("coconut_juice");
+        BeastsRecipes.LIST.add(this);
     }
 
     @Override
