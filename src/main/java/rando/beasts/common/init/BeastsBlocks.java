@@ -14,6 +14,7 @@ public class BeastsBlocks {
     public static final Block GLOW_ROOT_TOP = new BlockGlowRoot("glow_root_top", true);
     public static final Block GLOW_ROOT_BOTTOM = new BlockGlowRoot("glow_root_bottom", false);
     public static final Block CORAL_BLOCK = new BlockCoral();
+    public static final Block CORAL_SAPLING = new BlockCoralSapling();
     public static final List<BlockCoralPlant> CORAL_PLANTS = new ArrayList<>();
 
 	static {

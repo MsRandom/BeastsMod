@@ -66,6 +66,11 @@ tile.coral_plant_pink.name=Pink Coral
 tile.coral_plant_purple.name=Purple Coral
 tile.coral_plant_red.name=Red Coral
 tile.coral_plant_yellow.name=Yellow Coral
+tile.coral_sapling.blue.name=Blue Coral Sapling
+tile.coral_sapling.pink.name=Pink Coral Sapling
+tile.coral_sapling.purple.name=Purple Coral Sapling
+tile.coral_sapling.red.name=Red Coral Sapling
+tile.coral_sapling.yellow.name=Yellow Coral Sapling
 tile.white_sand.name=White Sand
 tile.glow_root.name=Glow Root
 
