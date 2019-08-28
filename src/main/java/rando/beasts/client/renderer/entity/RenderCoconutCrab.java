@@ -1,5 +1,8 @@
 package rando.beasts.client.renderer.entity;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
@@ -14,9 +17,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import rando.beasts.client.model.ModelCoconut;
 import rando.beasts.common.entity.monster.EntityCoconutCrab;
 import rando.beasts.common.utils.BeastsReference;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public class RenderCoconutCrab extends RenderLiving<EntityCoconutCrab> {
 

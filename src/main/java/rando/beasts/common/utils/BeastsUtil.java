@@ -1,13 +1,13 @@
 package rando.beasts.common.utils;
 
+import java.util.function.Function;
+
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import rando.beasts.client.init.BeastsCreativeTabs;
 import rando.beasts.common.init.BeastsBlocks;
 import rando.beasts.common.init.BeastsItems;
-
-import java.util.function.Function;
 
 public class BeastsUtil {
 

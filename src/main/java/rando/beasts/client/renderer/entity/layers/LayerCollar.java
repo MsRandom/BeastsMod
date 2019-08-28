@@ -6,8 +6,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import rando.beasts.client.renderer.entity.RenderPufferfishDog;
-import rando.beasts.common.utils.BeastsReference;
 import rando.beasts.common.entity.passive.EntityPufferfishDog;
+import rando.beasts.common.utils.BeastsReference;
 
 @SideOnly(Side.CLIENT)
 public class LayerCollar implements LayerRenderer<EntityPufferfishDog> {

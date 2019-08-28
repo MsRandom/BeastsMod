@@ -1,5 +1,8 @@
 package rando.beasts.common.init;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -9,10 +12,17 @@ import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemSword;
 import net.minecraft.potion.PotionEffect;
 import net.minecraftforge.common.util.EnumHelper;
-import rando.beasts.common.item.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import rando.beasts.common.item.BeastsArmor;
+import rando.beasts.common.item.BeastsCoconutBowl;
+import rando.beasts.common.item.BeastsFood;
+import rando.beasts.common.item.BeastsItem;
+import rando.beasts.common.item.BeastsSword;
+import rando.beasts.common.item.ItemBarnacleTongue;
+import rando.beasts.common.item.ItemBeastsPainting;
+import rando.beasts.common.item.ItemCoconade;
+import rando.beasts.common.item.ItemCoralEssence;
+import rando.beasts.common.item.ItemGlowRoot;
+import rando.beasts.common.item.ItemIcon;
 
 public class BeastsItems {
 	

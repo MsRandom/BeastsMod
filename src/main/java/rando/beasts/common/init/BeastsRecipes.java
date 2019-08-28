@@ -1,10 +1,10 @@
 package rando.beasts.common.init;
 
-import net.minecraft.item.crafting.IRecipe;
-import rando.beasts.common.item.crafting.RecipeCoconutJuice;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import net.minecraft.item.crafting.IRecipe;
+import rando.beasts.common.item.crafting.RecipeCoconutJuice;
 
 public class BeastsRecipes {
     public static final List<IRecipe> LIST = new ArrayList<>();

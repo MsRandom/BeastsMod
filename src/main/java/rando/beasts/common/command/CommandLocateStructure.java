@@ -2,6 +2,7 @@ package rando.beasts.common.command;
 
 import java.util.Collections;
 import java.util.List;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 

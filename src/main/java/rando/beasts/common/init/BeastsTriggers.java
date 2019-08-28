@@ -1,11 +1,11 @@
 package rando.beasts.common.init;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.advancements.ICriterionInstance;
 import net.minecraft.advancements.ICriterionTrigger;
 import rando.beasts.common.advancements.BeastsTrigger;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class BeastsTriggers {
 

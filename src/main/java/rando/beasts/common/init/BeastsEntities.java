@@ -1,26 +1,30 @@
 package rando.beasts.common.init;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
+
 import com.google.common.collect.Lists;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
-import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
-import org.apache.commons.lang3.StringUtils;
 import rando.beasts.common.entity.item.EntityBeastsPainting;
-import rando.beasts.common.entity.monster.*;
+import rando.beasts.common.entity.monster.EntityBranchie;
+import rando.beasts.common.entity.monster.EntityCoconutCrab;
+import rando.beasts.common.entity.monster.EntityGiantGardenEel;
+import rando.beasts.common.entity.monster.EntitySkewerShrimp;
+import rando.beasts.common.entity.monster.EntityVileEel;
 import rando.beasts.common.entity.passive.EntityLandwhale;
 import rando.beasts.common.entity.passive.EntityPufferfishDog;
 import rando.beasts.common.entity.passive.EntityRabbitman;
 import rando.beasts.common.entity.projectile.EntityCoconutBomb;
 import rando.beasts.common.utils.BeastsReference;
-import scala.actors.threadpool.Arrays;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @SuppressWarnings("unused")
 public class BeastsEntities {

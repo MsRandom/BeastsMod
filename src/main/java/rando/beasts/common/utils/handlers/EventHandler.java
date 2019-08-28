@@ -1,5 +1,7 @@
 package rando.beasts.common.utils.handlers;
 
+import java.util.List;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.EntityAITargetNonTamed;
 import net.minecraft.entity.passive.EntityOcelot;
@@ -13,12 +15,10 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-import rando.beasts.common.init.BeastsTriggers;
-import rando.beasts.common.utils.BeastsReference;
 import rando.beasts.common.entity.passive.EntityPufferfishDog;
 import rando.beasts.common.entity.passive.EntityRabbitman;
-
-import java.util.List;
+import rando.beasts.common.init.BeastsTriggers;
+import rando.beasts.common.utils.BeastsReference;
 
 @SuppressWarnings("unused")
 @Mod.EventBusSubscriber(modid = BeastsReference.ID)
