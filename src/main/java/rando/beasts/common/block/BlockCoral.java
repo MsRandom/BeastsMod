@@ -47,6 +47,12 @@ public class BlockCoral extends Block {
     public IBlockState getStateFromMeta(int meta) {
         return getDefaultState().withProperty(COLOR, Color.values()[meta]);
     }
+    
+    @Override
+    public int damageDropped(IBlockState state)
+    {
+        return state.getValue(COLOR).ordinal();
+    }
 
     @Override
     protected BlockStateContainer createBlockState() {
