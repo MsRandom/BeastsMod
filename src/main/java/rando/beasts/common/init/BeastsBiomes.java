@@ -1,14 +1,12 @@
 package rando.beasts.common.init;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeManager;
 import rando.beasts.common.world.biome.BiomeDriedReef;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static net.minecraftforge.common.BiomeDictionary.Type.*;
 
 public class BeastsBiomes {
     public static final List<Biome> LIST = new ArrayList<>();

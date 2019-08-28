@@ -1,11 +1,11 @@
 package rando.beasts.client.init;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import rando.beasts.common.utils.BeastsReference;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class BeastsSounds {
 

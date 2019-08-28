@@ -1,6 +1,12 @@
 package rando.beasts.common.world.gen.structure;
 
+import java.util.List;
+import java.util.Random;
+
+import javax.annotation.Nonnull;
+
 import com.google.common.collect.Lists;
+
 import net.minecraft.init.Biomes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
@@ -10,10 +16,6 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraft.world.gen.structure.StructureComponent;
 import net.minecraft.world.gen.structure.StructureStart;
-
-import javax.annotation.Nonnull;
-import java.util.List;
-import java.util.Random;
 
 public class RabbitVillageGenerator extends WorldGenerator {
 

@@ -1,6 +1,7 @@
 package rando.beasts.common.item.crafting;
 
 import com.google.common.collect.Lists;
+
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -8,7 +9,6 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraft.util.NonNullList;
-import net.minecraft.world.World;
 import rando.beasts.common.init.BeastsItems;
 import rando.beasts.common.init.BeastsRecipes;
 

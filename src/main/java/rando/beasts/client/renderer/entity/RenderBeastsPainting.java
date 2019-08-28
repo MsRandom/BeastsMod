@@ -1,5 +1,8 @@
 package rando.beasts.client.renderer.entity;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -15,9 +18,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import rando.beasts.common.entity.item.EntityBeastsPainting;
 import rando.beasts.common.utils.BeastsReference;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @SideOnly(Side.CLIENT)
 public class RenderBeastsPainting extends Render<EntityBeastsPainting> {

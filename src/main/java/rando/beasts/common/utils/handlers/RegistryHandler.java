@@ -1,5 +1,12 @@
 package rando.beasts.common.utils.handlers;
 
+import static net.minecraftforge.common.BiomeDictionary.Type.BEACH;
+import static net.minecraftforge.common.BiomeDictionary.Type.DRY;
+import static net.minecraftforge.common.BiomeDictionary.Type.HOT;
+import static net.minecraftforge.common.BiomeDictionary.Type.SANDY;
+
+import java.util.Objects;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.init.Items;
@@ -12,21 +19,19 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeManager;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityEntry;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import rando.beasts.client.init.BeastsSounds;
-import rando.beasts.common.init.*;
+import rando.beasts.common.init.BeastsBiomes;
+import rando.beasts.common.init.BeastsBlocks;
+import rando.beasts.common.init.BeastsEntities;
+import rando.beasts.common.init.BeastsItems;
+import rando.beasts.common.init.BeastsRecipes;
 import rando.beasts.common.item.IHandleMeta;
 import rando.beasts.common.utils.BeastsReference;
-
-import java.util.Objects;
-
-import static net.minecraftforge.common.BiomeDictionary.Type.*;
 
 @SuppressWarnings("unused")
 @Mod.EventBusSubscriber(modid = BeastsReference.ID)

@@ -1,14 +1,14 @@
 package rando.beasts.client.renderer.entity;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 import rando.beasts.client.model.ModelSkewerShrimp;
 import rando.beasts.common.entity.monster.EntitySkewerShrimp;
 import rando.beasts.common.utils.BeastsReference;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public class RenderSkewerShrimp extends RenderLiving<EntitySkewerShrimp> {
 

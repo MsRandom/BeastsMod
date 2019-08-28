@@ -1,5 +1,10 @@
 package rando.beasts.common.block;
 
+import java.util.Random;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.ITileEntityProvider;
@@ -21,10 +26,6 @@ import net.minecraft.world.World;
 import rando.beasts.common.init.BeastsBlocks;
 import rando.beasts.common.init.BeastsItems;
 import rando.beasts.common.tileentity.TileEntityCoconut;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.Random;
 
 @SuppressWarnings("deprecation")
 public class BlockCoconut extends BlockFalling implements ITileEntityProvider {

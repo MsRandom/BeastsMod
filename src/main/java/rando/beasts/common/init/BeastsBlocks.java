@@ -1,10 +1,14 @@
 package rando.beasts.common.init;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import rando.beasts.common.block.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import java.util.*;
+import net.minecraft.block.Block;
+import rando.beasts.common.block.BlockCoconut;
+import rando.beasts.common.block.BlockCoral;
+import rando.beasts.common.block.BlockCoralPlant;
+import rando.beasts.common.block.BlockCoralSapling;
+import rando.beasts.common.block.BlockGlowRoot;
 
 public class BeastsBlocks {
 

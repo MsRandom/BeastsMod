@@ -1,6 +1,25 @@
 package rando.beasts.common.world.gen.structure;
 
-import net.minecraft.block.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import net.minecraft.block.BlockBed;
+import net.minecraft.block.BlockColored;
+import net.minecraft.block.BlockCrops;
+import net.minecraft.block.BlockFarmland;
+import net.minecraft.block.BlockFenceGate;
+import net.minecraft.block.BlockFlowerPot;
+import net.minecraft.block.BlockLadder;
+import net.minecraft.block.BlockLeaves;
+import net.minecraft.block.BlockPlanks;
+import net.minecraft.block.BlockSlab;
+import net.minecraft.block.BlockStairs;
+import net.minecraft.block.BlockTorch;
+import net.minecraft.block.BlockWoodSlab;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.passive.EntityRabbit;
@@ -16,18 +35,16 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.*;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeDesert;
+import net.minecraft.world.biome.BiomeProvider;
+import net.minecraft.world.biome.BiomeSavanna;
+import net.minecraft.world.biome.BiomeTaiga;
 import net.minecraft.world.gen.structure.MapGenStructureIO;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraft.world.gen.structure.StructureComponent;
 import net.minecraft.world.gen.structure.template.TemplateManager;
 import rando.beasts.common.entity.passive.EntityRabbitman;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 @SuppressWarnings({"ConstantConditions", "unused", "WeakerAccess"})
 public class StructureRabbitVillagePieces {

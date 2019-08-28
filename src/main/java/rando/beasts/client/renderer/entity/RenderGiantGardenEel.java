@@ -1,5 +1,8 @@
 package rando.beasts.client.renderer.entity;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -7,9 +10,6 @@ import net.minecraft.util.ResourceLocation;
 import rando.beasts.client.model.ModelGiantGardenEel;
 import rando.beasts.common.entity.monster.EntityGiantGardenEel;
 import rando.beasts.common.utils.BeastsReference;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public class RenderGiantGardenEel extends RenderLiving<EntityGiantGardenEel> {
 
