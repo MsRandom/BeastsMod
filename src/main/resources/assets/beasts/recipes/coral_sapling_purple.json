@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "#c#",
+    " c "
+  ],
+  "key": {
+    "#": {
+      "item": "beasts:coral_essence",
+      "data": 2
+    },
+    "c": {
+      "item": "beasts:coral_block",
+      "data": 2
+    }
+  },
+  "result": {
+    "item": "beasts:coral_sapling",
+    "data": 2
+  }
+}
