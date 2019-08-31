@@ -98,7 +98,7 @@ public class BlockCoralPlant extends Block {
     @Override
     public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
         super.onBlockHarvested(worldIn, pos, state, player);
-        if(!worldIn.isRemote && player.getRNG().nextFloat() <= 0.01f && worldIn.getBlockState(pos.down()).getBlock() == Blocks.SAND) {
+        if(!worldIn.isRemote && player.getRNG().nextInt(100) == 0 && worldIn.getBlockState(pos.down()).getBlock() == Blocks.SAND) {
             EntityBranchie entity = new EntityBranchie(worldIn);
             entity.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
             entity.onInitialSpawn(worldIn.getDifficultyForLocation(pos), null);
