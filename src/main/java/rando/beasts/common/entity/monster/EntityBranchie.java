@@ -5,14 +5,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIFollowParent;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAIMate;
-import net.minecraft.entity.ai.EntityAIPanic;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAITempt;
-import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.ai.*;
+import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -35,7 +29,7 @@ import rando.beasts.common.init.BeastsItems;
 
 import javax.annotation.Nullable;
 
-public class EntityBranchie extends EntityAnimal {
+public class EntityBranchie extends EntityMob {
 
     private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityBranchie.class, DataSerializers.VARINT);
 
@@ -46,13 +40,10 @@ public class EntityBranchie extends EntityAnimal {
 
     protected void initEntityAI() {
         this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityAIPanic(this, 2.0D));
-        this.tasks.addTask(2, new EntityAIMate(this, 1.0D));
-        this.tasks.addTask(3, new EntityAITempt(this, 1.25D, BeastsItems.REEF_MIXTURE, false));
-        this.tasks.addTask(4, new EntityAIFollowParent(this, 1.25D));
-        this.tasks.addTask(5, new EntityAIWanderAvoidWater(this, 0.5D));
-        this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
-        this.tasks.addTask(7, new EntityAILookIdle(this));
+        this.tasks.addTask(1, new EntityAIWanderAvoidWater(this, 0.5D));
+        this.tasks.addTask(2, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
+        this.tasks.addTask(3, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 0, true, false, e -> e == getRevengeTarget()));
+        this.tasks.addTask(4, new EntityAILookIdle(this));
     }
 
     @Override
@@ -116,10 +107,6 @@ public class EntityBranchie extends EntityAnimal {
 
     protected float getSoundVolume() {
         return 0.4F;
-    }
-
-    public EntityBranchie createChild(EntityAgeable ageable) {
-        return null;
     }
 
     public float getEyeHeight() {
