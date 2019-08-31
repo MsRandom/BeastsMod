@@ -10,6 +10,7 @@ import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -32,8 +33,6 @@ public class BlockCoralSapling extends BlockBush implements IGrowable, IPlantabl
     private static final AxisAlignedBB SAPLING_AABB = new AxisAlignedBB(0.30000001192092896D, 0.0D, 0.30000001192092896D, 0.699999988079071D, 0.6000000238418579D, 0.699999988079071D);
 
     public BlockCoralSapling() {
-        super(Material.PLANTS);
-        this.setTickRandomly(true);
         this.setDefaultState(this.blockState.getBaseState().withProperty(TYPE, CoralColor.BLUE).withProperty(STAGE, 0));
         setHardness(0.6F);
         setSoundType(SoundType.PLANT);
@@ -43,11 +42,16 @@ public class BlockCoralSapling extends BlockBush implements IGrowable, IPlantabl
     @Override
     public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
         if (!worldIn.isRemote) {
-            this.checkAndDropBlock(worldIn, pos, state);
+            super.updateTick(worldIn, pos, state, rand);
 
             if (!worldIn.isAreaLoaded(pos, 1)) return;
             if (worldIn.getLightFromNeighbors(pos.up()) >= 9 && rand.nextInt(7) == 0) this.grow(worldIn, rand, pos, state);
         }
+    }
+
+    @Override
+    protected boolean canSustainBush(IBlockState state) {
+        return state.getBlock() == Blocks.SAND;
     }
 
     @Override

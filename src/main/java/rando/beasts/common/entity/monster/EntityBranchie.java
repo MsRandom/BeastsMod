@@ -60,13 +60,21 @@ public class EntityBranchie extends EntityAnimal {
         this.dataManager.register(VARIANT, 0);
     }
 
+    @Nullable
+    @Override
+    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
+        livingdata = super.onInitialSpawn(difficulty, livingdata);
+        this.setVariant(CoralColor.values()[rand.nextInt(CoralColor.values().length)]);
+        return livingdata;
+    }
+
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(12.0D);
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3D);
     }
 
-    private void setVariant(CoralColor variant) {
+    public void setVariant(CoralColor variant) {
         this.dataManager.set(VARIANT, variant.ordinal());
     }
 

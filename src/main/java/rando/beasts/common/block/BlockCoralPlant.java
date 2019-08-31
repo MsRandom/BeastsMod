@@ -38,9 +38,11 @@ public class BlockCoralPlant extends Block {
     private static final PropertyBool WEST = PropertyBool.create("west");
     private static final PropertyBool UP = PropertyBool.create("up");
     private static final PropertyBool DOWN = PropertyBool.create("down");
+    private CoralColor color;
 
     public BlockCoralPlant(CoralColor color) {
         super(Material.PLANTS, color.mapColor);
+        this.color = color;
         String name = "coral_plant_" + color.getName();
         setUnlocalizedName(name);
         setRegistryName(name);
@@ -100,6 +102,7 @@ public class BlockCoralPlant extends Block {
             EntityBranchie entity = new EntityBranchie(worldIn);
             entity.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
             entity.onInitialSpawn(worldIn.getDifficultyForLocation(pos), null);
+            entity.setVariant(color);
             entity.setRevengeTarget(player);
             worldIn.spawnEntity(entity);
         }
