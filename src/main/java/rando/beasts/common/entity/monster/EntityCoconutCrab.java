@@ -28,6 +28,7 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
+import rando.beasts.client.init.BeastsSounds;
 import rando.beasts.common.init.BeastsBlocks;
 import rando.beasts.common.init.BeastsItems;
 
@@ -125,7 +126,7 @@ public class EntityCoconutCrab extends EntityMob {
     }
 
     protected void playStepSound(BlockPos pos, Block blockIn) {
-        this.playSound(SoundEvents.ENTITY_SPIDER_STEP, 0.15F, 1.0F);
+        this.playSound(BeastsSounds.BUG_CRAWL, 0.15F, 1.0F);
     }
 
     @Override

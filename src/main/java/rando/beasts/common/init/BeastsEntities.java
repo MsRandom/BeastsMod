@@ -45,11 +45,9 @@ public class BeastsEntities {
 
 	private static EntityEntry createEntry(Class<? extends Entity> cls, int prim, int sec, SpawnEntry spawn) {
 		String entityName = StringUtils.join(cls.getSimpleName().replace("Entity", "").split("(?=[A-Z])"), "_").toLowerCase();
-		ResourceLocation name = new ResourceLocation(BeastsReference.ID, entityName);
-		EntityEntryBuilder builder = EntityEntryBuilder.create().entity(cls).id(name, BeastsEntities.entityId++).name(entityName).tracker(90, 1, true);
+		EntityEntryBuilder builder = EntityEntryBuilder.create().entity(cls).id(new ResourceLocation(BeastsReference.ID, entityName), BeastsEntities.entityId++).name(entityName).tracker(90, 1, true).egg(prim, sec);
 		if (spawn != null) builder.spawn(spawn.type, spawn.weight, spawn.min, spawn.max, spawn.biomes);
 		EntityEntry entry = builder.build();
-		entry.setEgg(new EntityList.EntityEggInfo(name, prim, sec));
 		LIST.add(entry);
 		return entry;
 	}
@@ -77,11 +75,7 @@ public class BeastsEntities {
 		}
 
 		private SpawnEntry(EnumCreatureType type, int weight, int min, int max, Biome... biomes) {
-			this.type = type;
-			this.weight = weight;
-			this.min = min;
-			this.max = max;
-			this.biomes = Lists.newArrayList(biomes);
+			this(type, weight, min, max, Lists.newArrayList(biomes));
 		}
 	}
 }

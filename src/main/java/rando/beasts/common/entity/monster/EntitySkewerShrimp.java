@@ -14,6 +14,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import rando.beasts.client.init.BeastsSounds;
 import rando.beasts.common.init.BeastsItems;
 
 public class EntitySkewerShrimp extends EntityMob {
@@ -58,6 +59,7 @@ public class EntitySkewerShrimp extends EntityMob {
     }
 
     protected void playStepSound(BlockPos pos, Block blockIn) {
+        this.playSound(BeastsSounds.BUG_CRAWL, 0.15F, 1.0F);
     }
 
     protected float getSoundVolume() {

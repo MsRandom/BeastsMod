@@ -30,6 +30,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
+import rando.beasts.client.init.BeastsSounds;
 import rando.beasts.common.init.BeastsItems;
 
 public class EntityPufferfishDog extends EntityTameable {
@@ -227,6 +228,7 @@ public class EntityPufferfishDog extends EntityTameable {
     }
 
     private void setInflated(boolean inflated) {
+        playSound(inflated ? BeastsSounds.PUFFERFISH_BLOW_UP : BeastsSounds.PUFFERFISH_BLOW_OUT, getSoundVolume(), getSoundPitch());
         setSitting(false);
         setNoGravity(inflated);
         setThreatTime(inflated?1:0);
