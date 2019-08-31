@@ -96,13 +96,14 @@ public class BlockCoralPlant extends Block {
     }
 
     @Override
-    public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, @Nullable TileEntity te, ItemStack stack) {
-        super.harvestBlock(worldIn, player, pos, state, te, stack);
-        if(player.getRNG().nextFloat() <= 0.01f && worldIn.getBlockState(pos.down()).getBlock() == Blocks.SAND) {
+    public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
+        super.onBlockHarvested(worldIn, pos, state, player);
+        if(!worldIn.isRemote && player.getRNG().nextFloat() <= 0.01f && worldIn.getBlockState(pos.down()).getBlock() == Blocks.SAND) {
             EntityBranchie entity = new EntityBranchie(worldIn);
             entity.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
             entity.onInitialSpawn(worldIn.getDifficultyForLocation(pos), null);
             entity.setVariant(color);
+            entity.scream();
             entity.setRevengeTarget(player);
             worldIn.spawnEntity(entity);
         }

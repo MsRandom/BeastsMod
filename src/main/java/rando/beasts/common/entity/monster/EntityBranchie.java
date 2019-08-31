@@ -1,6 +1,7 @@
 package rando.beasts.common.entity.monster;
 
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -99,12 +100,18 @@ public class EntityBranchie extends EntityAnimal {
         }
     }
 
-    protected SoundEvent getAmbientSound() {
-        return BeastsSounds.BRANCHIE_SCREAM;
-    }
-
     protected void playStepSound(BlockPos pos, Block blockIn) {
         this.playSound(SoundEvents.ENTITY_CHICKEN_STEP, 0.15F, 1.0F);
+    }
+
+    @Override
+    public boolean attackEntityAsMob(Entity entityIn) {
+        scream();
+        return super.attackEntityAsMob(entityIn);
+    }
+
+    public void scream() {
+        playSound(BeastsSounds.BRANCHIE_SCREAM, getSoundVolume(), getSoundPitch());
     }
 
     protected float getSoundVolume() {
