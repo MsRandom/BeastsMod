@@ -1,4 +1,5 @@
-[ {
+[
+{
   "modid": "beasts",
   "name": "Beasts",
   "description": "Adds various mobs that make the game more interesting and fun to play.",
@@ -6,7 +7,7 @@
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authorList": ["Coda", "Ms. Random""],
+  "authorList": ["Coda", "Ms. Random"],
   "credits": "Assets by Coda, Mubbs, HoboJoe, and MoonlitLamps. Code done by Ms. Ranodm(Open to commissions, Discord: \"Ms. Random#5794\"), SoggyMustache,  D4RSORC, and Coda",
   "logoFile": "",
   "screenshots": [],

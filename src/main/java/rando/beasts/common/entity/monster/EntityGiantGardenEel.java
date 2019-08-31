@@ -2,6 +2,8 @@ package rando.beasts.common.entity.monster;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
@@ -14,8 +16,7 @@ import net.minecraft.world.World;
 
 public class EntityGiantGardenEel extends EntityMob {
 
-    private int slamTimer = 0;
-    public boolean slam = false;
+    public float slamTimer = 250;
 
     public EntityGiantGardenEel(World worldIn) {
         super(worldIn);
@@ -62,17 +63,15 @@ public class EntityGiantGardenEel extends EntityMob {
     @Override
     public void onUpdate() {
         super.onUpdate();
-        EntityGiantGardenEel entity = world.getEntitiesWithinAABB(EntityGiantGardenEel.class, getEntityBoundingBox().grow(4)).stream().sorted((entityGiantGardenEel, t1) -> (int) (getDistanceSq(t1) - entityGiantGardenEel.getDistanceSq(t1))).toArray(EntityGiantGardenEel[]::new)[0];
-        if(entity != null && !entity.isAIDisabled()){
-            this.getLookHelper().setLookPositionWithEntity(entity, 10.0F, 10.0F);
-            if(slamTimer < 90){
-                slamTimer++;
-                if(slamTimer > 3) slam = false;
-            } else {
-                slamTimer = 0;
-                slam = true;
-                if(!entity.isDead) entity.attackEntityFrom(DamageSource.causeMobDamage(this), 4.0F);
-            }
+        if (slamTimer < 250) slamTimer += 10;
+        final Entity[] entity = new Entity[1];
+        world.getEntitiesWithinAABBExcludingEntity(this, getEntityBoundingBox().grow(4)).stream().filter(e -> e instanceof EntityLivingBase && !(e instanceof EntityGiantGardenEel) && (!(e instanceof EntityPlayer) || !((EntityPlayer)e).capabilities.isCreativeMode)).forEach(e -> {
+            if(entity[0] == null || (getDistanceSq(entity[0]) > getDistanceSq(e))) entity[0] = e;
+        });
+        if (entity[0] != null && (!(entity[0] instanceof EntityLiving) || !((EntityLiving) entity[0]).isAIDisabled())) {
+            this.getLookHelper().setLookPositionWithEntity(entity[0], 10.0F, 10.0F);
+            if((slamTimer -= 50) < 0) slamTimer = 0;
+            if (!entity[0].isDead) entity[0].attackEntityFrom(DamageSource.causeMobDamage(this), 4.0F);
         }
     }
 }

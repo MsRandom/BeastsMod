@@ -19,15 +19,6 @@ public class RenderGiantGardenEel extends RenderLiving<EntityGiantGardenEel> {
         super(rendermanagerIn, new ModelGiantGardenEel(), 0.3f);
     }
 
-    @Override
-    protected void preRenderCallback(EntityGiantGardenEel entitylivingbaseIn, float partialTickTime) {
-//        GlStateManager.translate(-0.2, 0, 0);
-        if(entitylivingbaseIn.slam){
-            GlStateManager.rotate(90, 1, 0,0);
-        }
-        super.preRenderCallback(entitylivingbaseIn, partialTickTime);
-    }
-
     @Nullable
     @Override
     protected ResourceLocation getEntityTexture(@Nonnull EntityGiantGardenEel entity) {

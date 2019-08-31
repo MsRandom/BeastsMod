@@ -2,11 +2,11 @@
 	"forge_marker": 1,
     "variants": {
         "type": { 
-        	"blue": { "model": "beasts:coral_sapling_blue" },
-        	"yellow": { "model": "beasts:coral_sapling_yellow" },
-        	"pink": { "model": "beasts:coral_sapling_pink" },
-        	"purple": { "model": "beasts:coral_sapling_purple" },
-        	"red": { "model": "beasts:coral_sapling_red" }
+        	"blue": { "model": "beasts:coral/sapling/blue" },
+        	"yellow": { "model": "beasts:coral/sapling/yellow" },
+        	"pink": { "model": "beasts:coral/sapling/pink" },
+        	"purple": { "model": "beasts:coral/sapling/purple" },
+        	"red": { "model": "beasts:coral/sapling/red" }
         },
         "stage": {
         	"0": {},

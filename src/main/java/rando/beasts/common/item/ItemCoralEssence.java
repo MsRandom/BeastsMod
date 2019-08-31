@@ -4,6 +4,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import rando.beasts.common.block.BlockCoral;
+import rando.beasts.common.block.CoralColor;
 
 public class ItemCoralEssence extends BeastsItem implements IHandleMeta {
     public ItemCoralEssence() {
@@ -17,12 +18,12 @@ public class ItemCoralEssence extends BeastsItem implements IHandleMeta {
 
     @Override
     public int getDamage() {
-        return BlockCoral.Color.values().length;
+        return CoralColor.values().length;
     }
 
     @Override
     public String handleMeta(int meta) {
-        return BlockCoral.Color.values()[meta].getName();
+        return CoralColor.values()[meta].getName();
     }
 
     @Override

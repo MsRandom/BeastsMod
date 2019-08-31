@@ -1,7 +1,5 @@
 package rando.beasts.common.block;
 
-import javax.annotation.Nonnull;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
@@ -11,7 +9,6 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -21,11 +18,11 @@ import rando.beasts.common.utils.BeastsUtil;
 @SuppressWarnings("deprecation")
 public class BlockCoral extends Block {
 
-    public static final PropertyEnum<Color> COLOR = PropertyEnum.create("color", Color.class);
+    public static final PropertyEnum<CoralColor> COLOR = PropertyEnum.create("color", CoralColor.class);
 
     public BlockCoral() {
         super(Material.PLANTS);
-        setDefaultState(getDefaultState().withProperty(COLOR, Color.BLUE));
+        setDefaultState(getDefaultState().withProperty(COLOR, CoralColor.BLUE));
         setHardness(0.6F);
         setSoundType(SoundType.PLANT);
         BeastsUtil.addToRegistry(this, "coral_block", true, ItemCoralBlock::new);
@@ -33,7 +30,7 @@ public class BlockCoral extends Block {
 
     @Override
     public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {
-        for (int i = 0; i < Color.values().length; i++) items.add(i, new ItemStack(this, 1, i));
+        for (int i = 0; i < CoralColor.values().length; i++) items.add(i, new ItemStack(this, 1, i));
     }
 
     @Override
@@ -43,7 +40,7 @@ public class BlockCoral extends Block {
 
     @Override
     public IBlockState getStateFromMeta(int meta) {
-        return getDefaultState().withProperty(COLOR, Color.values()[meta]);
+        return getDefaultState().withProperty(COLOR, CoralColor.values()[meta]);
     }
     
     @Override
@@ -67,25 +64,5 @@ public class BlockCoral extends Block {
         return super.getUnlocalizedName();
     }
 
-    public enum Color implements IStringSerializable {
-        BLUE("blue", MapColor.BLUE),
-        PINK("pink", MapColor.PINK),
-        PURPLE("purple", MapColor.PURPLE),
-        RED("red", MapColor.RED),
-        YELLOW("yellow", MapColor.YELLOW);
 
-        public MapColor mapColor;
-        private String name;
-
-        Color(String name, MapColor color) {
-            this.name = name;
-            this.mapColor = color;
-        }
-
-        @Nonnull
-        @Override
-        public String getName() {
-            return name;
-        }
-    }
 }

@@ -13,8 +13,10 @@ import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
@@ -24,6 +26,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import rando.beasts.common.entity.monster.EntityBranchie;
 import rando.beasts.common.init.BeastsBlocks;
 import rando.beasts.common.init.BeastsItems;
 
@@ -36,7 +39,7 @@ public class BlockCoralPlant extends Block {
     private static final PropertyBool UP = PropertyBool.create("up");
     private static final PropertyBool DOWN = PropertyBool.create("down");
 
-    public BlockCoralPlant(BlockCoral.Color color) {
+    public BlockCoralPlant(CoralColor color) {
         super(Material.PLANTS, color.mapColor);
         String name = "coral_plant_" + color.getName();
         setUnlocalizedName(name);
@@ -88,6 +91,18 @@ public class BlockCoralPlant extends Block {
 
     public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
         if (!this.canSurviveAt(worldIn, pos)) worldIn.destroyBlock(pos, true);
+    }
+
+    @Override
+    public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, @Nullable TileEntity te, ItemStack stack) {
+        super.harvestBlock(worldIn, player, pos, state, te, stack);
+        if(player.getRNG().nextFloat() <= 0.01f && worldIn.getBlockState(pos.down()).getBlock() == Blocks.SAND) {
+            EntityBranchie entity = new EntityBranchie(worldIn);
+            entity.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
+            entity.onInitialSpawn(worldIn.getDifficultyForLocation(pos), null);
+            entity.setRevengeTarget(player);
+            worldIn.spawnEntity(entity);
+        }
     }
 
     @Override
@@ -183,7 +198,7 @@ public class BlockCoralPlant extends Block {
         }
     }
 
-    private static boolean areAllNeighborsEmpty(World worldIn, BlockPos pos, EnumFacing excludingSide) {
+    private static boolean areAllNeighborsEmpty(World worldIn, BlockPos pos, @Nullable EnumFacing excludingSide) {
         for (EnumFacing enumfacing : EnumFacing.Plane.HORIZONTAL) if (enumfacing != excludingSide && !worldIn.isAirBlock(pos.offset(enumfacing))) return false;
         return true;
     }

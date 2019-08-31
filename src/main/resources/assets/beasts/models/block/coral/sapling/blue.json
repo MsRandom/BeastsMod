@@ -1,6 +1,6 @@
 {
     "parent": "block/cross",
     "textures": {
-        "cross": "beasts:blocks/coral_sapling_yellow"
+        "cross": "beasts:blocks/coral/sapling/blue"
     }
 }

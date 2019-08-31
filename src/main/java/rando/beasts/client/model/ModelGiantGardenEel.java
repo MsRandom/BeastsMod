@@ -45,12 +45,7 @@ public class ModelGiantGardenEel extends ModelBase {
     @Override
     public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
         super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
-        if(((EntityGiantGardenEel)entityIn).slam) this.body.rotateAngleX = MathHelper.cos(limbSwing * 0.55f * 2.0F) * 0.75f * limbSwingAmount;
-    }
-
-    public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
-        modelRenderer.rotateAngleX = x;
-        modelRenderer.rotateAngleY = y;
-        modelRenderer.rotateAngleZ = z;
+        EntityGiantGardenEel gardenEel = (EntityGiantGardenEel)entityIn;
+        this.body.rotateAngleX = (250 - gardenEel.slamTimer)/250f;
     }
 }

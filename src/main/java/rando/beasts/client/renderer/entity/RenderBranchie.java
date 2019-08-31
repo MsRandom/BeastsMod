@@ -10,9 +10,12 @@ import rando.beasts.client.model.ModelBranchie;
 import rando.beasts.common.entity.monster.EntityBranchie;
 import rando.beasts.common.utils.BeastsReference;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @SideOnly(Side.CLIENT)
 public class RenderBranchie extends RenderLiving<EntityBranchie> {
-	private static final ResourceLocation TEXTURE = new ResourceLocation(BeastsReference.ID, "textures/entity/branchie_yellow.png");
+	private static final Map<String, ResourceLocation> TEXTURES = new HashMap<>();
 
 	public RenderBranchie(RenderManager rm) {
 		super(rm, new ModelBranchie(), 0.1F);
@@ -26,6 +29,6 @@ public class RenderBranchie extends RenderLiving<EntityBranchie> {
 	}
 
 	protected ResourceLocation getEntityTexture(EntityBranchie entity) {
-		return TEXTURE;
+		return TEXTURES.putIfAbsent(entity.getVariant().getName(), new ResourceLocation(BeastsReference.ID, "textures/entity/branchie/" + entity.getVariant().getName() + ".png"));
 	}
 }

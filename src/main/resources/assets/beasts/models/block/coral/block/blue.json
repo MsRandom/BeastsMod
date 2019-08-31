@@ -1,6 +1,6 @@
 {
     "parent": "block/cube_all",
     "textures": {
-        "all": "beasts:blocks/coral/blue"
+        "all": "beasts:blocks/coral/block/blue"
     }
 }

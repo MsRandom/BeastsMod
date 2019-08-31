@@ -9,6 +9,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import rando.beasts.common.block.BlockCoral;
+import rando.beasts.common.block.CoralColor;
 import rando.beasts.common.init.BeastsBlocks;
 
 public class BiomeDriedReef extends BeastsBiome {
@@ -77,7 +78,7 @@ public class BiomeDriedReef extends BeastsBiome {
 
     private static class WorldGenCoralBlock extends WorldGenBlob {
 
-        private IBlockState[] states = new IBlockState[BlockCoral.Color.values().length];
+        private IBlockState[] states = new IBlockState[CoralColor.values().length];
 
         WorldGenCoralBlock() {
             super(null);
@@ -86,7 +87,7 @@ public class BiomeDriedReef extends BeastsBiome {
         @Override
         protected IBlockState getBlock(Random rand) {
             int i = rand.nextInt(states.length);
-            if(states[i] == null) states[i] = BeastsBlocks.CORAL_BLOCK.getDefaultState().withProperty(BlockCoral.COLOR, BlockCoral.Color.values()[i]);
+            if(states[i] == null) states[i] = BeastsBlocks.CORAL_BLOCK.getDefaultState().withProperty(BlockCoral.COLOR, CoralColor.values()[i]);
             return states[i];
         }
     }

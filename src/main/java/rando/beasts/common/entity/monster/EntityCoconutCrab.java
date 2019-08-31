@@ -13,14 +13,18 @@ import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemSword;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
@@ -30,6 +34,7 @@ import rando.beasts.common.init.BeastsItems;
 public class EntityCoconutCrab extends EntityMob {
 
     private static final DataParameter<Boolean> OUT = EntityDataManager.createKey(EntityCoconutCrab.class, DataSerializers.BOOLEAN);
+    private static final float defaultHeight = 0.4f;
 
     public EntityCoconutCrab(World worldIn) {
         super(worldIn);
@@ -67,10 +72,10 @@ public class EntityCoconutCrab extends EntityMob {
         return this.dataManager.get(OUT);
     }
 
-    private void setOut() {
-        this.dataManager.set(OUT, true);
-        setSize(width, height + 0.2f);
-        this.setNoAI(false);
+    private void setOut(boolean out) {
+        this.dataManager.set(OUT, out);
+        setSize(width, out ? defaultHeight + 0.2f : defaultHeight);
+        this.setNoAI(!out);
     }
 
     @Override
@@ -109,7 +114,7 @@ public class EntityCoconutCrab extends EntityMob {
     @Override
     protected boolean processInteract(EntityPlayer player, EnumHand hand) {
         if(!isOut()) {
-            setOut();
+            setOut(true);
             if(!player.isCreative()) {
                 setRevengeTarget(player);
                 attackEntityAsMob(player);
@@ -124,9 +129,33 @@ public class EntityCoconutCrab extends EntityMob {
     }
 
     @Override
+    public void writeEntityToNBT(NBTTagCompound compound) {
+        super.writeEntityToNBT(compound);
+        compound.setBoolean("out", this.isOut());
+    }
+
+    @Override
+    public void readEntityFromNBT(NBTTagCompound compound) {
+        super.readEntityFromNBT(compound);
+        this.setOut(compound.getBoolean("out"));
+    }
+
+    @Override
     public void onUpdate() {
         if(isOut()) {
             super.onUpdate();
+
+            if(world.getBlockState(getPosition().down()).getBlock() == Blocks.SAND && rand.nextInt(500) == 0) {
+                setOut(false);
+                for (int i = 0; i < 6; ++i) {
+                    double d0 = this.posX + (this.rand.nextDouble() - this.rand.nextDouble()) * 4.0D;
+                    double d1 = this.posY + (this.rand.nextDouble() - this.rand.nextDouble()) * 4.0D;
+                    double d2 = this.posZ + (this.rand.nextDouble() - this.rand.nextDouble()) * 4.0D;
+                    this.world.spawnParticle(EnumParticleTypes.BLOCK_DUST, d0, d1, d2, this.rand.nextDouble(), this.rand.nextDouble(), this.rand.nextDouble(), Block.getIdFromBlock(Blocks.SAND));
+                }
+                return;
+            }
+
             if(this.getHeldItem(EnumHand.MAIN_HAND).isEmpty()) {
                 List<EntityItem> list = this.world.getEntitiesWithinAABB(EntityItem.class, this.getEntityBoundingBox().grow(8.0D));
                 double d0 = Double.MAX_VALUE;

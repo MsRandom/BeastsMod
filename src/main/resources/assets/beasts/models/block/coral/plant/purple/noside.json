@@ -1,8 +1,8 @@
 {
     "ambientocclusion": false,
     "textures": {
-        "inside": "beasts:blocks/coral/purple",
-        "particle": "beasts:blocks/coral/purple"
+        "inside": "beasts:blocks/coral/block/purple",
+        "particle": "beasts:blocks/coral/block/purple"
     },
     "elements": [ {   "from": [ 4, 4, 4 ],
             "to": [ 12, 12, 12 ],

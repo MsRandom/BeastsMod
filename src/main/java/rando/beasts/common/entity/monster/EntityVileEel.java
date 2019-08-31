@@ -25,6 +25,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import rando.beasts.client.init.BeastsSounds;
 import rando.beasts.common.entity.passive.EntityPufferfishDog;
 import rando.beasts.common.init.BeastsItems;
 
@@ -72,15 +73,7 @@ public class EntityVileEel extends EntityMob {
     }
 
     protected SoundEvent getAmbientSound() {
-        return null;
-    }
-
-    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return null;
-    }
-
-    protected SoundEvent getDeathSound() {
-        return null;
+        return BeastsSounds.VILE_EEL_AMBIENT;
     }
 
     protected void playStepSound(BlockPos pos, Block blockIn) {

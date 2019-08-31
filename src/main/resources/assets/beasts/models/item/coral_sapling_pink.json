@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "beasts:blocks/coral_sapling_pink"
+        "layer0": "beasts:blocks/coral/sapling/pink"
     }
 }

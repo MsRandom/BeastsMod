@@ -22,6 +22,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import rando.beasts.client.init.BeastsSounds;
 import rando.beasts.common.init.BeastsItems;
 
 public class EntityLandwhale extends EntityAnimal {
@@ -67,15 +68,7 @@ public class EntityLandwhale extends EntityAnimal {
     }
 
     protected SoundEvent getAmbientSound() {
-        return null;
-    }
-
-    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return null;
-    }
-
-    protected SoundEvent getDeathSound() {
-        return null;
+        return BeastsSounds.LANDWHALE_AMBIENT;
     }
 
     protected void playStepSound(BlockPos pos, Block blockIn) {

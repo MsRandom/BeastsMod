@@ -1,1 +1,35 @@
-{}
+{
+  "entity.branchie.scream": {
+    "sounds": [
+      "branchie_scream"
+    ]
+  },
+  "entity.bug.crawl": {
+    "sounds": [
+      "bug_crawl"
+    ]
+  },
+  "entity.landwhale.ambient": {
+    "sounds": [
+      "landwhale_ambient"
+    ]
+  },
+  "entity.pufferfish.blowout": {
+    "sounds": [
+      "pufferfish_blow_out1",
+      "pufferfish_blow_out2"
+    ]
+  },
+  "entity.pufferfish.blowup": {
+    "sounds": [
+      "pufferfish_blow_up1",
+      "pufferfish_blow_up2"
+    ]
+  },
+  "entity.vileeel.ambient": {
+    "sounds": [
+      "vile_eel_ambient1",
+      "vile_eel_ambient2"
+    ]
+  }
+}

@@ -4,11 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.block.Block;
-import rando.beasts.common.block.BlockCoconut;
-import rando.beasts.common.block.BlockCoral;
-import rando.beasts.common.block.BlockCoralPlant;
-import rando.beasts.common.block.BlockCoralSapling;
-import rando.beasts.common.block.BlockGlowRoot;
+import rando.beasts.common.block.*;
 
 public class BeastsBlocks {
 
@@ -22,6 +18,6 @@ public class BeastsBlocks {
     public static final List<BlockCoralPlant> CORAL_PLANTS = new ArrayList<>();
 
 	static {
-		for (int i = 0; i < BlockCoral.Color.values().length; i++) CORAL_PLANTS.add(i, new BlockCoralPlant(BlockCoral.Color.values()[i]));
+		for (int i = 0; i < CoralColor.values().length; i++) CORAL_PLANTS.add(i, new BlockCoralPlant(CoralColor.values()[i]));
  	}
 }
