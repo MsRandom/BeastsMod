@@ -72,7 +72,7 @@ public class BlockCoralSapling extends BlockBush implements IGrowable, IPlantabl
     @Override
     public void grow(World worldIn, Random rand, BlockPos pos, IBlockState state) {
         if (state.getValue(STAGE) == 0) worldIn.setBlockState(pos, state.cycleProperty(STAGE), 4);
-        else BeastsBlocks.CORAL_PLANTS.get(state.getValue(TYPE).ordinal()).generatePlant(worldIn, pos, rand);
+        else BeastsBlocks.CORAL_PLANTS.get(state.getValue(TYPE)).generatePlant(worldIn, pos, rand);
     }
 
     @Override

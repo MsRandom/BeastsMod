@@ -98,7 +98,7 @@ public class BlockCoralPlant extends Block {
     @Override
     public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
         super.onBlockHarvested(worldIn, pos, state, player);
-        if(!worldIn.isRemote && player.getRNG().nextFloat() <= 0.01f && worldIn.getBlockState(pos.down()).getBlock() == Blocks.SAND) {
+        if(!worldIn.isRemote && player.getRNG().nextBoolean() && worldIn.getBlockState(pos.down()).getBlock() == Blocks.SAND) {
             EntityBranchie entity = new EntityBranchie(worldIn);
             entity.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
             entity.onInitialSpawn(worldIn.getDifficultyForLocation(pos), null);
@@ -112,8 +112,8 @@ public class BlockCoralPlant extends Block {
     @Override
     public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
         Random rand = world instanceof World ? ((World) world).rand : RANDOM;
-        if (rand.nextFloat() <= 0.5f) drops.add(new ItemStack(BeastsBlocks.CORAL_BLOCK, 1, BeastsBlocks.CORAL_PLANTS.indexOf(this)));
-        if (rand.nextFloat() <= 0.15f) drops.add(new ItemStack(BeastsItems.CORAL_ESSENCE, 1, BeastsBlocks.CORAL_PLANTS.indexOf(this)));
+        if (rand.nextFloat() <= 0.5f) drops.add(new ItemStack(BeastsBlocks.CORAL_BLOCK, 1, color.ordinal()));
+        if (rand.nextFloat() <= 0.15f) drops.add(new ItemStack(BeastsItems.CORAL_ESSENCE, 1, color.ordinal()));
     }
 
     public boolean isFullCube(IBlockState state) {

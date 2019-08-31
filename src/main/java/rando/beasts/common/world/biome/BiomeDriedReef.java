@@ -98,7 +98,7 @@ public class BiomeDriedReef extends BeastsBiome {
         }
 
         public boolean generate(World worldIn, Random rand, BlockPos position) {
-            return BeastsBlocks.CORAL_PLANTS.get(rand.nextInt(BeastsBlocks.CORAL_PLANTS.size())).generatePlant(worldIn, position, rand);
+            return BeastsBlocks.CORAL_PLANTS.get(CoralColor.getRandom(rand)).generatePlant(worldIn, position, rand);
         }
     }
 }

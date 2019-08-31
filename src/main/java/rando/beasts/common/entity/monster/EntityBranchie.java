@@ -65,7 +65,7 @@ public class EntityBranchie extends EntityAnimal {
     @Override
     public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
         livingdata = super.onInitialSpawn(difficulty, livingdata);
-        this.setVariant(CoralColor.values()[rand.nextInt(CoralColor.values().length)]);
+        this.setVariant(CoralColor.getRandom(rand));
         return livingdata;
     }
 
