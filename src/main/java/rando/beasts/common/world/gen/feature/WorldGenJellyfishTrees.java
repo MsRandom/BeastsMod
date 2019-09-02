@@ -21,7 +21,7 @@ public class WorldGenJellyfishTrees extends WorldGenAbstractTree {
     public boolean generate(World worldIn, Random rand, BlockPos position) {
         if (worldIn.getBlockState(position.down()).getBlock() == Blocks.SAND) {
             IBlockState log = BeastsBlocks.JELLY_WOOD.getDefaultState();
-            IBlockState leaves = BeastsBlocks.JELLY_LEAVES.getDefaultState().withProperty(BlockLeaves.CHECK_DECAY, false);
+            IBlockState leaves = BeastsBlocks.JELLY_LEAVES.getDefaultState();
             int height = rand.nextInt(3) + 4;
             int radius = rand.nextInt(5) + 8;
             if (radius % 2 == 0) radius += 1;
