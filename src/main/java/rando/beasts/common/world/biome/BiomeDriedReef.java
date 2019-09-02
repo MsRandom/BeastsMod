@@ -2,10 +2,12 @@ package rando.beasts.common.world.biome;
 
 import java.util.Random;
 
+import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockStone;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import rando.beasts.common.block.BlockCoral;
@@ -20,7 +22,7 @@ public class BiomeDriedReef extends BeastsBiome {
     private static final WorldGenBlob CORAL_BLOCK_GENERATOR = new WorldGenCoralBlock();
     private static final WorldGenCoralPlant CORAL_PLANT_GENERATOR = new WorldGenCoralPlant();
     private static final WorldGenJellyfishTrees JELLYFISH_TREE_GENERATOR = new WorldGenJellyfishTrees(false);
-    private static final WorldGenerator[] GENERATORS = {ROCK_GENERATOR, ANDESITE_GENERATOR, CORAL_BLOCK_GENERATOR, CORAL_PLANT_GENERATOR, JELLYFISH_TREE_GENERATOR};
+    private static final WorldGenerator[] GENERATORS = {ROCK_GENERATOR, ANDESITE_GENERATOR, CORAL_BLOCK_GENERATOR, CORAL_PLANT_GENERATOR};
 
     public BiomeDriedReef() {
         super("dried_reef", new BiomeProperties("Dried Reef").setBaseHeight(0.125F).setHeightVariation(0.05F).setTemperature(2.0F).setRainfall(0.0F).setTemperature(2).setWaterColor(0x00FFFF));
@@ -48,6 +50,7 @@ public class BiomeDriedReef extends BeastsBiome {
             BlockPos blockpos = worldIn.getHeight(pos.add(k, 0, l));
             GENERATORS[rand.nextInt(GENERATORS.length)].generate(worldIn, rand, blockpos);
         }
+        if(rand.nextInt(1000) == 0) JELLYFISH_TREE_GENERATOR.generate(worldIn, rand, pos);
         super.decorate(worldIn, rand, pos);
     }
 
@@ -100,6 +103,8 @@ public class BiomeDriedReef extends BeastsBiome {
         }
 
         public boolean generate(World worldIn, Random rand, BlockPos position) {
+            ChunkPos chunkPos = worldIn.getChunkFromBlockCoords(position).getPos();
+            for(BlockPos pos : BlockPos.getAllInBox(new BlockPos(chunkPos.getXStart(), position.getY() - 16, chunkPos.getZStart()), new BlockPos(chunkPos.getXEnd(), position.getY() + 16, chunkPos.getZEnd()))) if(worldIn.getBlockState(pos).getBlock() instanceof BlockLeaves) return false;
             return BeastsBlocks.CORAL_PLANTS.get(CoralColor.getRandom(rand)).generatePlant(worldIn, position, rand);
         }
     }

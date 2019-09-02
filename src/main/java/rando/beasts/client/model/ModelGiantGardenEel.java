@@ -12,6 +12,7 @@ public class ModelGiantGardenEel extends ModelBase {
     public ModelRenderer body2;
     public ModelRenderer body3;
     public ModelRenderer head;
+    private ModelRenderer[] parts;
 
     public ModelGiantGardenEel() {
         this.textureWidth = 64;
@@ -35,6 +36,8 @@ public class ModelGiantGardenEel extends ModelBase {
         this.body2.addChild(this.body3);
         this.body3.addChild(this.head);
         this.body.addChild(this.body1);
+
+        parts = new ModelRenderer[]{head, body3, body2, body1};
     }
 
     @Override
@@ -46,6 +49,10 @@ public class ModelGiantGardenEel extends ModelBase {
     public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
         super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
         EntityGiantGardenEel gardenEel = (EntityGiantGardenEel)entityIn;
-        this.body.rotateAngleX = (250 - gardenEel.slamTimer)/250f;
+        if(gardenEel.slamTimer < 250) this.body.rotateAngleX = (250 - gardenEel.slamTimer)/180f;
+        else for (int i = 0; i < parts.length; i++) {
+            float degree = 0.25f * (i + 1);
+            parts[i].rotateAngleZ = MathHelper.cos(gardenEel.ticksExisted * 0.05f) * degree * 0.1f;
+        }
     }
 }

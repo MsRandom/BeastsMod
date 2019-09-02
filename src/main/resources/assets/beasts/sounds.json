@@ -4,11 +4,6 @@
       "beasts:branchie_scream"
     ]
   },
-  "entity.bug.crawl": {
-    "sounds": [
-      "beasts:bug_crawl"
-    ]
-  },
   "entity.landwhale.ambient": {
     "sounds": [
       "beasts:landwhale_ambient"

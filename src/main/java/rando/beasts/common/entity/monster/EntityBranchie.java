@@ -42,7 +42,6 @@ public class EntityBranchie extends EntityMob {
         this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityAIWanderAvoidWater(this, 0.5D));
         this.tasks.addTask(2, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
-        this.tasks.addTask(3, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 0, true, false, e -> e == getRevengeTarget()));
         this.tasks.addTask(4, new EntityAILookIdle(this));
     }
 

@@ -58,10 +58,6 @@ public class EntitySkewerShrimp extends EntityMob {
         return SoundEvents.ENTITY_SPIDER_DEATH;
     }
 
-    protected void playStepSound(BlockPos pos, Block blockIn) {
-        this.playSound(BeastsSounds.BUG_CRAWL, 0.15F, 1.0F);
-    }
-
     protected float getSoundVolume() {
         return 0.4F;
     }

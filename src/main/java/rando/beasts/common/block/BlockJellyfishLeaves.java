@@ -30,7 +30,6 @@ import java.util.Random;
 public class BlockJellyfishLeaves extends BlockLeaves {
 
     public BlockJellyfishLeaves() {
-        this.setDefaultState(this.blockState.getBaseState().withProperty(CHECK_DECAY, true).withProperty(DECAYABLE, true));
         this.setSoundType(SoundType.SLIME);
         BeastsUtil.addToRegistry(this, "jellyleaves", true, ItemBlock::new);
     }
@@ -63,23 +62,6 @@ public class BlockJellyfishLeaves extends BlockLeaves {
         return BlockRenderLayer.TRANSLUCENT;
     }
 
-    public IBlockState getStateFromMeta(int meta)
-    {
-        return this.getDefaultState().withProperty(DECAYABLE, (meta & 4) == 0).withProperty(CHECK_DECAY, (meta & 8) > 0);
-    }
-
-    public int getMetaFromState(IBlockState state) {
-        int i = 0;
-        if (!state.getValue(DECAYABLE)) i |= 4;
-        if (state.getValue(CHECK_DECAY)) i |= 8;
-        return i;
-    }
-
-    @Override
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, CHECK_DECAY, DECAYABLE);
-    }
-
     @Override
     public BlockPlanks.EnumType getWoodType(int meta) {
         return BlockPlanks.EnumType.OAK;
@@ -88,6 +70,6 @@ public class BlockJellyfishLeaves extends BlockLeaves {
     @Nonnull
     @Override
     public List<ItemStack> onSheared(@Nonnull ItemStack item, IBlockAccess world, BlockPos pos, int fortune) {
-        return Lists.newArrayList(new ItemStack(this));
+        return Lists.newArrayList();
     }
 }

@@ -102,7 +102,7 @@ public class BlockCoralPlant extends Block {
             entity.onInitialSpawn(worldIn.getDifficultyForLocation(pos), null);
             entity.setVariant(color);
             entity.scream();
-            entity.setRevengeTarget(player);
+            entity.setAttackTarget(player);
             worldIn.spawnEntity(entity);
         }
     }

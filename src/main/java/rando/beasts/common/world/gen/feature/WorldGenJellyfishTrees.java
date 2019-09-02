@@ -78,8 +78,7 @@ public class WorldGenJellyfishTrees extends WorldGenAbstractTree {
     
     private void generateTentacles(BlockPos pos, World world, Random rand) {
         BlockPos lower = pos.down();
-        Block bottom = world.getBlockState(lower).getBlock();
-        if(bottom != BeastsBlocks.TENTACLE && bottom != BeastsBlocks.JELLY_WOOD && bottom != BeastsBlocks.JELLY_LEAVES && rand.nextInt(3) == 0) {
+        if(world.getBlockState(lower).getBlock() == Blocks.AIR && rand.nextInt(3) == 0) {
             int size = rand.nextInt(16) + 1;
             boolean full = size > 8;
             IBlockState state = BeastsBlocks.TENTACLE.getDefaultState();

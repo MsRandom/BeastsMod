@@ -86,7 +86,11 @@ public class EntityCoconutCrab extends EntityMob {
 
     @Override
     public boolean attackEntityFrom(@Nonnull DamageSource source, float amount) {
-        return (isOut() || (source != DamageSource.OUT_OF_WORLD && !source.isCreativePlayer())) && super.attackEntityFrom(source, amount);
+        if((isOut() || (source == DamageSource.OUT_OF_WORLD || source.isCreativePlayer()))) {
+            if(source.getImmediateSource() != null) attackEntityAsMob(source.getImmediateSource());
+            return super.attackEntityFrom(source, amount);
+        }
+        return false;
     }
 
     @Override
@@ -117,16 +121,12 @@ public class EntityCoconutCrab extends EntityMob {
         if(!isOut()) {
             setOut(true);
             if(!player.isCreative()) {
-                setRevengeTarget(player);
+                setAttackTarget(player);
                 attackEntityAsMob(player);
             }
             return true;
         }
         return super.processInteract(player, hand);
-    }
-
-    protected void playStepSound(BlockPos pos, Block blockIn) {
-        this.playSound(BeastsSounds.BUG_CRAWL, 0.15F, 1.0F);
     }
 
     @Override
@@ -145,14 +145,14 @@ public class EntityCoconutCrab extends EntityMob {
     public void onUpdate() {
         if(isOut()) {
             super.onUpdate();
-
             if(world.getBlockState(getPosition().down()).getBlock() == Blocks.SAND && rand.nextInt(500) == 0) {
                 setOut(false);
-                for (int i = 0; i < 6; ++i) {
+                setFire(0);
+                for (int i = 0; i < 9; ++i) {
                     double d0 = this.posX + (this.rand.nextDouble() - this.rand.nextDouble()) * 4.0D;
                     double d1 = this.posY + (this.rand.nextDouble() - this.rand.nextDouble()) * 4.0D;
                     double d2 = this.posZ + (this.rand.nextDouble() - this.rand.nextDouble()) * 4.0D;
-                    this.world.spawnParticle(EnumParticleTypes.BLOCK_DUST, d0, d1, d2, this.rand.nextDouble(), this.rand.nextDouble(), this.rand.nextDouble(), Block.getIdFromBlock(Blocks.SAND));
+                    this.world.spawnParticle(EnumParticleTypes.BLOCK_DUST, d0, d1, d2, this.rand.nextDouble() * 0.1, this.rand.nextDouble() * 0.1, this.rand.nextDouble() * 0.1, Block.getIdFromBlock(Blocks.SAND));
                 }
                 return;
             }
@@ -181,6 +181,7 @@ public class EntityCoconutCrab extends EntityMob {
             this.moveStrafing *= 0.98F;
             this.moveForward *= 0.98F;
             this.travel(this.moveStrafing, this.moveVertical, this.moveForward);
+            this.motionY -= 0.02;
         }
     }
 }

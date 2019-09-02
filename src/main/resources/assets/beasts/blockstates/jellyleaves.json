@@ -1,8 +1,5 @@
 {
   "variants": {
-    "check_decay=false,decayable=false": {"model": "beasts:jellyleaves"},
-    "check_decay=false,decayable=true": {"model": "beasts:jellyleaves"},
-    "check_decay=true,decayable=false": {"model": "beasts:jellyleaves"},
-    "check_decay=true,decayable=true": {"model": "beasts:jellyleaves"}
+    "normal": {"model": "beasts:jellyleaves"}
   }
 }
