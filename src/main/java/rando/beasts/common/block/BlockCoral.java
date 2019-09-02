@@ -16,16 +16,15 @@ import rando.beasts.common.item.ItemCoralBlock;
 import rando.beasts.common.utils.BeastsUtil;
 
 @SuppressWarnings("deprecation")
-public class BlockCoral extends Block {
+public class BlockCoral extends BeastsBlock {
 
     public static final PropertyEnum<CoralColor> COLOR = PropertyEnum.create("color", CoralColor.class);
 
     public BlockCoral() {
-        super(Material.PLANTS);
+        super(Material.PLANTS, "coral_block", ItemCoralBlock::new);
         setDefaultState(getDefaultState().withProperty(COLOR, CoralColor.BLUE));
         setHardness(0.6F);
         setSoundType(SoundType.PLANT);
-        BeastsUtil.addToRegistry(this, "coral_block", true, ItemCoralBlock::new);
     }
 
     @Override

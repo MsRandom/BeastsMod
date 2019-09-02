@@ -52,6 +52,12 @@ item.coconut_rabbit_stew.name=Rabbit Stew
 item.coconut_mushroom.name=Mushroom Stew
 item.coconut_juice.name=Coconut Juice
 item.beasts_painting.name=Beasts Painting
+item.jelly_sword.name=Jelly Sword
+item.jelly_axe.name=Jelly Axe
+item.jelly_pickaxe.name=Jelly Pickaxe
+item.jelly_shovel.name=Jelly Shovel
+item.jelly_hoe.name=Jelly Hoe
+item.jellywood_door.name=Jellywood Door
 
 Blocks
 
@@ -73,6 +79,11 @@ tile.coral_sapling.red.name=Red Coral Sapling
 tile.coral_sapling.yellow.name=Yellow Coral Sapling
 tile.white_sand.name=White Sand
 tile.glow_root.name=Glow Root
+tile.jellywood_planks.name=Jellywood Planks
+tile.jellywood_fence.name=Jellywood Fence
+tile.jellywood_gate.name=Jellywood Fence Gate
+tile.jellywood_door.name=Jellywood Door
+tile.jellyfish_sapling.name=Jellyfish Sapling
 
 Miscellaneous
 

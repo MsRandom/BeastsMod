@@ -1,0 +1,6 @@
+{
+    "parent": "block/fence_inventory",
+    "textures": {
+        "texture": "beasts:blocks/jellywood_planks"
+    }
+}

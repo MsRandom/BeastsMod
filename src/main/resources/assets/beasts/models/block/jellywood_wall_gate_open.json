@@ -1,0 +1,6 @@
+{
+    "parent": "block/wall_gate_open",
+    "textures": {
+        "texture": "beasts:blocks/jellywood_planks"
+    }
+}

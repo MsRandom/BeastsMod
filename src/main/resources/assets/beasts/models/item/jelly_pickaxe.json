@@ -1,0 +1,6 @@
+{
+    "parent": "item/handheld",
+    "textures": {
+        "layer0": "beasts:items/jelly_pickaxe"
+    }
+}

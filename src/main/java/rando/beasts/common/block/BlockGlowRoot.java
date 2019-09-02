@@ -27,18 +27,16 @@ import rando.beasts.common.init.BeastsItems;
 import rando.beasts.common.utils.BeastsUtil;
 
 @SuppressWarnings("deprecation")
-public class BlockGlowRoot extends Block {
+public class BlockGlowRoot extends BeastsBlock {
 
     private boolean isTop;
 
-    public BlockGlowRoot(String name, boolean top) {
-        super(Material.GRASS, MapColor.GRASS);
+    public BlockGlowRoot(boolean top) {
+        super(Material.GRASS, MapColor.GRASS, "glow_root_" + (top ? "top" : "bottom"), false);
         this.isTop = top;
         this.setSoundType(SoundType.PLANT);
-        BeastsUtil.addToRegistry(this, name, false, ItemBlock::new);
         this.setLightLevel(1.0F);
     }
-
 
     private boolean canBlockStay(World worldIn, BlockPos pos) {
         BlockPos up = pos.up();

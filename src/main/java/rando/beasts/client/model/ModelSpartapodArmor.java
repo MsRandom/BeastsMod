@@ -10,6 +10,7 @@ public class ModelSpartapodArmor extends ModelBiped {
     public ModelRenderer headFin;
 
     public ModelSpartapodArmor() {
+        //TODO this needs fixing
         this.textureWidth = 128;
         this.textureHeight = 128;
         this.bipedHeadwear = new ModelRenderer(this, 24, 0);

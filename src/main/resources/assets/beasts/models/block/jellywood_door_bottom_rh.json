@@ -1,0 +1,7 @@
+{
+    "parent": "block/door_bottom_rh",
+    "textures": {
+        "bottom": "beasts:blocks/jellywood_door_lower",
+        "top": "beasts:blocks/jellywood_door_upper"
+    }
+}

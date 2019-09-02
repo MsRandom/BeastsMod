@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "axis=y":  { "model": "beasts:jellywood" },
+    "axis=z":   { "model": "beasts:jellywood", "x": 90 },
+    "axis=x":   { "model": "beasts:jellywood", "x": 90, "y": 90 },
+    "axis=none": { "model": "beasts:jellywood_bark" }
+  }
+}

@@ -12,7 +12,7 @@ import rando.beasts.common.entity.item.EntityBeastsPainting;
 
 public class ItemBeastsPainting extends BeastsItem {
     public ItemBeastsPainting() {
-    	super("beasts_painting");
+        super("beasts_painting");
     }
 
     @Override

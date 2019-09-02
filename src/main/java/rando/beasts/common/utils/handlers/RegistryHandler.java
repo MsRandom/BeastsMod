@@ -8,7 +8,11 @@ import static net.minecraftforge.common.BiomeDictionary.Type.SANDY;
 import java.util.Objects;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockDoor;
+import net.minecraft.block.BlockFenceGate;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.statemap.StateMap;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -24,6 +28,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityEntry;
+import net.minecraftforge.oredict.OreDictionary;
 import rando.beasts.client.init.BeastsSounds;
 import rando.beasts.common.init.BeastsBiomes;
 import rando.beasts.common.init.BeastsBlocks;
@@ -51,6 +56,9 @@ public class RegistryHandler {
         FurnaceRecipes.instance().addSmelting(BeastsItems.SHRIMP, new ItemStack(BeastsItems.COOKED_SHRIMP), 0.35f);
         FurnaceRecipes.instance().addSmelting(BeastsItems.RAW_KEBAB, new ItemStack(BeastsItems.COOKED_KEBAB), 0.35f);
         FurnaceRecipes.instance().addSmelting(BeastsItems.DAGGERFISH, new ItemStack(BeastsItems.COOKED_DAGGERFISH), 0.50f);
+        OreDictionary.registerOre("logWood", BeastsBlocks.JELLY_WOOD);
+        OreDictionary.registerOre("plankWood", BeastsBlocks.JELLY_WOOD_PLANKS);
+        OreDictionary.registerOre("doorWood", Items.ACACIA_DOOR);
     }
 
     @SubscribeEvent
@@ -87,5 +95,7 @@ public class RegistryHandler {
             Item item = Item.getItemFromBlock(block);
             if(item != Items.AIR) ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(Objects.requireNonNull(block.getRegistryName()), "inventory"));
         }
+        ModelLoader.setCustomStateMapper(BeastsBlocks.JELLY_WOOD_DOOR, new StateMap.Builder().ignore(BlockDoor.POWERED).build());
+        ModelLoader.setCustomStateMapper(BeastsBlocks.JELLY_WOOD_GATE, new StateMap.Builder().ignore(BlockFenceGate.POWERED).build());
     }
 }

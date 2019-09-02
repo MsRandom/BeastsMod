@@ -1,12 +1,7 @@
 package rando.beasts.common.block;
 
-import net.minecraft.block.BlockBush;
-import net.minecraft.block.IGrowable;
-import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -17,62 +12,18 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.IPlantable;
 import rando.beasts.common.init.BeastsBlocks;
 import rando.beasts.common.item.ItemCoralBlock;
-import rando.beasts.common.utils.BeastsUtil;
 
-import javax.annotation.Nullable;
 import java.util.Random;
 
 @SuppressWarnings("deprecation")
-public class BlockCoralSapling extends BlockBush implements IGrowable, IPlantable {
+public class BlockCoralSapling extends BeastsSapling {
     private static final PropertyEnum<CoralColor> TYPE = PropertyEnum.create("type", CoralColor.class);
-    private static final PropertyInteger STAGE = PropertyInteger.create("stage", 0, 1);
-
-    private static final AxisAlignedBB SAPLING_AABB = new AxisAlignedBB(0.30000001192092896D, 0.0D, 0.30000001192092896D, 0.699999988079071D, 0.6000000238418579D, 0.699999988079071D);
 
     public BlockCoralSapling() {
-        this.setDefaultState(this.blockState.getBaseState().withProperty(TYPE, CoralColor.BLUE).withProperty(STAGE, 0));
-        setHardness(0.6F);
-        setSoundType(SoundType.PLANT);
-        BeastsUtil.addToRegistry(this, "coral_sapling", true, ItemCoralBlock::new);
-    }
-
-    @Override
-    public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
-        if (!worldIn.isRemote) {
-            super.updateTick(worldIn, pos, state, rand);
-
-            if (!worldIn.isAreaLoaded(pos, 1)) return;
-            if (worldIn.getLightFromNeighbors(pos.up()) >= 9 && rand.nextInt(7) == 0) this.grow(worldIn, rand, pos, state);
-        }
-    }
-
-    @Override
-    protected boolean canSustainBush(IBlockState state) {
-        return state.getBlock() == Blocks.SAND;
-    }
-
-    @Override
-    public int damageDropped(IBlockState state) {
-        return state.getValue(TYPE).ordinal();
-    }
-
-    @Override
-    public boolean canGrow(World worldIn, BlockPos pos, IBlockState state, boolean isClient) {
-        return true;
-    }
-
-    @Override
-    public boolean canUseBonemeal(World worldIn, Random rand, BlockPos pos, IBlockState state) {
-        return worldIn.rand.nextFloat() < 0.45;
-    }
-
-    @Override
-    public void grow(World worldIn, Random rand, BlockPos pos, IBlockState state) {
-        if (state.getValue(STAGE) == 0) worldIn.setBlockState(pos, state.cycleProperty(STAGE), 4);
-        else BeastsBlocks.CORAL_PLANTS.get(state.getValue(TYPE)).generatePlant(worldIn, pos, rand);
+        super("coral_sapling", ItemCoralBlock::new);
+        this.setDefaultState(getDefaultState().withProperty(TYPE, CoralColor.BLUE));
     }
 
     @Override
@@ -81,9 +32,13 @@ public class BlockCoralSapling extends BlockBush implements IGrowable, IPlantabl
     }
 
     @Override
-    @Nullable
-    public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
-        return NULL_AABB;
+    public int damageDropped(IBlockState state) {
+        return state.getValue(TYPE).ordinal();
+    }
+
+    @Override
+    protected void generateTree(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+        BeastsBlocks.CORAL_PLANTS.get(state.getValue(TYPE)).generatePlant(worldIn, pos, rand);
     }
 
     @Override
@@ -110,5 +65,4 @@ public class BlockCoralSapling extends BlockBush implements IGrowable, IPlantabl
     protected BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, TYPE, STAGE);
     }
-
 }

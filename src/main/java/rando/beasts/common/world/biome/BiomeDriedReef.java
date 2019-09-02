@@ -11,6 +11,7 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 import rando.beasts.common.block.BlockCoral;
 import rando.beasts.common.block.CoralColor;
 import rando.beasts.common.init.BeastsBlocks;
+import rando.beasts.common.world.gen.feature.WorldGenJellyfishTrees;
 
 public class BiomeDriedReef extends BeastsBiome {
 
@@ -18,7 +19,8 @@ public class BiomeDriedReef extends BeastsBiome {
     private static final WorldGenBlob ANDESITE_GENERATOR = new WorldGenBlob(Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.ANDESITE));
     private static final WorldGenBlob CORAL_BLOCK_GENERATOR = new WorldGenCoralBlock();
     private static final WorldGenCoralPlant CORAL_PLANT_GENERATOR = new WorldGenCoralPlant();
-    private static final WorldGenerator[] GENERATORS = {ROCK_GENERATOR, ANDESITE_GENERATOR, CORAL_BLOCK_GENERATOR, CORAL_PLANT_GENERATOR};
+    private static final WorldGenJellyfishTrees JELLYFISH_TREE_GENERATOR = new WorldGenJellyfishTrees(false);
+    private static final WorldGenerator[] GENERATORS = {ROCK_GENERATOR, ANDESITE_GENERATOR, CORAL_BLOCK_GENERATOR, CORAL_PLANT_GENERATOR, JELLYFISH_TREE_GENERATOR};
 
     public BiomeDriedReef() {
         super("dried_reef", new BiomeProperties("Dried Reef").setBaseHeight(0.125F).setHeightVariation(0.05F).setTemperature(2.0F).setRainfall(0.0F).setTemperature(2).setWaterColor(0x00FFFF));

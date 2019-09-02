@@ -18,11 +18,11 @@ public class BeastsUtil {
         BeastsItems.LIST.add(item);
     }
 
-    public static void addToRegistry(Block block, String name, boolean tab, Function<Block, ItemBlock> item) {
+    public static void addToRegistry(Block block, String name, boolean tab, Function<Block, Item> item) {
         block.setUnlocalizedName(name);
         block.setRegistryName(name);
         if(tab) block.setCreativeTab(BeastsCreativeTabs.MAIN);
         BeastsBlocks.LIST.add(block);
-        BeastsItems.LIST.add(item.apply(block).setRegistryName(name));
+        if(item != null && tab) BeastsItems.LIST.add(item.apply(block).setRegistryName(name));
     }
 }

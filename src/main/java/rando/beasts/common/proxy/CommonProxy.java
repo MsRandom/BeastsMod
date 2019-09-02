@@ -19,8 +19,8 @@ import rando.beasts.common.world.gen.structure.StructureRabbitVillagePieces;
 public class CommonProxy {
 
 	public void preInit(){
-		StructureRabbitVillagePieces.register();
-		GameRegistry.registerWorldGenerator((random, chunkX, chunkZ, world, chunkGenerator, chunkProvider) -> BeastsMod.RABBIT_VILLAGE.generate(world, random, world.getHeight(new BlockPos((chunkX * 16) + 8, 0, (chunkZ * 16) + 8))), 0);
+		//StructureRabbitVillagePieces.register();
+		//GameRegistry.registerWorldGenerator((random, chunkX, chunkZ, world, chunkGenerator, chunkProvider) -> BeastsMod.RABBIT_VILLAGE.generate(world, random, world.getHeight(new BlockPos((chunkX * 16) + 8, 0, (chunkZ * 16) + 8))), 0);
 		GameRegistry.registerTileEntity(TileEntityCoconut.class, new ResourceLocation(BeastsReference.ID, "coconut"));
 		for(ICriterionTrigger<? extends ICriterionInstance> trigger : BeastsTriggers.LIST) CriteriaTriggers.register(trigger);
 		ForgeModContainer.logCascadingWorldGeneration = false;
