@@ -17,6 +17,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import rando.beasts.common.init.BeastsBlocks;
@@ -33,6 +34,9 @@ public class BlockJellyfishLeaves extends BlockLeaves {
         this.setSoundType(SoundType.SLIME);
         BeastsUtil.addToRegistry(this, "jellyleaves", true, ItemBlock::new);
     }
+
+    @Override
+    public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {}
 
     @SideOnly(Side.CLIENT)
     public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
