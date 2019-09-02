@@ -6,10 +6,26 @@ import java.util.List;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.*;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemFood;
+import net.minecraft.item.ItemSword;
 import net.minecraft.potion.PotionEffect;
 import net.minecraftforge.common.util.EnumHelper;
-import rando.beasts.common.item.*;
+import rando.beasts.common.item.BeastsArmor;
+import rando.beasts.common.item.BeastsCoconutBowl;
+import rando.beasts.common.item.BeastsFood;
+import rando.beasts.common.item.BeastsItem;
+import rando.beasts.common.item.BeastsSword;
+import rando.beasts.common.item.BeastsToolSet;
+import rando.beasts.common.item.ItemBarnacleTongue;
+import rando.beasts.common.item.ItemBeastsPainting;
+import rando.beasts.common.item.ItemCoconade;
+import rando.beasts.common.item.ItemCoralEssence;
+import rando.beasts.common.item.ItemDaggerfish;
+import rando.beasts.common.item.ItemGlowRoot;
+import rando.beasts.common.item.ItemIcon;
+import rando.beasts.common.item.ToolSetJellyWood;
 
 public class BeastsItems {
 	
@@ -26,7 +42,7 @@ public class BeastsItems {
 	public static final Item COCONADE = new ItemCoconade("coconade");
 	public static final Item CORAL_ESSENCE = new ItemCoralEssence();
 	public static final Item COCONUT_BOWL = new BeastsItem("coconut_bowl").setMaxStackSize(2);
-	public static final Item DAGGERFISH = new BeastsItem("daggerfish"); 
+	public static final Item DAGGERFISH = new BeastsFood("daggerfish", 2, 0.1F);
 	public static final Item FISHSTAR = new BeastsItem("fishstar"); 
 	public static final Item ATHAPOD_CHITIN = new BeastsItem("athapod_chitin"); 
 	public static final Item SPARTAPOD_CHITIN = new BeastsItem("spartapod_chitin"); 
@@ -52,7 +68,7 @@ public class BeastsItems {
 	public static final ItemArmor SPARTAPOD_CHEST = new BeastsArmor("spartapod_chest", SPARTAPODA, 0, EntityEquipmentSlot.CHEST);
 	public static final ItemArmor SPARTAPOD_LEGS = new BeastsArmor("spartapod_legs", SPARTAPODA, 1, EntityEquipmentSlot.LEGS);
 	public static final ItemArmor SPARTAPOD_BOOTS = new BeastsArmor("spartapod_boots", SPARTAPODA, 1, EntityEquipmentSlot.FEET);
-	public static final ItemSword COOKED_DAGGERFISH = new BeastsSword(SWORDFISH_MAT, "cooked_daggerfish");
+	public static final ItemSword COOKED_DAGGERFISH = new ItemDaggerfish(SWORDFISH_MAT, "cooked_daggerfish");
 	public static final ItemSword DIAMOND_CARROT = new BeastsSword(Item.ToolMaterial.DIAMOND, "diamond_carrot");
 	public static final BeastsToolSet JELLY_TOOLS = new ToolSetJellyWood();
 }
