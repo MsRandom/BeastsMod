@@ -71,8 +71,7 @@ public class EntityGiantGardenEel extends EntityMob {
     }
     
     @SideOnly(Side.CLIENT)
-    public float getSlamTimer()
-    {
+    public float getSlamTimer() {
         return this.slamTimer;
     }
 

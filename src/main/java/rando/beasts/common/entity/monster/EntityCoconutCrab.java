@@ -15,6 +15,7 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemSword;
@@ -26,6 +27,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.village.MerchantRecipeList;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import rando.beasts.client.init.BeastsSounds;
@@ -36,6 +38,8 @@ public class EntityCoconutCrab extends EntityMob {
 
     private static final DataParameter<Boolean> OUT = EntityDataManager.createKey(EntityCoconutCrab.class, DataSerializers.BOOLEAN);
     private static final float defaultHeight = 0.4f;
+    private boolean hasTarget = false;
+    private int ticksSinceHit = 0;
 
     public EntityCoconutCrab(World worldIn) {
         super(worldIn);
@@ -86,7 +90,7 @@ public class EntityCoconutCrab extends EntityMob {
 
     @Override
     public boolean attackEntityFrom(@Nonnull DamageSource source, float amount) {
-        if((isOut() || (source == DamageSource.OUT_OF_WORLD || source.isCreativePlayer()))) {
+        if((isOut() || source == DamageSource.OUT_OF_WORLD)) {
             if(source.getImmediateSource() != null) attackEntityAsMob(source.getImmediateSource());
             return super.attackEntityFrom(source, amount);
         }
@@ -120,7 +124,7 @@ public class EntityCoconutCrab extends EntityMob {
     protected boolean processInteract(EntityPlayer player, EnumHand hand) {
         if(!isOut()) {
             setOut(true);
-            if(!player.isCreative()) {
+            if(!player.capabilities.isCreativeMode) {
                 setAttackTarget(player);
                 attackEntityAsMob(player);
             }
@@ -172,6 +176,20 @@ public class EntityCoconutCrab extends EntityMob {
                 if (item != null && !item.isDead) {
                     this.setHeldItem(EnumHand.MAIN_HAND, item.getItem());
                     item.setDead();
+                }
+            }
+
+            if(this.getAttackTarget() != null) {
+                if (getDistance(getAttackTarget()) < 1.2 && ticksSinceHit == 0) {
+                    attackEntityAsMob(getAttackTarget());
+                    if (!getAttackTarget().isEntityAlive()) {
+                        ticksSinceHit = 0;
+                        hasTarget = false;
+                        setAttackTarget(null);
+                    } else ticksSinceHit = 1;
+                } else if (!hasTarget || getDistance(getAttackTarget()) > 1.3) {
+                    this.navigator.tryMoveToXYZ(getAttackTarget().posX, getAttackTarget().posY, getAttackTarget().posZ, 2.2);
+                    this.hasTarget = true;
                 }
             }
         }

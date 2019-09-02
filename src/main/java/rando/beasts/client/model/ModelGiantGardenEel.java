@@ -50,13 +50,10 @@ public class ModelGiantGardenEel extends ModelBase {
     public void setLivingAnimations(EntityLivingBase entityIn,float limbSwing, float limbSwingAmount, float partialTickTime) {
         EntityGiantGardenEel gardenEel = (EntityGiantGardenEel)entityIn;
         float slam = gardenEel.getSlamTimer();
-        
          this.body.rotateAngleX = (250 - slam)/180f;
          if(slam == 250) for(int i = 0; i < parts.length; i++) {
             float degree = 0.25f * (i + 1);
             parts[i].rotateAngleZ = MathHelper.cos(gardenEel.ticksExisted * 0.05f) * degree * 0.1f;
         }
-        
-        if(body.rotateAngleX > 0) System.out.println(gardenEel.getUniqueID());
     }
 }
