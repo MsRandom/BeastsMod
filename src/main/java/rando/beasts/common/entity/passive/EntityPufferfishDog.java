@@ -16,6 +16,7 @@ import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.EnumDyeColor;
@@ -30,6 +31,8 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import rando.beasts.client.init.BeastsSounds;
 import rando.beasts.common.init.BeastsItems;
 
@@ -38,6 +41,8 @@ public class EntityPufferfishDog extends EntityTameable {
     private static final DataParameter<Integer> COLLAR_COLOR = EntityDataManager.createKey(EntityPufferfishDog.class, DataSerializers.VARINT);
     private static final DataParameter<Float> THREAT_TIME = EntityDataManager.createKey(EntityPufferfishDog.class, DataSerializers.FLOAT);
     private int bounces = 0;
+	private BlockPos jukeboxPosition;
+	private boolean partyPufferfishDog;
 
     private EntityPufferfishDog(World worldIn) {
         super(worldIn);
@@ -54,13 +59,13 @@ public class EntityPufferfishDog extends EntityTameable {
         this.tasks.addTask(2, new EntityAIFollowOwner(this, 0.5, 2f, 5f) {
             @Override
             public boolean shouldExecute() {
-                return !getInflated() && super.shouldExecute();
+                return !getInflated() && !isPartying() && super.shouldExecute();
             }
         });
         this.tasks.addTask(2, new EntityAIWander(this, 0.5, 50) {
             @Override
             public boolean shouldExecute(){
-                return !isSitting() && super.shouldExecute();
+                return !isSitting() && !isPartying() && super.shouldExecute();
             }
         });
     }
@@ -129,6 +134,13 @@ public class EntityPufferfishDog extends EntityTameable {
 
     @Override
     public void onLivingUpdate() {
+    	
+    	 if (this.jukeboxPosition == null || this.jukeboxPosition.distanceSq(this.posX, this.posY, this.posZ) > 12.0D || this.world.getBlockState(this.jukeboxPosition).getBlock() != Blocks.JUKEBOX)
+         {
+             this.partyPufferfishDog = false;
+             this.jukeboxPosition = null;
+         }
+    	
         if(!world.isRemote) {
             if(isInWater()) this.setAir(300);
             if (getInflated()) {
@@ -205,6 +217,20 @@ public class EntityPufferfishDog extends EntityTameable {
     @Override
     public boolean isBreedingItem(ItemStack stack) {
         return stack.getItem() == Items.SPIDER_EYE;
+    }
+    
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void setPartying(BlockPos pos, boolean p_191987_2_)
+    {
+        this.jukeboxPosition = pos;
+        this.partyPufferfishDog = p_191987_2_;
+    }
+    
+    @SideOnly(Side.CLIENT)
+    public boolean isPartying()
+    {
+        return this.partyPufferfishDog;
     }
 
     public EnumDyeColor getCollarColor() {

@@ -3,6 +3,7 @@ package rando.beasts.client.model;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.MathHelper;
 import rando.beasts.common.entity.monster.EntityGiantGardenEel;
 
@@ -46,13 +47,16 @@ public class ModelGiantGardenEel extends ModelBase {
     }
 
     @Override
-    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
-        super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
+    public void setLivingAnimations(EntityLivingBase entityIn,float limbSwing, float limbSwingAmount, float partialTickTime) {
         EntityGiantGardenEel gardenEel = (EntityGiantGardenEel)entityIn;
-        if(gardenEel.slamTimer < 250) this.body.rotateAngleX = (250 - gardenEel.slamTimer)/180f;
-        else for (int i = 0; i < parts.length; i++) {
+        float slam = gardenEel.getSlamTimer();
+        
+         this.body.rotateAngleX = (250 - slam)/180f;
+         if(slam == 250) for(int i = 0; i < parts.length; i++) {
             float degree = 0.25f * (i + 1);
             parts[i].rotateAngleZ = MathHelper.cos(gardenEel.ticksExisted * 0.05f) * degree * 0.1f;
         }
+        
+        if(body.rotateAngleX > 0) System.out.println(gardenEel.getUniqueID());
     }
 }

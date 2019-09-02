@@ -11,6 +11,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
+import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -66,5 +67,12 @@ public class EventHandler {
             }
         }
         if(ee instanceof EntityPufferfishDog) BeastsTriggers.DISCOVER_PUFFERFISH_DOG.trigger((EntityPlayerMP) player);
+    }
+    
+    @SubscribeEvent
+    public static void lootTable(LootTableLoadEvent event) {
+    	if(event.getName().toString().equals("minecraft:gameplay/fishing")) {
+    		event.getTable().getPool("main").addEntry(LootHandler.getInjectEntry("fish", 100));
+    	}
     }
 }

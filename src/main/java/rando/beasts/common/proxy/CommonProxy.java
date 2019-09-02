@@ -7,14 +7,12 @@ import net.minecraft.client.model.ModelBiped;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.ForgeModContainer;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import rando.beasts.common.init.BeastsTriggers;
-import rando.beasts.common.main.BeastsMod;
 import rando.beasts.common.tileentity.TileEntityCoconut;
 import rando.beasts.common.utils.BeastsReference;
-import rando.beasts.common.world.gen.structure.StructureRabbitVillagePieces;
+import rando.beasts.common.utils.handlers.LootHandler;
 
 public class CommonProxy {
 
@@ -24,6 +22,7 @@ public class CommonProxy {
 		GameRegistry.registerTileEntity(TileEntityCoconut.class, new ResourceLocation(BeastsReference.ID, "coconut"));
 		for(ICriterionTrigger<? extends ICriterionInstance> trigger : BeastsTriggers.LIST) CriteriaTriggers.register(trigger);
 		ForgeModContainer.logCascadingWorldGeneration = false;
+		LootHandler.registerLootTables();
 	}
 
 	public ModelBiped getArmorModel(Item armorItem, EntityEquipmentSlot armorSlot){

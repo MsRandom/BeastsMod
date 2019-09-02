@@ -1,0 +1,20 @@
+{
+    "pools": [
+        {
+        	"name": "main",
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "item",
+                    "name": "beasts:daggerfish",
+                    "weight": 2
+                },
+                {
+                    "type": "item",
+                    "name": "beasts:fishstar",
+                    "weight": 10
+                }
+            ]
+        }
+    ]
+}
