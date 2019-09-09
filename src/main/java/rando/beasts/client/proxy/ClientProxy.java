@@ -5,24 +5,14 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import rando.beasts.client.model.ModelHermitHelm;
 import rando.beasts.client.model.ModelSpartapodArmor;
-import rando.beasts.client.renderer.entity.RenderBeastsPainting;
-import rando.beasts.client.renderer.entity.RenderBranchie;
-import rando.beasts.client.renderer.entity.RenderCoconutBomb;
-import rando.beasts.client.renderer.entity.RenderCoconutCrab;
-import rando.beasts.client.renderer.entity.RenderGiantGardenEel;
-import rando.beasts.client.renderer.entity.RenderLandwhale;
-import rando.beasts.client.renderer.entity.RenderPufferfishDog;
-import rando.beasts.client.renderer.entity.RenderRabbitman;
-import rando.beasts.client.renderer.entity.RenderSkewerShrimp;
-import rando.beasts.client.renderer.entity.RenderVileEel;
+import rando.beasts.client.renderer.entity.*;
 import rando.beasts.client.renderer.tileentity.TileEntityCoconutRenderer;
 import rando.beasts.common.entity.item.EntityBeastsPainting;
-import rando.beasts.common.entity.monster.EntityBranchie;
-import rando.beasts.common.entity.monster.EntityCoconutCrab;
-import rando.beasts.common.entity.monster.EntityGiantGardenEel;
-import rando.beasts.common.entity.monster.EntitySkewerShrimp;
-import rando.beasts.common.entity.monster.EntityVileEel;
+import rando.beasts.common.entity.item.EntityFallingCoconut;
+import rando.beasts.common.entity.monster.*;
+import rando.beasts.common.entity.passive.EntityHermitTurtle;
 import rando.beasts.common.entity.passive.EntityLandwhale;
 import rando.beasts.common.entity.passive.EntityPufferfishDog;
 import rando.beasts.common.entity.passive.EntityRabbitman;
@@ -31,9 +21,13 @@ import rando.beasts.common.init.BeastsItems;
 import rando.beasts.common.proxy.CommonProxy;
 import rando.beasts.common.tileentity.TileEntityCoconut;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ClientProxy extends CommonProxy {
 
-	private static final ModelSpartapodArmor SPARTAPOD = new ModelSpartapodArmor();
+	public static final TileEntityCoconutRenderer COCONUT_RENDERER = new TileEntityCoconutRenderer();
+	private static final Map<EntityEquipmentSlot, Map<Item, ModelBiped>> ARMORS = new HashMap<>();
 
 	@Override
 	public void preInit() {
@@ -52,13 +46,24 @@ public class ClientProxy extends CommonProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntityCoconutBomb.class, RenderCoconutBomb::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityBranchie.class, RenderBranchie::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityBeastsPainting.class, RenderBeastsPainting::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityFallingCoconut.class, RenderFallingCoconut::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityWhippingBarnacle.class, RenderWhippingBarnacle::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityHermitTurtle.class, RenderHermitTurtle::new);
 
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCoconut.class, new TileEntityCoconutRenderer());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCoconut.class, COCONUT_RENDERER);
 	}
 
 	@Override
 	public ModelBiped getArmorModel(Item armorItem, EntityEquipmentSlot armorSlot) {
-		if(armorItem == BeastsItems.SPARTAPOD_HELMET && armorSlot == EntityEquipmentSlot.HEAD) return SPARTAPOD;
-		return null;
+		return ARMORS.get(armorSlot).get(armorItem);
+	}
+
+	static {
+		ARMORS.put(EntityEquipmentSlot.FEET, new HashMap<>());
+		ARMORS.put(EntityEquipmentSlot.LEGS, new HashMap<>());
+		ARMORS.put(EntityEquipmentSlot.CHEST, new HashMap<>());
+		ARMORS.put(EntityEquipmentSlot.HEAD, new HashMap<>());
+		ARMORS.get(EntityEquipmentSlot.HEAD).put(BeastsItems.SPARTAPOD_HELMET, new ModelSpartapodArmor());
+		ARMORS.get(EntityEquipmentSlot.HEAD).put(BeastsItems.HERMIT_HELM, new ModelHermitHelm());
 	}
 }

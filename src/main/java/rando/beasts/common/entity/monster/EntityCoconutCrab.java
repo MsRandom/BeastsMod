@@ -32,6 +32,7 @@ public class EntityCoconutCrab extends EntityMob {
 
     private static final DataParameter<Boolean> OUT = EntityDataManager.createKey(EntityCoconutCrab.class, DataSerializers.BOOLEAN);
     private static final float defaultHeight = 0.4f;
+    private BlockPos newPos;
     private boolean hasTarget = false;
     private int ticksSinceHit = 0;
 
@@ -173,7 +174,13 @@ public class EntityCoconutCrab extends EntityMob {
                 }
             }
 
-            if(this.getAttackTarget() != null) {
+            if(this.getAttackTarget() == null) {
+                if(newPos == null) {
+                    int distance = rand.nextInt(7) + 10;
+                    int dir = rand.nextBoolean() ? 1 : -1;
+                    newPos = new BlockPos(posX + dir * distance, posY, posZ + dir * distance);
+                } else this.navigator.tryMoveToXYZ(newPos.getX(), newPos.getY(), newPos.getZ(), 1);
+            } else {
                 if (getDistance(getAttackTarget()) < 1.2 && ticksSinceHit == 0) {
                     attackEntityAsMob(getAttackTarget());
                     if (!getAttackTarget().isEntityAlive()) {
@@ -182,7 +189,8 @@ public class EntityCoconutCrab extends EntityMob {
                         setAttackTarget(null);
                     } else ticksSinceHit = 1;
                 } else if (!hasTarget || getDistance(getAttackTarget()) > 1.3) {
-                    this.navigator.tryMoveToXYZ(getAttackTarget().posX, getAttackTarget().posY, getAttackTarget().posZ, 2.2);
+                    this.getLookHelper().setLookPositionWithEntity(getAttackTarget(), 0, 0);
+                    this.navigator.tryMoveToXYZ(getAttackTarget().posX, getAttackTarget().posY, getAttackTarget().posZ, 1.2);
                     this.hasTarget = true;
                 }
             }

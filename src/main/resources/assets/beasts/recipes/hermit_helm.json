@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [ {
+      "item": "beasts:hermit_shell"
+    },
+    {
+      "item": "beasts:hermit_shell"
+    },
+    {
+      "item": "beasts:hermit_shell"
+    },
+    {
+      "item": "beasts:hermit_shell"
+    },
+    {
+      "item": "beasts:hermit_shell"
+    }
+  ],
+  "result": {
+    "item": "beasts:hermit_helm"
+  }
+}

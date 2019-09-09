@@ -12,19 +12,17 @@ import rando.beasts.common.utils.BeastsReference;
 
 @SideOnly(Side.CLIENT)
 public class RenderVileEel extends RenderLiving<EntityVileEel> {
-	private static final ResourceLocation TEXTURE = new ResourceLocation(BeastsReference.ID,
-			"textures/entity/vileeel.png");
+	private static final ResourceLocation TEXTURE = new ResourceLocation(BeastsReference.ID, "textures/entity/vileeel.png");
+
+	public RenderVileEel(RenderManager rm) {
+		super(rm, new ModelVileEel(), 1.0F);
+	}
 
 	@Override
 	protected void preRenderCallback(EntityVileEel e, float partialTickTime) {
 		GlStateManager.scale(1.5F, 1.5F, 1.5F);
 		GlStateManager.translate(0.0F, 0.0F, 0.0F);
 		super.preRenderCallback(e, partialTickTime);
-	}
-
-	public RenderVileEel(RenderManager rm) {
-		super(rm, new ModelVileEel(), 1.0F);
-
 	}
 
 	protected ResourceLocation getEntityTexture(EntityVileEel entity) {

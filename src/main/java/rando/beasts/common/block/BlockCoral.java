@@ -57,11 +57,4 @@ public class BlockCoral extends BeastsBlock {
     public MapColor getMapColor(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
         return state.getValue(COLOR).mapColor;
     }
-
-    @Override
-    public String getUnlocalizedName() {
-        return super.getUnlocalizedName();
-    }
-
-
 }

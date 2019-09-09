@@ -26,7 +26,6 @@ public class ModelCoconut extends ModelBase {
     public ModelRenderer shell;
     public ModelRenderer clawLeft;
     public ModelRenderer clawRight;
-    private boolean setup = false;
 
     public ModelCoconut() {
         this.textureWidth = 64;
@@ -92,31 +91,28 @@ public class ModelCoconut extends ModelBase {
         this.leg6.setRotationPoint(-2.0F, 2.3F, -0.5F);
         this.leg6.addBox(0.0F, 0.0F, -0.5F, 0, 4, 1, 0.0F);
         this.setRotateAngle(leg6, 0.0F, 0.0F, 0.3490658503988659F);
+        this.body.addChild(this.shell);
+        this.armLeft.addChild(this.clawLeft);
+        this.armRight.addChild(this.clawRight);
     }
 
     @Override
     public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-        if(entityIn == null || !((EntityCoconutCrab)entityIn).isOut()) GlStateManager.translate(0, 0.48, 0);
+        if (entityIn == null || !((EntityCoconutCrab) entityIn).isOut()) GlStateManager.translate(0, 0.48, 0);
         GlStateManager.rotate(90, 0, 1, 0);
-        if(!setup) {
-            if(entityIn != null) {
-                this.body.addChild(this.shell);
-                this.body.addChild(this.leg7);
-                this.body.addChild(this.eye);
-                this.armLeft.addChild(this.clawLeft);
-                this.armRight.addChild(this.clawRight);
-                this.body.addChild(this.leg4);
-                this.body.addChild(this.leg8);
-                this.body.addChild(this.armRight);
-                this.body.addChild(this.leg1);
-                this.body.addChild(this.leg2);
-                this.body.addChild(this.eye_1);
-                this.body.addChild(this.armLeft);
-                this.body.addChild(this.leg5);
-                this.body.addChild(this.leg3);
-                this.body.addChild(this.leg6);
-            }
-            setup = true;
+        if (entityIn != null && ((EntityCoconutCrab) entityIn).isOut() && !this.body.childModels.contains(eye)) {
+            this.body.addChild(this.leg7);
+            this.body.addChild(this.eye);
+            this.body.addChild(this.leg4);
+            this.body.addChild(this.leg8);
+            this.body.addChild(this.armRight);
+            this.body.addChild(this.leg1);
+            this.body.addChild(this.leg2);
+            this.body.addChild(this.eye_1);
+            this.body.addChild(this.armLeft);
+            this.body.addChild(this.leg5);
+            this.body.addChild(this.leg3);
+            this.body.addChild(this.leg6);
         }
         this.body.render(scale);
     }

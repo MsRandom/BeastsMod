@@ -38,6 +38,9 @@ public class BlockJellyfishLeaves extends BlockLeaves {
     @Override
     public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {}
 
+    @Override
+    public void beginLeavesDecay(IBlockState state, World world, BlockPos pos) {}
+
     @SideOnly(Side.CLIENT)
     public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
         IBlockState iblockstate = blockAccess.getBlockState(pos.offset(side));

@@ -3,6 +3,8 @@ package rando.beasts.common.entity.monster;
 import java.util.Objects;
 
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAILookIdle;
@@ -24,12 +26,15 @@ import net.minecraft.item.Item;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import rando.beasts.client.init.BeastsSounds;
+import rando.beasts.common.entity.IDriedAquatic;
+import rando.beasts.common.entity.passive.EntityLandwhale;
 import rando.beasts.common.entity.passive.EntityPufferfishDog;
 import rando.beasts.common.init.BeastsItems;
 
-public class EntityVileEel extends EntityMob {
+public class EntityVileEel extends EntityMob implements IDriedAquatic {
     public EntityVileEel(World worldIn) {
         super(worldIn);
         this.setSize(1.5F, 1.8F);
@@ -37,19 +42,22 @@ public class EntityVileEel extends EntityMob {
 
     protected void initEntityAI() {
         this.tasks.addTask(0, new EntityAISwimming(this));
-        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
-        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<>(this, EntityCow.class, true));
-        this.targetTasks.addTask(3, new EntityAINearestAttackableTarget<>(this, EntityPig.class, true));
-        this.targetTasks.addTask(4, new EntityAINearestAttackableTarget<>(this, EntitySheep.class, true));
-        this.targetTasks.addTask(5, new EntityAINearestAttackableTarget<>(this, EntityChicken.class, true));
-        this.targetTasks.addTask(6, new EntityAINearestAttackableTarget<>(this, EntityHorse.class, true));
-        this.targetTasks.addTask(7, new EntityAINearestAttackableTarget<>(this, EntityMooshroom.class, true));
-        this.targetTasks.addTask(8, new EntityAINearestAttackableTarget<>(this, EntityPufferfishDog.class, true));
-        this.targetTasks.addTask(9, new EntityAINearestAttackableTarget<>(this, EntityCoconutCrab.class, true));
-        this.tasks.addTask(11, new EntityAIAttackMelee(this, 1.1D, true));
-        this.tasks.addTask(12, new EntityAIWanderAvoidWater(this, 1.0D));
-        this.tasks.addTask(13, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
-        this.tasks.addTask(14, new EntityAILookIdle(this));
+        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityLivingBase.class, 10, true, false, entity -> !(entity instanceof EntityLandwhale)));
+        this.tasks.addTask(2, new EntityAIAttackMelee(this, 1.1D, true));
+        this.tasks.addTask(3, new EntityAIWanderAvoidWater(this, 1.0D));
+        this.tasks.addTask(4, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
+        this.tasks.addTask(4, new EntityAILookIdle(this));
+    }
+
+    public void onUpdate() {
+        super.onUpdate();
+        if (!this.world.isRemote && this.world.isDaytime()) this.setDead();
+    }
+
+    @Override
+    public void onLivingUpdate() {
+        if(this.getRidingEntity() != null) getRidingEntity().attackEntityFrom(DamageSource.causeMobDamage(this), 1);
+        super.onLivingUpdate();
     }
 
     @Override
@@ -68,7 +76,7 @@ public class EntityVileEel extends EntityMob {
 
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(100.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(50);
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3D);
     }
 
@@ -86,5 +94,11 @@ public class EntityVileEel extends EntityMob {
 
     public float getEyeHeight() {
         return this.isChild() ? this.height : 1.3F;
+    }
+
+    @Override
+    public boolean attackEntityAsMob(Entity entityIn) {
+        entityIn.startRiding(this, true);
+        return super.attackEntityAsMob(entityIn);
     }
 }

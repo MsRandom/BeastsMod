@@ -42,11 +42,6 @@ public class EntityGiantGardenEel extends EntityMob {
     }
 
     @Override
-    protected boolean isMovementBlocked() {
-        return super.isMovementBlocked();
-    }
-
-    @Override
     protected void collideWithEntity(Entity entityIn) {}
 
     @Override
@@ -98,6 +93,5 @@ public class EntityGiantGardenEel extends EntityMob {
                 }
             }
         }
-
     }
 }

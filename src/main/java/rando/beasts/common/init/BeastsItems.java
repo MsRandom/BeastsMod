@@ -42,13 +42,14 @@ public class BeastsItems {
 	public static final Item COCONADE = new ItemCoconade("coconade");
 	public static final Item CORAL_ESSENCE = new ItemCoralEssence();
 	public static final Item COCONUT_BOWL = new BeastsItem("coconut_bowl").setMaxStackSize(2);
-	public static final Item DAGGERFISH = new BeastsFood("daggerfish", 2, 0.1F);
-	public static final Item FISHSTAR = new BeastsItem("fishstar"); 
+	public static final Item FISHSTAR = new BeastsItem("fishstar");
 	public static final Item ATHAPOD_CHITIN = new BeastsItem("athapod_chitin"); 
 	public static final Item SPARTAPOD_CHITIN = new BeastsItem("spartapod_chitin"); 
 	public static final Item SPARTAPOD_CREST = new BeastsItem("spartapod_crest"); 
 	public static final Item ICE_CRAB_CHITIN = new BeastsItem("ice_crab_chitin"); 
 	public static final Item WORM_TOOTH = new BeastsItem("worm_tooth");
+	public static final Item HERMIT_HELM = new BeastsArmor("hermit_helm", ItemArmor.ArmorMaterial.IRON, 2, EntityEquipmentSlot.HEAD).setMaxDamage(0);
+	public static final ItemFood DAGGERFISH = new BeastsFood("daggerfish", 2, 0.1F);
 	public static final ItemFood COCONUT_MUSHROOM = new BeastsCoconutBowl("coconut_mushroom", 6, 0.7F);
 	public static final ItemFood COCONUT_RABBIT_STEW = new BeastsCoconutBowl("coconut_rabbit_stew", 8, 0.7F);
 	public static final ItemFood REEF_MIXTURE = new BeastsCoconutBowl("reef_mixture", 10, 0.9F, new PotionEffect(MobEffects.REGENERATION, 100, 0), new PotionEffect(MobEffects.WEAKNESS, 100, 0));

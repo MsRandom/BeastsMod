@@ -1,7 +1,5 @@
 package rando.beasts.common.world.gen.feature;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
@@ -26,51 +24,53 @@ public class WorldGenJellyfishTrees extends WorldGenAbstractTree {
             int radius = rand.nextInt(5) + 8;
             if (radius % 2 == 0) radius += 1;
             int hs = height - Math.abs(((radius - height) / 2) - 2) - 1;
-            BlockPos pos = position;
-            for (int i = 0; i < height + 1; i++) {
-                setBlockAndNotifyAdequately(worldIn, pos, log);
-                pos = pos.up();
-            }
 
-            position = position.add(radius / -2, 0, radius / -2);
+            BlockPos leavesPos = position.add(radius / -2, 0, radius / -2);
             int h;
             for (int i = 0; i < 2; i++) {
                 h = hs + i;
                 for (int j = 2; j < radius - 2; j++) {
-                    setBlockWithTentacle(worldIn, position.add(j, h, 0), leaves);
-                    setBlockWithTentacle(worldIn, position.add(j, h, radius - 1), leaves);
-                    setBlockWithTentacle(worldIn, position.add(0, h, j), leaves);
-                    setBlockWithTentacle(worldIn, position.add(radius - 1, h, j), leaves);
+                    setBlockWithTentacle(worldIn, leavesPos.add(j, h, 0), leaves);
+                    setBlockWithTentacle(worldIn, leavesPos.add(j, h, radius - 1), leaves);
+                    setBlockWithTentacle(worldIn, leavesPos.add(0, h, j), leaves);
+                    setBlockWithTentacle(worldIn, leavesPos.add(radius - 1, h, j), leaves);
                 }
-                setBlockWithTentacle(worldIn, position.add(radius - 2, h, radius - 2), leaves);
-                setBlockWithTentacle(worldIn, position.add(1, h, radius - 2), leaves);
-                setBlockWithTentacle(worldIn, position.add(radius - 2, h, 1), leaves);
-                setBlockWithTentacle(worldIn, position.add(1, h, 1), leaves);
+                setBlockWithTentacle(worldIn, leavesPos.add(radius - 2, h, radius - 2), leaves);
+                setBlockWithTentacle(worldIn, leavesPos.add(1, h, radius - 2), leaves);
+                setBlockWithTentacle(worldIn, leavesPos.add(radius - 2, h, 1), leaves);
+                setBlockWithTentacle(worldIn, leavesPos.add(1, h, 1), leaves);
             }
 
             h = hs + 2;
             for (int i = 2; i < radius - 2; i++) {
-                setBlockAndNotifyAdequately(worldIn, position.add(i, h, 1), leaves);
-                setBlockAndNotifyAdequately(worldIn, position.add(i, h, radius - 2), leaves);
-                setBlockAndNotifyAdequately(worldIn, position.add(1, h, i), leaves);
-                setBlockAndNotifyAdequately(worldIn, position.add(radius - 2, h, i), leaves);
+                setBlockAndNotifyAdequately(worldIn, leavesPos.add(i, h, 1), leaves);
+                setBlockAndNotifyAdequately(worldIn, leavesPos.add(i, h, radius - 2), leaves);
+                setBlockAndNotifyAdequately(worldIn, leavesPos.add(1, h, i), leaves);
+                setBlockAndNotifyAdequately(worldIn, leavesPos.add(radius - 2, h, i), leaves);
             }
-            setBlockAndNotifyAdequately(worldIn, position.add(radius - 3, h, radius - 3), leaves);
-            setBlockAndNotifyAdequately(worldIn, position.add(2, h, radius - 3), leaves);
-            setBlockAndNotifyAdequately(worldIn, position.add(radius - 3, h, 2), leaves);
-            setBlockAndNotifyAdequately(worldIn, position.add(2, h, 2), leaves);
+            setBlockAndNotifyAdequately(worldIn, leavesPos.add(radius - 3, h, radius - 3), leaves);
+            setBlockAndNotifyAdequately(worldIn, leavesPos.add(2, h, radius - 3), leaves);
+            setBlockAndNotifyAdequately(worldIn, leavesPos.add(radius - 3, h, 2), leaves);
+            setBlockAndNotifyAdequately(worldIn, leavesPos.add(2, h, 2), leaves);
             h++;
             for (int i = 3; i < radius - 3; i++) {
-                setBlockAndNotifyAdequately(worldIn, position.add(i, h, 2), leaves);
-                setBlockAndNotifyAdequately(worldIn, position.add(i, h, radius - 3), leaves);
-                setBlockAndNotifyAdequately(worldIn, position.add(2, h, i), leaves);
-                setBlockAndNotifyAdequately(worldIn, position.add(radius - 3, h, i), leaves);
+                setBlockAndNotifyAdequately(worldIn, leavesPos.add(i, h, 2), leaves);
+                setBlockAndNotifyAdequately(worldIn, leavesPos.add(i, h, radius - 3), leaves);
+                setBlockAndNotifyAdequately(worldIn, leavesPos.add(2, h, i), leaves);
+                setBlockAndNotifyAdequately(worldIn, leavesPos.add(radius - 3, h, i), leaves);
             }
             for (int i = 3; i < radius - 3; i++) for (int j = 3; j < radius - 3; j++) {
-                BlockPos p = position.add(i, h, j);
+                BlockPos p = leavesPos.add(i, h, j);
                 setBlockAndNotifyAdequately(worldIn, p, leaves);
             }
 
+            BlockPos pos = position;
+            setBlockAndNotifyAdequately(worldIn, pos, log);
+            for (; worldIn.getBlockState(pos.up()).getBlock() == Blocks.AIR; ) {
+                BlockPos higher = pos.up();
+                setBlockAndNotifyAdequately(worldIn, higher, log);
+                pos = higher;
+            }
             return true;
         }
         return false;
