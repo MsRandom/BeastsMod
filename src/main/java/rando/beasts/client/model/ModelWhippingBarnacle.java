@@ -75,17 +75,13 @@ public class ModelWhippingBarnacle extends ModelBase {
     public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
         super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
         EntityWhippingBarnacle barnacle = (EntityWhippingBarnacle) entityIn;
-        if(barnacle.impaling) {
-            toung1.rotationPointY = 1.65f;
-        }
+        if (!barnacle.ready || barnacle.impaling) toung1.rotationPointY = 1.65f;
         else {
             toung1.rotationPointY = -8.0F;
-            if(barnacle.ready) {
-                for (ModelRenderer spike : spikes) spike.rotateAngleX = MathHelper.cos(barnacle.ticksExisted) * 0.1f;
-                for(int i = 0; i < tongue.length; i++) {
-                    float degree = 0.25f * (i + 1);
-                    tongue[i].rotateAngleZ = MathHelper.cos(barnacle.ticksExisted * 0.1f) * degree * 0.25f;
-                }
+            for (ModelRenderer spike : spikes) spike.rotateAngleX = MathHelper.cos(barnacle.ticksExisted) * 0.1f;
+            for (int i = 0; i < tongue.length; i++) {
+                float degree = 0.25f * (i + 1);
+                tongue[i].rotateAngleZ = MathHelper.cos(barnacle.ticksExisted * 0.1f) * degree * 0.25f;
             }
         }
     }

@@ -9,7 +9,9 @@ entity.skewer_shrimp.name=Skewer Shrimp
 entity.giant_garden_eel.name=Giant Garden Eel
 
 entity.beasts_painting.name=Beasts Painting
-entity.branchie.name=Branchie
+entity.coral_branchie.name=Coral Branchie
+entity.chorus_branchie.name=Chorus Branchie
+entity.wood_branchie.name=Wood Branchie
 
 Items
 

@@ -16,7 +16,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
@@ -26,7 +25,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import rando.beasts.common.entity.monster.EntityBranchie;
+import rando.beasts.common.entity.monster.EntityCoralBranchie;
 import rando.beasts.common.init.BeastsBlocks;
 import rando.beasts.common.init.BeastsItems;
 import rando.beasts.common.utils.BeastsUtil;
@@ -39,7 +38,7 @@ public class BlockCoralPlant extends Block {
     private static final PropertyBool WEST = PropertyBool.create("west");
     private static final PropertyBool UP = PropertyBool.create("up");
     private static final PropertyBool DOWN = PropertyBool.create("down");
-    private CoralColor color;
+    public CoralColor color;
 
     public BlockCoralPlant(CoralColor color) {
         super(Material.PLANTS, color.mapColor);
@@ -97,13 +96,7 @@ public class BlockCoralPlant extends Block {
     public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
         super.onBlockHarvested(worldIn, pos, state, player);
         if(!worldIn.isRemote && player.getRNG().nextBoolean() && worldIn.getBlockState(pos.down()).getBlock() == Blocks.SAND) {
-            EntityBranchie entity = new EntityBranchie(worldIn);
-            entity.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
-            entity.onInitialSpawn(worldIn.getDifficultyForLocation(pos), null);
-            entity.setVariant(color);
-            entity.scream();
-            entity.setAttackTarget(player);
-            worldIn.spawnEntity(entity);
+
         }
     }
 

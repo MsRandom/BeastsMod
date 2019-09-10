@@ -1,21 +1,29 @@
 package rando.beasts.common.utils.handlers;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.function.Function;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.EntityAITargetNonTamed;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import rando.beasts.common.entity.monster.EntityBranchieBase;
+import rando.beasts.common.entity.monster.EntityCoralBranchie;
 import rando.beasts.common.entity.passive.EntityPufferfishDog;
 import rando.beasts.common.entity.passive.EntityRabbitman;
 import rando.beasts.common.init.BeastsTriggers;
@@ -74,5 +82,26 @@ public class EventHandler {
     	if(event.getName().toString().equals("minecraft:gameplay/fishing")) {
     		event.getTable().getPool("main").addEntry(LootHandler.getInjectEntry("fish", 100));
     	}
+    }
+
+    @SubscribeEvent
+    public static void breakBlock(BlockEvent.BreakEvent event) {
+        Function<BlockEvent.BreakEvent, ? extends EntityBranchieBase> createFunc = null;
+        IBlockState state = event.getState();
+        Block block = state.getBlock();
+        for (Collection<? extends Block> blocks : EntityBranchieBase.TYPES.keySet()) {
+            if(blocks.contains(block)) {
+                createFunc = EntityBranchieBase.TYPES.get(blocks);
+                break;
+            }
+        }
+        if(createFunc != null && !event.getWorld().isRemote && event.getPlayer().getRNG().nextBoolean() && event.getWorld().getBlockState(event.getPos().down()).getBlock() != block) {
+            EntityBranchieBase entity = createFunc.apply(event);
+            if(entity != null) {
+                entity.scream();
+                entity.setAttackTarget(event.getPlayer());
+                event.getWorld().spawnEntity(entity);
+            }
+        }
     }
 }

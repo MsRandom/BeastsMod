@@ -25,7 +25,14 @@ public class RenderWhippingBarnacle extends RenderLiving<EntityWhippingBarnacle>
     protected void preRenderCallback(EntityWhippingBarnacle entitylivingbaseIn, float partialTickTime) {
         super.preRenderCallback(entitylivingbaseIn, partialTickTime);
         EnumFacing facing = entitylivingbaseIn.getFacing();
-        GlStateManager.rotate(90, facing.getAxis() == EnumFacing.Axis.X ? facing.getAxisDirection().getOffset() : 0, 0, facing.getAxis() == EnumFacing.Axis.Z ? facing.getAxisDirection().getOffset() : 0);
+        switch (facing.getAxis()) {
+            case X:
+                //GlStateManager.rotate(90, 0, 0, facing.getAxisDirection().getOffset());
+                break;
+            case Z:
+                GlStateManager.rotate(90, facing.getAxisDirection().getOffset(), 0, 0);
+                break;
+        }
     }
 
     @Nullable

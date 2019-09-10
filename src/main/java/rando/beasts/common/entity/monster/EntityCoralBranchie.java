@@ -1,48 +1,28 @@
 package rando.beasts.common.entity.monster;
 
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.IEntityLivingData;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.*;
-import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
-import rando.beasts.client.init.BeastsSounds;
+import net.minecraftforge.event.world.BlockEvent;
+import rando.beasts.common.block.BlockCoralPlant;
 import rando.beasts.common.block.CoralColor;
 import rando.beasts.common.init.BeastsBlocks;
-import rando.beasts.common.init.BeastsItems;
 
 import javax.annotation.Nullable;
 
-public class EntityBranchie extends EntityMob {
+public class EntityCoralBranchie extends EntityBranchieBase {
 
-    private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityBranchie.class, DataSerializers.VARINT);
+    private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityCoralBranchie.class, DataSerializers.VARINT);
 
-    public EntityBranchie(World worldIn) {
+    public EntityCoralBranchie(World worldIn) {
         super(worldIn);
-        this.setSize(0.2F, 0.9F);
-    }
-
-    protected void initEntityAI() {
-        this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityAIWanderAvoidWater(this, 0.5D));
-        this.tasks.addTask(2, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
-        this.tasks.addTask(4, new EntityAILookIdle(this));
     }
 
     @Override
@@ -59,13 +39,7 @@ public class EntityBranchie extends EntityMob {
         return livingdata;
     }
 
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(12.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3D);
-    }
-
-    public void setVariant(CoralColor variant) {
+    private void setVariant(CoralColor variant) {
         this.dataManager.set(VARIANT, variant.ordinal());
     }
 
@@ -82,34 +56,11 @@ public class EntityBranchie extends EntityMob {
     @Override
     protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
         Item item = this.getDropItem();
-
         if (item != null) {
             int i = this.rand.nextInt(3);
             if (lootingModifier > 0) i += this.rand.nextInt(lootingModifier + 1);
             for (int j = 0; j < i; ++j) this.entityDropItem(new ItemStack(item, 1, getVariant().ordinal()), 0);
         }
-    }
-
-    protected void playStepSound(BlockPos pos, Block blockIn) {
-        this.playSound(SoundEvents.ENTITY_CHICKEN_STEP, 0.15F, 1.0F);
-    }
-
-    @Override
-    public boolean attackEntityAsMob(Entity entityIn) {
-        scream();
-        return super.attackEntityAsMob(entityIn);
-    }
-
-    public void scream() {
-        playSound(BeastsSounds.BRANCHIE_SCREAM, getSoundVolume(), getSoundPitch());
-    }
-
-    protected float getSoundVolume() {
-        return 0.4F;
-    }
-
-    public float getEyeHeight() {
-        return this.isChild() ? this.height : 0.8F;
     }
 
     @Override
@@ -122,5 +73,14 @@ public class EntityBranchie extends EntityMob {
     public void readEntityFromNBT(NBTTagCompound compound) {
         super.readEntityFromNBT(compound);
         this.setVariant(CoralColor.values()[compound.getInteger("variant")]);
+    }
+
+    public static EntityCoralBranchie create(BlockEvent.BreakEvent event) {
+        EntityCoralBranchie entity = new EntityCoralBranchie(event.getWorld());
+        BlockPos pos = event.getPos();
+        entity.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
+        entity.onInitialSpawn(event.getWorld().getDifficultyForLocation(pos), null);
+        entity.setVariant(((BlockCoralPlant)event.getState().getBlock()).color);
+        return entity;
     }
 }

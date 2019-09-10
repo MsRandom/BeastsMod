@@ -9,11 +9,14 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHandSide;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import rando.beasts.common.entity.IDriedAquatic;
 import rando.beasts.common.init.BeastsItems;
 
@@ -30,6 +33,7 @@ public class EntityWhippingBarnacle extends EntityMob implements IDriedAquatic {
 
     public EntityWhippingBarnacle(World worldIn) {
         super(worldIn);
+        setSize(0.5f, 1.5f);
         setNoGravity(true);
     }
 
@@ -40,10 +44,16 @@ public class EntityWhippingBarnacle extends EntityMob implements IDriedAquatic {
         setColor(rand.nextInt(2));
         for(int i = EnumFacing.values().length - 1; i >= 0; --i) {
             EnumFacing facing = EnumFacing.values()[i];
-            if(world.getBlockState(getPosition().offset(facing.getOpposite())).getBlock() == Blocks.STONE && world.getBlockState(getPosition().offset(facing, 3)).getBlock() == Blocks.AIR) {
+            boolean flag = world.getBlockState(getPosition().offset(facing.getOpposite())).getBlock() == Blocks.STONE;
+            for(int j = 1; j <= 3; j++) flag &= world.getBlockState(getPosition().offset(facing, i)).getBlock() == Blocks.AIR;
+            if(flag) {
                 setFacing(facing);
                 break;
             }
+        }
+        if(getFacing().getHorizontalIndex() != -1) {
+            rotationYaw = getFacing().getHorizontalAngle();
+            setSize(1.5f, 0.5f);
         }
         return livingdata;
     }
@@ -63,8 +73,8 @@ public class EntityWhippingBarnacle extends EntityMob implements IDriedAquatic {
     }
 
     @Override
-    public void onLivingUpdate() {
-        super.onLivingUpdate();
+    public void onUpdate() {
+        this.world.profiler.startSection("entityBaseTick");
         EntityLivingBase[] entities = world.getEntitiesWithinAABB(EntityLivingBase.class, getEntityBoundingBox().grow(5)).stream().filter(e -> !(e instanceof IDriedAquatic)).toArray(EntityLivingBase[]::new);
         if(entities.length == 0) {
             ready = false;
@@ -84,6 +94,24 @@ public class EntityWhippingBarnacle extends EntityMob implements IDriedAquatic {
                 }
             }
         }
+        this.prevDistanceWalkedModified = this.distanceWalkedModified;
+        this.prevPosX = this.posX;
+        this.prevPosY = this.posY;
+        this.prevPosZ = this.posZ;
+        this.prevRotationPitch = this.rotationPitch;
+        this.prevRotationYaw = this.rotationYaw;
+
+        this.spawnRunningParticles();
+        this.handleWaterMovement();
+
+        if (this.isInLava()) {
+            this.setOnFireFromLava();
+            this.fallDistance *= 0.5F;
+        }
+
+        if (this.posY < -64.0D) this.outOfWorld();
+        this.firstUpdate = false;
+        this.world.profiler.endSection();
     }
 
     @Override
