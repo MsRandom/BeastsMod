@@ -1,9 +1,7 @@
 package rando.beasts.common.block;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.util.IStringSerializable;
-import rando.beasts.common.entity.monster.EntityBranchieBase;
 
 import javax.annotation.Nonnull;
 import java.util.Random;

@@ -22,7 +22,7 @@ public class BlockCoralSapling extends BeastsSapling {
     private static final PropertyEnum<CoralColor> TYPE = PropertyEnum.create("type", CoralColor.class);
 
     public BlockCoralSapling() {
-        super("coral_sapling", ItemCoralBlock::new);
+        super("coral_sapling", ItemCoralBlock::new, true);
         this.setDefaultState(getDefaultState().withProperty(TYPE, CoralColor.BLUE));
     }
 

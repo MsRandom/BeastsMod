@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "l l",
+    "sss",
+    "sss"
+  ],
+  "key": {
+    "s": {
+      "item": "beasts:puffer_scale"
+    },
+    "l": {
+      "item": "minecraft:leather"
+    }
+  },
+  "result": {
+    "item": "beasts:puffer_chest"
+  }
+}

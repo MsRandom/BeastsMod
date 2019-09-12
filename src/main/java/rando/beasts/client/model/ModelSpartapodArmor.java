@@ -10,7 +10,6 @@ public class ModelSpartapodArmor extends ModelBiped {
     public ModelRenderer headFin;
 
     public ModelSpartapodArmor() {
-        //TODO this needs fixing
         this.textureWidth = 128;
         this.textureHeight = 128;
         this.bipedHeadwear = new ModelRenderer(this, 24, 0);
@@ -29,9 +28,9 @@ public class ModelSpartapodArmor extends ModelBiped {
         this.bipedHead.addChild(this.helmetBase);
     }
 
-    @Override
+    /*@Override
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         this.bipedHeadwear.render(f5);
         this.bipedHead.render(f5);
-    }
+    }*/
 }

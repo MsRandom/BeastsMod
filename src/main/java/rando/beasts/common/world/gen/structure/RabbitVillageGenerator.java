@@ -1,12 +1,5 @@
 package rando.beasts.common.world.gen.structure;
 
-import java.util.List;
-import java.util.Random;
-
-import javax.annotation.Nonnull;
-
-import com.google.common.collect.Lists;
-
 import net.minecraft.init.Biomes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
@@ -17,6 +10,12 @@ import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraft.world.gen.structure.StructureComponent;
 import net.minecraft.world.gen.structure.StructureStart;
 
+import javax.annotation.Nonnull;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+
 public class RabbitVillageGenerator extends WorldGenerator {
 
     private static ChunkPos[] structureCoords = new ChunkPos[128];
@@ -26,7 +25,7 @@ public class RabbitVillageGenerator extends WorldGenerator {
         int[] p = getRandomPos(world, chunkX, chunkZ);
         int k = p[0];
         int l = p[1];
-        if (chunkX == k && chunkZ == l) return world.getBiomeProvider().areBiomesViable(chunkX * 16 + 8, chunkZ * 16 + 8, 0, Lists.newArrayList(Biomes.PLAINS));
+        if (chunkX == k && chunkZ == l) return world.getBiomeProvider().areBiomesViable(chunkX * 16 + 8, chunkZ * 16 + 8, 0, Collections.singletonList(Biomes.PLAINS));
         return false;
     }
 
@@ -66,13 +65,12 @@ public class RabbitVillageGenerator extends WorldGenerator {
         return new RabbitVillageGenerator.Start(world, rand, chunkX, chunkZ);
     }
 
-    @SuppressWarnings("SuspiciousToArrayCall")
     @Override
     public boolean generate(@Nonnull World worldIn, @Nonnull Random rand, @Nonnull BlockPos position) {
         boolean canSpawn = canSpawnStructureAtCoords(worldIn, position.getX() >> 4, position.getZ() >> 4);
         if(rand.nextInt(1351) == 0) {
             this.getStructureStart(worldIn, position.getX() >> 4, position.getZ() >> 4, rand).generateStructure(worldIn, rand, new StructureBoundingBox(position.getX() - 48, position.getZ() - 48, position.getX() + 48, position.getZ() + 48));
-            if(structureCoords.length-1 < generated) structureCoords = Lists.asList(structureCoords, new ChunkPos[generated + 1]).toArray(new ChunkPos[0]);
+            if(structureCoords.length-1 < generated) structureCoords = Arrays.copyOf(structureCoords, structureCoords.length + 128);
             structureCoords[generated++] = worldIn.getChunkFromBlockCoords(position).getPos();
         }
         return canSpawn;

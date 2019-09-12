@@ -28,16 +28,16 @@ public class BeastsSapling extends BlockBush implements IGrowable {
     static final AxisAlignedBB SAPLING_AABB = new AxisAlignedBB(0.30000001192092896D, 0.0D, 0.30000001192092896D, 0.699999988079071D, 0.6000000238418579D, 0.699999988079071D);
     private WorldGenerator treeGen;
 
-    public BeastsSapling(String name, Function<Block, Item> item) {
+    public BeastsSapling(String name, Function<Block, Item> item, boolean tab) {
         this.setDefaultState(this.blockState.getBaseState().withProperty(STAGE, 0));
         setHardness(0.6F);
         setSoundType(SoundType.PLANT);
-        BeastsUtil.addToRegistry(this, name, true, item);
+        if(tab) BeastsUtil.addToRegistry(this, name, true, item);
     }
 
-    public BeastsSapling(String name, WorldGenerator generator) {
-        this(name, ItemBlock::new);
-        this.treeGen = generator;
+    public BeastsSapling(String name, Function<Boolean, WorldGenerator> generator) {
+        this(name, ItemBlock::new, true);
+        this.treeGen = generator.apply(true);
     }
 
     @Override
@@ -49,7 +49,6 @@ public class BeastsSapling extends BlockBush implements IGrowable {
     public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
         if (!worldIn.isRemote) {
             super.updateTick(worldIn, pos, state, rand);
-
             if (!worldIn.isAreaLoaded(pos, 1)) return;
             if (worldIn.getLightFromNeighbors(pos.up()) >= 9 && rand.nextInt(7) == 0) this.grow(worldIn, rand, pos, state);
         }

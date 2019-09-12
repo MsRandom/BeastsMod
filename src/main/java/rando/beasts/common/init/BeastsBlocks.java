@@ -20,8 +20,8 @@ public class BeastsBlocks {
     public static final Block GLOW_ROOT_BOTTOM = new BlockGlowRoot(false);
     public static final Block CORAL_BLOCK = new BlockCoral();
     public static final Block CORAL_SAPLING = new BlockCoralSapling();
-    public static final Block JELLYFISH_SAPLING = new BeastsSapling("jellyfish_sapling", new WorldGenJellyfishTrees(true));
-    public static final Block PALM_SAPLING = new BeastsSapling("palmtree_sapling", new WorldGenPalmTrees(true));
+    public static final Block JELLYFISH_SAPLING = new BeastsSapling("jellyfish_sapling", WorldGenJellyfishTrees::new);
+    public static final Block PALM_SAPLING = new BeastsSapling("palm_sapling", WorldGenPalmTrees::new);
     public static final Block TENTACLE = new BlockTentacle();
     public static final Block PALM_LEAVES = new BlockPalmTreeLeaves();
     public static final Block JELLY_WOOD = new BlockJellyfisLog();

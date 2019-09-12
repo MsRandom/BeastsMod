@@ -1,15 +1,15 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "###",
-    "# #"
+    "s s",
+    "s s"
   ],
   "key": {
-    "#": {
-      "item": "beasts:hermit_shell"
+    "s": {
+      "item": "beasts:puffer_scale"
     }
   },
   "result": {
-    "item": "beasts:hermit_helm"
+    "item": "beasts:puffer_boots"
   }
 }

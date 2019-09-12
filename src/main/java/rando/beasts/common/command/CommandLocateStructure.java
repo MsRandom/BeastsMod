@@ -36,7 +36,7 @@ public class CommandLocateStructure extends CommandBase {
             throw new WrongUsageException("commands.locate.usage");
         } else {
             String s = args[0];
-            BlockPos blockpos = s.equals("RabbitVillage")? RabbitVillageGenerator.getNearestStructurePos(sender.getEntityWorld(), sender.getPosition()):sender.getEntityWorld().findNearestStructure(s, sender.getPosition(), false);
+            BlockPos blockpos = s.equals("RabbitVillage") ? RabbitVillageGenerator.getNearestStructurePos(sender.getEntityWorld(), sender.getPosition()):sender.getEntityWorld().findNearestStructure(s, sender.getPosition(), false);
             if (blockpos != null) {
                 sender.sendMessage(new TextComponentTranslation("commands.locate.success", s, blockpos.getX(), blockpos.getZ()));
             } else {

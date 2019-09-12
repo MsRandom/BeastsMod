@@ -20,12 +20,11 @@ public class GuiLandwhaleInventory extends GuiContainer {
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-        int size = 60;
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(GUI);
         int i = (this.width - this.xSize) / 2;
         int j = (this.height - this.ySize) / 2;
         this.drawTexturedModalRect(i, j, 0, 0, this.xSize, this.ySize);
-        GuiInventory.drawEntityOnScreen(i + size + 26, j + size, size, mouseX, mouseY, landwhale);
+        GuiInventory.drawEntityOnScreen(i + 60, j + 50, 20, mouseX, mouseY, landwhale);
     }
 }

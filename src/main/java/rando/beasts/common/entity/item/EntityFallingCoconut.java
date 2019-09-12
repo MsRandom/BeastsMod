@@ -1,8 +1,6 @@
 package rando.beasts.common.entity.item;
 
-import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockAnvil;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -28,7 +26,6 @@ public class EntityFallingCoconut extends Entity {
     private IBlockState fallTile;
     private int fallTime;
     private boolean shouldDropItem = true;
-    private float fallHurtAmount = 6.0F;
 
     public EntityFallingCoconut(World worldIn) {
         super(worldIn);
@@ -126,24 +123,19 @@ public class EntityFallingCoconut extends Entity {
         int i = MathHelper.ceil(distance - 1.0F);
 
         if (i > 0) {
-            List<Entity> list = Lists.newArrayList(this.world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox()));
+            List<Entity> list = this.world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox());
             DamageSource damagesource = DamageSource.FALLING_BLOCK;
-            for (Entity entity : list) entity.attackEntityFrom(damagesource, this.fallHurtAmount);
+            for (Entity entity : list) entity.attackEntityFrom(damagesource, 6.0F);
         }
     }
 
     protected void writeEntityToNBT(NBTTagCompound compound)
     {
-        Block block = this.fallTile != null ? this.fallTile.getBlock() : Blocks.AIR;
-        compound.setString("Block", Block.REGISTRY.getNameForObject(block).toString());
-        compound.setByte("Data", (byte)block.getMetaFromState(this.fallTile));
         compound.setInteger("Time", this.fallTime);
         compound.setBoolean("DropItem", this.shouldDropItem);
     }
 
     protected void readEntityFromNBT(NBTTagCompound compound) {
-        int i = compound.getByte("Data") & 255;
-        if (compound.hasKey("Block", 8)) this.fallTile = Block.getBlockFromName(compound.getString("Block")).getStateFromMeta(i);
         this.fallTime = compound.getInteger("Time");
         if (compound.hasKey("DropItem", 99)) this.shouldDropItem = compound.getBoolean("DropItem");
     }

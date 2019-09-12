@@ -1,12 +1,19 @@
 package rando.beasts.client.proxy;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockDoor;
+import net.minecraft.block.BlockFenceGate;
+import net.minecraft.block.BlockLeaves;
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.statemap.StateMap;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
-import rando.beasts.client.model.ModelHermitHelm;
-import rando.beasts.client.model.ModelSpartapodArmor;
 import rando.beasts.client.renderer.entity.*;
 import rando.beasts.client.renderer.tileentity.TileEntityCoconutRenderer;
 import rando.beasts.common.entity.item.EntityBeastsPainting;
@@ -17,17 +24,18 @@ import rando.beasts.common.entity.passive.EntityLandwhale;
 import rando.beasts.common.entity.passive.EntityPufferfishDog;
 import rando.beasts.common.entity.passive.EntityRabbitman;
 import rando.beasts.common.entity.projectile.EntityCoconutBomb;
+import rando.beasts.common.init.BeastsBlocks;
 import rando.beasts.common.init.BeastsItems;
+import rando.beasts.common.item.IHandleMeta;
 import rando.beasts.common.proxy.CommonProxy;
 import rando.beasts.common.tileentity.TileEntityCoconut;
+import rando.beasts.common.utils.BeastsReference;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Objects;
 
 public class ClientProxy extends CommonProxy {
 
 	public static final TileEntityCoconutRenderer COCONUT_RENDERER = new TileEntityCoconutRenderer();
-	private static final Map<EntityEquipmentSlot, Map<Item, ModelBiped>> ARMORS = new HashMap<>();
 
 	@Override
 	public void preInit() {
@@ -57,15 +65,12 @@ public class ClientProxy extends CommonProxy {
 
 	@Override
 	public ModelBiped getArmorModel(Item armorItem, EntityEquipmentSlot armorSlot) {
-		return ARMORS.get(armorSlot).get(armorItem);
+		return ArmorData.MODELS.get(armorSlot).get(armorItem);
 	}
 
-	static {
-		ARMORS.put(EntityEquipmentSlot.FEET, new HashMap<>());
-		ARMORS.put(EntityEquipmentSlot.LEGS, new HashMap<>());
-		ARMORS.put(EntityEquipmentSlot.CHEST, new HashMap<>());
-		ARMORS.put(EntityEquipmentSlot.HEAD, new HashMap<>());
-		ARMORS.get(EntityEquipmentSlot.HEAD).put(BeastsItems.SPARTAPOD_HELMET, new ModelSpartapodArmor());
-		ARMORS.get(EntityEquipmentSlot.HEAD).put(BeastsItems.HERMIT_HELM, new ModelHermitHelm());
+	@Override
+	public String getArmorTexture(Item armorItem, EntityEquipmentSlot armorSlot) {
+		String texture = ArmorData.TEXTURES.get(armorSlot).get(armorItem);
+		return texture == null ? null : BeastsReference.ID + ":textures/models/armor/" + texture + ".png";
 	}
 }

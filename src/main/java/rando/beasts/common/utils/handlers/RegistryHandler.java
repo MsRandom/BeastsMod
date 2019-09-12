@@ -85,6 +85,7 @@ public class RegistryHandler {
 
     @SubscribeEvent
     public static void registerRenders(ModelRegistryEvent event) {
+        //todo for some reason this gets called on servers, and of course crashes
         for (Item item : BeastsItems.LIST) {
             if(item instanceof IHandleMeta){
                 IHandleMeta metaItem = (IHandleMeta)item;

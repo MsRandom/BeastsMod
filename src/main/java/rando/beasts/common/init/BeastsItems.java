@@ -12,20 +12,7 @@ import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemSword;
 import net.minecraft.potion.PotionEffect;
 import net.minecraftforge.common.util.EnumHelper;
-import rando.beasts.common.item.BeastsArmor;
-import rando.beasts.common.item.BeastsCoconutBowl;
-import rando.beasts.common.item.BeastsFood;
-import rando.beasts.common.item.BeastsItem;
-import rando.beasts.common.item.BeastsSword;
-import rando.beasts.common.item.BeastsToolSet;
-import rando.beasts.common.item.ItemBarnacleTongue;
-import rando.beasts.common.item.ItemBeastsPainting;
-import rando.beasts.common.item.ItemCoconade;
-import rando.beasts.common.item.ItemCoralEssence;
-import rando.beasts.common.item.ItemDaggerfish;
-import rando.beasts.common.item.ItemGlowRoot;
-import rando.beasts.common.item.ItemIcon;
-import rando.beasts.common.item.ToolSetJellyWood;
+import rando.beasts.common.item.*;
 
 public class BeastsItems {
 	
@@ -48,7 +35,8 @@ public class BeastsItems {
 	public static final Item SPARTAPOD_CREST = new BeastsItem("spartapod_crest"); 
 	public static final Item ICE_CRAB_CHITIN = new BeastsItem("ice_crab_chitin"); 
 	public static final Item WORM_TOOTH = new BeastsItem("worm_tooth");
-	public static final Item HERMIT_HELM = new BeastsArmor("hermit_helm", ItemArmor.ArmorMaterial.IRON, 2, EntityEquipmentSlot.HEAD).setMaxDamage(0);
+	public static final Item PUFFER_SCALE = new BeastsItem("puffer_scale");
+	public static final Item HERMIT_HELM = new BeastsArmor("hermit_helm", ItemArmor.ArmorMaterial.IRON, EntityEquipmentSlot.HEAD).setMaxDamage(0);
 	public static final ItemFood DAGGERFISH = new BeastsFood("daggerfish", 2, 0.1F);
 	public static final ItemFood COCONUT_MUSHROOM = new BeastsCoconutBowl("coconut_mushroom", 6, 0.7F);
 	public static final ItemFood COCONUT_RABBIT_STEW = new BeastsCoconutBowl("coconut_rabbit_stew", 8, 0.7F);
@@ -65,10 +53,15 @@ public class BeastsItems {
 	public static final ItemFood EEL_CHOP = new BeastsFood("eel_chop", 3, 0.3F); 
 	public static final ItemFood COOKED_EEL_CHOP = new BeastsFood("cooked_eel_chop", 8, 0.5F);
 	public static final ItemFood COCONUT_JUICE = new BeastsCoconutBowl("coconut_juice", 4, 0.5F);
-	public static final ItemArmor SPARTAPOD_HELMET = new BeastsArmor("spartapod_helmet", SPARTAPOD, 0, EntityEquipmentSlot.HEAD);
-	public static final ItemArmor SPARTAPOD_CHEST = new BeastsArmor("spartapod_chest", SPARTAPODA, 0, EntityEquipmentSlot.CHEST);
-	public static final ItemArmor SPARTAPOD_LEGS = new BeastsArmor("spartapod_legs", SPARTAPODA, 1, EntityEquipmentSlot.LEGS);
-	public static final ItemArmor SPARTAPOD_BOOTS = new BeastsArmor("spartapod_boots", SPARTAPODA, 1, EntityEquipmentSlot.FEET);
+	//todo do armor sets like with the tool set with the jelly tools
+	public static final ItemArmor SPARTAPOD_HELMET = new BeastsArmor("spartapod_helmet", SPARTAPOD, EntityEquipmentSlot.HEAD);
+	public static final ItemArmor SPARTAPOD_CHEST = new BeastsArmor("spartapod_chest", SPARTAPODA, EntityEquipmentSlot.CHEST);
+	public static final ItemArmor SPARTAPOD_LEGS = new BeastsArmor("spartapod_legs", SPARTAPODA, EntityEquipmentSlot.LEGS);
+	public static final ItemArmor SPARTAPOD_BOOTS = new BeastsArmor("spartapod_boots", SPARTAPODA, EntityEquipmentSlot.FEET);
+	public static final ItemArmor PUFFER_HELMET = new ItemPufferArmor("helmet", EntityEquipmentSlot.HEAD);
+	public static final ItemArmor PUFFER_CHEST = new ItemPufferArmor("chest", EntityEquipmentSlot.CHEST);
+	public static final ItemArmor PUFFER_LEGS = new ItemPufferArmor("legs", EntityEquipmentSlot.LEGS);
+	public static final ItemArmor PUFFER_BOOTS = new ItemPufferArmor("boots", EntityEquipmentSlot.FEET);
 	public static final ItemSword COOKED_DAGGERFISH = new ItemDaggerfish(SWORDFISH_MAT, "cooked_daggerfish");
 	public static final ItemSword DIAMOND_CARROT = new BeastsSword(Item.ToolMaterial.DIAMOND, "diamond_carrot");
 	public static final BeastsToolSet JELLY_TOOLS = new ToolSetJellyWood();

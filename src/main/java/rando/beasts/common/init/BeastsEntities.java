@@ -1,31 +1,27 @@
 package rando.beasts.common.init;
 
-import java.util.*;
-import java.util.function.Function;
-
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
-import net.minecraftforge.event.world.BlockEvent;
-import org.apache.commons.lang3.StringUtils;
-
-import com.google.common.collect.Lists;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
+import org.apache.commons.lang3.StringUtils;
 import rando.beasts.common.entity.item.EntityBeastsPainting;
 import rando.beasts.common.entity.item.EntityFallingCoconut;
 import rando.beasts.common.entity.monster.*;
+import rando.beasts.common.entity.passive.EntityHermitTurtle;
 import rando.beasts.common.entity.passive.EntityLandwhale;
 import rando.beasts.common.entity.passive.EntityPufferfishDog;
 import rando.beasts.common.entity.passive.EntityRabbitman;
-import rando.beasts.common.entity.passive.EntityHermitTurtle;
 import rando.beasts.common.entity.projectile.EntityCoconutBomb;
 import rando.beasts.common.utils.BeastsReference;
+
+import java.util.*;
+import java.util.function.Function;
 
 @SuppressWarnings("unused")
 public class BeastsEntities {
@@ -50,7 +46,7 @@ public class BeastsEntities {
 	private static final EntityEntry HERMIT_TURTLE = createEntry(EntityHermitTurtle.class, 0, 0, new SpawnEntry(EnumCreatureType.CREATURE, 50, 1, 3, BeastsBiomes.DRIED_REEF));
 
 	private static EntityEntry createBranchie(Class<? extends EntityBranchieBase> cls, int prim, int sec, Collection<? extends Block> validBlocks, Function<BlockEvent.BreakEvent, ? extends EntityBranchieBase> create) {
-		EntityBranchieBase.TYPES.putIfAbsent(validBlocks, create);
+		EntityBranchieBase.TYPES.put(validBlocks, create);
 		return createEntry(cls, prim, sec);
 	}
 
@@ -89,7 +85,7 @@ public class BeastsEntities {
 		}
 
 		private SpawnEntry(EnumCreatureType type, int weight, int min, int max, Biome... biomes) {
-			this(type, weight, min, max, Lists.newArrayList(biomes));
+			this(type, weight, min, max, Arrays.asList(biomes));
 		}
 	}
 }

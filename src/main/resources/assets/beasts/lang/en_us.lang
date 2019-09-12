@@ -12,6 +12,8 @@ entity.beasts_painting.name=Beasts Painting
 entity.coral_branchie.name=Coral Branchie
 entity.chorus_branchie.name=Chorus Branchie
 entity.wood_branchie.name=Wood Branchie
+entity.whipping_barnacle.name=Whipping Barnacle
+entity.hermit_turtle.name=Hermit Turtle
 
 Items
 
@@ -46,10 +48,16 @@ item.spartapod_crest.name=Spartapod Crest
 item.ice_crab_chitin.name=Ice Crab Chitin
 item.worm_tooth.name=Worm Tooth
 item.glow_root.name=Glow Root
+item.hermit_helm.name=Hermit Helm
 item.spartapod_helmet.name=Spartapod Helmet
 item.spartapod_chest.name=Spartapod Chestplate
 item.spartapod_legs.name=Spartapod Leggings
 item.spartapod_boots.name=Spartapod Boots
+item.puffer_helmet.name=Puffer Helmet
+item.puffer_chest.name=Puffer Chestplate
+item.puffer_legs.name=Puffer Leggings
+item.puffer_boots.name=Puffer Boots
+item.puffer_scale.name=Puffer Scale
 item.coconut_rabbit_stew.name=Rabbit Stew
 item.coconut_mushroom.name=Mushroom Stew
 item.coconut_juice.name=Coconut Juice
@@ -88,6 +96,8 @@ tile.jellywood_fence.name=Jellywood Fence
 tile.jellywood_gate.name=Jellywood Fence Gate
 tile.jellywood_door.name=Jellywood Door
 tile.jellyfish_sapling.name=Jellyfish Sapling
+tile.palm_sapling.name=Palm Tree Sapling
+tile.hermit_shell.name=Hermit Shell
 
 Miscellaneous
 

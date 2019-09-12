@@ -1,7 +1,6 @@
 package rando.beasts.common.item.crafting;
 
-import com.google.common.collect.Lists;
-
+import com.google.common.collect.ImmutableList;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -15,7 +14,7 @@ import rando.beasts.common.init.BeastsRecipes;
 public class RecipeCoconutJuice extends ShapelessRecipes {
     
     public RecipeCoconutJuice() {
-        super("", new ItemStack(BeastsItems.COCONUT_JUICE), NonNullList.from(Ingredient.EMPTY, Ingredient.fromItems(Lists.newArrayList(Item.REGISTRY).stream().filter(item -> item instanceof ItemSword).toArray(Item[]::new)), Ingredient.fromItem(BeastsItems.COCONUT)));
+        super("", new ItemStack(BeastsItems.COCONUT_JUICE), NonNullList.from(Ingredient.EMPTY, Ingredient.fromItems(ImmutableList.copyOf(Item.REGISTRY).stream().filter(item -> item instanceof ItemSword).toArray(Item[]::new)), Ingredient.fromItem(BeastsItems.COCONUT)));
         setRegistryName("coconut_juice");
         BeastsRecipes.LIST.add(this);
     }
