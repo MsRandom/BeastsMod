@@ -76,7 +76,7 @@ public class EntityVileEel extends EntityMob implements IDriedAquatic {
 
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(50);
+        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(70);
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3D);
     }
 

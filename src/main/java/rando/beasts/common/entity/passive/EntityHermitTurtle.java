@@ -28,7 +28,7 @@ public class EntityHermitTurtle extends EntityCreature {
         super.entityInit();
         this.dataManager.register(OUT, false);
     }
-
+    
     protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
         if(rand.nextInt(16) == 0) this.dropItem(Item.getItemFromBlock(BeastsBlocks.HERMIT_SHELL), 1);
     }

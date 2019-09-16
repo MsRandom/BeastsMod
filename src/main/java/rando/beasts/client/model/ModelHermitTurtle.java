@@ -54,8 +54,6 @@ public class ModelHermitTurtle extends ModelBase {
     @Override
     public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
         super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
-        leftArm.rotateAngleX = MathHelper.cos(limbSwing * 0.1f) * limbSwingAmount * 8 + 0.65f;
-        rightArm.rotateAngleX = MathHelper.cos(limbSwing * 0.1f) * limbSwingAmount * -8 + 0.65f;
     }
 
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
