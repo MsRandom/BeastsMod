@@ -96,6 +96,7 @@ tile.jellywood_fence.name=Jellywood Fence
 tile.jellywood_gate.name=Jellywood Fence Gate
 tile.jellywood_door.name=Jellywood Door
 tile.jellyfish_sapling.name=Jellyfish Sapling
+tile.palmleaves.name=Palm Leaves
 tile.palm_sapling.name=Palm Tree Sapling
 tile.hermit_shell.name=Hermit Shell
 
@@ -103,3 +104,5 @@ Miscellaneous
 
 itemGroup.beasts=Beasts
 item.icon.name=Beasts Icon
+generator.beasts=Beasts Biomes
+generator.cloud.info=Only Beasts Mod Biomes.
