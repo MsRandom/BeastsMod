@@ -66,7 +66,7 @@ public class WorldGenJellyfishTrees extends WorldGenAbstractTree {
 
             BlockPos pos = position;
             setBlockAndNotifyAdequately(worldIn, pos, log);
-            for (; worldIn.getBlockState(pos.up()).getBlock() == Blocks.AIR; ) {
+            for (; worldIn.getBlockState(pos.up()).getBlock() == Blocks.AIR || worldIn.getBlockState(pos.up()).getBlock() == BeastsBlocks.TENTACLE; ) {
                 BlockPos higher = pos.up();
                 setBlockAndNotifyAdequately(worldIn, higher, log);
                 pos = higher;
