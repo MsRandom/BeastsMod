@@ -1,12 +1,18 @@
 package rando.beasts.common.entity.monster;
 
+import java.util.List;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.entity.IEntityLivingData;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
@@ -14,8 +20,6 @@ import net.minecraftforge.event.world.BlockEvent;
 import rando.beasts.common.block.BlockCoralPlant;
 import rando.beasts.common.block.CoralColor;
 import rando.beasts.common.init.BeastsBlocks;
-
-import javax.annotation.Nullable;
 
 public class EntityCoralBranchie extends EntityBranchieBase {
 
@@ -78,9 +82,13 @@ public class EntityCoralBranchie extends EntityBranchieBase {
     public static EntityCoralBranchie create(BlockEvent.BreakEvent event) {
         EntityCoralBranchie entity = new EntityCoralBranchie(event.getWorld());
         BlockPos pos = event.getPos();
+        CoralColor color = ((BlockCoralPlant)event.getState().getBlock()).color;
+        EntityPlayer player = event.getPlayer();
         entity.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
         entity.onInitialSpawn(event.getWorld().getDifficultyForLocation(pos), null);
-        entity.setVariant(((BlockCoralPlant)event.getState().getBlock()).color);
+        entity.setVariant(color);
+        List<EntityCoralBranchie> branchies = event.getWorld().getEntitiesWithinAABB(EntityCoralBranchie.class, new AxisAlignedBB(event.getPos()).grow(10), branchie -> branchie != entity && branchie.getVariant() == color);
+        branchies.forEach(branchie -> branchie.setRevengeTarget(player));
         return entity;
     }
 }
