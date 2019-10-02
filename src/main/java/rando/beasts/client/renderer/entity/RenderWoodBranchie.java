@@ -17,6 +17,6 @@ public class RenderWoodBranchie extends RenderBranchieBase<EntityWoodBranchie> {
     }
 
     protected ResourceLocation getEntityTexture(EntityWoodBranchie entity) {
-        return TEXTURES.putIfAbsent(entity.getVariant().getName(), new ResourceLocation(BeastsReference.ID, "textures/entity/branchie/wood" + entity.getVariant().getName() + ".png"));
+        return TEXTURES.putIfAbsent(entity.getVariant().getName(), new ResourceLocation(BeastsReference.ID, "textures/entity/branchie/wood/" + entity.getVariant().getName() + ".png"));
     }
 }

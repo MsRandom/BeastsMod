@@ -1,21 +1,29 @@
 package rando.beasts.common.entity.monster;
 
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.*;
-import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraftforge.event.world.BlockEvent;
-import rando.beasts.client.init.BeastsSounds;
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+
+import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAIAttackMelee;
+import net.minecraft.entity.ai.EntityAIAvoidEntity;
+import net.minecraft.entity.ai.EntityAILookIdle;
+import net.minecraft.entity.ai.EntityAIMoveTowardsTarget;
+import net.minecraft.entity.ai.EntityAIPanic;
+import net.minecraft.entity.ai.EntityAISwimming;
+import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
+import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraftforge.event.world.BlockEvent;
+import rando.beasts.client.init.BeastsSounds;
 
 public abstract class EntityBranchieBase extends EntityMob {
 
@@ -27,12 +35,14 @@ public abstract class EntityBranchieBase extends EntityMob {
     }
 
     protected void initEntityAI() {
+    	this.tasks.addTask(1, new EntityAIAttackMelee(this, 1.0D, true));
+        this.tasks.addTask(2, new EntityAIMoveTowardsTarget(this, 0.9D, 32.0F));
         this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityAIWanderAvoidWater(this, 0.5D));
         this.tasks.addTask(2, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
-        this.tasks.addTask(3, new EntityAIAvoidEntity<>(this, EntityPlayer.class, entity -> getAttackTarget() == null, 6.0F, 4, 2));
-        this.tasks.addTask(3, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 10, true, false, entity -> getAttackTarget() == entity));
+        this.targetTasks.addTask(3, new EntityAIAvoidEntity<>(this, EntityPlayer.class, entity -> getAttackTarget() == null, 6.0F, 4, 2));
         this.tasks.addTask(4, new EntityAILookIdle(this));
+        this.tasks.addTask(1, new EntityAIPanic(this, 2.0D));
     }
 
     protected void applyEntityAttributes() {
@@ -50,8 +60,16 @@ public abstract class EntityBranchieBase extends EntityMob {
         scream();
         return super.attackEntityAsMob(entityIn);
     }
+    
+    
 
-    public void scream() {
+    @Override
+	public boolean attackEntityFrom(DamageSource source, float amount) {
+    	setAttackTarget(null);
+		return super.attackEntityFrom(source, amount);
+	}
+
+	public void scream() {
         playSound(BeastsSounds.BRANCHIE_SCREAM, getSoundVolume(), getSoundPitch());
     }
 
@@ -62,4 +80,5 @@ public abstract class EntityBranchieBase extends EntityMob {
     public float getEyeHeight() {
         return this.isChild() ? this.height : 0.8F;
     }
+    
 }

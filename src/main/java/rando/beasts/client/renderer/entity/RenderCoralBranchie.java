@@ -16,6 +16,6 @@ public class RenderCoralBranchie extends RenderBranchieBase<EntityCoralBranchie>
     }
 
     protected ResourceLocation getEntityTexture(EntityCoralBranchie entity) {
-        return TEXTURES.putIfAbsent(entity.getVariant().getName(), new ResourceLocation(BeastsReference.ID, "textures/entity/branchie/coral" + entity.getVariant().getName() + ".png"));
+        return TEXTURES.putIfAbsent(entity.getVariant().getName(), new ResourceLocation(BeastsReference.ID, "textures/entity/branchie/coral/" + entity.getVariant().getName() + ".png"));
     }
 }
