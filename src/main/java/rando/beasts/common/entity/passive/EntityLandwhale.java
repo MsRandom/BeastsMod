@@ -1,12 +1,24 @@
 package rando.beasts.common.entity.passive;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.*;
+import net.minecraft.entity.ai.EntityAIFollowParent;
+import net.minecraft.entity.ai.EntityAILookIdle;
+import net.minecraft.entity.ai.EntityAIMate;
+import net.minecraft.entity.ai.EntityAIPanic;
+import net.minecraft.entity.ai.EntityAISwimming;
+import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
+import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -26,18 +38,13 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IShearable;
 import net.minecraftforge.event.ForgeEventFactory;
-import rando.beasts.client.gui.GuiLandwhaleInventory;
 import rando.beasts.client.init.BeastsSounds;
 import rando.beasts.common.block.CoralColor;
 import rando.beasts.common.entity.IDriedAquatic;
 import rando.beasts.common.init.BeastsBlocks;
 import rando.beasts.common.init.BeastsItems;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import rando.beasts.common.main.BeastsMod;
+import rando.beasts.common.utils.handlers.GuiHandler;
 
 public class EntityLandwhale extends EntityTameable implements IShearable, IDriedAquatic {
     private static final DataParameter<Boolean> SHEARED = EntityDataManager.createKey(EntityLandwhale.class, DataSerializers.BOOLEAN);
@@ -52,12 +59,6 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
             @Override
             public int getInventoryStackLimit() {
                 return 1;
-            }
-
-            @Override
-            public void setInventorySlotContents(int index, ItemStack stack) {
-                super.setInventorySlotContents(index, stack);
-                if(index == 0) setSaddle(stack);
             }
         };
     }
@@ -146,7 +147,7 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
         ItemStack stack = player.getHeldItem(hand);
         if(this.isTamed() && (this.isOwner(player) || this.getControllingPassenger() != null)) {
             if(player.isSneaking()) {
-                if (this.world.isRemote) Minecraft.getMinecraft().displayGuiScreen(new GuiLandwhaleInventory(this, player));
+                if (!this.world.isRemote) player.openGui(BeastsMod.instance, GuiHandler.GUI_LANDWHALE, world, this.getEntityId(), 0, 0);
                 return true;
             }
             if (!player.isPassenger(this) && this.getPassengers().size() < 2) player.startRiding(this);
@@ -227,8 +228,9 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
     }
 
     public void setSaddle(ItemStack item) {
-        this.dataManager.set(SADDLE, item);
-        inventory.setInventorySlotContents(0, item);
+    	inventory.setInventorySlotContents(0, item);
+    	if(!world.isRemote) this.dataManager.set(SADDLE, item);
+        
     }
 
     @Override

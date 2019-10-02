@@ -8,10 +8,13 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ForgeModContainer;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import rando.beasts.common.init.BeastsTriggers;
+import rando.beasts.common.main.BeastsMod;
 import rando.beasts.common.tileentity.TileEntityCoconut;
 import rando.beasts.common.utils.BeastsReference;
+import rando.beasts.common.utils.handlers.GuiHandler;
 import rando.beasts.common.utils.handlers.LootHandler;
 
 public class CommonProxy {
@@ -23,6 +26,7 @@ public class CommonProxy {
 		for(ICriterionTrigger<? extends ICriterionInstance> trigger : BeastsTriggers.LIST) CriteriaTriggers.register(trigger);
 		ForgeModContainer.logCascadingWorldGeneration = false;
 		LootHandler.registerLootTables();
+		NetworkRegistry.INSTANCE.registerGuiHandler(BeastsMod.instance,new GuiHandler());
 	}
 
 	public ModelBiped getArmorModel(Item armorItem, EntityEquipmentSlot armorSlot){

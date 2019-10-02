@@ -27,6 +27,9 @@ public class BeastsMod {
 
 	@SidedProxy(serverSide = BeastsReference.COMMON_PROXY, clientSide = BeastsReference.CLIENT_PROXY)
 	public static CommonProxy proxy;
+	
+	@Mod.Instance(BeastsReference.ID)
+	public static BeastsMod instance;
 
 	@EventHandler
 	public static void preInit(FMLPreInitializationEvent event) {
