@@ -25,8 +25,18 @@ public class BlockCoralSapling extends BeastsSapling {
         super("coral_sapling", ItemCoralBlock::new, true);
         this.setDefaultState(getDefaultState().withProperty(TYPE, CoralColor.BLUE));
     }
+    
+    
 
     @Override
+	public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
+    	IBlockState soil = worldIn.getBlockState(pos.down());
+		return super.canPlaceBlockAt(worldIn, pos) && soil.getBlock() == Blocks.SAND;
+	}
+
+
+
+	@Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
         return SAPLING_AABB;
     }

@@ -10,6 +10,7 @@ public class BlockJellyfisLog extends BlockLog {
 
     public BlockJellyfisLog() {
         this.setDefaultState(this.blockState.getBaseState().withProperty(LOG_AXIS, EnumAxis.Y));
+        this.setLightLevel(0.5F);
         BeastsUtil.addToRegistry(this, "jellywood", true, ItemBlock::new);
     }
 

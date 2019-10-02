@@ -1,5 +1,11 @@
 package rando.beasts.common.block;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+import javax.annotation.Nonnull;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockPlanks;
@@ -17,11 +23,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import rando.beasts.common.init.BeastsBlocks;
 import rando.beasts.common.utils.BeastsUtil;
-
-import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 public class BlockJellyfishLeaves extends BlockLeaves {
 
