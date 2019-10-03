@@ -112,6 +112,7 @@ public class EntityWhippingBarnacle extends EntityMob implements IDriedAquatic {
         if (this.posY < -64.0D) this.outOfWorld();
         this.firstUpdate = false;
         this.world.profiler.endSection();
+        super.onUpdate();
     }
 
     @Override

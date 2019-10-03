@@ -35,22 +35,24 @@ public class EntityCoconutCrab extends EntityMob {
     private BlockPos newPos;
     private boolean hasTarget = false;
     private int ticksSinceHit = 0;
+    private EntityAIWander wanderAI = new EntityAIWander(this, 0.5, 50){
+        @Override
+        public boolean shouldExecute() {
+            return isOut() && super.shouldExecute();
+        }
+    };
+    private EntityAINearestAttackableTarget aiNearestAttackableTarget = new EntityAINearestAttackableTarget<EntityPlayer>(this, EntityPlayer.class, true) {
+        @Override
+        public boolean shouldExecute() {
+            return isOut() && super.shouldExecute();
+        }
+    };
 
     public EntityCoconutCrab(World worldIn) {
         super(worldIn);
         this.setSize(0.5f, 0.4f);
-        this.tasks.addTask(0, new EntityAIWander(this, 0.5, 50) {
-            @Override
-            public boolean shouldExecute() {
-                return isOut() && super.shouldExecute();
-            }
-        });
-        this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<EntityPlayer>(this, EntityPlayer.class, true) {
-            @Override
-            public boolean shouldExecute() {
-                return isOut() && super.shouldExecute();
-            }
-        });
+        this.tasks.addTask(0, wanderAI);
+        this.targetTasks.addTask(0, aiNearestAttackableTarget);
         this.setNoAI(true);
     }
 
@@ -143,7 +145,9 @@ public class EntityCoconutCrab extends EntityMob {
     @Override
     public void onUpdate() {
         if(isOut()) {
-            super.onUpdate();
+            if(!this.tasks.taskEntries.contains(wanderAI)){
+                this.tasks.addTask(0, wanderAI);
+            }
             if(world.getBlockState(getPosition().down()).getBlock() == Blocks.SAND && rand.nextInt(500) == 0) {
                 setOut(false);
                 setFire(0);
@@ -196,12 +200,14 @@ public class EntityCoconutCrab extends EntityMob {
             }
         }
         else {
+            if(this.isBurning()){
+                this.extinguish();
+            }
             if (!this.world.isRemote && this.world.getDifficulty() == EnumDifficulty.PEACEFUL) this.setDead();
-            if (this.newPosRotationIncrements > 0 && !this.canPassengerSteer()) this.setPosition(posX, this.posY + (this.interpTargetY - this.posY), posZ);
-            this.moveStrafing *= 0.98F;
-            this.moveForward *= 0.98F;
-            this.travel(this.moveStrafing, this.moveVertical, this.moveForward);
-            this.motionY -= 0.02;
+            if(this.tasks.taskEntries.contains(wanderAI)){
+                this.tasks.removeTask(wanderAI);
+            }
         }
+        super.onUpdate();
     }
 }
