@@ -22,12 +22,15 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import rando.beasts.common.entity.item.EntityFallingCoconut;
 import rando.beasts.common.init.BeastsBlocks;
+import rando.beasts.common.main.BeastsMod;
 import rando.beasts.common.utils.BeastsUtil;
 
 public class BlockPalmTreeLeaves extends BlockLeaves {
 	int[] surroundings;
 
     public BlockPalmTreeLeaves() {
+    	super();
+    	BeastsMod.proxy.setGraphicsLevel(this, true);
         this.setDefaultState(this.blockState.getBaseState().withProperty(CHECK_DECAY, true).withProperty(DECAYABLE, true));
         BeastsUtil.addToRegistry(this, "palmleaves", true, ItemBlock::new);
     }

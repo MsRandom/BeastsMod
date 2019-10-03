@@ -24,7 +24,9 @@ public class BeastsBlocks {
     public static final Block PALM_SAPLING = new BeastsSapling("palm_sapling", WorldGenPalmTrees::new);
     public static final Block TENTACLE = new BlockTentacle();
     public static final Block PALM_LEAVES = new BlockPalmTreeLeaves();
-    public static final Block JELLY_WOOD = new BlockJellyfisLog();
+    public static final Block PALM_LOG = new BeastsLog("palm_log");
+    public static final Block PALM_PLANKS = new BeastsBlock(Material.WOOD, "palm_planks");
+    public static final Block JELLY_WOOD = new BeastsLog("jellywood");
     public static final Block JELLY_LEAVES = new BlockJellyfishLeaves();
     public static final Block JELLY_WOOD_PLANKS = new BeastsBlock(Material.WOOD, "jellywood_planks");
     public static final Block JELLY_WOOD_DOOR = new BlockJellyWoodDoor();
