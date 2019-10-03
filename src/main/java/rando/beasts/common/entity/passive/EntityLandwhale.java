@@ -145,26 +145,31 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
     @Override
     public boolean processInteract(EntityPlayer player, @Nonnull EnumHand hand) {
         ItemStack stack = player.getHeldItem(hand);
+        if(stack.getItem() == Items.SHEARS && !this.getSheared()) return super.processInteract(player, hand);
         if(this.isTamed() && (this.isOwner(player) || this.getControllingPassenger() != null)) {
             if(player.isSneaking()) {
                 if (!this.world.isRemote) player.openGui(BeastsMod.instance, GuiHandler.GUI_LANDWHALE, world, this.getEntityId(), 0, 0);
                 return true;
             }
-            if (!player.isPassenger(this) && this.getPassengers().size() < 2) player.startRiding(this);
-            return true;
+            if (!player.isPassenger(this) && this.getPassengers().size() < 2) {
+            	player.startRiding(this);
+            	return true;
+            }
         }
         else if (!this.isTamed() && stack.getItem() == BeastsItems.COCONUT_JUICE) {
             if (!player.capabilities.isCreativeMode) stack.shrink(1);
-            if (this.rand.nextInt(3) == 0 && !ForgeEventFactory.onAnimalTame(this, player)) {
-                this.isJumping = false;
-                this.navigator.clearPath();
-                this.setTamedBy(player);
-                this.playTameEffect(true);
-                this.world.setEntityState(this, (byte) 7);
-            } else {
-                this.playTameEffect(false);
-                this.world.setEntityState(this, (byte) 6);
-            }
+            if(!this.world.isRemote) {
+            	if (this.rand.nextInt(3) == 0 && !ForgeEventFactory.onAnimalTame(this, player)) {
+            		this.setTamedBy(player);
+                    this.isJumping = false;
+                    this.navigator.clearPath();                
+                    this.playTameEffect(true);
+                    this.world.setEntityState(this, (byte) 7);
+                } else {
+                    this.playTameEffect(false);
+                    this.world.setEntityState(this, (byte) 6);
+                }
+            }       
             return true;
         }
         return super.processInteract(player, hand);
@@ -190,7 +195,12 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
         return list.isEmpty() ? null : list.get(0);
     }
 
-    @Override
+	@Override
+	public double getMountedYOffset() {
+		return this.height;
+	}
+
+	@Override
     public boolean isBreedingItem(ItemStack stack) {
         return stack.getItem() == BeastsItems.REEF_MIXTURE;
     }
@@ -257,6 +267,7 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
 
     @Override
     public boolean isShearable(@Nonnull ItemStack item, IBlockAccess world, BlockPos pos) {
+    	System.out.println(isTamed() + " " + getOwner());
         return !this.getSheared() && !this.isChild();
     }
 
