@@ -4,6 +4,7 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
+import rando.beasts.common.entity.passive.EntityHermitTurtle;
 
 public class ModelHermitTurtle extends ModelBase {
     public ModelRenderer shell1;
@@ -49,6 +50,8 @@ public class ModelHermitTurtle extends ModelBase {
     @Override
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         this.shell1.render(f5);
+        if(!((EntityHermitTurtle)entity).isOut())this.head.isHidden = true;
+        else this.head.isHidden = false;
     }
 
     @Override

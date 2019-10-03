@@ -25,6 +25,6 @@ public class GuiLandwhaleInventory extends GuiContainer {
         int i = (this.width - this.xSize) / 2;
         int j = (this.height - this.ySize) / 2;
         this.drawTexturedModalRect(i, j, 0, 0, this.xSize, this.ySize);
-        GuiInventory.drawEntityOnScreen(i + 60, j + 50, 20, mouseX, mouseY, landwhale);
+        GuiInventory.drawEntityOnScreen(i + 97, j + 60, 10, i + 97 - mouseX, j + 25 - mouseY, landwhale);
     }
 }
