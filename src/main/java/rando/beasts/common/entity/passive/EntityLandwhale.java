@@ -87,11 +87,11 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
 
     @Override
     protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
-        Item chop = BeastsItems.EEL_CHOP;
+        Block chop = BeastsBlocks.CORAL_BLOCK;
         int i = this.rand.nextInt(4);
         if (lootingModifier > 0) i += this.rand.nextInt(lootingModifier + 1);
-        for (int j = 0; j < i; ++j) this.dropItem(chop, 1);
-        this.dropItem(Objects.requireNonNull(chop), 1);
+        for (int j = 0; j < i; ++j) this.dropItem(Item.getItemFromBlock(chop), 1);
+        this.dropItem(Objects.requireNonNull(Item.getItemFromBlock(chop)), 1);
     }
 
     protected void applyEntityAttributes() {
@@ -108,6 +108,11 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
         else this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(40);
     }
 
+    @Override
+    public boolean canBeSteered() {
+        return !getSaddle().isEmpty();
+    }
+
     public void travel(float strafe, float vertical, float forward) {
         if (this.getControllingPassenger() != null && this.canBeSteered() && !getSaddle().isEmpty()) {
             EntityLivingBase entitylivingbase = (EntityLivingBase) this.getControllingPassenger();
@@ -119,7 +124,7 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
             this.rotationYawHead = this.renderYawOffset;
             strafe = entitylivingbase.moveStrafing * 0.5F;
             forward = entitylivingbase.moveForward;
-
+            this.stepHeight = 1.0F;
             if (forward <= 0.0F) forward *= 0.25F;
 
             if (this.canPassengerSteer()) {
@@ -199,7 +204,7 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
 
 	@Override
 	public double getMountedYOffset() {
-		return this.height;
+		return this.height + 0.1F;
 	}
 
 	@Override

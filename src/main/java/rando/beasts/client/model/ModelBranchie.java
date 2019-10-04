@@ -59,8 +59,8 @@ public class ModelBranchie extends ModelBase {
     public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
         super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
         float speed = 0.55f, degree = 0.75f;
-        limbSwing = entityIn.ticksExisted;
-        limbSwingAmount = 0.6F;
+/*        limbSwing = entityIn.ticksExisted;
+        limbSwingAmount = 0.6F;*/
         this.armLeft.rotateAngleZ = MathHelper.cos(limbSwing * speed) * degree * limbSwingAmount;
         this.handLeft.rotateAngleX = MathHelper.cos(limbSwing * speed + (float) Math.PI) * degree * limbSwingAmount;
         this.armRight.rotateAngleZ = MathHelper.cos(limbSwing * speed) * degree * limbSwingAmount;

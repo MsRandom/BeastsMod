@@ -5,6 +5,7 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
+import rando.beasts.common.entity.monster.EntityVileEel;
 import rando.beasts.common.entity.passive.EntityPufferfishDog;
 
 public class ModelVileEel extends ModelBase {
@@ -95,13 +96,25 @@ public class ModelVileEel extends ModelBase {
     public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
         super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
         float speed = 0.75f, degree = 0.75f;
-        //imbSwing = entityIn.ticksExisted;
-        //limbSwingAmount = 0.1F;
         this.armLeft.rotateAngleX = MathHelper.cos(limbSwing * speed) * degree * limbSwingAmount;
         this.armRight.rotateAngleX = MathHelper.cos(limbSwing * speed + (float) Math.PI) * degree * limbSwingAmount;
         this.legLeft.rotateAngleX = MathHelper.cos(limbSwing * speed + (float) Math.PI) * degree * limbSwingAmount;
         this.legRight.rotateAngleX = MathHelper.cos(limbSwing * speed) * degree * limbSwingAmount;   
-        this.tailBase.rotateAngleY = MathHelper.cos(20+ limbSwing * speed * 0.7F) * degree * limbSwingAmount;   
+        this.tailBase.rotateAngleY = MathHelper.cos(20+ limbSwing * speed * 0.7F) * degree * limbSwingAmount;
+
+        if(entityIn instanceof EntityVileEel){
+
+            if(!entityIn.getPassengers().isEmpty()){
+                this.head.rotateAngleX = (float)Math.toRadians(-35);
+                this.jaw.rotateAngleX = (float)Math.toRadians(30);
+            }
+            else{
+                this.jaw.rotateAngleX = 0;
+                this.head.rotateAngleX = 0;
+            }
+
+        }
+
     }
    
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
