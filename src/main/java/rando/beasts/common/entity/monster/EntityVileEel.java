@@ -65,37 +65,8 @@ public class EntityVileEel extends EntityMob implements IDriedAquatic {
         }
         super.onLivingUpdate();
     }
-
-/*    @Override
-    public void updateRidden() {
-        Entity ridingEntity = this.getRidingEntity();
-        if(this.getRidingEntity().isDead && this.isRiding())
-            this.dismountRidingEntity();
-        else{
-            this.motionX = 0.0D;
-            this.motionY = 0.0D;
-            this.motionZ = 0.0D;
-            this.onUpdate();
-            if (this.isRiding()) {
-                if (ridingEntity.isPassenger(this) && ridingEntity instanceof EntityLivingBase) {
-                    this.rotationYaw = ((EntityLivingBase) ridingEntity).renderYawOffset;
-                    this.rotationYawHead = ((EntityLivingBase) ridingEntity).renderYawOffset;
-                    this.prevRotationYaw = ((EntityLivingBase) ridingEntity).renderYawOffset;
-                    float angle = (0.0174533F * ((EntityLivingBase) ridingEntity).renderYawOffset) + 30;
-                    this.setPosition(ridingEntity.posX + (0.4F * MathHelper.sin((float) (Math.PI + angle))), ridingEntity.posY + 0.4D, ridingEntity.posZ + (0.4F * MathHelper.cos(angle)));
-                }
-            }
-        }
-    }*/
-
     @Override
     public void updatePassenger(Entity passenger) {
-/*
-        float calcX = MathHelper.sin(-this.renderYawOffset * 0.017453292F);
-        float calcZ = MathHelper.cos(this.renderYawOffset * 0.017453292F);
-        passenger.setPosition(this.posX - calcX - (calcX * 0.9F), this.posY + 0.2F, this.posZ - calcZ - (calcZ * 0.9F));
-*/
-
         super.updatePassenger(passenger);
     }
 
