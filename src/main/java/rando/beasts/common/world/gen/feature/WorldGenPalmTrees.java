@@ -49,7 +49,7 @@ public class WorldGenPalmTrees extends WorldGenAbstractTree {
                 if(i != 0) {
                     pos = position.add(i, 0, i);
                     if (rand.nextInt(3) == 0) {
-                        if (rand.nextBoolean()) {
+                        if (rand.nextInt(10) < 2) {
                             EntityCoconutCrab crab = new EntityCoconutCrab(world);
                             crab.setLocationAndAngles(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0, 0);
                             crab.onInitialSpawn(world.getDifficultyForLocation(pos), null);

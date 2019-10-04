@@ -34,16 +34,9 @@ public class ContainerLandwhaleInventory extends Container {
             ItemStack itemstack1 = slot.getStack();
             itemstack = itemstack1.copy();
 
-            if (index < 2)
+            if (index < 1)
             {
-                if (!this.mergeItemStack(itemstack1, 2, this.inventorySlots.size(), true))
-                {
-                    return ItemStack.EMPTY;
-                }
-            }
-            else if (this.getSlot(1).isItemValid(itemstack1) && !this.getSlot(1).getHasStack())
-            {
-                if (!this.mergeItemStack(itemstack1, 1, 2, false))
+                if (!this.mergeItemStack(itemstack1, 1, this.inventorySlots.size(), true))
                 {
                     return ItemStack.EMPTY;
                 }
