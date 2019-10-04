@@ -10,6 +10,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ForgeModContainer;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import rando.beasts.common.block.BlockPalmTreeLeaves;
 import rando.beasts.common.init.BeastsTriggers;
 import rando.beasts.common.main.BeastsMod;
 import rando.beasts.common.tileentity.TileEntityCoconut;
@@ -35,5 +36,8 @@ public class CommonProxy {
 
 	public String getArmorTexture(Item armorItem, EntityEquipmentSlot armorSlot){
 		return null;
+	}
+
+	public void setGraphicsLevel(BlockPalmTreeLeaves block, boolean enabled) {
 	}
 }

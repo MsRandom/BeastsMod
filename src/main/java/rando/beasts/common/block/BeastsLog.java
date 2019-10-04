@@ -6,12 +6,12 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemBlock;
 import rando.beasts.common.utils.BeastsUtil;
 
-public class BlockJellyfisLog extends BlockLog {
+public class BeastsLog extends BlockLog {
 
-    public BlockJellyfisLog() {
+    public BeastsLog(String name) {
         this.setDefaultState(this.blockState.getBaseState().withProperty(LOG_AXIS, EnumAxis.Y));
         this.setLightLevel(0.5F);
-        BeastsUtil.addToRegistry(this, "jellywood", true, ItemBlock::new);
+        BeastsUtil.addToRegistry(this, name, true, ItemBlock::new);
     }
 
     public IBlockState getStateFromMeta(int meta)

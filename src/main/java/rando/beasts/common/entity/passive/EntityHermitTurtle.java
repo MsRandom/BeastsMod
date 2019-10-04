@@ -22,6 +22,7 @@ public class EntityHermitTurtle extends EntityCreature {
 
     public EntityHermitTurtle(World worldIn) {
         super(worldIn);
+        this.setSize(0.7F, 0.7F);
         this.tasks.addTask(0, new EntityAIWander(this, 0.2, 200) {
             @Override
             public boolean shouldExecute() {

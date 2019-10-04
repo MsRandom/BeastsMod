@@ -40,9 +40,9 @@ public abstract class EntityBranchieBase extends EntityMob {
         this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityAIWanderAvoidWater(this, 0.5D));
         this.tasks.addTask(2, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
-        this.targetTasks.addTask(3, new EntityAIAvoidEntity<>(this, EntityPlayer.class, entity -> getAttackTarget() == null, 6.0F, 4, 2));
+        this.targetTasks.addTask(3, new EntityAIAvoidEntity<>(this, EntityPlayer.class, entity -> getAttackTarget() == null, 6.0F, 2, 2));
         this.tasks.addTask(4, new EntityAILookIdle(this));
-        this.tasks.addTask(1, new EntityAIPanic(this, 2.0D));
+        this.tasks.addTask(1, new EntityAIPanic(this, 1.0D));
     }
 
     protected void applyEntityAttributes() {

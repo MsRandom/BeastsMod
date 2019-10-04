@@ -16,6 +16,7 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import rando.beasts.client.renderer.entity.*;
 import rando.beasts.client.renderer.tileentity.TileEntityCoconutRenderer;
+import rando.beasts.common.block.BlockPalmTreeLeaves;
 import rando.beasts.common.entity.item.EntityBeastsPainting;
 import rando.beasts.common.entity.item.EntityFallingCoconut;
 import rando.beasts.common.entity.monster.*;
@@ -72,5 +73,9 @@ public class ClientProxy extends CommonProxy {
 	public String getArmorTexture(Item armorItem, EntityEquipmentSlot armorSlot) {
 		String texture = ArmorData.TEXTURES.get(armorSlot).get(armorItem);
 		return texture == null ? null : BeastsReference.ID + ":textures/models/armor/" + texture + ".png";
+	}
+	
+	public void setGraphicsLevel(BlockPalmTreeLeaves block, boolean enabled) {
+		block.setGraphicsLevel(enabled);
 	}
 }
