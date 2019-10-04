@@ -42,16 +42,16 @@ public class EntityVileEel extends EntityMob implements IDriedAquatic {
 
     protected void initEntityAI() {
         this.tasks.addTask(0, new EntityAISwimming(this));
-        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityLivingBase.class, 10, true, false, entity -> !(entity instanceof EntityLandwhale)));
+        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityLivingBase.class, 10, true, false, entity -> !(entity instanceof EntityLandwhale) && !(entity instanceof EntityVileEel)));
         this.tasks.addTask(2, new EntityAIAttackMelee(this, 1.1D, true));
         this.tasks.addTask(3, new EntityAIWanderAvoidWater(this, 1.0D));
         this.tasks.addTask(4, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
         this.tasks.addTask(4, new EntityAILookIdle(this));
     }
 
-    public void onUpdate() {
-        super.onUpdate();
-        if (!this.world.isRemote && this.world.isDaytime()) this.setDead();
+    @Override
+    public boolean getCanSpawnHere() {
+        return super.getCanSpawnHere() && this.world.isDaytime();
     }
 
     @Override

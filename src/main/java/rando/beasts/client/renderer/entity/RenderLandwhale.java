@@ -3,6 +3,7 @@ package rando.beasts.client.renderer.entity;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.init.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -12,8 +13,9 @@ import rando.beasts.common.utils.BeastsReference;
 
 @SideOnly(Side.CLIENT)
 public class RenderLandwhale extends RenderLiving<EntityLandwhale> {
-	private static final ResourceLocation TEXTURE = new ResourceLocation(BeastsReference.ID,
-			"textures/entity/landwhale.png");
+	private static final ResourceLocation TEXTURE = new ResourceLocation(BeastsReference.ID, "textures/entity/landwhale.png");
+	private static final ResourceLocation TEXTURE_NO_CORAL = new ResourceLocation(BeastsReference.ID, "textures/entity/landwhale_nocoral.png");
+	private static final ResourceLocation SADDLE = new ResourceLocation(BeastsReference.ID, "textures/entity/landwhale_saddle.png");
 
 	@Override
 	protected void preRenderCallback(EntityLandwhale e, float partialTickTime) {
@@ -29,6 +31,6 @@ public class RenderLandwhale extends RenderLiving<EntityLandwhale> {
 	}
 
 	protected ResourceLocation getEntityTexture(EntityLandwhale entity) {
-		return TEXTURE;
+		return !entity.getSaddle().isEmpty() ? SADDLE : entity.getSheared() ? TEXTURE_NO_CORAL : TEXTURE;
 	}
 }

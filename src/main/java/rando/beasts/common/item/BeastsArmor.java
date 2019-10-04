@@ -3,6 +3,7 @@ package rando.beasts.common.item;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
@@ -31,6 +32,11 @@ public class BeastsArmor extends ItemArmor {
 			armorModel.rightArmPose = defaultModel.rightArmPose;
 			armorModel.leftArmPose = defaultModel.leftArmPose;
 		}
+
+/*		if(entityLiving instanceof EntityArmorStand){
+			armorModel.boxList.forEach(e -> {e.rotateAngleY = entityLiving.rotationYaw;});
+		}*/
+
 		return armorModel;
 	}
 

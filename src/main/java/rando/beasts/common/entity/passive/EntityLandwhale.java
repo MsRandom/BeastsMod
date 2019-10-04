@@ -151,7 +151,7 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
                 if (!this.world.isRemote) player.openGui(BeastsMod.instance, GuiHandler.GUI_LANDWHALE, world, this.getEntityId(), 0, 0);
                 return true;
             }
-            if (!player.isPassenger(this) && this.getPassengers().size() < 2) {
+            if (!this.getSaddle().isEmpty() && !player.isPassenger(this) && this.getPassengers().size() < 2) {
             	player.startRiding(this);
             	return true;
             }
@@ -182,6 +182,8 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
             if (getSaddle().isEmpty() && ticksSinceSheared > 48000) setSheared(false);
             ticksSinceSheared++;
         } else ticksSinceSheared = 0;
+
+        this.setSaddle(this.inventory.getStackInSlot(0));
     }
 
     protected boolean canFitPassenger(Entity passenger) {
@@ -267,7 +269,6 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
 
     @Override
     public boolean isShearable(@Nonnull ItemStack item, IBlockAccess world, BlockPos pos) {
-    	System.out.println(isTamed() + " " + getOwner());
         return !this.getSheared() && !this.isChild();
     }
 
