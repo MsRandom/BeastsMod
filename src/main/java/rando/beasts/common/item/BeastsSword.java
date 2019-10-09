@@ -1,11 +1,11 @@
 package rando.beasts.common.item;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import rando.beasts.common.utils.BeastsUtil;
-
-import javax.annotation.Nullable;
 
 public class BeastsSword extends ItemSword {
 

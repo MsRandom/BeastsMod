@@ -7,8 +7,6 @@ import rando.beasts.client.model.ModelCoconut;
 import rando.beasts.client.renderer.entity.RenderCoconutCrab;
 import rando.beasts.common.tileentity.TileEntityCoconut;
 
-import javax.annotation.Nullable;
-
 public class TileEntityCoconutRenderer extends TileEntitySpecialRenderer<TileEntityCoconut> {
 
     private final ModelCoconut model = new ModelCoconut();

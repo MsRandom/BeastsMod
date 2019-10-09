@@ -2,7 +2,6 @@ package rando.beasts.client.model;
 
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.entity.Entity;
 
 public class ModelHermitHelm extends ModelBiped {
     public ModelRenderer shell1;

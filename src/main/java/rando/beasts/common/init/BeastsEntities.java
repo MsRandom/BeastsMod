@@ -1,5 +1,14 @@
 package rando.beasts.common.init;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.function.Function;
+
+import org.apache.commons.lang3.StringUtils;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EnumCreatureType;
@@ -9,19 +18,23 @@ import net.minecraft.world.biome.Biome;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
-import org.apache.commons.lang3.StringUtils;
 import rando.beasts.common.entity.item.EntityBeastsPainting;
 import rando.beasts.common.entity.item.EntityFallingCoconut;
-import rando.beasts.common.entity.monster.*;
+import rando.beasts.common.entity.monster.EntityBranchieBase;
+import rando.beasts.common.entity.monster.EntityChorusBranchie;
+import rando.beasts.common.entity.monster.EntityCoconutCrab;
+import rando.beasts.common.entity.monster.EntityCoralBranchie;
+import rando.beasts.common.entity.monster.EntityGiantGardenEel;
+import rando.beasts.common.entity.monster.EntitySkewerShrimp;
+import rando.beasts.common.entity.monster.EntityVileEel;
+import rando.beasts.common.entity.monster.EntityWhippingBarnacle;
+import rando.beasts.common.entity.monster.EntityWoodBranchie;
 import rando.beasts.common.entity.passive.EntityHermitTurtle;
 import rando.beasts.common.entity.passive.EntityLandwhale;
 import rando.beasts.common.entity.passive.EntityPufferfishDog;
 import rando.beasts.common.entity.passive.EntityRabbitman;
 import rando.beasts.common.entity.projectile.EntityCoconutBomb;
 import rando.beasts.common.utils.BeastsReference;
-
-import java.util.*;
-import java.util.function.Function;
 
 @SuppressWarnings("unused")
 public class BeastsEntities {

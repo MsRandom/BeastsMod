@@ -3,7 +3,6 @@ package rando.beasts.common.inventory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ContainerHorseInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import rando.beasts.common.entity.passive.EntityLandwhale;

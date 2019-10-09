@@ -3,7 +3,6 @@ package rando.beasts.client.model;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.math.MathHelper;
 import rando.beasts.common.entity.passive.EntityHermitTurtle;
 
 public class ModelHermitTurtle extends ModelBase {

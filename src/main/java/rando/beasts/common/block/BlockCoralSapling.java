@@ -1,5 +1,7 @@
 package rando.beasts.common.block;
 
+import java.util.Random;
+
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
@@ -14,8 +16,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import rando.beasts.common.init.BeastsBlocks;
 import rando.beasts.common.item.ItemCoralBlock;
-
-import java.util.Random;
 
 @SuppressWarnings("deprecation")
 public class BlockCoralSapling extends BeastsSapling {

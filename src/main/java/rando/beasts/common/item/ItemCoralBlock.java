@@ -2,7 +2,6 @@ package rando.beasts.common.item;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemMultiTexture;
-import rando.beasts.common.block.BlockCoral;
 import rando.beasts.common.block.CoralColor;
 
 public class ItemCoralBlock extends ItemMultiTexture implements ICoralMeta {

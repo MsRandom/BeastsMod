@@ -1,9 +1,10 @@
 package rando.beasts.common.item;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
@@ -11,8 +12,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import rando.beasts.common.main.BeastsMod;
 import rando.beasts.common.utils.BeastsUtil;
-
-import javax.annotation.Nullable;
 
 public class BeastsArmor extends ItemArmor {
 

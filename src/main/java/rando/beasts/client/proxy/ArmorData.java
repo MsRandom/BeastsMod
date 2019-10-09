@@ -1,5 +1,8 @@
 package rando.beasts.client.proxy;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
@@ -7,9 +10,6 @@ import rando.beasts.client.model.ModelHermitHelm;
 import rando.beasts.client.model.ModelPufferArmor;
 import rando.beasts.client.model.ModelSpartapodArmor;
 import rando.beasts.common.init.BeastsItems;
-
-import java.util.HashMap;
-import java.util.Map;
 
 class ArmorData {
     static final Map<EntityEquipmentSlot, Map<Item, ModelBiped>> MODELS = new HashMap<>();

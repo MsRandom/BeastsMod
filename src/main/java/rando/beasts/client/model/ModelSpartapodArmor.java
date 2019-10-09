@@ -2,7 +2,6 @@ package rando.beasts.client.model;
 
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityArmorStand;
 

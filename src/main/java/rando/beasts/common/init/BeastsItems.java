@@ -12,7 +12,21 @@ import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemSword;
 import net.minecraft.potion.PotionEffect;
 import net.minecraftforge.common.util.EnumHelper;
-import rando.beasts.common.item.*;
+import rando.beasts.common.item.BeastsArmor;
+import rando.beasts.common.item.BeastsCoconutBowl;
+import rando.beasts.common.item.BeastsFood;
+import rando.beasts.common.item.BeastsItem;
+import rando.beasts.common.item.BeastsSword;
+import rando.beasts.common.item.BeastsToolSet;
+import rando.beasts.common.item.ItemBarnacleTongue;
+import rando.beasts.common.item.ItemBeastsPainting;
+import rando.beasts.common.item.ItemCoconade;
+import rando.beasts.common.item.ItemCoralEssence;
+import rando.beasts.common.item.ItemDaggerfish;
+import rando.beasts.common.item.ItemGlowRoot;
+import rando.beasts.common.item.ItemIcon;
+import rando.beasts.common.item.ItemPufferArmor;
+import rando.beasts.common.item.ToolSetJellyWood;
 
 public class BeastsItems {
 	

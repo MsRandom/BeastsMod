@@ -1,5 +1,7 @@
 package rando.beasts.common.item;
 
+import java.util.List;
+
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Enchantments;
@@ -11,8 +13,6 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
-
-import java.util.List;
 
 public class ItemPufferArmor extends BeastsArmor {
     public ItemPufferArmor(String type, EntityEquipmentSlot armorType) {

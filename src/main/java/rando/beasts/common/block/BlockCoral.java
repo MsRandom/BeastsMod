@@ -1,6 +1,5 @@
 package rando.beasts.common.block;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -13,7 +12,6 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import rando.beasts.common.item.ItemCoralBlock;
-import rando.beasts.common.utils.BeastsUtil;
 
 @SuppressWarnings("deprecation")
 public class BlockCoral extends BeastsBlock {

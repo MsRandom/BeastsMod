@@ -1,22 +1,21 @@
 package rando.beasts.common.block;
 
+import java.util.Random;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntitySkeleton;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -26,9 +25,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import rando.beasts.common.init.BeastsBlocks;
 import rando.beasts.common.utils.BeastsUtil;
-
-import javax.annotation.Nullable;
-import java.util.Random;
 
 public class BlockTentacle extends BlockBush {
 

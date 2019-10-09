@@ -1,13 +1,13 @@
 package rando.beasts.common.block;
 
+import java.util.function.Function;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import rando.beasts.common.utils.BeastsUtil;
-
-import java.util.function.Function;
 
 public class BeastsBlock extends Block {
 

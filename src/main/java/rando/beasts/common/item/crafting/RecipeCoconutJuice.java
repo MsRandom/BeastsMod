@@ -1,6 +1,7 @@
 package rando.beasts.common.item.crafting;
 
 import com.google.common.collect.ImmutableList;
+
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -18,13 +19,23 @@ public class RecipeCoconutJuice extends ShapelessRecipes {
         setRegistryName("coconut_juice");
         BeastsRecipes.LIST.add(this);
     }
-
+    
     @Override
-    public ItemStack getCraftingResult(InventoryCrafting inv) {
-        for (int i = 0; i < inv.getSizeInventory(); i++) {
-            ItemStack stack = inv.getStackInSlot(i);
-            if(stack.getItem() instanceof ItemSword) stack.setItemDamage(stack.getItemDamage() - 1);
+    public NonNullList<ItemStack> getRemainingItems(InventoryCrafting inv)
+    {
+        NonNullList<ItemStack> nonnulllist = NonNullList.<ItemStack>withSize(inv.getSizeInventory(), ItemStack.EMPTY);
+
+        for (int i = 0; i < nonnulllist.size(); ++i)
+        {
+            ItemStack itemstack = inv.getStackInSlot(i);
+            if(itemstack.getItem() instanceof ItemSword) {
+            	ItemStack item = new ItemStack(itemstack.getItem());
+            	item.setItemDamage(itemstack.getItemDamage() + 1);
+            	nonnulllist.set(i, item);
+            }
+            else nonnulllist.set(i, net.minecraftforge.common.ForgeHooks.getContainerItem(itemstack));
         }
-        return super.getCraftingResult(inv);
+
+        return nonnulllist;
     }
 }

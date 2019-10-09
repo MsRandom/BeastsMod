@@ -10,7 +10,6 @@ public class BeastsLog extends BlockLog {
 
     public BeastsLog(String name) {
         this.setDefaultState(this.blockState.getBaseState().withProperty(LOG_AXIS, EnumAxis.Y));
-        this.setLightLevel(0.5F);
         BeastsUtil.addToRegistry(this, name, true, ItemBlock::new);
     }
 
