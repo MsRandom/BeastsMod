@@ -1,38 +1,45 @@
 package rando.beasts.client.proxy;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockDoor;
-import net.minecraft.block.BlockFenceGate;
-import net.minecraft.block.BlockLeaves;
 import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.client.renderer.block.statemap.StateMap;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
-import rando.beasts.client.renderer.entity.*;
+import rando.beasts.client.renderer.entity.RenderBeastsPainting;
+import rando.beasts.client.renderer.entity.RenderChorusBranchie;
+import rando.beasts.client.renderer.entity.RenderCoconutBomb;
+import rando.beasts.client.renderer.entity.RenderCoconutCrab;
+import rando.beasts.client.renderer.entity.RenderCoralBranchie;
+import rando.beasts.client.renderer.entity.RenderFallingCoconut;
+import rando.beasts.client.renderer.entity.RenderGiantGardenEel;
+import rando.beasts.client.renderer.entity.RenderHermitTurtle;
+import rando.beasts.client.renderer.entity.RenderLandwhale;
+import rando.beasts.client.renderer.entity.RenderPufferfishDog;
+import rando.beasts.client.renderer.entity.RenderRabbitman;
+import rando.beasts.client.renderer.entity.RenderSkewerShrimp;
+import rando.beasts.client.renderer.entity.RenderVileEel;
+import rando.beasts.client.renderer.entity.RenderWhippingBarnacle;
+import rando.beasts.client.renderer.entity.RenderWoodBranchie;
 import rando.beasts.client.renderer.tileentity.TileEntityCoconutRenderer;
 import rando.beasts.common.block.BlockPalmTreeLeaves;
 import rando.beasts.common.entity.item.EntityBeastsPainting;
 import rando.beasts.common.entity.item.EntityFallingCoconut;
-import rando.beasts.common.entity.monster.*;
+import rando.beasts.common.entity.monster.EntityChorusBranchie;
+import rando.beasts.common.entity.monster.EntityCoconutCrab;
+import rando.beasts.common.entity.monster.EntityCoralBranchie;
+import rando.beasts.common.entity.monster.EntityGiantGardenEel;
+import rando.beasts.common.entity.monster.EntitySkewerShrimp;
+import rando.beasts.common.entity.monster.EntityVileEel;
+import rando.beasts.common.entity.monster.EntityWhippingBarnacle;
+import rando.beasts.common.entity.monster.EntityWoodBranchie;
 import rando.beasts.common.entity.passive.EntityHermitTurtle;
 import rando.beasts.common.entity.passive.EntityLandwhale;
 import rando.beasts.common.entity.passive.EntityPufferfishDog;
 import rando.beasts.common.entity.passive.EntityRabbitman;
 import rando.beasts.common.entity.projectile.EntityCoconutBomb;
-import rando.beasts.common.init.BeastsBlocks;
-import rando.beasts.common.init.BeastsItems;
-import rando.beasts.common.item.IHandleMeta;
 import rando.beasts.common.proxy.CommonProxy;
 import rando.beasts.common.tileentity.TileEntityCoconut;
 import rando.beasts.common.utils.BeastsReference;
-
-import java.util.Objects;
 
 public class ClientProxy extends CommonProxy {
 

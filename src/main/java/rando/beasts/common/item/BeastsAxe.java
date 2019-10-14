@@ -1,11 +1,11 @@
 package rando.beasts.common.item;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemStack;
 import rando.beasts.common.utils.BeastsUtil;
-
-import javax.annotation.Nullable;
 
 public class BeastsAxe extends ItemAxe {
 

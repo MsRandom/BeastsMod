@@ -48,6 +48,7 @@ public class WorldGenPalmTrees extends WorldGenAbstractTree {
             for (int i = -5; i < 5; i++) {
                 if(i != 0) {
                     pos = position.add(i, 0, i);
+                    pos = world.getHeight(pos);
                     if (rand.nextInt(3) == 0) {
                         if (rand.nextInt(10) < 2) {
                             EntityCoconutCrab crab = new EntityCoconutCrab(world);

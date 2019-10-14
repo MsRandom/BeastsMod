@@ -1,10 +1,11 @@
 package rando.beasts.common.block;
 
-import net.minecraft.block.material.MapColor;
-import net.minecraft.util.IStringSerializable;
+import java.util.Random;
 
 import javax.annotation.Nonnull;
-import java.util.Random;
+
+import net.minecraft.block.material.MapColor;
+import net.minecraft.util.IStringSerializable;
 
 public enum CoralColor implements IStringSerializable {
     BLUE(MapColor.BLUE),

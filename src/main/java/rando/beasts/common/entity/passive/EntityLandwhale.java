@@ -34,6 +34,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IShearable;
@@ -112,8 +113,23 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
     public boolean canBeSteered() {
         return !getSaddle().isEmpty();
     }
+    
+    
 
-    public void travel(float strafe, float vertical, float forward) {
+    @Override
+	public void updatePassenger(Entity passenger) {
+    	if (this.isPassenger(passenger))
+        {
+    		float f;
+    		int i = this.getPassengers().indexOf(passenger);
+    		if(i == 0) f = 0.2F;
+    		else f = -0.6F;
+    		Vec3d vec3d = (new Vec3d((double)f, 0.0D, 0.0D)).rotateYaw(-this.rotationYaw * 0.017453292F - ((float)Math.PI / 2F));
+            passenger.setPosition(this.posX + vec3d.x, this.posY + this.getMountedYOffset() + passenger.getYOffset(), this.posZ + vec3d.z);
+        }
+	}
+
+	public void travel(float strafe, float vertical, float forward) {
         if (this.getControllingPassenger() != null && this.canBeSteered() && !getSaddle().isEmpty()) {
             EntityLivingBase entitylivingbase = (EntityLivingBase) this.getControllingPassenger();
             this.rotationYaw = entitylivingbase.rotationYaw;

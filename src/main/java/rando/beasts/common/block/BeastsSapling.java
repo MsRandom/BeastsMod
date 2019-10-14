@@ -1,5 +1,10 @@
 package rando.beasts.common.block;
 
+import java.util.Random;
+import java.util.function.Function;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.IGrowable;
@@ -16,10 +21,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import rando.beasts.common.utils.BeastsUtil;
-
-import javax.annotation.Nullable;
-import java.util.Random;
-import java.util.function.Function;
 
 @SuppressWarnings("deprecation")
 public class BeastsSapling extends BlockBush implements IGrowable {

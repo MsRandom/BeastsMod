@@ -1,15 +1,14 @@
 package rando.beasts.client.renderer.entity;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
 import rando.beasts.client.proxy.ClientProxy;
 import rando.beasts.common.entity.item.EntityFallingCoconut;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public class RenderFallingCoconut extends Render<EntityFallingCoconut> {
 

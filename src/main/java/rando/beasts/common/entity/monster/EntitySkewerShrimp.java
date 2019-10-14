@@ -1,6 +1,5 @@
 package rando.beasts.common.entity.monster;
 
-import net.minecraft.block.Block;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
@@ -12,9 +11,7 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import rando.beasts.client.init.BeastsSounds;
 import rando.beasts.common.init.BeastsItems;
 
 public class EntitySkewerShrimp extends EntityMob {
