@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAITarget;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.player.EntityPlayer;
@@ -28,6 +29,7 @@ public class EntityHermitTurtle extends EntityCreature {
                 return isOut() && super.shouldExecute();
             }
         });
+        this.tasks.addTask(1, new EntityAISwimming(this));
     }
 
     @Override

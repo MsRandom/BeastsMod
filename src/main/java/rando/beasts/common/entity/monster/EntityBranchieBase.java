@@ -28,6 +28,7 @@ import rando.beasts.client.init.BeastsSounds;
 public abstract class EntityBranchieBase extends EntityMob {
 
     public static final Map<Collection<? extends Block>, Function<BlockEvent.BreakEvent, ? extends EntityBranchieBase>> TYPES = new HashMap<>();
+    private boolean hasScreamed = false;
 
     EntityBranchieBase(World worldIn) {
         super(worldIn);
@@ -70,7 +71,10 @@ public abstract class EntityBranchieBase extends EntityMob {
 	}
 
 	public void scream() {
-        playSound(BeastsSounds.BRANCHIE_SCREAM, getSoundVolume(), getSoundPitch());
+        if(!hasScreamed) {
+            hasScreamed = true;
+            playSound(BeastsSounds.BRANCHIE_SCREAM, getSoundVolume(), getSoundPitch());
+        }
     }
 
     protected float getSoundVolume() {

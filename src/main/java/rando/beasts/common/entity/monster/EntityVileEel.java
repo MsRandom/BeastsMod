@@ -25,6 +25,7 @@ import net.minecraft.world.World;
 import rando.beasts.client.init.BeastsSounds;
 import rando.beasts.common.entity.IDriedAquatic;
 import rando.beasts.common.entity.passive.EntityLandwhale;
+import rando.beasts.common.entity.projectile.EntityCoconutBomb;
 import rando.beasts.common.init.BeastsItems;
 
 public class EntityVileEel extends EntityMob implements IDriedAquatic {
@@ -97,8 +98,17 @@ public class EntityVileEel extends EntityMob implements IDriedAquatic {
 
     @Override
     public boolean attackEntityAsMob(Entity entityIn) {
-        if(!this.world.isRemote)
-            entityIn.startRiding(this, true);
+        if(!this.world.isRemote) {
+            if(entityIn instanceof EntityCoconutCrab){
+                EntityCoconutCrab e = (EntityCoconutCrab)entityIn;
+                if(!e.isOut()){
+                    entityIn.startRiding(this, true);
+                }
+            }
+            else{
+                entityIn.startRiding(this, true);
+            }
+        }
         return super.attackEntityAsMob(entityIn);
     }
 }

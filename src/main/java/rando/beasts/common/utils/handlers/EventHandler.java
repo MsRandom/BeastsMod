@@ -93,7 +93,7 @@ public class EventHandler {
                 break;
             }
         }
-        if(createFunc != null && !event.getWorld().isRemote && event.getPlayer().getRNG().nextBoolean() && event.getWorld().getBlockState(event.getPos().down()).getBlock() != block) {
+        if(createFunc != null && !event.getWorld().isRemote && event.getPlayer().getRNG().nextInt(50) == 0 && event.getWorld().getBlockState(event.getPos().down()).getBlock() != block) {
             EntityBranchieBase entity = createFunc.apply(event);
             if(entity != null) {
                 entity.scream();
