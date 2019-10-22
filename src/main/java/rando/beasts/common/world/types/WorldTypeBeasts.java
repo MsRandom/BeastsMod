@@ -6,7 +6,8 @@ import net.minecraft.world.biome.BiomeProvider;
 import net.minecraft.world.biome.BiomeProviderSingle;
 import rando.beasts.common.init.BeastsBiomes;
 
-public class WorldTypeBeasts extends WorldType{
+public class WorldTypeBeasts extends WorldType {
+	//why is this a thing?
 	public WorldTypeBeasts(){
 		super("beasts");
 	}
@@ -15,7 +16,4 @@ public class WorldTypeBeasts extends WorldType{
 	public BiomeProvider getBiomeProvider(World world) {
 		return new BiomeProviderSingle(BeastsBiomes.DRIED_REEF);
 	}
-	
-	
-
 }

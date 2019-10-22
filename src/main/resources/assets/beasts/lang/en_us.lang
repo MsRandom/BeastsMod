@@ -100,6 +100,10 @@ tile.palmleaves.name=Palm Leaves
 tile.palm_sapling.name=Palm Tree Sapling
 tile.hermit_shell.name=Hermit Shell
 
+Config
+
+config.logCascadingWorldGeneration=LogCascadingWorldGeneration
+
 Miscellaneous
 
 itemGroup.beasts=Beasts

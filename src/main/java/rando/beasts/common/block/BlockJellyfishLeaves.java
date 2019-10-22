@@ -23,7 +23,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import rando.beasts.common.init.BeastsBlocks;
-import rando.beasts.common.utils.BeastsUtil;
+import rando.beasts.common.main.BeastsUtils;
 
 public class BlockJellyfishLeaves extends BlockLeaves {
 	
@@ -33,7 +33,7 @@ public class BlockJellyfishLeaves extends BlockLeaves {
     	super();
         this.setSoundType(SoundType.SLIME);
         this.setDefaultState(this.blockState.getBaseState().withProperty(CHECK_DECAY, true).withProperty(DECAYABLE, true));
-        BeastsUtil.addToRegistry(this, "jellyleaves", true, ItemBlock::new);
+        BeastsUtils.addToRegistry(this, "jellyleaves", true, ItemBlock::new);
     }
 
     

@@ -8,7 +8,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import rando.beasts.client.model.ModelVileEel;
 import rando.beasts.common.entity.monster.EntityVileEel;
-import rando.beasts.common.utils.BeastsReference;
+import rando.beasts.common.main.BeastsReference;
 
 @SideOnly(Side.CLIENT)
 public class RenderVileEel extends RenderLiving<EntityVileEel> {

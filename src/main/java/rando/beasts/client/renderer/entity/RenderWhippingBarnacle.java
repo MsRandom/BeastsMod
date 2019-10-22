@@ -9,7 +9,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import rando.beasts.client.model.ModelWhippingBarnacle;
 import rando.beasts.common.entity.monster.EntityWhippingBarnacle;
-import rando.beasts.common.utils.BeastsReference;
+import rando.beasts.common.main.BeastsReference;
 
 public class RenderWhippingBarnacle extends RenderLiving<EntityWhippingBarnacle> {
 

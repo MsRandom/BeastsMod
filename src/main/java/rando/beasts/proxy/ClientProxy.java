@@ -1,4 +1,4 @@
-package rando.beasts.client.proxy;
+package rando.beasts.proxy;
 
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -37,9 +37,8 @@ import rando.beasts.common.entity.passive.EntityLandwhale;
 import rando.beasts.common.entity.passive.EntityPufferfishDog;
 import rando.beasts.common.entity.passive.EntityRabbitman;
 import rando.beasts.common.entity.projectile.EntityCoconutBomb;
-import rando.beasts.common.proxy.CommonProxy;
 import rando.beasts.common.tileentity.TileEntityCoconut;
-import rando.beasts.common.utils.BeastsReference;
+import rando.beasts.common.main.BeastsReference;
 
 public class ClientProxy extends CommonProxy {
 
@@ -52,6 +51,7 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	private void registerRenders() {
+		//maybe we should find a better way of doing this.. it's currently really messy
 		RenderingRegistry.registerEntityRenderingHandler(EntityCoconutCrab.class, RenderCoconutCrab::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityPufferfishDog.class, RenderPufferfishDog::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityRabbitman.class, RenderRabbitman::new);

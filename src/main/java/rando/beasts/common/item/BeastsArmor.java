@@ -11,13 +11,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import rando.beasts.common.main.BeastsMod;
-import rando.beasts.common.utils.BeastsUtil;
+import rando.beasts.common.main.BeastsUtils;
 
 public class BeastsArmor extends ItemArmor {
 
 	public BeastsArmor(String name, ArmorMaterial material, EntityEquipmentSlot armorType) {
 		super(material, 0, armorType);
-		BeastsUtil.addToRegistry(this, name, true);
+		BeastsUtils.addToRegistry(this, name, true);
 	}
 
 	@Override 	

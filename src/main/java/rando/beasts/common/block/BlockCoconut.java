@@ -59,10 +59,7 @@ public class BlockCoconut extends BlockContainer {
         if ((worldIn.isAirBlock(pos.down()) || BlockFalling.canFallThrough(worldIn.getBlockState(pos.down()))) && pos.getY() >= 0) {
             int i = 32;
             if (!BlockFalling.fallInstantly && worldIn.isAreaLoaded(pos.add(-i, -i, -i), pos.add(i, i, i))) {
-                if (!worldIn.isRemote) {
-                    EntityFallingCoconut coconut = new EntityFallingCoconut(worldIn, pos);
-                    worldIn.spawnEntity(coconut);
-                }
+                if (!worldIn.isRemote) worldIn.spawnEntity(new EntityFallingCoconut(worldIn, pos));
             } else {
                 IBlockState state = worldIn.getBlockState(pos);
                 worldIn.setBlockToAir(pos);
@@ -81,7 +78,6 @@ public class BlockCoconut extends BlockContainer {
     public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {
         if (rand.nextInt(16) == 0) {
             BlockPos blockpos = pos.down();
-
             if (BlockFalling.canFallThrough(worldIn.getBlockState(blockpos))) {
                 double d0 = pos.getX() + rand.nextFloat();
                 double d1 = pos.getY() - 0.05;

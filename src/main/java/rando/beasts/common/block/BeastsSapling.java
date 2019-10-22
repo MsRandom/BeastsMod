@@ -20,7 +20,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
-import rando.beasts.common.utils.BeastsUtil;
+import rando.beasts.common.main.BeastsUtils;
 
 @SuppressWarnings("deprecation")
 public class BeastsSapling extends BlockBush implements IGrowable {
@@ -33,7 +33,7 @@ public class BeastsSapling extends BlockBush implements IGrowable {
         this.setDefaultState(this.blockState.getBaseState().withProperty(STAGE, 0));
         setHardness(0.6F);
         setSoundType(SoundType.PLANT);
-        if(tab) BeastsUtil.addToRegistry(this, name, true, item);
+        if(tab) BeastsUtils.addToRegistry(this, name, true, item);
     }
 
     public BeastsSapling(String name, Function<Boolean, WorldGenerator> generator) {

@@ -1,4 +1,4 @@
 @ParametersAreNonnullByDefault
-package rando.beasts.common.utils.handlers;
+package rando.beasts.common.event;
 
 import javax.annotation.ParametersAreNonnullByDefault;

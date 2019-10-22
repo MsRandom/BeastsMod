@@ -16,7 +16,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import rando.beasts.client.model.ModelCoconut;
 import rando.beasts.common.entity.monster.EntityCoconutCrab;
-import rando.beasts.common.utils.BeastsReference;
+import rando.beasts.common.main.BeastsReference;
 
 public class RenderCoconutCrab extends RenderLiving<EntityCoconutCrab> {
 

@@ -1,4 +1,4 @@
-package rando.beasts.client.proxy;
+package rando.beasts.proxy;
 
 import java.util.HashMap;
 import java.util.Map;

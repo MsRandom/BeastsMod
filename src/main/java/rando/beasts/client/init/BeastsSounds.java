@@ -5,7 +5,7 @@ import java.util.List;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import rando.beasts.common.utils.BeastsReference;
+import rando.beasts.common.main.BeastsReference;
 
 public class BeastsSounds {
 

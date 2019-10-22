@@ -45,7 +45,7 @@ import rando.beasts.common.entity.IDriedAquatic;
 import rando.beasts.common.init.BeastsBlocks;
 import rando.beasts.common.init.BeastsItems;
 import rando.beasts.common.main.BeastsMod;
-import rando.beasts.common.utils.handlers.GuiHandler;
+import rando.beasts.common.network.BeastsGuiHandler;
 
 public class EntityLandwhale extends EntityTameable implements IShearable, IDriedAquatic {
     private static final DataParameter<Boolean> SHEARED = EntityDataManager.createKey(EntityLandwhale.class, DataSerializers.BOOLEAN);
@@ -169,7 +169,7 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
         if(stack.getItem() == Items.SHEARS && !this.getSheared()) return super.processInteract(player, hand);
         if(!this.isChild() && this.isTamed() && (this.isOwner(player) || this.getControllingPassenger() != null)) {
             if(player.isSneaking()) {
-                if (!this.world.isRemote) player.openGui(BeastsMod.instance, GuiHandler.GUI_LANDWHALE, world, this.getEntityId(), 0, 0);
+                player.openGui(BeastsMod.instance, BeastsGuiHandler.GUI_LANDWHALE.getId(), world, this.getEntityId(), 0, 0);
                 return true;
             }
             if (!this.getSaddle().isEmpty() && !player.isPassenger(this) && this.getPassengers().size() < 2) {

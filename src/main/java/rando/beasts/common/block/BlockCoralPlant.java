@@ -26,7 +26,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import rando.beasts.common.init.BeastsBlocks;
 import rando.beasts.common.init.BeastsItems;
-import rando.beasts.common.utils.BeastsUtil;
+import rando.beasts.common.main.BeastsUtils;
 
 @SuppressWarnings("deprecation")
 public class BlockCoralPlant extends Block {
@@ -44,7 +44,7 @@ public class BlockCoralPlant extends Block {
         setHardness(2.0F);
         setSoundType(SoundType.PLANT);
         this.setDefaultState(this.blockState.getBaseState().withProperty(NORTH, false).withProperty(EAST, false).withProperty(SOUTH, false).withProperty(WEST, false).withProperty(UP, false).withProperty(DOWN, false));
-        BeastsUtil.addToRegistry(this, "coral_plant_" + color.getName(), false, null);
+        BeastsUtils.addToRegistry(this, "coral_plant_" + color.getName(), false, null);
     }
 
     public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {

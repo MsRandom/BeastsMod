@@ -5,7 +5,7 @@ import javax.annotation.Nullable;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemStack;
-import rando.beasts.common.utils.BeastsUtil;
+import rando.beasts.common.main.BeastsUtils;
 
 public class BeastsShovel extends ItemSpade {
 
@@ -14,7 +14,7 @@ public class BeastsShovel extends ItemSpade {
     public BeastsShovel(ToolMaterial material, String name, @Nullable BeastsToolSet kit) {
         super(material);
         this.kit = kit;
-        BeastsUtil.addToRegistry(this, name, true);
+        BeastsUtils.addToRegistry(this, name, true);
     }
 
     @Override

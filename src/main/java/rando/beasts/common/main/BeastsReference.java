@@ -1,4 +1,4 @@
-package rando.beasts.common.utils;
+package rando.beasts.common.main;
 
 public class BeastsReference {
 

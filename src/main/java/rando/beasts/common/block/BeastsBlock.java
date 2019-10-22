@@ -7,7 +7,7 @@ import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
-import rando.beasts.common.utils.BeastsUtil;
+import rando.beasts.common.main.BeastsUtils;
 
 public class BeastsBlock extends Block {
 
@@ -35,6 +35,6 @@ public class BeastsBlock extends Block {
 
     public BeastsBlock(Material materialIn, MapColor color, String name, boolean tab, Function<Block, Item> item) {
         super(materialIn, color);
-        BeastsUtil.addToRegistry(this, name, tab, item);
+        BeastsUtils.addToRegistry(this, name, tab, item);
     }
 }

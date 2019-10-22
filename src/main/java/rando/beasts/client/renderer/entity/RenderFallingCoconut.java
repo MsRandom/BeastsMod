@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
-import rando.beasts.client.proxy.ClientProxy;
+import rando.beasts.proxy.ClientProxy;
 import rando.beasts.common.entity.item.EntityFallingCoconut;
 
 public class RenderFallingCoconut extends Render<EntityFallingCoconut> {

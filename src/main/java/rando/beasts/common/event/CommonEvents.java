@@ -1,4 +1,4 @@
-package rando.beasts.common.utils.handlers;
+package rando.beasts.common.event;
 
 import java.util.Collection;
 import java.util.List;
@@ -25,11 +25,13 @@ import rando.beasts.common.entity.monster.EntityBranchieBase;
 import rando.beasts.common.entity.passive.EntityPufferfishDog;
 import rando.beasts.common.entity.passive.EntityRabbitman;
 import rando.beasts.common.init.BeastsTriggers;
-import rando.beasts.common.utils.BeastsReference;
+import rando.beasts.common.init.BeastsLootTables;
+import rando.beasts.common.main.BeastsReference;
+import rando.beasts.common.world.storage.loot.BeastsLootTable;
 
 @SuppressWarnings("unused")
 @Mod.EventBusSubscriber(modid = BeastsReference.ID)
-public class EventHandler {
+public class CommonEvents {
 
     @SubscribeEvent
     public static void entityJoin(EntityJoinWorldEvent event) {
@@ -77,9 +79,8 @@ public class EventHandler {
     
     @SubscribeEvent
     public static void lootTable(LootTableLoadEvent event) {
-    	if(event.getName().toString().equals("minecraft:gameplay/fishing")) {
-    		event.getTable().getPool("main").addEntry(LootHandler.getInjectEntry("fish", 100));
-    	}
+        BeastsLootTable table = BeastsLootTables.TABLES.get(event.getName().getResourcePath());
+        if(table != null) event.getTable().getPool("main").addEntry(table.tableSupplier.get());
     }
 
     @SubscribeEvent

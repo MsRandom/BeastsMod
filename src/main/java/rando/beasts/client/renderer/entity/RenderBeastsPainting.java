@@ -17,7 +17,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import rando.beasts.common.entity.item.EntityBeastsPainting;
-import rando.beasts.common.utils.BeastsReference;
+import rando.beasts.common.main.BeastsReference;
 
 @SideOnly(Side.CLIENT)
 public class RenderBeastsPainting extends Render<EntityBeastsPainting> {

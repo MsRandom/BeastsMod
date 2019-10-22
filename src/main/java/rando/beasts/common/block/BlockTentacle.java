@@ -24,7 +24,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import rando.beasts.common.init.BeastsBlocks;
-import rando.beasts.common.utils.BeastsUtil;
+import rando.beasts.common.main.BeastsUtils;
 
 public class BlockTentacle extends BlockBush {
 
@@ -34,7 +34,7 @@ public class BlockTentacle extends BlockBush {
 
     public BlockTentacle() {
         this.setDefaultState(this.getDefaultState().withProperty(SIZE, 8).withProperty(FULL, false));
-        BeastsUtil.addToRegistry(this, "tentacle", false, null);
+        BeastsUtils.addToRegistry(this, "tentacle", false, null);
     }
 
     @Override

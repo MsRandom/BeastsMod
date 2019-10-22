@@ -12,15 +12,18 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraft.world.gen.structure.StructureComponent;
 import net.minecraft.world.gen.structure.StructureStart;
 
-public class RabbitVillageGenerator extends WorldGenerator {
+public class RabbitVillageGenerator extends BeastsStructure {
 
     private static ChunkPos[] structureCoords = new ChunkPos[128];
     private static int generated = 0;
+
+    public RabbitVillageGenerator() {
+        super(StructureRabbitVillagePieces::register);
+    }
 
     private static boolean canSpawnStructureAtCoords(World world, int chunkX, int chunkZ) {
         int[] p = getRandomPos(world, chunkX, chunkZ);

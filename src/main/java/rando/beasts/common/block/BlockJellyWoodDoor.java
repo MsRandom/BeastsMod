@@ -4,7 +4,7 @@ import net.minecraft.block.BlockDoor;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import rando.beasts.common.item.ItemJellyWoodDoor;
-import rando.beasts.common.utils.BeastsUtil;
+import rando.beasts.common.main.BeastsUtils;
 
 public class BlockJellyWoodDoor extends BlockDoor {
     public BlockJellyWoodDoor() {
@@ -12,6 +12,6 @@ public class BlockJellyWoodDoor extends BlockDoor {
         setHardness(3.0F);
         setSoundType(SoundType.WOOD);
         disableStats();
-        BeastsUtil.addToRegistry(this, "jellywood_door", true, ItemJellyWoodDoor::new);
+        BeastsUtils.addToRegistry(this, "jellywood_door", true, ItemJellyWoodDoor::new);
     }
 }

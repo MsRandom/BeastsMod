@@ -8,7 +8,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import rando.beasts.client.model.ModelLandwhale;
 import rando.beasts.common.entity.passive.EntityLandwhale;
-import rando.beasts.common.utils.BeastsReference;
+import rando.beasts.common.main.BeastsReference;
 
 @SideOnly(Side.CLIENT)
 public class RenderLandwhale extends RenderLiving<EntityLandwhale> {

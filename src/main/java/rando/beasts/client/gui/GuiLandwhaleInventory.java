@@ -7,7 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import rando.beasts.common.entity.passive.EntityLandwhale;
 import rando.beasts.common.inventory.ContainerLandwhaleInventory;
-import rando.beasts.common.utils.BeastsReference;
+import rando.beasts.common.main.BeastsReference;
 
 public class GuiLandwhaleInventory extends GuiContainer {
     private static final ResourceLocation GUI = new ResourceLocation(BeastsReference.ID, "textures/gui/container/landwhale.png");

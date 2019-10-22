@@ -15,7 +15,7 @@ import net.minecraft.advancements.critereon.AbstractCriterionInstance;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ResourceLocation;
 import rando.beasts.common.init.BeastsTriggers;
-import rando.beasts.common.utils.BeastsReference;
+import rando.beasts.common.main.BeastsReference;
 
 public class BeastsTrigger implements ICriterionTrigger<BeastsTrigger.Instance> {
     private final ResourceLocation name;

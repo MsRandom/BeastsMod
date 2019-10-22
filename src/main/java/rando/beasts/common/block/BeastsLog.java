@@ -4,13 +4,13 @@ import net.minecraft.block.BlockLog;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemBlock;
-import rando.beasts.common.utils.BeastsUtil;
+import rando.beasts.common.main.BeastsUtils;
 
 public class BeastsLog extends BlockLog {
 
     public BeastsLog(String name) {
         this.setDefaultState(this.blockState.getBaseState().withProperty(LOG_AXIS, EnumAxis.Y));
-        BeastsUtil.addToRegistry(this, name, true, ItemBlock::new);
+        BeastsUtils.addToRegistry(this, name, true, ItemBlock::new);
     }
 
     public IBlockState getStateFromMeta(int meta)

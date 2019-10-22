@@ -13,15 +13,11 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import rando.beasts.common.command.CommandLocateStructure;
-import rando.beasts.common.proxy.CommonProxy;
-import rando.beasts.common.utils.BeastsReference;
-import rando.beasts.common.world.gen.structure.RabbitVillageGenerator;
+import rando.beasts.proxy.CommonProxy;
 
 @SuppressWarnings("unused")
 @Mod(modid = BeastsReference.ID, name = BeastsReference.NAME, version = BeastsReference.VERSION)
 public class BeastsMod {
-
-	public static final RabbitVillageGenerator RABBIT_VILLAGE = new RabbitVillageGenerator();
 
 	private static Logger logger;
 

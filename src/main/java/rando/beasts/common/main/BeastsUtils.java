@@ -1,4 +1,4 @@
-package rando.beasts.common.utils;
+package rando.beasts.common.main;
 
 import java.util.function.Function;
 
@@ -8,7 +8,7 @@ import rando.beasts.client.init.BeastsCreativeTabs;
 import rando.beasts.common.init.BeastsBlocks;
 import rando.beasts.common.init.BeastsItems;
 
-public class BeastsUtil {
+public class BeastsUtils {
 
     public static void addToRegistry(Item item, String name, boolean tab) {
         item.setUnlocalizedName(name);

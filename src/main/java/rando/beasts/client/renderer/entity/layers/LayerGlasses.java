@@ -4,7 +4,7 @@ import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.util.ResourceLocation;
 import rando.beasts.client.renderer.entity.RenderPufferfishDog;
 import rando.beasts.common.entity.passive.EntityPufferfishDog;
-import rando.beasts.common.utils.BeastsReference;
+import rando.beasts.common.main.BeastsReference;
 
 public class LayerGlasses implements LayerRenderer<EntityPufferfishDog> {
     private static final ResourceLocation BUFFORD = new ResourceLocation(BeastsReference.ID, "textures/entity/pufferfish_dog/bufford.png");

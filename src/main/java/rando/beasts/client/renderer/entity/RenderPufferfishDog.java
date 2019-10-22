@@ -9,7 +9,7 @@ import rando.beasts.client.model.ModelPufferFishDog;
 import rando.beasts.client.renderer.entity.layers.LayerCollar;
 import rando.beasts.client.renderer.entity.layers.LayerGlasses;
 import rando.beasts.common.entity.passive.EntityPufferfishDog;
-import rando.beasts.common.utils.BeastsReference;
+import rando.beasts.common.main.BeastsReference;
 
 public class RenderPufferfishDog extends RenderLiving<EntityPufferfishDog> {
 

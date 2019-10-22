@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 import rando.beasts.client.model.ModelSkewerShrimp;
 import rando.beasts.common.entity.monster.EntitySkewerShrimp;
-import rando.beasts.common.utils.BeastsReference;
+import rando.beasts.common.main.BeastsReference;
 
 public class RenderSkewerShrimp extends RenderLiving<EntitySkewerShrimp> {
 

@@ -1,4 +1,4 @@
-package rando.beasts.common.utils.handlers;
+package rando.beasts.common.event;
 
 import static net.minecraftforge.common.BiomeDictionary.Type.BEACH;
 import static net.minecraftforge.common.BiomeDictionary.Type.DRY;
@@ -36,11 +36,11 @@ import rando.beasts.common.init.BeastsEntities;
 import rando.beasts.common.init.BeastsItems;
 import rando.beasts.common.init.BeastsRecipes;
 import rando.beasts.common.item.IHandleMeta;
-import rando.beasts.common.utils.BeastsReference;
+import rando.beasts.common.main.BeastsReference;
 
 @SuppressWarnings("unused")
 @Mod.EventBusSubscriber(modid = BeastsReference.ID)
-public class RegistryHandler {
+public class RegistryEvents {
 
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event) {

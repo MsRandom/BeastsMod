@@ -6,7 +6,7 @@ import java.util.Map;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 import rando.beasts.common.entity.monster.EntityWoodBranchie;
-import rando.beasts.common.utils.BeastsReference;
+import rando.beasts.common.main.BeastsReference;
 
 public class RenderWoodBranchie extends RenderBranchieBase<EntityWoodBranchie> {
     private static final Map<String, ResourceLocation> TEXTURES = new HashMap<>();

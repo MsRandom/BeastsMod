@@ -5,7 +5,7 @@ import javax.annotation.Nullable;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
-import rando.beasts.common.utils.BeastsUtil;
+import rando.beasts.common.main.BeastsUtils;
 
 public class BeastsPickaxe extends ItemPickaxe {
 
@@ -14,7 +14,7 @@ public class BeastsPickaxe extends ItemPickaxe {
     public BeastsPickaxe(ToolMaterial material, String name, @Nullable BeastsToolSet kit) {
         super(material);
         this.kit = kit;
-        BeastsUtil.addToRegistry(this, name, true);
+        BeastsUtils.addToRegistry(this, name, true);
     }
 
     @Override

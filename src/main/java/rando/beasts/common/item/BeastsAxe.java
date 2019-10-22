@@ -5,7 +5,7 @@ import javax.annotation.Nullable;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemStack;
-import rando.beasts.common.utils.BeastsUtil;
+import rando.beasts.common.main.BeastsUtils;
 
 public class BeastsAxe extends ItemAxe {
 
@@ -14,7 +14,7 @@ public class BeastsAxe extends ItemAxe {
     public BeastsAxe(ToolMaterial material, String name, @Nullable BeastsToolSet kit) {
         super(material);
         this.kit = kit;
-        BeastsUtil.addToRegistry(this, name, true);
+        BeastsUtils.addToRegistry(this, name, true);
     }
 
     @Override

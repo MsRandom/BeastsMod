@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 import rando.beasts.client.model.ModelHermitTurtle;
 import rando.beasts.common.entity.passive.EntityHermitTurtle;
-import rando.beasts.common.utils.BeastsReference;
+import rando.beasts.common.main.BeastsReference;
 
 public class RenderHermitTurtle extends RenderLiving<EntityHermitTurtle> {
 
