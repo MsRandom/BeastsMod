@@ -168,7 +168,7 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
         ItemStack stack = player.getHeldItem(hand);
         if(stack.getItem() == Items.SHEARS && !this.getSheared()) return super.processInteract(player, hand);
         if(!this.isChild() && this.isTamed() && (this.isOwner(player) || this.getControllingPassenger() != null)) {
-            if(player.isSneaking()) {
+            if(player.isSneaking() && this.getSheared()) {
                 player.openGui(BeastsMod.instance, BeastsGuiHandler.GUI_LANDWHALE.getId(), world, this.getEntityId(), 0, 0);
                 return true;
             }

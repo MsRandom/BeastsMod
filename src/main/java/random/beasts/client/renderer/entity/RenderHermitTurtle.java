@@ -14,7 +14,7 @@ public class RenderHermitTurtle extends RenderLiving<EntityHermitTurtle> {
     private static final ResourceLocation TEXTURE = new ResourceLocation(BeastsReference.ID, "textures/entity/hermit_turtle.png");
 
     public RenderHermitTurtle(RenderManager renderManagerIn) {
-        super(renderManagerIn, new ModelHermitTurtle(), 0.1f);
+        super(renderManagerIn, new ModelHermitTurtle(), 0.5f);
     }
 
     @Nullable
