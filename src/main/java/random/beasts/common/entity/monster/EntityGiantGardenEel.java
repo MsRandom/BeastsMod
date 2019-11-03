@@ -16,10 +16,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntitySelectors;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import random.beasts.client.init.BeastsSounds;
+
+import javax.annotation.Nullable;
 
 public class EntityGiantGardenEel extends EntityMob {
 	
@@ -56,6 +60,10 @@ public class EntityGiantGardenEel extends EntityMob {
         getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1000);
     }
 
+    @Override
+    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+        return BeastsSounds.GARDEN_EEL_HURT;
+    }
 
     protected void playStepSound(BlockPos pos, Block blockIn) {
         this.playSound(SoundEvents.ENTITY_ZOMBIE_STEP, 0.15F, 1.0F);

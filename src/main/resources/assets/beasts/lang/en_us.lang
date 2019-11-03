@@ -68,6 +68,7 @@ item.jelly_pickaxe.name=Jelly Pickaxe
 item.jelly_shovel.name=Jelly Shovel
 item.jelly_hoe.name=Jelly Hoe
 item.jellywood_door.name=Jellywood Door
+item.shell_shield.name=Shield
 
 Blocks
 
@@ -95,7 +96,7 @@ tile.jellywood_planks.name=Jellywood Planks
 tile.jellywood_fence.name=Jellywood Fence
 tile.jellywood_gate.name=Jellywood Fence Gate
 tile.jellywood_door.name=Jellywood Door
-tile.jellyfish_sapling.name=Jellyfish Sapling
+tile.jellyfish_sapling.name=Jellywood Sapling
 tile.palmleaves.name=Palm Leaves
 tile.palm_sapling.name=Palm Tree Sapling
 tile.hermit_shell.name=Hermit Shell

@@ -30,7 +30,7 @@ public class BlockGlowRoot extends BeastsBlock {
     private boolean isTop;
 
     public BlockGlowRoot(boolean top) {
-        super(Material.GRASS, MapColor.GRASS, "glow_root_" + (top ? "top" : "bottom"), false);
+        super(Material.GRASS, MapColor.GRASS, "glow_root_" + (top ? "top" : "bottom"), null);
         this.isTop = top;
         this.setSoundType(SoundType.PLANT);
         this.setLightLevel(1.0F);

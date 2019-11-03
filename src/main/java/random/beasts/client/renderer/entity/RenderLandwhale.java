@@ -12,9 +12,9 @@ import random.beasts.common.main.BeastsReference;
 
 @SideOnly(Side.CLIENT)
 public class RenderLandwhale extends RenderLiving<EntityLandwhale> {
-	private static final ResourceLocation TEXTURE = new ResourceLocation(BeastsReference.ID, "textures/entity/landwhale.png");
-	private static final ResourceLocation TEXTURE_NO_CORAL = new ResourceLocation(BeastsReference.ID, "textures/entity/landwhale_nocoral.png");
-	private static final ResourceLocation SADDLE = new ResourceLocation(BeastsReference.ID, "textures/entity/landwhale_saddle.png");
+	private static final ResourceLocation NORMAL = new ResourceLocation(BeastsReference.ID, "textures/entity/landwhale/normal.png");
+	private static final ResourceLocation SHEARED = new ResourceLocation(BeastsReference.ID, "textures/entity/landwhale/sheared.png");
+	private static final ResourceLocation SADDLE = new ResourceLocation(BeastsReference.ID, "textures/entity/landwhale/saddle.png");
 
 	@Override
 	protected void preRenderCallback(EntityLandwhale e, float partialTickTime) {
@@ -30,6 +30,6 @@ public class RenderLandwhale extends RenderLiving<EntityLandwhale> {
 	}
 
 	protected ResourceLocation getEntityTexture(EntityLandwhale entity) {
-		return !entity.getSaddle().isEmpty() ? SADDLE : entity.getSheared() ? TEXTURE_NO_CORAL : TEXTURE;
+		return !entity.getSaddle().isEmpty() ? SADDLE : entity.getSheared() ? SHEARED : NORMAL;
 	}
 }

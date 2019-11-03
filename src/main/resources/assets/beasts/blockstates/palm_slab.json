@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "half=bottom,variant=default": { "model": "beasts:half_slab_palm" },
+        "half=top,variant=default": { "model": "beasts:upper_slab_palm" }
+    }
+}

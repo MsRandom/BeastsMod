@@ -1,0 +1,33 @@
+{
+  "parent": "beasts:item/shell_shield_item",
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [0, -90, 0],
+      "translation": [3.5, -1, 4]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [0, -90, 0],
+      "translation": [3.5, -1, 4]
+    },
+    "firstperson_righthand": {
+      "translation": [0, -0.75, 0]
+    },
+    "firstperson_lefthand": {
+      "translation": [0, -0.75, 0]
+    },
+    "ground": {
+      "scale": [0.55, 0.55, 0.55]
+    },
+    "gui": {
+      "rotation": [0, 180, 0]
+    }
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "blocking": 1
+      },
+      "model": "beasts:item/shell_shield_blocking"
+    }
+  ]
+}

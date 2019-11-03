@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -23,9 +24,11 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
+import random.beasts.client.init.BeastsSounds;
 import random.beasts.common.init.BeastsBlocks;
 import random.beasts.common.init.BeastsItems;
 
@@ -71,6 +74,16 @@ public class EntityCoconutCrab extends EntityMob {
         this.dataManager.register(OUT, false);
     }
 
+    @Override
+    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+        return BeastsSounds.CRAB_HURT;
+    }
+
+    @Override
+    protected void playStepSound(BlockPos pos, Block blockIn) {
+        playSound(BeastsSounds.CRAB_STEP, getSoundVolume(), getSoundPitch());
+    }
+
     public boolean isOut() {
         return this.dataManager.get(OUT);
     }
@@ -84,6 +97,13 @@ public class EntityCoconutCrab extends EntityMob {
     @Override
     public void knockBack(Entity entityIn, float strength, double xRatio, double zRatio) {
         if(isOut()) super.knockBack(entityIn, strength, xRatio, zRatio);
+    }
+
+    @Override
+    public boolean attackEntityAsMob(Entity entityIn) {
+        boolean ret = super.attackEntityAsMob(entityIn);
+        if(ret) playSound(BeastsSounds.CRAB_ATTACK, getSoundVolume(), getSoundPitch());
+        return ret;
     }
 
     @Override

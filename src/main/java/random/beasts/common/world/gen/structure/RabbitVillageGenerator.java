@@ -18,7 +18,7 @@ import net.minecraft.world.gen.structure.StructureStart;
 
 public class RabbitVillageGenerator extends BeastsStructure {
 
-    private static ChunkPos[] structureCoords = new ChunkPos[128];
+    private static ChunkPos[] structureCoords = new ChunkPos[Byte.MAX_VALUE + 1];
     private static int generated = 0;
 
     public RabbitVillageGenerator() {
@@ -66,7 +66,7 @@ public class RabbitVillageGenerator extends BeastsStructure {
 
     @Nonnull
     private StructureStart getStructureStart(World world, int chunkX, int chunkZ, Random rand) {
-        return new RabbitVillageGenerator.Start(world, rand, chunkX, chunkZ);
+        return new Start(world, rand, chunkX, chunkZ);
     }
 
     @Override
@@ -74,8 +74,8 @@ public class RabbitVillageGenerator extends BeastsStructure {
         boolean canSpawn = canSpawnStructureAtCoords(worldIn, position.getX() >> 4, position.getZ() >> 4);
         if(rand.nextInt(1351) == 0) {
             this.getStructureStart(worldIn, position.getX() >> 4, position.getZ() >> 4, rand).generateStructure(worldIn, rand, new StructureBoundingBox(position.getX() - 48, position.getZ() - 48, position.getX() + 48, position.getZ() + 48));
-            if(structureCoords.length-1 < generated) structureCoords = Arrays.copyOf(structureCoords, structureCoords.length + 128);
-            structureCoords[generated++] = worldIn.getChunkFromBlockCoords(position).getPos();
+            if(structureCoords.length-1 < generated) structureCoords = Arrays.copyOf(structureCoords, structureCoords.length + Byte.MAX_VALUE + 1);
+            structureCoords[generated++] = new ChunkPos(position);
         }
         return canSpawn;
     }

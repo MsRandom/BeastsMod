@@ -74,18 +74,16 @@ public class ModelWhippingBarnacle extends ModelBase {
     public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
         super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
         EntityWhippingBarnacle barnacle = (EntityWhippingBarnacle) entityIn;
-        if (!barnacle.ready || barnacle.impaling) {
-            toung1.rotationPointY = 1.65f;
-/*            toung1.rotateAngleX = (float)Math.toRadians(180);
-            toung1.offsetY = -0.6F;*/
+        if (!barnacle.ready) {
+            toung1.offsetY = 1.2F;
+            for (ModelRenderer spike : spikes) spike.rotateAngleX = 0;
+            for (ModelRenderer part : tongue) part.rotateAngleZ = 0;
         }
         else {
-            toung1.rotationPointY = -8.0F;
+            toung1.offsetY = 0;
             for (ModelRenderer spike : spikes) spike.rotateAngleX = MathHelper.cos(barnacle.ticksExisted) * 0.1f;
-            for (int i = 0; i < tongue.length; i++) {
-                float degree = 0.25f * (i + 1);
-                tongue[i].rotateAngleZ = MathHelper.cos(barnacle.ticksExisted * 0.1f) * degree * 0.25f;
-            }
+            if(barnacle.impaling) for (int i = 0; i < tongue.length; i++) tongue[i].rotateAngleZ = Math.min(Math.min(barnacle.impalingTicks, 90) * (i + 1) * 0.0125f, 0.65f);
+            else for (int i = 0; i < tongue.length; i++) tongue[i].rotateAngleZ = MathHelper.cos(barnacle.ticksExisted * 0.1f) * (i + 1) * 0.0625f;
         }
     }
 

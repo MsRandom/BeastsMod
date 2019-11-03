@@ -17,7 +17,7 @@ public class BeastsArmor extends ItemArmor {
 
 	public BeastsArmor(String name, ArmorMaterial material, EntityEquipmentSlot armorType) {
 		super(material, 0, armorType);
-		BeastsUtils.addToRegistry(this, name, true);
+		BeastsUtils.addToRegistry(this, name);
 	}
 
 	@Override 	

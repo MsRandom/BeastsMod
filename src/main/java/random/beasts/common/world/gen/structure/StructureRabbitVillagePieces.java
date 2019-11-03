@@ -58,19 +58,19 @@ public class StructureRabbitVillagePieces {
         MapGenStructureIO.registerStructureComponent(Pen.class, "RVP");
     }
 
-    static List<StructureRabbitVillagePieces.PieceWeight> getStructureVillageWeightedPieceList(Random random) {
-        List<StructureRabbitVillagePieces.PieceWeight> list = new ArrayList<>();
+    static List<PieceWeight> getStructureVillageWeightedPieceList(Random random) {
+        List<PieceWeight> list = new ArrayList<>();
         list.add(new PieceWeight(House.class, 8, MathHelper.getInt(random, 3, 5)));
         list.add(new PieceWeight(Field.class, 5, MathHelper.getInt(random, 3, 5)));
         list.removeIf(pieceWeight -> pieceWeight.villagePiecesLimit == 0);
         return list;
     }
 
-    private static int updatePieceWeight(List<StructureRabbitVillagePieces.PieceWeight> structureVillageWeightedPieceList) {
+    private static int updatePieceWeight(List<PieceWeight> structureVillageWeightedPieceList) {
         boolean flag = false;
         int i = 0;
 
-        for (StructureRabbitVillagePieces.PieceWeight weight : structureVillageWeightedPieceList) {
+        for (PieceWeight weight : structureVillageWeightedPieceList) {
             if (weight.villagePiecesLimit > 0 && weight.villagePiecesSpawned < weight.villagePiecesLimit) {
                 flag = true;
             }
@@ -81,11 +81,11 @@ public class StructureRabbitVillagePieces {
         return flag ? i : -1;
     }
 
-    private static StructureRabbitVillagePieces.Village findAndCreateComponentFactory(StructureRabbitVillagePieces.Start start, StructureRabbitVillagePieces.PieceWeight weight, List<StructureComponent> structureComponents, int structureMinX, int structureMinY, int structureMinZ, EnumFacing facing, int componentType) {
+    private static Village findAndCreateComponentFactory(Start start, PieceWeight weight, List<StructureComponent> structureComponents, int structureMinX, int structureMinY, int structureMinZ, EnumFacing facing, int componentType) {
         return weight.villagePieceClass == House.class ? House.createPiece(start, structureComponents, structureMinX, structureMinY, structureMinZ, facing, componentType) : weight.villagePieceClass == Field.class ? Field.createPiece(start, structureComponents, structureMinX, structureMinY, structureMinZ, facing, componentType) : null;
     }
 
-    private static StructureRabbitVillagePieces.Village generateComponent(StructureRabbitVillagePieces.Start start, List<StructureComponent> structureComponents, Random rand, int structureMinX, int structureMinY, int structureMinZ, EnumFacing facing, int componentType) {
+    private static Village generateComponent(Start start, List<StructureComponent> structureComponents, Random rand, int structureMinX, int structureMinY, int structureMinZ, EnumFacing facing, int componentType) {
         int i = updatePieceWeight(start.structureVillageWeightedPieceList);
 
         if (i <= 0) {
@@ -95,13 +95,13 @@ public class StructureRabbitVillagePieces {
             while (j < 5) {
                 ++j;
                 int k = rand.nextInt(i);
-                for (StructureRabbitVillagePieces.PieceWeight weight : start.structureVillageWeightedPieceList) {
+                for (PieceWeight weight : start.structureVillageWeightedPieceList) {
                     k -= weight.villagePieceWeight;
                     if (k < 0) {
                         if (weight.canSpawnMoreVillagePieces() || weight == start.lastPlaced && start.structureVillageWeightedPieceList.size() > 1) {
                             break;
                         }
-                        StructureRabbitVillagePieces.Village piece = findAndCreateComponentFactory(start, weight, structureComponents, structureMinX, structureMinY, structureMinZ, facing, componentType);
+                        Village piece = findAndCreateComponentFactory(start, weight, structureComponents, structureMinX, structureMinY, structureMinZ, facing, componentType);
                         if (piece != null) {
                             ++weight.villagePiecesSpawned;
                             start.lastPlaced = weight;
@@ -117,7 +117,7 @@ public class StructureRabbitVillagePieces {
         }
     }
 
-    private static StructureComponent generateAndAddComponent(StructureRabbitVillagePieces.Start start, List<StructureComponent> structureComponents, Random rand, int structureMinX, int structureMinY, int structureMinZ, EnumFacing facing, int componentType) {
+    private static StructureComponent generateAndAddComponent(Start start, List<StructureComponent> structureComponents, Random rand, int structureMinX, int structureMinY, int structureMinZ, EnumFacing facing, int componentType) {
         if (componentType > 50) {
             return null;
         } else if (Math.abs(structureMinX - start.getBoundingBox().minX) <= 112 && Math.abs(structureMinZ - start.getBoundingBox().minZ) <= 112) {
@@ -135,11 +135,11 @@ public class StructureRabbitVillagePieces {
         }
     }
 
-    private static void generateAndAddRoadPiece(StructureRabbitVillagePieces.Start start, List<StructureComponent> structureComponents, Random rand, int structureMinX, int structureMinY, int structureMinZ, EnumFacing facing, int type) {
+    private static void generateAndAddRoadPiece(Start start, List<StructureComponent> structureComponents, Random rand, int structureMinX, int structureMinY, int structureMinZ, EnumFacing facing, int type) {
         if (type <= 3 + start.terrainType && Math.abs(structureMinX - start.getBoundingBox().minX) <= 112 && Math.abs(structureMinZ - start.getBoundingBox().minZ) <= 112) {
-            StructureBoundingBox structureboundingbox = StructureRabbitVillagePieces.Path.findPieceBox(structureComponents, rand, structureMinX, structureMinY, structureMinZ, facing);
+            StructureBoundingBox structureboundingbox = Path.findPieceBox(structureComponents, rand, structureMinX, structureMinY, structureMinZ, facing);
             if (structureboundingbox != null && structureboundingbox.minY > 10) {
-                StructureComponent component = new StructureRabbitVillagePieces.Path(start, type, structureboundingbox, facing);
+                StructureComponent component = new Path(start, type, structureboundingbox, facing);
                 structureComponents.add(component);
                 start.pendingRoads.add(component);
             }
@@ -152,13 +152,13 @@ public class StructureRabbitVillagePieces {
         public Field() {
         }
 
-        Field(StructureRabbitVillagePieces.Start start, int type, StructureBoundingBox structureBoundingBox, EnumFacing facing) {
+        Field(Start start, int type, StructureBoundingBox structureBoundingBox, EnumFacing facing) {
             super(start, type);
             this.setCoordBaseMode(facing);
             this.boundingBox = structureBoundingBox;
         }
 
-        static Field createPiece(StructureRabbitVillagePieces.Start start, List<StructureComponent> structureComponents, int structureMinX, int structureMinY, int structureMinZ, EnumFacing facing, int componentType) {
+        static Field createPiece(Start start, List<StructureComponent> structureComponents, int structureMinX, int structureMinY, int structureMinZ, EnumFacing facing, int componentType) {
             StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(structureMinX, structureMinY, structureMinZ, 0, 0, 0, 13, 4, 9, facing);
             return canVillageGoDeeper(structureboundingbox) && StructureComponent.findIntersecting(structureComponents, structureboundingbox) == null ? new Field(start, componentType, structureboundingbox, facing) : null;
         }
@@ -198,13 +198,13 @@ public class StructureRabbitVillagePieces {
 
         public House(){}
 
-        House(StructureRabbitVillagePieces.Start start, int type, StructureBoundingBox structureBoundingBox, EnumFacing facing) {
+        House(Start start, int type, StructureBoundingBox structureBoundingBox, EnumFacing facing) {
             super(start, type);
             this.setCoordBaseMode(facing.getOpposite());
             this.boundingBox = structureBoundingBox;
         }
 
-        static House createPiece(StructureRabbitVillagePieces.Start start, List<StructureComponent> structureComponents, int structureMinX, int structureMinY, int structureMinZ, EnumFacing facing, int componentType) {
+        static House createPiece(Start start, List<StructureComponent> structureComponents, int structureMinX, int structureMinY, int structureMinZ, EnumFacing facing, int componentType) {
             StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(structureMinX, structureMinY, structureMinZ, 0, 0, 0, 9, 9, 6, facing);
             return canVillageGoDeeper(structureboundingbox) && StructureComponent.findIntersecting(structureComponents, structureboundingbox) == null ? new House(start, componentType, structureboundingbox, facing) : null;
         }
@@ -283,7 +283,7 @@ public class StructureRabbitVillagePieces {
 
         public Path(){}
 
-        Path(StructureRabbitVillagePieces.Start start, int type, StructureBoundingBox structureBoundingBox, EnumFacing facing) {
+        Path(Start start, int type, StructureBoundingBox structureBoundingBox, EnumFacing facing) {
             super(start, type);
             this.setCoordBaseMode(facing);
             this.boundingBox = structureBoundingBox;
@@ -306,7 +306,7 @@ public class StructureRabbitVillagePieces {
             boolean flag = false;
 
             for (int i = rand.nextInt(5); i < this.length - 8; i += 2 + rand.nextInt(5)) {
-                StructureComponent component = this.getNextComponentNN((StructureRabbitVillagePieces.Start) componentIn, structureComponents, rand, i);
+                StructureComponent component = this.getNextComponentNN((Start) componentIn, structureComponents, rand, i);
                 if (component != null) {
                     i += Math.max(component.getBoundingBox().getXSize(), component.getBoundingBox().getZSize());
                     flag = true;
@@ -314,7 +314,7 @@ public class StructureRabbitVillagePieces {
             }
 
             for (int j = rand.nextInt(5); j < this.length - 8; j += 2 + rand.nextInt(5)) {
-                StructureComponent component = this.getNextComponentPP((StructureRabbitVillagePieces.Start) componentIn, structureComponents, rand, j);
+                StructureComponent component = this.getNextComponentPP((Start) componentIn, structureComponents, rand, j);
                 if (component != null) {
                     j += Math.max(component.getBoundingBox().getXSize(), component.getBoundingBox().getZSize());
                     flag = true;
@@ -327,16 +327,16 @@ public class StructureRabbitVillagePieces {
                 switch (enumfacing) {
                     case NORTH:
                     default:
-                        StructureRabbitVillagePieces.generateAndAddRoadPiece((StructureRabbitVillagePieces.Start) componentIn, structureComponents, rand, this.boundingBox.minX - 1, this.boundingBox.minY, this.boundingBox.minZ, EnumFacing.WEST, this.getComponentType());
+                        StructureRabbitVillagePieces.generateAndAddRoadPiece((Start) componentIn, structureComponents, rand, this.boundingBox.minX - 1, this.boundingBox.minY, this.boundingBox.minZ, EnumFacing.WEST, this.getComponentType());
                         break;
                     case SOUTH:
-                        StructureRabbitVillagePieces.generateAndAddRoadPiece((StructureRabbitVillagePieces.Start) componentIn, structureComponents, rand, this.boundingBox.minX - 1, this.boundingBox.minY, this.boundingBox.maxZ - 2, EnumFacing.WEST, this.getComponentType());
+                        StructureRabbitVillagePieces.generateAndAddRoadPiece((Start) componentIn, structureComponents, rand, this.boundingBox.minX - 1, this.boundingBox.minY, this.boundingBox.maxZ - 2, EnumFacing.WEST, this.getComponentType());
                         break;
                     case WEST:
-                        StructureRabbitVillagePieces.generateAndAddRoadPiece((StructureRabbitVillagePieces.Start) componentIn, structureComponents, rand, this.boundingBox.minX, this.boundingBox.minY, this.boundingBox.minZ - 1, EnumFacing.SOUTH, this.getComponentType());
+                        StructureRabbitVillagePieces.generateAndAddRoadPiece((Start) componentIn, structureComponents, rand, this.boundingBox.minX, this.boundingBox.minY, this.boundingBox.minZ - 1, EnumFacing.SOUTH, this.getComponentType());
                         break;
                     case EAST:
-                        StructureRabbitVillagePieces.generateAndAddRoadPiece((StructureRabbitVillagePieces.Start) componentIn, structureComponents, rand, this.boundingBox.maxX - 2, this.boundingBox.minY, this.boundingBox.minZ - 1, EnumFacing.SOUTH, this.getComponentType());
+                        StructureRabbitVillagePieces.generateAndAddRoadPiece((Start) componentIn, structureComponents, rand, this.boundingBox.maxX - 2, this.boundingBox.minY, this.boundingBox.minZ - 1, EnumFacing.SOUTH, this.getComponentType());
                 }
             }
 
@@ -344,16 +344,16 @@ public class StructureRabbitVillagePieces {
                 switch (enumfacing) {
                     case NORTH:
                     default:
-                        StructureRabbitVillagePieces.generateAndAddRoadPiece((StructureRabbitVillagePieces.Start) componentIn, structureComponents, rand, this.boundingBox.maxX + 1, this.boundingBox.minY, this.boundingBox.minZ, EnumFacing.EAST, this.getComponentType());
+                        StructureRabbitVillagePieces.generateAndAddRoadPiece((Start) componentIn, structureComponents, rand, this.boundingBox.maxX + 1, this.boundingBox.minY, this.boundingBox.minZ, EnumFacing.EAST, this.getComponentType());
                         break;
                     case SOUTH:
-                        StructureRabbitVillagePieces.generateAndAddRoadPiece((StructureRabbitVillagePieces.Start) componentIn, structureComponents, rand, this.boundingBox.maxX + 1, this.boundingBox.minY, this.boundingBox.maxZ - 2, EnumFacing.EAST, this.getComponentType());
+                        StructureRabbitVillagePieces.generateAndAddRoadPiece((Start) componentIn, structureComponents, rand, this.boundingBox.maxX + 1, this.boundingBox.minY, this.boundingBox.maxZ - 2, EnumFacing.EAST, this.getComponentType());
                         break;
                     case WEST:
-                        StructureRabbitVillagePieces.generateAndAddRoadPiece((StructureRabbitVillagePieces.Start) componentIn, structureComponents, rand, this.boundingBox.minX, this.boundingBox.minY, this.boundingBox.maxZ + 1, EnumFacing.SOUTH, this.getComponentType());
+                        StructureRabbitVillagePieces.generateAndAddRoadPiece((Start) componentIn, structureComponents, rand, this.boundingBox.minX, this.boundingBox.minY, this.boundingBox.maxZ + 1, EnumFacing.SOUTH, this.getComponentType());
                         break;
                     case EAST:
-                        StructureRabbitVillagePieces.generateAndAddRoadPiece((StructureRabbitVillagePieces.Start) componentIn, structureComponents, rand, this.boundingBox.maxX - 2, this.boundingBox.minY, this.boundingBox.maxZ + 1, EnumFacing.SOUTH, this.getComponentType());
+                        StructureRabbitVillagePieces.generateAndAddRoadPiece((Start) componentIn, structureComponents, rand, this.boundingBox.maxX - 2, this.boundingBox.minY, this.boundingBox.maxZ + 1, EnumFacing.SOUTH, this.getComponentType());
                 }
             }
         }
@@ -406,7 +406,7 @@ public class StructureRabbitVillagePieces {
     }
 
     static class PieceWeight {
-        Class<? extends StructureRabbitVillagePieces.Village> villagePieceClass;
+        Class<? extends Village> villagePieceClass;
         final int villagePieceWeight;
         int villagePiecesSpawned;
         int villagePiecesLimit;
@@ -425,16 +425,16 @@ public class StructureRabbitVillagePieces {
     public static class Start extends Pen {
         BiomeProvider biomeProvider;
         int terrainType;
-        StructureRabbitVillagePieces.PieceWeight lastPlaced;
+        PieceWeight lastPlaced;
 
-        List<StructureRabbitVillagePieces.PieceWeight> structureVillageWeightedPieceList;
+        List<PieceWeight> structureVillageWeightedPieceList;
         List<StructureComponent> pendingHouses = new ArrayList<>();
         List<StructureComponent> pendingRoads = new ArrayList<>();
         Biome biome;
 
         public Start(){}
 
-        Start(BiomeProvider biomeProviderIn, Random rand, int x, int z, List<StructureRabbitVillagePieces.PieceWeight> weights, int terrainType) {
+        Start(BiomeProvider biomeProviderIn, Random rand, int x, int z, List<PieceWeight> weights, int terrainType) {
             super(null, 0, rand, x, z);
             this.biomeProvider = biomeProviderIn;
             this.structureVillageWeightedPieceList = weights;
@@ -452,11 +452,11 @@ public class StructureRabbitVillagePieces {
     public abstract static class Village extends StructureComponent {
         int averageGroundLvl = -1;
         int structureType;
-        StructureRabbitVillagePieces.Start startPiece;
+        Start startPiece;
 
         public Village(){}
 
-        Village(StructureRabbitVillagePieces.Start start, int type) {
+        Village(Start start, int type) {
             super(type);
             if (start != null) {
                 this.structureType = start.structureType;
@@ -485,7 +485,7 @@ public class StructureRabbitVillagePieces {
         }
 
         @Nullable
-        StructureComponent getNextComponentNN(StructureRabbitVillagePieces.Start start, List<StructureComponent> structureComponents, Random rand, int x) {
+        StructureComponent getNextComponentNN(Start start, List<StructureComponent> structureComponents, Random rand, int x) {
             EnumFacing facing = this.getCoordBaseMode();
             if (facing != null) {
                 if (facing == EnumFacing.WEST) {
@@ -497,7 +497,7 @@ public class StructureRabbitVillagePieces {
         }
 
         @Nullable
-        StructureComponent getNextComponentPP(StructureRabbitVillagePieces.Start start, List<StructureComponent> structureComponents, Random rand, int x) {
+        StructureComponent getNextComponentPP(Start start, List<StructureComponent> structureComponents, Random rand, int x) {
             EnumFacing facing = this.getCoordBaseMode();
             if (facing != null) {
                 if (facing == EnumFacing.WEST) {
@@ -553,7 +553,7 @@ public class StructureRabbitVillagePieces {
     public static class Pen extends Village {
         public Pen(){}
 
-        Pen(StructureRabbitVillagePieces.Start start, int type, Random rand, int x, int z) {
+        Pen(Start start, int type, Random rand, int x, int z) {
             super(start, type);
             this.setCoordBaseMode(EnumFacing.Plane.HORIZONTAL.random(rand));
 
@@ -565,10 +565,10 @@ public class StructureRabbitVillagePieces {
         }
 
         public void buildComponent(StructureComponent componentIn, List<StructureComponent> structureComponents, Random rand) {
-            StructureRabbitVillagePieces.generateAndAddRoadPiece((StructureRabbitVillagePieces.Start) componentIn, structureComponents, rand, this.boundingBox.minX - 1, this.boundingBox.maxY - 4, this.boundingBox.minZ + 1, EnumFacing.WEST, this.getComponentType());
-            StructureRabbitVillagePieces.generateAndAddRoadPiece((StructureRabbitVillagePieces.Start) componentIn, structureComponents, rand, this.boundingBox.maxX + 1, this.boundingBox.maxY - 4, this.boundingBox.minZ + 1, EnumFacing.EAST, this.getComponentType());
-            StructureRabbitVillagePieces.generateAndAddRoadPiece((StructureRabbitVillagePieces.Start) componentIn, structureComponents, rand, this.boundingBox.minX + 1, this.boundingBox.maxY - 4, this.boundingBox.minZ - 1, EnumFacing.NORTH, this.getComponentType());
-            StructureRabbitVillagePieces.generateAndAddRoadPiece((StructureRabbitVillagePieces.Start) componentIn, structureComponents, rand, this.boundingBox.minX + 1, this.boundingBox.maxY - 4, this.boundingBox.maxZ + 1, EnumFacing.SOUTH, this.getComponentType());
+            StructureRabbitVillagePieces.generateAndAddRoadPiece((Start) componentIn, structureComponents, rand, this.boundingBox.minX - 1, this.boundingBox.maxY - 4, this.boundingBox.minZ + 1, EnumFacing.WEST, this.getComponentType());
+            StructureRabbitVillagePieces.generateAndAddRoadPiece((Start) componentIn, structureComponents, rand, this.boundingBox.maxX + 1, this.boundingBox.maxY - 4, this.boundingBox.minZ + 1, EnumFacing.EAST, this.getComponentType());
+            StructureRabbitVillagePieces.generateAndAddRoadPiece((Start) componentIn, structureComponents, rand, this.boundingBox.minX + 1, this.boundingBox.maxY - 4, this.boundingBox.minZ - 1, EnumFacing.NORTH, this.getComponentType());
+            StructureRabbitVillagePieces.generateAndAddRoadPiece((Start) componentIn, structureComponents, rand, this.boundingBox.minX + 1, this.boundingBox.maxY - 4, this.boundingBox.maxZ + 1, EnumFacing.SOUTH, this.getComponentType());
         }
 
         public boolean addComponentParts(@Nonnull World worldIn, @Nonnull Random randomIn, @Nonnull StructureBoundingBox structureBoundingBoxIn) {

@@ -3,6 +3,7 @@ package random.beasts.client.model;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.math.MathHelper;
 import random.beasts.common.entity.passive.EntityHermitTurtle;
 
 public class ModelHermitTurtle extends ModelBase {
@@ -48,14 +49,15 @@ public class ModelHermitTurtle extends ModelBase {
 
     @Override
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+        this.head.isHidden = !((EntityHermitTurtle) entity).isOut();
         this.shell1.render(f5);
-        if(!((EntityHermitTurtle)entity).isOut())this.head.isHidden = true;
-        else this.head.isHidden = false;
     }
 
     @Override
     public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
         super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
+        this.leftArm.rotateAngleX = MathHelper.cos(limbSwing * 0.1f) * 0.2f * limbSwingAmount;
+        this.rightArm.rotateAngleX = MathHelper.cos(limbSwing * 0.1f) * -0.2f * limbSwingAmount;
     }
 
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {

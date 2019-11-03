@@ -30,6 +30,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
@@ -52,6 +53,7 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
     private static final DataParameter<ItemStack> SADDLE = EntityDataManager.createKey(EntityLandwhale.class, DataSerializers.ITEM_STACK);
     private int ticksSinceSheared = 0;
     public InventoryBasic inventory;
+    public int animationTicks = 0;
 
     public EntityLandwhale(World worldIn) {
         super(worldIn);
@@ -113,18 +115,15 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
     public boolean canBeSteered() {
         return !getSaddle().isEmpty();
     }
-    
-    
 
     @Override
 	public void updatePassenger(Entity passenger) {
-    	if (this.isPassenger(passenger))
-        {
+    	if (this.isPassenger(passenger)) {
     		float f;
     		int i = this.getPassengers().indexOf(passenger);
     		if(i == 0) f = 0.2F;
     		else f = -0.6F;
-    		Vec3d vec3d = (new Vec3d((double)f, 0.0D, 0.0D)).rotateYaw(-this.rotationYaw * 0.017453292F - ((float)Math.PI / 2F));
+    		Vec3d vec3d = (new Vec3d(f, 0.0D, 0.0D)).rotateYaw(-this.rotationYaw * 0.017453292F - ((float)Math.PI / 2F));
             passenger.setPosition(this.posX + vec3d.x, this.posY + this.getMountedYOffset() + passenger.getYOffset(), this.posZ + vec3d.z);
         }
 	}
@@ -199,6 +198,11 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
     @Override
     public void onLivingUpdate() {
         super.onLivingUpdate();
+        if(world.isRemote) {
+            if(animationTicks > 0 && animationTicks < 180) animationTicks += 5;
+            else animationTicks = 0;
+        }
+
         if(getSheared()) {
             if (getSaddle().isEmpty() && ticksSinceSheared > 48000) setSheared(false);
             ticksSinceSheared++;
@@ -230,6 +234,18 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
 
     protected SoundEvent getAmbientSound() {
         return BeastsSounds.LANDWHALE_AMBIENT;
+    }
+
+    @Nullable
+    @Override
+    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+        return BeastsSounds.LANDWHALE_HURT;
+    }
+
+    @Override
+    public void playLivingSound() {
+        super.playLivingSound();
+        if(world.isRemote) animationTicks = 1;
     }
 
     protected void playStepSound(BlockPos pos, Block blockIn) {

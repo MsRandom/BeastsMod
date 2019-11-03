@@ -23,14 +23,25 @@ public class WorldGenPalmTrees extends WorldGenAbstractTree {
             int height = rand.nextInt(4) + 7;
             int radius = rand.nextInt(4) + 2;
             if (radius % 2 == 0) radius += 1;
-            for (int i = -1; i < 2; i++) for (int j = -1; j < 2; j++) setBlockAndNotifyAdequately(world, position.add(i, height, j), leaves);
+            for (int i = -1; i < 2; i++) for (int j = -1; j < 2; j++) for (int k = -1; k < 2; k++) setBlockAndNotifyAdequately(world, position.add(i, height + k, j), leaves);
             for (int i = 1; i < radius; i++) {
                 int h = height - i + 1;
                 setBlockAndNotifyAdequately(world, position.add(0, h, i + 1), leaves);
                 setBlockAndNotifyAdequately(world, position.add(0, h, -i - 1), leaves);
                 setBlockAndNotifyAdequately(world, position.add(i + 1, h, 0), leaves);
                 setBlockAndNotifyAdequately(world, position.add(-i - 1, h, 0), leaves);
-                
+
+                setBlockAndNotifyAdequately(world, position.add(0, h, i + 2), leaves);
+                setBlockAndNotifyAdequately(world, position.add(0, h, -i - 2), leaves);
+                setBlockAndNotifyAdequately(world, position.add(i + 2, h, 0), leaves);
+                setBlockAndNotifyAdequately(world, position.add(-i - 2, h, 0), leaves);
+
+                h = height + i + 1;
+                setBlockAndNotifyAdequately(world, position.add(0, h, i + 1), leaves);
+                setBlockAndNotifyAdequately(world, position.add(0, h, -i - 1), leaves);
+                setBlockAndNotifyAdequately(world, position.add(i + 1, h, 0), leaves);
+                setBlockAndNotifyAdequately(world, position.add(-i - 1, h, 0), leaves);
+
                 setBlockAndNotifyAdequately(world, position.add(0, h, i + 2), leaves);
                 setBlockAndNotifyAdequately(world, position.add(0, h, -i - 2), leaves);
                 setBlockAndNotifyAdequately(world, position.add(i + 2, h, 0), leaves);

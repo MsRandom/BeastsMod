@@ -14,7 +14,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 
-public class ItemDaggerfish extends BeastsSword{
+public class ItemDaggerfish extends BeastsSword {
 
 	public ItemDaggerfish(ToolMaterial material, String name) {
 		super(material, name);

@@ -29,10 +29,7 @@ import random.beasts.common.entity.monster.EntitySkewerShrimp;
 import random.beasts.common.entity.monster.EntityVileEel;
 import random.beasts.common.entity.monster.EntityWhippingBarnacle;
 import random.beasts.common.entity.monster.EntityWoodBranchie;
-import random.beasts.common.entity.passive.EntityHermitTurtle;
-import random.beasts.common.entity.passive.EntityLandwhale;
-import random.beasts.common.entity.passive.EntityPufferfishDog;
-import random.beasts.common.entity.passive.EntityRabbitman;
+import random.beasts.common.entity.passive.*;
 import random.beasts.common.entity.projectile.EntityCoconutBomb;
 import random.beasts.common.main.BeastsReference;
 
@@ -57,6 +54,7 @@ public class BeastsEntities {
 	private static final EntityEntry FALLING_COCONUT = createEntry(EntityFallingCoconut.class);
 	private static final EntityEntry WHIPPING_BARNACLE = createEntry(EntityWhippingBarnacle.class, 0x278E6C, 0xEA8F9E, new SpawnEntry(EnumCreatureType.CREATURE, 50, 1, 3, BeastsBiomes.DRIED_REEF));
 	private static final EntityEntry HERMIT_TURTLE = createEntry(EntityHermitTurtle.class, 0x8F8F8F, 0x63862E, new SpawnEntry(EnumCreatureType.CREATURE, 50, 1, 3, BeastsBiomes.DRIED_REEF));
+	private static final EntityEntry ANEMONE_CRAWLER = createEntry(EntityAnemoneCrawler.class, 0xEF5C13, 0xDCE3E5);
 
 	private static EntityEntry createBranchie(Class<? extends EntityBranchieBase> cls, int prim, int sec, Collection<? extends Block> validBlocks, Function<BlockEvent.BreakEvent, ? extends EntityBranchieBase> create) {
 		EntityBranchieBase.TYPES.put(validBlocks, create);

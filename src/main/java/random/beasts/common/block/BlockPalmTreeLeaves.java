@@ -29,7 +29,7 @@ public class BlockPalmTreeLeaves extends BlockLeaves {
     	super();
     	BeastsMod.proxy.setGraphicsLevel(this, true);
         this.setDefaultState(this.blockState.getBaseState().withProperty(CHECK_DECAY, true).withProperty(DECAYABLE, true));
-        BeastsUtils.addToRegistry(this, "palmleaves", true, ItemBlock::new);
+        BeastsUtils.addToRegistry(this, "palmleaves");
     }
 
     @Override

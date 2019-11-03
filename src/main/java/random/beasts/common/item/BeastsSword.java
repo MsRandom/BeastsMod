@@ -14,7 +14,7 @@ public class BeastsSword extends ItemSword {
     public BeastsSword(ToolMaterial material, String name, @Nullable BeastsToolSet kit) {
         super(material);
         this.kit = kit;
-        BeastsUtils.addToRegistry(this, name, true);
+        BeastsUtils.addToRegistry(this, name);
     }
 
     public BeastsSword(ToolMaterial material, String name) {

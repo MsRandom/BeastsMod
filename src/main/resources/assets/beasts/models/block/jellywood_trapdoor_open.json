@@ -1,0 +1,6 @@
+{
+    "parent": "block/trapdoor_open",
+    "textures": {
+        "texture": "beasts:blocks/jellywood_trapdoor"
+    }
+}

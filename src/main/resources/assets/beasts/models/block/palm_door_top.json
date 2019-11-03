@@ -1,0 +1,7 @@
+{
+    "parent": "block/door_top",
+    "textures": {
+        "bottom": "beasts:blocks/palm_door_lower",
+        "top": "beasts:blocks/palm_door_upper"
+    }
+}

@@ -1,32 +1,15 @@
 package random.beasts.common.init;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemFood;
-import net.minecraft.item.ItemSword;
+import net.minecraft.item.*;
 import net.minecraft.potion.PotionEffect;
 import net.minecraftforge.common.util.EnumHelper;
-import random.beasts.common.item.BeastsArmor;
-import random.beasts.common.item.BeastsCoconutBowl;
-import random.beasts.common.item.BeastsFood;
-import random.beasts.common.item.BeastsItem;
-import random.beasts.common.item.BeastsSword;
-import random.beasts.common.item.BeastsToolSet;
-import random.beasts.common.item.ItemBarnacleTongue;
-import random.beasts.common.item.ItemBeastsPainting;
-import random.beasts.common.item.ItemCoconade;
-import random.beasts.common.item.ItemCoralEssence;
-import random.beasts.common.item.ItemDaggerfish;
-import random.beasts.common.item.ItemGlowRoot;
-import random.beasts.common.item.ItemIcon;
-import random.beasts.common.item.ItemPufferArmor;
-import random.beasts.common.item.ToolSetJellyWood;
+import random.beasts.common.item.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BeastsItems {
 	
@@ -35,7 +18,7 @@ public class BeastsItems {
 	private static final ItemArmor.ArmorMaterial SPARTAPOD = EnumHelper.addArmorMaterial("spartapod", "beasts:spartapod", 15, new int[]{2, 5, 6, 2}, 12, SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 0.0F);
 	private static final ItemArmor.ArmorMaterial SPARTAPODA = EnumHelper.addArmorMaterial("spartapoda", "beasts:spartapoda", 15, new int[]{2, 5, 6, 2}, 12, SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 0.0F);
 
-	public static final Item ICON = new ItemIcon();
+	public static final Item ICON = new BeastsItem("icon", false);
 	public static final Item BEASTS_PAINTING = new ItemBeastsPainting();
 	public static final Item GLOW_ROOT = new ItemGlowRoot();
 	public static final Item LEAFY_BONE = new BeastsItem("leafy_bone");
@@ -51,6 +34,8 @@ public class BeastsItems {
 	public static final Item WORM_TOOTH = new BeastsItem("worm_tooth");
 	public static final Item PUFFER_SCALE = new BeastsItem("puffer_scale");
 	public static final Item HERMIT_HELM = new BeastsArmor("hermit_helm", ItemArmor.ArmorMaterial.IRON, EntityEquipmentSlot.HEAD).setMaxDamage(0);
+	public static final Item MEAT_SCRAPES = new BeastsItem("meat_scrapes");
+	public static final ItemShield SHELL_SHIELD = new ItemShellShield();
 	public static final ItemFood DAGGERFISH = new BeastsFood("daggerfish", 2, 0.1F);
 	public static final ItemFood COCONUT_MUSHROOM = new BeastsCoconutBowl("coconut_mushroom", 6, 0.7F);
 	public static final ItemFood COCONUT_RABBIT_STEW = new BeastsCoconutBowl("coconut_rabbit_stew", 8, 0.7F);

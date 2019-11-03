@@ -3,6 +3,7 @@ package random.beasts.common.block;
 import java.util.Random;
 import java.util.function.Function;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import net.minecraft.block.Block;
@@ -29,16 +30,16 @@ public class BeastsSapling extends BlockBush implements IGrowable {
     static final AxisAlignedBB SAPLING_AABB = new AxisAlignedBB(0.30000001192092896D, 0.0D, 0.30000001192092896D, 0.699999988079071D, 0.6000000238418579D, 0.699999988079071D);
     private WorldGenerator treeGen;
 
-    public BeastsSapling(String name, Function<Block, Item> item, boolean tab) {
+    public BeastsSapling(String name, @Nullable Function<Boolean, WorldGenerator> generator, Function<Block, Item> item) {
         this.setDefaultState(this.blockState.getBaseState().withProperty(STAGE, 0));
         setHardness(0.6F);
         setSoundType(SoundType.PLANT);
-        if(tab) BeastsUtils.addToRegistry(this, name, true, item);
+        if(generator != null) this.treeGen = generator.apply(true);
+        BeastsUtils.addToRegistry(this, name, item);
     }
 
     public BeastsSapling(String name, Function<Boolean, WorldGenerator> generator) {
-        this(name, ItemBlock::new, true);
-        this.treeGen = generator.apply(true);
+        this(name, generator, ItemBlock::new);
     }
 
     @Override

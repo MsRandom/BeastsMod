@@ -1,12 +1,53 @@
 {
+  "entity.branchie.hurt": {
+    "sounds": [
+      "beasts:branchie_hurt"
+    ]
+  },
   "entity.branchie.scream": {
     "sounds": [
       "beasts:branchie_scream"
     ]
   },
+  "entity.crab.attack": {
+    "sounds": [
+      "beasts:crab_attack"
+    ]
+  },
+  "entity.crab.hurt": {
+    "sounds": [
+      "beasts:crab_hurt"
+    ]
+  },
+  "entity.crab.step": {
+    "sounds": [
+      "beasts:crab_step1",
+      "beasts:crab_step2"
+    ]
+  },
+  "entity.garden_eel.hurt": {
+    "sounds": [
+      "beasts:garden_eel_hurt"
+    ]
+  },
+  "entity.hermit_turtle.ambient": {
+    "sounds": [
+      "beasts:hermit_turtle_ambient"
+    ]
+  },
+  "entity.hermit_turtle.hurt": {
+    "sounds": [
+      "beasts:hermit_turtle_hurt"
+    ]
+  },
   "entity.landwhale.ambient": {
     "sounds": [
       "beasts:landwhale_ambient"
+    ]
+  },
+  "entity.landwhale.hurt": {
+    "sounds": [
+      "beasts:landwhale_hurt"
     ]
   },
   "entity.pufferfish.blowout": {
@@ -21,10 +62,20 @@
       "beasts:pufferfish_blow_up2"
     ]
   },
-  "entity.vileeel.ambient": {
+  "entity.skewer_shrimp.hurt": {
+    "sounds": [
+      "beasts:skewer_shrimp_hurt"
+    ]
+  },
+  "entity.vile_eel.ambient": {
     "sounds": [
       "beasts:vile_eel_ambient1",
       "beasts:vile_eel_ambient2"
+    ]
+  },
+  "entity.vile_eel.hurt": {
+    "sounds": [
+      "beasts:vile_eel_hurt"
     ]
   }
 }

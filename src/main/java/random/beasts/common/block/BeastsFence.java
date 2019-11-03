@@ -5,9 +5,9 @@ import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemBlock;
 import random.beasts.common.main.BeastsUtils;
 
-public class BlockJellyWoodFence extends BlockFence {
-    public BlockJellyWoodFence() {
+public class BeastsFence extends BlockFence {
+    public BeastsFence(String name) {
         super(Material.WOOD, Material.WOOD.getMaterialMapColor());
-        BeastsUtils.addToRegistry(this, "jellywood_fence", true, ItemBlock::new);
+        BeastsUtils.addToRegistry(this, name + "_fence");
     }
 }

@@ -14,7 +14,7 @@ public class BeastsHoe extends ItemHoe {
     public BeastsHoe(ToolMaterial material, String name, @Nullable BeastsToolSet kit) {
         super(material);
         this.kit = kit;
-        BeastsUtils.addToRegistry(this, name, true);
+        BeastsUtils.addToRegistry(this, name);
     }
 
     @Override

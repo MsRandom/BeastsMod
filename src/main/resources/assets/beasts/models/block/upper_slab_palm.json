@@ -1,0 +1,8 @@
+{
+    "parent": "block/upper_slab",
+    "textures": {
+        "bottom": "beasts:blocks/palm_planks",
+        "top": "beasts:blocks/palm_planks",
+        "side": "beasts:blocks/palm_planks"
+    }
+}

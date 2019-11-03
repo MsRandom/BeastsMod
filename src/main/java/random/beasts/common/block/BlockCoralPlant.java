@@ -44,7 +44,7 @@ public class BlockCoralPlant extends Block {
         setHardness(2.0F);
         setSoundType(SoundType.PLANT);
         this.setDefaultState(this.blockState.getBaseState().withProperty(NORTH, false).withProperty(EAST, false).withProperty(SOUTH, false).withProperty(WEST, false).withProperty(UP, false).withProperty(DOWN, false));
-        BeastsUtils.addToRegistry(this, "coral_plant_" + color.getName(), false, null);
+        BeastsUtils.addToRegistry(this, "coral_plant_" + color.getName(), null);
     }
 
     public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {

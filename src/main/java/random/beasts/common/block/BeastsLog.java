@@ -10,7 +10,7 @@ public class BeastsLog extends BlockLog {
 
     public BeastsLog(String name) {
         this.setDefaultState(this.blockState.getBaseState().withProperty(LOG_AXIS, EnumAxis.Y));
-        BeastsUtils.addToRegistry(this, name, true, ItemBlock::new);
+        BeastsUtils.addToRegistry(this, name);
     }
 
     public IBlockState getStateFromMeta(int meta)
@@ -20,16 +20,16 @@ public class BeastsLog extends BlockLog {
         switch (meta & 12)
         {
             case 0:
-                iblockstate = iblockstate.withProperty(LOG_AXIS, BlockLog.EnumAxis.Y);
+                iblockstate = iblockstate.withProperty(LOG_AXIS, EnumAxis.Y);
                 break;
             case 4:
-                iblockstate = iblockstate.withProperty(LOG_AXIS, BlockLog.EnumAxis.X);
+                iblockstate = iblockstate.withProperty(LOG_AXIS, EnumAxis.X);
                 break;
             case 8:
-                iblockstate = iblockstate.withProperty(LOG_AXIS, BlockLog.EnumAxis.Z);
+                iblockstate = iblockstate.withProperty(LOG_AXIS, EnumAxis.Z);
                 break;
             default:
-                iblockstate = iblockstate.withProperty(LOG_AXIS, BlockLog.EnumAxis.NONE);
+                iblockstate = iblockstate.withProperty(LOG_AXIS, EnumAxis.NONE);
         }
 
         return iblockstate;

@@ -34,7 +34,7 @@ public class BlockTentacle extends BlockBush {
 
     public BlockTentacle() {
         this.setDefaultState(this.getDefaultState().withProperty(SIZE, 8).withProperty(FULL, false));
-        BeastsUtils.addToRegistry(this, "tentacle", false, null);
+        BeastsUtils.addToRegistry(this, "tentacle", null);
     }
 
     @Override

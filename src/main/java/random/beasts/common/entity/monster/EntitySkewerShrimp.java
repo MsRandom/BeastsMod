@@ -12,6 +12,7 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
+import random.beasts.client.init.BeastsSounds;
 import random.beasts.common.init.BeastsItems;
 
 public class EntitySkewerShrimp extends EntityMob {
@@ -48,7 +49,7 @@ public class EntitySkewerShrimp extends EntityMob {
     }
 
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return SoundEvents.ENTITY_SPIDER_HURT;
+        return BeastsSounds.SKEWER_SHRIMP_HURT;
     }
 
     protected SoundEvent getDeathSound() {

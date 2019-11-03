@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": [
+      {
+        "item": "beasts:jellywood_planks"
+      },
+      {
+        "item": "beasts:jellywood_planks"
+      },
+      {
+        "item": "beasts:jellywood_planks"
+      },
+      {
+        "item": "beasts:jellywood_planks"
+      },
+      {
+        "item": "beasts:jellywood_planks"
+      },
+      {
+        "item": "beasts:jellywood_planks"
+      }
+    ]
+  },
+  "result": {
+    "item": "beasts:jellywood_trapdoor",
+    "count": 2
+  }
+}

@@ -2,6 +2,7 @@ package random.beasts.common.main;
 
 import java.util.Map;
 
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import org.apache.logging.log4j.Logger;
 
 import net.minecraft.command.CommandHandler;
@@ -31,6 +32,11 @@ public class BeastsMod {
 	public static void preInit(FMLPreInitializationEvent event) {
 		logger = event.getModLog();
 		proxy.preInit();
+	}
+
+	@EventHandler
+	public static void init(FMLInitializationEvent event) {
+		proxy.init();
 	}
 
 	@EventHandler

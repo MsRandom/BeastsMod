@@ -20,6 +20,7 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.world.BlockEvent;
@@ -52,6 +53,11 @@ public abstract class EntityBranchieBase extends EntityMob {
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3D);
     }
 
+    @Override
+    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+        return BeastsSounds.BRANCHIE_HURT;
+    }
+
     protected void playStepSound(BlockPos pos, Block blockIn) {
         this.playSound(SoundEvents.ENTITY_CHICKEN_STEP, 0.15F, 1.0F);
     }
@@ -61,8 +67,6 @@ public abstract class EntityBranchieBase extends EntityMob {
         scream();
         return super.attackEntityAsMob(entityIn);
     }
-    
-    
 
     @Override
 	public boolean attackEntityFrom(DamageSource source, float amount) {

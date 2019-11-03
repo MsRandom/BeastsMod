@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": [
+      {
+        "item": "beasts:palm_planks"
+      },
+      {
+        "item": "beasts:palm_planks"
+      },
+      {
+        "item": "beasts:palm_planks"
+      },
+      {
+        "item": "beasts:palm_planks"
+      },
+      {
+        "item": "beasts:palm_planks"
+      },
+      {
+        "item": "beasts:palm_planks"
+      }
+    ]
+  },
+  "result": {
+    "item": "beasts:palm_trapdoor",
+    "count": 2
+  }
+}

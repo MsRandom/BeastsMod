@@ -32,6 +32,7 @@ public class EntityWhippingBarnacle extends EntityMob implements IDriedAquatic {
     private static final Iterable<ItemStack> EMPTY = new ArrayList<>();
     public boolean impaling;
     public boolean ready;
+    public int impalingTicks;
 
     public EntityWhippingBarnacle(World worldIn) {
         super(worldIn);
@@ -81,6 +82,7 @@ public class EntityWhippingBarnacle extends EntityMob implements IDriedAquatic {
         if(entities.length == 0) {
             ready = false;
             impaling = false;
+            impalingTicks = 0;
         } else for (EntityLivingBase entity : entities) {
             if(!ready) ready = true;
             if(getDistanceSq(entity) < 2) {
@@ -89,10 +91,15 @@ public class EntityWhippingBarnacle extends EntityMob implements IDriedAquatic {
                 double relativePos;
                 if (axis == EnumFacing.Axis.Z) relativePos = entity.posZ - this.posZ;
                 else relativePos = entity.posX - this.posX;
-                if (Math.abs(relativePos) < 0.5f) impaling = true;
+                getLookHelper().setLookPositionWithEntity(entity, 0, 0);
+                if(impalingTicks > 0) if(impalingTicks++ == 12) attackEntityAsMob(entity);
+                if (Math.abs(relativePos) < 0.5f) {
+                    impaling = true;
+                    if(impalingTicks == 0) impalingTicks = 1;
+                }
                 else if (MathHelper.cos(limbSwing) < relativePos) {
                     impaling = false;
-                    attackEntityAsMob(entity);
+                    impalingTicks = 0;
                 }
             }
         }

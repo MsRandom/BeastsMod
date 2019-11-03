@@ -5,9 +5,9 @@ import net.minecraft.block.BlockPlanks;
 import net.minecraft.item.ItemBlock;
 import random.beasts.common.main.BeastsUtils;
 
-public class BlockJellyWoodFenceGate extends BlockFenceGate {
-    public BlockJellyWoodFenceGate() {
+public class BeastsFenceGate extends BlockFenceGate {
+    public BeastsFenceGate(String name) {
         super(BlockPlanks.EnumType.ACACIA);
-        BeastsUtils.addToRegistry(this, "jellywood_gate", true, ItemBlock::new);
+        BeastsUtils.addToRegistry(this, name + "_gate");
     }
 }

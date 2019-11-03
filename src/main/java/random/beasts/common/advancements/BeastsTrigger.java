@@ -33,11 +33,11 @@ public class BeastsTrigger implements ICriterionTrigger<BeastsTrigger.Instance> 
     }
 
     @Override
-    public void addListener(PlayerAdvancements playerAdvancementsIn, ICriterionTrigger.Listener listener) {
-        BeastsTrigger.Listeners listeners = this.listeners.get(playerAdvancementsIn);
+    public void addListener(PlayerAdvancements playerAdvancementsIn, Listener listener) {
+        Listeners listeners = this.listeners.get(playerAdvancementsIn);
 
         if (listeners == null) {
-            listeners = new BeastsTrigger.Listeners(playerAdvancementsIn);
+            listeners = new Listeners(playerAdvancementsIn);
             this.listeners.put(playerAdvancementsIn, listeners);
         }
 
@@ -45,8 +45,8 @@ public class BeastsTrigger implements ICriterionTrigger<BeastsTrigger.Instance> 
     }
 
     @Override
-    public void removeListener(PlayerAdvancements playerAdvancementsIn, ICriterionTrigger.Listener listener) {
-        BeastsTrigger.Listeners tameanimaltrigger$listeners = (Listeners) listeners.get(playerAdvancementsIn);
+    public void removeListener(PlayerAdvancements playerAdvancementsIn, Listener listener) {
+        Listeners tameanimaltrigger$listeners = (Listeners) listeners.get(playerAdvancementsIn);
 
         if (tameanimaltrigger$listeners != null) {
             tameanimaltrigger$listeners.remove(listener);
@@ -60,12 +60,12 @@ public class BeastsTrigger implements ICriterionTrigger<BeastsTrigger.Instance> 
     }
 
     @Override
-    public BeastsTrigger.Instance deserializeInstance(JsonObject json, JsonDeserializationContext context) {
-        return new BeastsTrigger.Instance(getId());
+    public Instance deserializeInstance(JsonObject json, JsonDeserializationContext context) {
+        return new Instance(getId());
     }
 
     public void trigger(EntityPlayerMP parPlayer) {
-        BeastsTrigger.Listeners listeners = this.listeners.get(parPlayer.getAdvancements());
+        Listeners listeners = this.listeners.get(parPlayer.getAdvancements());
         if (listeners != null) listeners.trigger(parPlayer);
     }
 
@@ -78,7 +78,7 @@ public class BeastsTrigger implements ICriterionTrigger<BeastsTrigger.Instance> 
 
     static class Listeners {
         private final PlayerAdvancements playerAdvancements;
-        private final Set<ICriterionTrigger.Listener> listeners = Sets.newHashSet();
+        private final Set<Listener> listeners = Sets.newHashSet();
 
         public Listeners(PlayerAdvancements playerAdvancementsIn)
         {
@@ -90,24 +90,24 @@ public class BeastsTrigger implements ICriterionTrigger<BeastsTrigger.Instance> 
             return listeners.isEmpty();
         }
 
-        public void add(ICriterionTrigger.Listener listener)
+        public void add(Listener listener)
         {
             listeners.add(listener);
         }
 
-        public void remove(ICriterionTrigger.Listener listener)
+        public void remove(Listener listener)
         {
             listeners.remove(listener);
         }
 
         public void trigger(EntityPlayerMP player) {
             ArrayList<Listener> list = null;
-            for (ICriterionTrigger.Listener listener : listeners) {
+            for (Listener listener : listeners) {
                 if (list == null) list = new ArrayList<>();
                 list.add(listener);
             }
 
-            if (list != null) for (ICriterionTrigger.Listener listener1 : list) listener1.grantCriterion(playerAdvancements);
+            if (list != null) for (Listener listener1 : list) listener1.grantCriterion(playerAdvancements);
         }
     }
 }

@@ -3,6 +3,8 @@ package random.beasts.common.item;
 import java.util.List;
 
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentData;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Enchantments;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -22,6 +24,7 @@ public class ItemPufferArmor extends BeastsArmor {
     @Override
     public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
         super.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
+        //todo change this to use EnchantmentHelper and ItemEnchantedBook
         if(((NonNullList<ItemStack>)entityIn.getArmorInventoryList()).stream().allMatch(s -> s.getItem() instanceof ItemPufferArmor)) for (ItemStack s : entityIn.getArmorInventoryList()) {
             boolean flag = false;
             if (s.getTagCompound() != null && s.getTagCompound().hasKey("ench", 9)) {

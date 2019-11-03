@@ -49,14 +49,12 @@ public class EntityVileEel extends EntityMob implements IDriedAquatic {
 
     @Override
     public void onLivingUpdate() {
-        if(this.getRidingEntity() != null) {
-            getRidingEntity().attackEntityFrom(DamageSource.causeMobDamage(this), 1);
-        }
+        if(this.getRidingEntity() != null) getRidingEntity().attackEntityFrom(DamageSource.causeMobDamage(this), 1);
         super.onLivingUpdate();
     }
     @Override
     public void updatePassenger(Entity passenger) {
-        super.updatePassenger(passenger);
+        if(isPassenger(passenger)) passenger.setPosition(posX + Math.signum(motionX)/1.25, posY + 0.45, posZ + Math.signum(motionZ)/1.25);
     }
 
     @Override
@@ -81,6 +79,11 @@ public class EntityVileEel extends EntityMob implements IDriedAquatic {
 
     protected SoundEvent getAmbientSound() {
         return BeastsSounds.VILE_EEL_AMBIENT;
+    }
+
+    @Override
+    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+        return BeastsSounds.VILE_EEL_HURT;
     }
 
     protected void playStepSound(BlockPos pos, Block blockIn) {
