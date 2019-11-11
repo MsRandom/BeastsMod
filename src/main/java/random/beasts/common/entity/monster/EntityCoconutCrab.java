@@ -1,11 +1,5 @@
 package random.beasts.common.entity.monster;
 
-import java.util.List;
-import java.util.Objects;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -29,35 +23,45 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import random.beasts.client.init.BeastsSounds;
+import random.beasts.common.entity.IShellEntity;
 import random.beasts.common.init.BeastsBlocks;
 import random.beasts.common.init.BeastsItems;
 
-public class EntityCoconutCrab extends EntityMob {
+import javax.annotation.Nonnull;
+import java.util.List;
+import java.util.Objects;
+
+public class EntityCoconutCrab extends EntityMob implements IShellEntity {
 
     private static final DataParameter<Boolean> OUT = EntityDataManager.createKey(EntityCoconutCrab.class, DataSerializers.BOOLEAN);
     private static final float defaultHeight = 0.4f;
     private BlockPos newPos;
     private boolean hasTarget = false;
     private int ticksSinceHit = 0;
-    private EntityAIWander wanderAI = new EntityAIWander(this, 0.5, 50){
-        @Override
-        public boolean shouldExecute() {
-            return isOut() && super.shouldExecute();
-        }
-    };
-    private EntityAINearestAttackableTarget aiNearestAttackableTarget = new EntityAINearestAttackableTarget<EntityPlayer>(this, EntityPlayer.class, true) {
-        @Override
-        public boolean shouldExecute() {
-            return isOut() && super.shouldExecute();
-        }
-    };
+    private EntityAIWander wanderAI;
 
     public EntityCoconutCrab(World worldIn) {
         super(worldIn);
         this.setSize(0.5f, 0.4f);
-        this.tasks.addTask(0, wanderAI);
-        this.targetTasks.addTask(0, aiNearestAttackableTarget);
         this.setNoAI(true);
+    }
+
+    @Override
+    protected void initEntityAI() {
+        super.initEntityAI();
+        wanderAI = new EntityAIWander(this, 0.5, 50) {
+            @Override
+            public boolean shouldExecute() {
+                return isOut() && super.shouldExecute();
+            }
+        };
+        this.tasks.addTask(0, wanderAI);
+        this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<EntityPlayer>(this, EntityPlayer.class, true) {
+            @Override
+            public boolean shouldExecute() {
+                return isOut() && super.shouldExecute();
+            }
+        });
     }
 
     @Override
@@ -166,9 +170,7 @@ public class EntityCoconutCrab extends EntityMob {
     @Override
     public void onUpdate() {
         if(isOut()) {
-            if(!this.tasks.taskEntries.contains(wanderAI)){
-                this.tasks.addTask(0, wanderAI);
-            }
+            if (this.tasks.taskEntries.stream().noneMatch(v -> v.action == wanderAI)) this.tasks.addTask(0, wanderAI);
             if(world.getBlockState(getPosition().down()).getBlock() == Blocks.SAND && rand.nextInt(500) == 0) {
                 setOut(false);
                 setFire(0);
@@ -225,9 +227,7 @@ public class EntityCoconutCrab extends EntityMob {
                 this.extinguish();
             }
             if (!this.world.isRemote && this.world.getDifficulty() == EnumDifficulty.PEACEFUL) this.setDead();
-            if(this.tasks.taskEntries.contains(wanderAI)){
-                this.tasks.removeTask(wanderAI);
-            }
+            if (this.tasks.taskEntries.stream().anyMatch(v -> v.action == wanderAI)) this.tasks.removeTask(wanderAI);
         }
         super.onUpdate();
     }

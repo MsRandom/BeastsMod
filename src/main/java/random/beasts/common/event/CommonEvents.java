@@ -1,33 +1,24 @@
 package random.beasts.common.event;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.function.Function;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.EntityAITargetNonTamed;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.passive.EntityWolf;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 import random.beasts.common.entity.monster.EntityBranchieBase;
 import random.beasts.common.entity.passive.EntityPufferfishDog;
 import random.beasts.common.entity.passive.EntityRabbitman;
-import random.beasts.common.init.BeastsTriggers;
 import random.beasts.common.init.BeastsLootTables;
 import random.beasts.common.main.BeastsReference;
 import random.beasts.common.world.storage.loot.BeastsLootTable;
+
+import java.util.Collection;
+import java.util.function.Function;
 
 @SuppressWarnings("unused")
 @Mod.EventBusSubscriber(modid = BeastsReference.ID)
@@ -47,7 +38,7 @@ public class CommonEvents {
         }
     }
 
-    @SubscribeEvent
+    /*@SubscribeEvent
     public static void playerTick(TickEvent.PlayerTickEvent event) {
         EntityPlayer player = event.player;
         if (player.world.isRemote)
@@ -75,7 +66,7 @@ public class CommonEvents {
             }
         }
         if(ee instanceof EntityPufferfishDog) BeastsTriggers.DISCOVER_PUFFERFISH_DOG.trigger((EntityPlayerMP) player);
-    }
+    }*/
     
     @SubscribeEvent
     public static void lootTable(LootTableLoadEvent event) {

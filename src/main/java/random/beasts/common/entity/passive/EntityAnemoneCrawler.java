@@ -23,6 +23,12 @@ public class EntityAnemoneCrawler extends EntityAnimal {
 
     public EntityAnemoneCrawler(World worldIn) {
         super(worldIn);
+        setSize(0.5f, 0.5f);
+    }
+
+    @Override
+    protected void initEntityAI() {
+        super.initEntityAI();
         this.tasks.addTask(0, new EntityAIWander(this, 0.2));
         this.tasks.addTask(0, new EntityAIMate(this, 0.2));
     }

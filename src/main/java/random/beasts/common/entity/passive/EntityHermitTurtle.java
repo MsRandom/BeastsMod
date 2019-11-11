@@ -1,9 +1,6 @@
 package random.beasts.common.entity.passive;
 
-import java.util.List;
-
 import net.minecraft.entity.EntityAgeable;
-import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIMate;
 import net.minecraft.entity.ai.EntityAISwimming;
@@ -22,12 +19,14 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 import random.beasts.client.init.BeastsSounds;
+import random.beasts.common.entity.IShellEntity;
 import random.beasts.common.entity.monster.EntityVileEel;
 import random.beasts.common.init.BeastsBlocks;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
-public class EntityHermitTurtle extends EntityAnimal {
+public class EntityHermitTurtle extends EntityAnimal implements IShellEntity {
     private static final DataParameter<Boolean> OUT = EntityDataManager.createKey(EntityHermitTurtle.class, DataSerializers.BOOLEAN);
 
     public EntityHermitTurtle(World worldIn) {
@@ -113,7 +112,7 @@ public class EntityHermitTurtle extends EntityAnimal {
     
     static class AIHide extends EntityAITarget{
 
-		public AIHide(EntityHermitTurtle creature, boolean checkSight) {
+        AIHide(EntityHermitTurtle creature, boolean checkSight) {
 			super(creature, checkSight, true);
 		}
 

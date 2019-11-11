@@ -12,7 +12,7 @@ import random.beasts.common.main.BeastsReference;
 
 @SideOnly(Side.CLIENT)
 public class RenderVileEel extends RenderLiving<EntityVileEel> {
-	private static final ResourceLocation TEXTURE = new ResourceLocation(BeastsReference.ID, "textures/entity/vileeel.png");
+    private static final ResourceLocation TEXTURE = new ResourceLocation(BeastsReference.ID, "textures/entity/vile_eel.png");
 
 	public RenderVileEel(RenderManager rm) {
 		super(rm, new ModelVileEel(), 1.0F);

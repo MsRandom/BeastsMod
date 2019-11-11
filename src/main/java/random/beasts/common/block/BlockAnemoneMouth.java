@@ -1,6 +1,5 @@
 package random.beasts.common.block;
 
-import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -18,13 +17,13 @@ import random.beasts.common.init.BeastsItems;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BlockAnemoneMouth extends BeastsBlock {
+public class BlockAnemoneMouth extends BeastsAnemoneBlock {
     public static final PropertyInteger FED = PropertyInteger.create("fed", 0, 6);
     private static Map<ItemStack, Tuple<Integer, Integer>> dropTable;
     private static ItemStack[] items;
 
     public BlockAnemoneMouth() {
-        super(Material.CLAY, "anemone_mouth");
+        super("mouth");
         this.setDefaultState(getDefaultState().withProperty(FED, 0));
     }
 
@@ -42,6 +41,7 @@ public class BlockAnemoneMouth extends BeastsBlock {
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         ItemStack stack = playerIn.getHeldItem(hand);
         if(stack.getItem() == BeastsItems.MEAT_SCRAPES) {
+            if (!playerIn.capabilities.isCreativeMode) stack.shrink(1);
             IBlockState newState = state.cycleProperty(FED);
             int fed = newState.getValue(FED);
             if(fed == 0 || (fed > 3 && playerIn.getRNG().nextBoolean())) {

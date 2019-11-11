@@ -1,17 +1,11 @@
 package random.beasts.common.block;
 
-import java.util.Random;
-
-import javax.annotation.Nullable;
-
-import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
@@ -24,11 +18,12 @@ import random.beasts.common.init.BeastsBlocks;
 import random.beasts.common.main.BeastsMod;
 import random.beasts.common.main.BeastsUtils;
 
-public class BlockPalmTreeLeaves extends BlockLeaves {
+import javax.annotation.Nullable;
+import java.util.Random;
+
+public class BlockPalmTreeLeaves extends BeastsLeaves {
     public BlockPalmTreeLeaves() {
-    	super();
     	BeastsMod.proxy.setGraphicsLevel(this, true);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(CHECK_DECAY, true).withProperty(DECAYABLE, true));
         BeastsUtils.addToRegistry(this, "palmleaves");
     }
 

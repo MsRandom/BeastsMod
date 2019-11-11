@@ -43,8 +43,8 @@ public class BeastsBlocks {
     public static final BeastsSlab JELLY_WOOD_SLAB = new BeastsSlab("jellywood");
     public static final Block HERMIT_SHELL = new BlockHermitShell();
     public static final Block ANEMONE_MOUTH = new BlockAnemoneMouth();
-    public static final Block ANEMONE_STALK = new BeastsBlock(Material.CLAY, "anemone_stalk");
-    public static final Block ANEMONE_TENTACLE = new BeastsBlock(Material.CLAY, "anemone_tentacle");
+    public static final Block ANEMONE_STALK = new BeastsAnemoneBlock("stalk");
+    public static final Block ANEMONE_TENTACLE = new BeastsAnemoneBlock("tentacle");
     //this is a map so any coral plant can be gotten by the color or index/ordinal
     public static final Map<CoralColor, BlockCoralPlant> CORAL_PLANTS = new HashMap<>();
 

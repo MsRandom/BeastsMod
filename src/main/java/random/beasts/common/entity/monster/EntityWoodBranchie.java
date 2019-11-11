@@ -1,9 +1,5 @@
 package random.beasts.common.entity.monster;
 
-import java.util.List;
-
-import javax.annotation.Nullable;
-
 import net.minecraft.block.BlockNewLog;
 import net.minecraft.block.BlockOldLog;
 import net.minecraft.block.BlockPlanks;
@@ -22,6 +18,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import net.minecraftforge.event.world.BlockEvent;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class EntityWoodBranchie extends EntityBranchieBase {
 
@@ -90,7 +89,7 @@ public class EntityWoodBranchie extends EntityBranchieBase {
         entity.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
         entity.onInitialSpawn(event.getWorld().getDifficultyForLocation(pos), null);
         entity.setVariant(variant);
-        List<EntityWoodBranchie> branchies = event.getWorld().getEntitiesWithinAABB(EntityWoodBranchie.class, new AxisAlignedBB(event.getPos()).grow(10), branchie -> branchie != entity && branchie.getVariant() == variant);
+        List<EntityWoodBranchie> branchies = event.getWorld().getEntitiesWithinAABB(EntityWoodBranchie.class, new AxisAlignedBB(event.getPos()).grow(10), branchie -> branchie != null && branchie != entity && branchie.getVariant() == variant);
         branchies.forEach(branchie -> branchie.setRevengeTarget(event.getPlayer()));
         return entity;
     }

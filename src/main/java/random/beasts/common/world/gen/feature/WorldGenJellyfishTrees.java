@@ -1,5 +1,6 @@
 package random.beasts.common.world.gen.feature;
 
+import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
@@ -19,7 +20,7 @@ public class WorldGenJellyfishTrees extends WorldGenAbstractTree {
     public boolean generate(World worldIn, Random rand, BlockPos position) {
         if (worldIn.getBlockState(position.down()).getBlock() == Blocks.SAND) {
             IBlockState log = BeastsBlocks.JELLY_WOOD.getDefaultState();
-            IBlockState leaves = BeastsBlocks.JELLY_LEAVES.getDefaultState();
+            IBlockState leaves = BeastsBlocks.JELLY_LEAVES.getDefaultState().withProperty(BlockLeaves.CHECK_DECAY, true).withProperty(BlockLeaves.DECAYABLE, true);
             int height = rand.nextInt(3) + 4;
             int radius = rand.nextInt(5) + 8;
             if (radius % 2 == 0) radius += 1;

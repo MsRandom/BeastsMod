@@ -1,9 +1,5 @@
 package random.beasts.common.entity.monster;
 
-import java.util.List;
-
-import javax.annotation.Nullable;
-
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -20,6 +16,9 @@ import net.minecraftforge.event.world.BlockEvent;
 import random.beasts.common.block.BlockCoralPlant;
 import random.beasts.common.block.CoralColor;
 import random.beasts.common.init.BeastsBlocks;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class EntityCoralBranchie extends EntityBranchieBase {
 
@@ -87,7 +86,7 @@ public class EntityCoralBranchie extends EntityBranchieBase {
         entity.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
         entity.onInitialSpawn(event.getWorld().getDifficultyForLocation(pos), null);
         entity.setVariant(color);
-        List<EntityCoralBranchie> branchies = event.getWorld().getEntitiesWithinAABB(EntityCoralBranchie.class, new AxisAlignedBB(event.getPos()).grow(10), branchie -> branchie != entity && branchie.getVariant() == color);
+        List<EntityCoralBranchie> branchies = event.getWorld().getEntitiesWithinAABB(EntityCoralBranchie.class, new AxisAlignedBB(event.getPos()).grow(10), branchie -> branchie != null && branchie != entity && branchie.getVariant() == color);
         branchies.forEach(branchie -> branchie.setRevengeTarget(player));
         return entity;
     }
