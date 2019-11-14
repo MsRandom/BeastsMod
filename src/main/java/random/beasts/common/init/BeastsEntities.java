@@ -2,6 +2,7 @@ package random.beasts.common.init;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.ResourceLocation;
@@ -42,6 +43,7 @@ public class BeastsEntities {
     //private static final EntityEntry WHIPPING_BARNACLE = createEntry(EntityWhippingBarnacle.class, 0x278E6C, 0xEA8F9E, new SpawnEntry(EnumCreatureType.CREATURE, 50, 1, 3, BeastsBiomes.DRIED_REEF));
 	private static final EntityEntry HERMIT_TURTLE = createEntry(EntityHermitTurtle.class, 0x8F8F8F, 0x63862E, new SpawnEntry(EnumCreatureType.CREATURE, 50, 1, 3, BeastsBiomes.DRIED_REEF));
 	private static final EntityEntry ANEMONE_CRAWLER = createEntry(EntityAnemoneCrawler.class, 0xEF5C13, 0xDCE3E5);
+	private static final EntityEntry LEGFISH = createEntry(EntityLegfish.class, 0x6DAF78, 0xDB3E00, new SpawnEntry(EnumCreatureType.WATER_CREATURE, 50, 2,6, BeastsBiomes.DRIED_REEF));
 
 	private static EntityEntry createBranchie(Class<? extends EntityBranchieBase> cls, int prim, int sec, Collection<? extends Block> validBlocks, Function<BlockEvent.BreakEvent, ? extends EntityBranchieBase> create) {
 		EntityBranchieBase.TYPES.put(validBlocks, create);
