@@ -11,7 +11,7 @@ import javax.annotation.Nullable;
 
 public class RenderAnemoneCrawler extends RenderLiving<EntityAnemoneCrawler> {
 
-    private ResourceLocation[] textures;
+    private static ResourceLocation[] textures;
 
     public RenderAnemoneCrawler(RenderManager rendermanagerIn) {
         super(rendermanagerIn, new ModelAnemoneCrawler(), 0.1f);
