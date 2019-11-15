@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XXX",
+    "XXX",
+    " X "
+  ],
+  "key": {
+    "X": {
+      "type": "forge:ore_dict",
+      "ore": "blockShell"
+    }
+  },
+  "result": {
+    "item": "beasts:shell_shield"
+  }
+}

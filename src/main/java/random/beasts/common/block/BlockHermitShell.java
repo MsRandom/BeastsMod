@@ -14,7 +14,9 @@ public class BlockHermitShell extends BeastsBlock{
 	public static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(0.15F,0,0.15F,0.85F,0.7F,0.85F);
 
 	public BlockHermitShell() {
-		super(Material.WOOD, "hermit_shell");
+		super(Material.WOOD, "hermit_turtle_shell");
+		this.setHardness(1.5F);
+		this.setResistance(10.0F);
 	}
 
 	public boolean isOpaqueCube(IBlockState state)

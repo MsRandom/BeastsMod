@@ -3,10 +3,16 @@ package random.beasts.proxy;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import random.beasts.common.block.BlockPalmTreeLeaves;
-import random.beasts.common.init.*;
+import random.beasts.common.init.BeastsBlocks;
+import random.beasts.common.init.BeastsLootTables;
+import random.beasts.common.init.BeastsStructures;
+import random.beasts.common.init.BeastsTileEntities;
+import random.beasts.common.init.BeastsTriggers;
 import random.beasts.common.network.BeastsGuiHandler;
+import random.beasts.common.world.gen.structure.ShellGenerator;
 
 public class CommonProxy {
 
@@ -16,6 +22,7 @@ public class CommonProxy {
         BeastsTileEntities.init();
         BeastsLootTables.init();
         BeastsGuiHandler.init();
+        GameRegistry.registerWorldGenerator(new ShellGenerator(), 0);
     }
 
     public void init() {
@@ -48,5 +55,9 @@ public class CommonProxy {
         OreDictionary.registerOre("fenceWood", BeastsBlocks.JELLY_WOOD_FENCE);
         OreDictionary.registerOre("fenceGateWood", BeastsBlocks.JELLY_WOOD_GATE);
         OreDictionary.registerOre("doorWood", BeastsBlocks.JELLY_WOOD_DOOR);
+        OreDictionary.registerOre("blockShell", BeastsBlocks.SHELL_BLOCK);
+        OreDictionary.registerOre("blockShell", BeastsBlocks.BROWN_SHELL_BLOCK);
+        OreDictionary.registerOre("blockShell", BeastsBlocks.LIGHT_BROWN_SHELL_BLOCK);
+        OreDictionary.registerOre("blockShell", BeastsBlocks.TAN_SHELL_BLOCK);
     }
 }

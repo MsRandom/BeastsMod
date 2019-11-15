@@ -2,7 +2,11 @@ package random.beasts.client.model;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.math.MathHelper;
+import random.beasts.common.entity.passive.EntityAnemoneCrawler;
 
 public class ModelAnemoneCrawler extends ModelBase {
     public ModelRenderer body;
@@ -52,7 +56,23 @@ public class ModelAnemoneCrawler extends ModelBase {
 
     @Override
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
-        this.body.render(f5);
+    	if(((EntityLivingBase)entity).isChild()) {
+            GlStateManager.scale(0.5F, 0.5F, 0.5F);
+            GlStateManager.translate(0.0F, 24.0F * f5, 0.0F);
+        }
+        if (entity.isSneaking()) GlStateManager.translate(0.0F, 0.2F, 0.0F);
+    	this.body.render(f5);
+    }
+    
+    @Override
+    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
+        super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
+        float speed = 1.5f, degree = 0.9f;
+        this.armLeft.rotateAngleX = MathHelper.cos(limbSwing * speed) * degree * limbSwingAmount;
+        this.armRight.rotateAngleX = MathHelper.cos(limbSwing * speed + (float) Math.PI) * degree * limbSwingAmount;
+        this.legLeft.rotateAngleX = MathHelper.cos(limbSwing * speed + (float) Math.PI) * degree * limbSwingAmount;
+        this.legRight.rotateAngleX = MathHelper.cos(limbSwing * speed) * degree * limbSwingAmount;   
+        this.tail.rotateAngleY = MathHelper.cos(20 + limbSwing * speed) * degree * limbSwingAmount;
     }
 
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {

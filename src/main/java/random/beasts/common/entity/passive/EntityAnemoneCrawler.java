@@ -4,8 +4,10 @@ import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIMate;
+import net.minecraft.entity.ai.EntityAITempt;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -14,6 +16,7 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
+import net.minecraftforge.oredict.OreDictionary;
 import random.beasts.common.init.BeastsItems;
 
 import javax.annotation.Nullable;
@@ -30,7 +33,7 @@ public class EntityAnemoneCrawler extends EntityAnimal {
     protected void initEntityAI() {
         super.initEntityAI();
         this.tasks.addTask(0, new EntityAIWander(this, 0.2));
-        this.tasks.addTask(0, new EntityAIMate(this, 0.2));
+        this.tasks.addTask(1, new EntityAIMate(this, 0.2));
     }
 
     @Override

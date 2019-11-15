@@ -39,16 +39,17 @@ public class WorldGenAnemone extends WorldGenerator {
             setInAllDirections(worldIn, 3, vertical[6], tentacle);
             setInAllDirections(worldIn, 2, -1, vertical[6], tentacle);
             for (int i = 0; i < rand.nextInt(3) + 2; i++) setInAllDirections(worldIn, 2 + i, i - 1, vertical[8 + Math.min(i, 1) - 1], tentacle);
-            for (int i = 0; i < 2; i++) setInAllDirections(worldIn, 0, 2 + i, vertical[7 - i], tentacle);
+            for (int i = 0; i < 2; i++) setInAllDirections(worldIn, 0, 2 + i, vertical[6 - i], tentacle);
             setInAllDirections(worldIn, -2, 2, vertical[5], tentacle);
             setInAllDirections(worldIn, 2, 2, vertical[5], tentacle);
             setInAllDirections(worldIn, 4, 1, vertical[5], tentacle);
             setBlockAndNotifyAdequately(worldIn, vertical[5], BeastsBlocks.ANEMONE_MOUTH.getDefaultState());
             for (int i = 0; i < rand.nextInt(2) + 1; i++) {
                 EntityAnemoneCrawler crawler = new EntityAnemoneCrawler(worldIn);
-                crawler.setLocationAndAngles(i, vertical[6].getY(), i, 0, 0);
+                crawler.setLocationAndAngles(position.getX() + i, vertical[6].getY(), position.getZ() + i, 0, 0);
                 crawler.onInitialSpawn(worldIn.getDifficultyForLocation(crawler.getPosition()), null);
                 worldIn.spawnEntity(crawler);
+                System.out.println("Beep " + crawler.getPosition());
             }
             return true;
         }

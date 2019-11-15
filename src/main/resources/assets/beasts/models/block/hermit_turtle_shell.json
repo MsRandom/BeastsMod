@@ -1,8 +1,16 @@
 {
+    "parent": "minecraft:block/block",
 	"textures": {
 		"0": "beasts:blocks/hermit_turtle_shell",
 		"particle": "beasts:blocks/hermit_turtle_shell"
 	},
+	"display": {
+        "fixed": {
+            "rotation": [ 0, 90, 0 ],
+            "translation": [ 0, 0, 0 ],
+            "scale": [ 0.5, 0.5, 0.5 ]
+        }
+    },
 	"elements": [
 		{
 			"from": [4.5, 0, 4.5],
