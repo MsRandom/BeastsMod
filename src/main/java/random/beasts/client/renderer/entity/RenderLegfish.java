@@ -24,8 +24,7 @@ public class RenderLegfish extends RenderLiving<EntityLegfish> {
 
     @Override
     public void doRender(EntityLegfish entity, double x, double y, double z, float entityYaw, float partialTicks) {
-        ModelLegfish model = types[entity.getType()];
-        if (mainModel != model) this.mainModel = model;
+        this.mainModel = types[entity.getType()];
         super.doRender(entity, x, y, z, entityYaw, partialTicks);
     }
 

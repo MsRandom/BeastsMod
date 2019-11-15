@@ -11,19 +11,20 @@ import javax.annotation.Nullable;
 
 public class RenderAnemoneCrawler extends RenderLiving<EntityAnemoneCrawler> {
 
-    private static ResourceLocation[] textures;
+    private static final ResourceLocation[] TEXTURES = new ResourceLocation[3];
 
     public RenderAnemoneCrawler(RenderManager rendermanagerIn) {
         super(rendermanagerIn, new ModelAnemoneCrawler(), 0.1f);
     }
 
+    static {
+        for (int i = 0; i < TEXTURES.length; i++)
+            TEXTURES[i] = new ResourceLocation(BeastsReference.ID, "textures/entity/anemone_crawler/texture_" + (i + 1) + ".png");
+    }
+
     @Nullable
     @Override
     protected ResourceLocation getEntityTexture(EntityAnemoneCrawler entity) {
-        if(textures == null) {
-            textures = new ResourceLocation[3];
-            for (int i = 0; i < textures.length; i++) textures[i] = new ResourceLocation(BeastsReference.ID, "textures/entity/anemone_crawler/texture_" + (i + 1) + ".png");
-        }
-        return textures[entity.getVariant()];
+        return TEXTURES[entity.getVariant()];
     }
 }
