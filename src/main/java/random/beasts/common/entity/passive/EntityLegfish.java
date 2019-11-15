@@ -23,13 +23,13 @@ public class EntityLegfish extends EntityAnimal {
 
     public EntityLegfish(World worldIn) {
         super(worldIn);
-        setSize(0.5f, 0.5f);
+        setSize(0.3f, 0.3f);
     }
 
     @Override
     protected void initEntityAI() {
         super.initEntityAI();
-        this.tasks.addTask(0, new EntityAIWander(this, 1.1D));
+        this.tasks.addTask(0, new EntityAIWander(this, 0.2D));
         this.tasks.addTask(1, new EntityAILookIdle(this));
     }
 

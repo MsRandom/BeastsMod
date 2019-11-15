@@ -7,7 +7,7 @@ entity.coconut_crab.name=Coconut Crab
 entity.landwhale.name=Landwhale
 entity.skewer_shrimp.name=Skewer Shrimp
 entity.giant_garden_eel.name=Giant Garden Eel
-
+entity.legfish.name=Legfish
 entity.beasts_painting.name=Beasts Painting
 entity.coral_branchie.name=Coral Branchie
 entity.chorus_branchie.name=Chorus Branchie
@@ -120,6 +120,7 @@ tile.hermit_shell.name=Hermit Shell
 tile.anemone_stalk.name=Anemone Stalk
 tile.anemone_tentacle.name=Anemone Tentacle
 tile.anemone_mouth.name=Anemone Mouth
+tile.hermit_turtle_shell.name=Hermit Turtle Shell
 
 Config
 

@@ -135,8 +135,8 @@ public class EntityBeastsPainting extends EntityHanging implements IEntityAdditi
         CRAB("Crab"),
         TURTLE("Turtle"),
         PUFFER("Puffer"),
-        SHRIMP("Shrimp"),
-        GARDEN_EEL("Garden Eel", 16, 32);
+        SHRIMP("Shrimp");
+//        GARDEN_EEL("Garden Eel", 16, 32);
 
 
         public final String title;
