@@ -6,12 +6,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 
-public class ItemBarnacleTongue extends BeastsFood {
+public class ItemScallopTongue extends BeastsFood {
 
     private final int potionDuration;
 
-    public ItemBarnacleTongue(boolean cooked, int amount, float saturation, int potionDuration) {
-        super((cooked?"cooked_":"") + "barnacle_tongue", amount, saturation);
+    public ItemScallopTongue(boolean cooked, int amount, float saturation, int potionDuration) {
+        super((cooked ? "cooked_" : "") + "scallop_tongue", amount, saturation);
         this.potionDuration = potionDuration;
     }
 

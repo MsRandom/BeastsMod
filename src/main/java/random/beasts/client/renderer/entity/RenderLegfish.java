@@ -32,12 +32,12 @@ public class RenderLegfish extends RenderLiving<EntityLegfish> {
     @Override
     protected ResourceLocation getEntityTexture(EntityLegfish entity) {
         int type = entity.getType();
-        ResourceLocation[] typeTextures = TEXTURES.computeIfAbsent(type, k -> {
-            ResourceLocation[] temp = new ResourceLocation[EntityLegfish.VARIANTS.get(type)];
-            for (int i = 0; i < temp.length; i++)
-                temp[i] = new ResourceLocation(BeastsReference.ID, "textures/entity/legfish/type_" + (type + 1) + "_" + (i + 1) + ".png");
-            return temp;
+        ResourceLocation[] textures = TEXTURES.computeIfAbsent(type, k -> {
+            ResourceLocation[] typeTextures = new ResourceLocation[EntityLegfish.VARIANTS.get(type)];
+            for (int i = 0; i < typeTextures.length; i++)
+                typeTextures[i] = new ResourceLocation(BeastsReference.ID, "textures/entity/legfish/type_" + (type + 1) + "_" + (i + 1) + ".png");
+            return typeTextures;
         });
-        return typeTextures[entity.getVariant()];
+        return textures[entity.getVariant()];
     }
 }

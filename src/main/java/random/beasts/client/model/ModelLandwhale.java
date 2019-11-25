@@ -2,9 +2,7 @@ package random.beasts.client.model;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.MathHelper;
 import random.beasts.common.entity.passive.EntityLandwhale;
 
@@ -123,7 +121,9 @@ public class ModelLandwhale extends ModelBase {
         this.body.addChild(this.legLeft);
         this.body.addChild(this.coral3);
     }
-    
+
+    //where is the rendering code for this?
+
     @Override
     public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
         super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);

@@ -38,7 +38,6 @@ public class EntityCoconutCrab extends EntityMob implements IShellEntity {
     private BlockPos newPos;
     private boolean hasTarget = false;
     private int ticksSinceHit = 0;
-    private EntityAIWander wanderAI;
 
     public EntityCoconutCrab(World worldIn) {
         super(worldIn);
@@ -49,13 +48,12 @@ public class EntityCoconutCrab extends EntityMob implements IShellEntity {
     @Override
     protected void initEntityAI() {
         super.initEntityAI();
-        wanderAI = new EntityAIWander(this, 0.5, 50) {
+        this.tasks.addTask(0, new EntityAIWander(this, 0.5, 50) {
             @Override
             public boolean shouldExecute() {
                 return isOut() && super.shouldExecute();
             }
-        };
-        this.tasks.addTask(0, wanderAI);
+        });
         this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<EntityPlayer>(this, EntityPlayer.class, true) {
             @Override
             public boolean shouldExecute() {
@@ -170,7 +168,6 @@ public class EntityCoconutCrab extends EntityMob implements IShellEntity {
     @Override
     public void onUpdate() {
         if(isOut()) {
-            if (this.tasks.taskEntries.stream().noneMatch(v -> v.action == wanderAI)) this.tasks.addTask(0, wanderAI);
             if(world.getBlockState(getPosition().down()).getBlock() == Blocks.SAND && rand.nextInt(500) == 0) {
                 setOut(false);
                 setFire(0);
@@ -221,13 +218,9 @@ public class EntityCoconutCrab extends EntityMob implements IShellEntity {
                     this.hasTarget = true;
                 }
             }
-        }
-        else {
-            if(this.isBurning()){
-                this.extinguish();
-            }
+        } else {
+            if (this.isBurning()) this.extinguish();
             if (!this.world.isRemote && this.world.getDifficulty() == EnumDifficulty.PEACEFUL) this.setDead();
-            if (this.tasks.taskEntries.stream().anyMatch(v -> v.action == wanderAI)) this.tasks.removeTask(wanderAI);
         }
         super.onUpdate();
     }

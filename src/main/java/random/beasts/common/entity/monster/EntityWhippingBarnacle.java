@@ -1,14 +1,6 @@
 package random.beasts.common.entity.monster;
 
-import java.util.ArrayList;
-
-import javax.annotation.Nullable;
-
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.EnumCreatureAttribute;
-import net.minecraft.entity.IEntityLivingData;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.*;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -24,6 +16,9 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import random.beasts.common.entity.IDriedAquatic;
 import random.beasts.common.init.BeastsItems;
+
+import javax.annotation.Nullable;
+import java.util.ArrayList;
 
 public class EntityWhippingBarnacle extends EntityMob implements IDriedAquatic {
 
@@ -183,7 +178,7 @@ public class EntityWhippingBarnacle extends EntityMob implements IDriedAquatic {
 
     @Override
     protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
-        dropItem(isBurning() ? BeastsItems.COOKED_BARNACLE_TONGUE : BeastsItems.BARNACLE_TONGUE, 1);
+        dropItem(isBurning() ? BeastsItems.COOKED_SCALLOP_TONGUE : BeastsItems.SCALLOP_TONGUE, 1);
     }
 
     @Override

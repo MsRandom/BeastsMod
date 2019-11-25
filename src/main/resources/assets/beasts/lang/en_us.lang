@@ -26,8 +26,8 @@ item.crab_leg.name=Raw Crab Leg
 item.cooked_crab_leg.name=Cooked Crab Leg
 item.coconade.name=Coco-Nade
 item.coconut.name=Coconut
-item.barnacle_tongue.name=Raw Barnacle Tongue
-item.cooked_barnacle_tongue.name=Cooked Barnacle Tongue
+item.scallop_tongue.name=Raw Scallop Tongue
+item.cooked_scallop_tongue.name=Cooked Scallop Tongue
 item.eel_chop.name=Raw Eel Chop
 item.cooked_eel_chop.name=Cooked Eel Chop
 item.coral_essence_blue.name=Blue Coral Essence
@@ -71,6 +71,7 @@ item.jelly_hoe.name=Jelly Hoe
 item.jellywood_door.name=Jellywood Door
 item.meat_scrapes.name=Meat Scraps
 item.palm_door.name=Palm Door
+item.shell_shield.name=Shell Shield
 
 Blocks
 

@@ -43,8 +43,8 @@ public class BeastsItems {
 	public static final ItemFood CRAB_LEG = new BeastsFood("crab_leg", 2, 0.1F);
 	public static final ItemFood COOKED_CRAB_LEG = new BeastsFood("cooked_crab_leg", 6, 0.6F);
 	public static final ItemFood COCONUT = new BeastsFood("coconut", 2, 0.4F);
-	public static final ItemFood BARNACLE_TONGUE = new ItemBarnacleTongue(false, 2, 0.1F, 200);
-	public static final ItemFood COOKED_BARNACLE_TONGUE = new ItemBarnacleTongue(true, 5, 0.6F, 100);
+    public static final ItemFood SCALLOP_TONGUE = new ItemScallopTongue(false, 2, 0.1F, 200);
+    public static final ItemFood COOKED_SCALLOP_TONGUE = new ItemScallopTongue(true, 5, 0.6F, 100);
 	public static final ItemFood SHRIMP = new BeastsFood("shrimp", 2, 0.2F).setPotionEffect(new PotionEffect(MobEffects.HUNGER, 600, 0), 0.3f);
 	public static final ItemFood COOKED_SHRIMP = new BeastsFood("cooked_shrimp", 6, 0.5F);
 	public static final ItemFood RAW_KEBAB = new BeastsFood("raw_kebab", 4, 0.3F).setPotionEffect(new PotionEffect(MobEffects.HUNGER, 600, 0), 0.3f);

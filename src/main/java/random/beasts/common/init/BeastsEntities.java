@@ -2,7 +2,6 @@ package random.beasts.common.init;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.ResourceLocation;
@@ -36,8 +35,8 @@ public class BeastsEntities {
 	private static final EntityEntry VILE_EEL = createEntry(EntityVileEel.class, 0x313337, 0x987CAF, new SpawnEntry(EnumCreatureType.MONSTER, 30, 1, 1, BeastsBiomes.DRIED_REEF));
     private static final EntityEntry LANDWHALE = createEntry(EntityLandwhale.class, 0x587377, 0xE25AA5, new SpawnEntry(EnumCreatureType.CREATURE, 30, 1, 1, BeastsBiomes.DRIED_REEF));
 	private static final EntityEntry COCONADE = createEntry(EntityCoconutBomb.class);
-    private static final EntityEntry GIANT_GARDEN_EEL = createEntry(EntityGiantGardenEel.class, 0xCECEAF, 0x7A745E, new SpawnEntry(EnumCreatureType.CREATURE, 30, 4, 8, BeastsBiomes.DRIED_REEF));
-    private static final EntityEntry SKEWER_SHRIMP = createEntry(EntitySkewerShrimp.class, 0xEA4E3C, 0xFFACA3, new SpawnEntry(EnumCreatureType.CREATURE, 35, 4, 8, BeastsBiomes.DRIED_REEF));
+    private static final EntityEntry GIANT_GARDEN_EEL = createEntry(EntityGiantGardenEel.class, 0xCECEAF, 0x7A745E, new SpawnEntry(EnumCreatureType.CREATURE, 15, 4, 8, BeastsBiomes.DRIED_REEF));
+    private static final EntityEntry SKEWER_SHRIMP = createEntry(EntitySkewerShrimp.class, 0xEA4E3C, 0xFFACA3, new SpawnEntry(EnumCreatureType.CREATURE, 15, 4, 8, BeastsBiomes.DRIED_REEF));
 	private static final EntityEntry BEASTS_PAINTING = createEntry(EntityBeastsPainting.class);
 	private static final EntityEntry FALLING_COCONUT = createEntry(EntityFallingCoconut.class);
     //private static final EntityEntry WHIPPING_BARNACLE = createEntry(EntityWhippingBarnacle.class, 0x278E6C, 0xEA8F9E, new SpawnEntry(EnumCreatureType.CREATURE, 50, 1, 3, BeastsBiomes.DRIED_REEF));

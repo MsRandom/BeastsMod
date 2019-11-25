@@ -1,12 +1,5 @@
 package random.beasts.common.event;
 
-import static net.minecraftforge.common.BiomeDictionary.Type.BEACH;
-import static net.minecraftforge.common.BiomeDictionary.Type.DRY;
-import static net.minecraftforge.common.BiomeDictionary.Type.HOT;
-import static net.minecraftforge.common.BiomeDictionary.Type.SANDY;
-
-import java.util.Objects;
-
 import net.minecraft.block.*;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.StateMap;
@@ -25,17 +18,16 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityEntry;
-import net.minecraftforge.oredict.OreDictionary;
 import random.beasts.client.init.BeastsSounds;
 import random.beasts.common.block.BeastsSlab;
 import random.beasts.common.block.BlockAnemoneMouth;
-import random.beasts.common.init.BeastsBiomes;
-import random.beasts.common.init.BeastsBlocks;
-import random.beasts.common.init.BeastsEntities;
-import random.beasts.common.init.BeastsItems;
-import random.beasts.common.init.BeastsRecipes;
+import random.beasts.common.init.*;
 import random.beasts.common.item.IHandleMeta;
 import random.beasts.common.main.BeastsReference;
+
+import java.util.Objects;
+
+import static net.minecraftforge.common.BiomeDictionary.Type.*;
 
 @SuppressWarnings("unused")
 @Mod.EventBusSubscriber(modid = BeastsReference.ID)
@@ -51,7 +43,7 @@ public class RegistryEvents {
         event.getRegistry().registerAll(BeastsItems.LIST.toArray(new Item[0]));
         FurnaceRecipes.instance().addSmelting(BeastsItems.CRAB_LEG, new ItemStack(BeastsItems.COOKED_CRAB_LEG), 0.35f);
         FurnaceRecipes.instance().addSmelting(BeastsItems.EEL_CHOP, new ItemStack(BeastsItems.COOKED_EEL_CHOP), 0.50f);
-        FurnaceRecipes.instance().addSmelting(BeastsItems.BARNACLE_TONGUE, new ItemStack(BeastsItems.COOKED_BARNACLE_TONGUE), 0.35f);
+        FurnaceRecipes.instance().addSmelting(BeastsItems.SCALLOP_TONGUE, new ItemStack(BeastsItems.COOKED_SCALLOP_TONGUE), 0.35f);
         FurnaceRecipes.instance().addSmelting(BeastsItems.SHRIMP, new ItemStack(BeastsItems.COOKED_SHRIMP), 0.35f);
         FurnaceRecipes.instance().addSmelting(BeastsItems.RAW_KEBAB, new ItemStack(BeastsItems.COOKED_KEBAB), 0.35f);
         FurnaceRecipes.instance().addSmelting(BeastsItems.DAGGERFISH, new ItemStack(BeastsItems.COOKED_DAGGERFISH), 0.50f);

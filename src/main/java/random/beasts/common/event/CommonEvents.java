@@ -11,6 +11,7 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemShield;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemSword;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraftforge.event.ForgeEventFactory;
@@ -20,14 +21,17 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import random.beasts.common.entity.monster.EntityBranchieBase;
 import random.beasts.common.entity.passive.EntityPufferfishDog;
 import random.beasts.common.entity.passive.EntityRabbitman;
+import random.beasts.common.init.BeastsItems;
 import random.beasts.common.init.BeastsLootTables;
 import random.beasts.common.main.BeastsReference;
 import random.beasts.common.world.storage.loot.BeastsLootTable;
 
 import java.util.Collection;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 
 @SuppressWarnings("unused")
@@ -35,7 +39,7 @@ import java.util.function.Function;
 public class CommonEvents {
 
     @SubscribeEvent
-    public static void entityJoin(EntityJoinWorldEvent event) {
+    public static void addEntity(EntityJoinWorldEvent event) {
         if (event.getEntity() instanceof EntityOcelot) {
             final EntityOcelot ocelot = (EntityOcelot) event.getEntity();
             if(ocelot != null) {
@@ -79,7 +83,7 @@ public class CommonEvents {
     }*/
     
     @SubscribeEvent
-    public static void lootTable(LootTableLoadEvent event) {
+    public static void loadLootTable(LootTableLoadEvent event) {
         BeastsLootTable table = BeastsLootTables.TABLES.get(event.getName().getResourcePath());
         if(table != null) event.getTable().getPool("main").addEntry(table.tableSupplier.get());
     }
@@ -106,7 +110,7 @@ public class CommonEvents {
     }
 
     @SubscribeEvent
-    public static void livingAttack(LivingAttackEvent event) {
+    public static void attackLiving(LivingAttackEvent event) {
         if (event.getEntityLiving() instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) event.getEntityLiving();
             if (!player.getActiveItemStack().isEmpty()) {
@@ -126,6 +130,28 @@ public class CommonEvents {
 
                         player.world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ITEM_SHIELD_BREAK, SoundCategory.PLAYERS, 0.9f, 0.8F + player.world.rand.nextFloat() * 0.4F);
                     }
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void craftItem(PlayerEvent.ItemCraftedEvent event) {
+        if (event.crafting.getItem() == BeastsItems.COCONUT_JUICE) {
+            for (AtomicInteger i = new AtomicInteger(); i.get() < event.craftMatrix.getSizeInventory(); i.getAndIncrement()) {
+                ItemStack stack = event.craftMatrix.getStackInSlot(i.get());
+                if (stack.getItem() instanceof ItemSword) {
+                    ItemStack item = stack.copy();
+                    item.setItemDamage(stack.getItemDamage() + 1);
+                    //yes.. threading for just a simple crafting recipe, and it doesn't even work!
+                    Thread check = new Thread(() -> {
+                        while (true) if (stack.isEmpty()) {
+                            event.craftMatrix.setInventorySlotContents(i.get(), item);
+                            break;
+                        }
+                    });
+                    check.start();
+                    break;
                 }
             }
         }

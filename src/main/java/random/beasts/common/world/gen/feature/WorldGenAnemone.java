@@ -49,7 +49,6 @@ public class WorldGenAnemone extends WorldGenerator {
                 crawler.setLocationAndAngles(position.getX() + i, vertical[6].getY(), position.getZ() + i, 0, 0);
                 crawler.onInitialSpawn(worldIn.getDifficultyForLocation(crawler.getPosition()), null);
                 worldIn.spawnEntity(crawler);
-                System.out.println("Beep " + crawler.getPosition());
             }
             return true;
         }
