@@ -5,6 +5,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraftforge.oredict.OreDictionary;
 import random.beasts.common.block.BlockPalmTreeLeaves;
+import random.beasts.common.block.BlockShell;
 import random.beasts.common.init.*;
 import random.beasts.common.network.BeastsGuiHandler;
 
@@ -49,9 +50,6 @@ public class CommonProxy {
         OreDictionary.registerOre("fenceWood", BeastsBlocks.JELLY_WOOD_FENCE);
         OreDictionary.registerOre("fenceGateWood", BeastsBlocks.JELLY_WOOD_GATE);
         OreDictionary.registerOre("doorWood", BeastsBlocks.JELLY_WOOD_DOOR);
-        OreDictionary.registerOre("blockShell", BeastsBlocks.SHELL_BLOCK);
-        OreDictionary.registerOre("blockShell", BeastsBlocks.BROWN_SHELL_BLOCK);
-        OreDictionary.registerOre("blockShell", BeastsBlocks.LIGHT_BROWN_SHELL_BLOCK);
-        OreDictionary.registerOre("blockShell", BeastsBlocks.TAN_SHELL_BLOCK);
+        for (BlockShell shell : BeastsBlocks.SHELL_BLOCKS) OreDictionary.registerOre("blockShell", shell);
     }
 }

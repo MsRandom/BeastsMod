@@ -20,10 +20,6 @@ public class BeastsBlocks {
     public static final Block GLOW_ROOT_BOTTOM = new BlockGlowRoot(false);
     public static final Block CORAL_BLOCK = new BlockCoral();
     public static final Block CORAL_SAPLING = new BlockCoralSapling();
-    public static final Block SHELL_BLOCK = new BlockShell("shell_block");
-    public static final Block BROWN_SHELL_BLOCK = new BlockShell("brown_shell_block");
-    public static final Block LIGHT_BROWN_SHELL_BLOCK = new BlockShell("light_brown_shell_block");
-    public static final Block TAN_SHELL_BLOCK = new BlockShell("tan_shell_block");
     public static final Block JELLYWOOD_SAPLING = new BeastsSapling("jellyfish_sapling", WorldGenJellyfishTrees::new);
     public static final Block PALM_SAPLING = new BeastsSapling("palm_sapling", WorldGenPalmTrees::new);
     public static final Block TENTACLE = new BlockTentacle();
@@ -51,6 +47,7 @@ public class BeastsBlocks {
     public static final Block ANEMONE_TENTACLE = new BeastsAnemoneBlock("tentacle");
     //this is a map so any coral plant can be gotten by the color or index/ordinal
     public static final Map<CoralColor, BlockCoralPlant> CORAL_PLANTS = new HashMap<>();
+    public static final BlockShell[] SHELL_BLOCKS = {new BlockShell("shell_block"), new BlockShell("brown_shell_block"), new BlockShell("light_brown_shell_block"), new BlockShell("tan_shell_block")};
 
 	static {
 		for (CoralColor color : CoralColor.values()) CORAL_PLANTS.put(color, new BlockCoralPlant(color));

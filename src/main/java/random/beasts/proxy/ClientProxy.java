@@ -10,22 +10,11 @@ import random.beasts.client.renderer.tileentity.TileEntityCoconutRenderer;
 import random.beasts.common.block.BlockPalmTreeLeaves;
 import random.beasts.common.entity.item.EntityBeastsPainting;
 import random.beasts.common.entity.item.EntityFallingCoconut;
-import random.beasts.common.entity.monster.EntityChorusBranchie;
-import random.beasts.common.entity.monster.EntityCoconutCrab;
-import random.beasts.common.entity.monster.EntityCoralBranchie;
-import random.beasts.common.entity.monster.EntityGiantGardenEel;
-import random.beasts.common.entity.monster.EntitySkewerShrimp;
-import random.beasts.common.entity.monster.EntityVileEel;
-import random.beasts.common.entity.monster.EntityWhippingBarnacle;
-import random.beasts.common.entity.monster.EntityWoodBranchie;
+import random.beasts.common.entity.monster.*;
 import random.beasts.common.entity.passive.*;
 import random.beasts.common.entity.projectile.EntityCoconutBomb;
-import random.beasts.common.init.BeastsItems;
-import random.beasts.common.tileentity.TileEntityCoconut;
 import random.beasts.common.main.BeastsReference;
-
-import java.util.HashMap;
-import java.util.Map;
+import random.beasts.common.tileentity.TileEntityCoconut;
 
 public class ClientProxy extends CommonProxy {
 
@@ -61,6 +50,7 @@ public class ClientProxy extends CommonProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntityHermitTurtle.class, RenderHermitTurtle::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityAnemoneCrawler.class, RenderAnemoneCrawler::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityLegfish.class, RenderLegfish::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityScallop.class, RenderScallop::new);
 
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCoconut.class, COCONUT_RENDERER);
 	}
