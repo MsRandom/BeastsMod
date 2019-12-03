@@ -11,7 +11,6 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemShield;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraftforge.event.ForgeEventFactory;
@@ -25,13 +24,11 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import random.beasts.common.entity.monster.EntityBranchieBase;
 import random.beasts.common.entity.passive.EntityPufferfishDog;
 import random.beasts.common.entity.passive.EntityRabbitman;
-import random.beasts.common.init.BeastsItems;
 import random.beasts.common.init.BeastsLootTables;
 import random.beasts.common.main.BeastsReference;
 import random.beasts.common.world.storage.loot.BeastsLootTable;
 
 import java.util.Collection;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 
 @SuppressWarnings("unused")
@@ -137,7 +134,7 @@ public class CommonEvents {
 
     @SubscribeEvent
     public static void craftItem(PlayerEvent.ItemCraftedEvent event) {
-        if (event.crafting.getItem() == BeastsItems.COCONUT_JUICE) {
+        /*if (event.crafting.getItem() == BeastsItems.COCONUT_JUICE) {
             for (AtomicInteger i = new AtomicInteger(); i.get() < event.craftMatrix.getSizeInventory(); i.getAndIncrement()) {
                 ItemStack stack = event.craftMatrix.getStackInSlot(i.get());
                 if (stack.getItem() instanceof ItemSword) {
@@ -154,6 +151,6 @@ public class CommonEvents {
                     break;
                 }
             }
-        }
+        }*/
     }
 }

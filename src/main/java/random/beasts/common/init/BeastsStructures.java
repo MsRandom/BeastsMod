@@ -24,14 +24,9 @@ public class BeastsStructures {
         for (BeastsStructure structure : LIST) {
             if (!(structure instanceof WorldGenStructure)) {
                 GameRegistry.registerWorldGenerator((random, chunkX, chunkZ, world, chunkGenerator, chunkProvider) -> structure.generate(world, random, world.getHeight(new BlockPos((chunkX * 16) + 8, 0, (chunkZ * 16) + 8))), 0);
-                structure.registerer.apply();
+                structure.registerer.run();
             }
         }
         ForgeModContainer.logCascadingWorldGeneration = BeastsConfig.logCascadingWorldGeneration;
-    }
-
-    @FunctionalInterface
-    public interface StructurePiecesRegisterer {
-        void apply();
     }
 }

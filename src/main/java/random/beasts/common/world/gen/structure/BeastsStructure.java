@@ -5,9 +5,9 @@ import random.beasts.common.init.BeastsStructures;
 
 public abstract class BeastsStructure extends WorldGenerator {
 
-    public final BeastsStructures.StructurePiecesRegisterer registerer;
+    public final Runnable registerer;
 
-    BeastsStructure(BeastsStructures.StructurePiecesRegisterer registerer) {
+    BeastsStructure(Runnable registerer) {
         this.registerer = registerer;
         BeastsStructures.LIST.add(this);
     }

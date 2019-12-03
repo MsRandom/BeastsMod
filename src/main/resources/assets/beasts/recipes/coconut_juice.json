@@ -1,0 +1,13 @@
+{
+  "_comment": "this is the recipe used, the java one is unregistered",
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "beasts:coconut"
+    }
+  ],
+  "result": {
+    "item": "beasts:coconut_juice",
+    "count": 2
+  }
+}

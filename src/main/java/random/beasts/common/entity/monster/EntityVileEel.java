@@ -2,7 +2,6 @@ package random.beasts.common.entity.monster;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
@@ -17,8 +16,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import random.beasts.client.init.BeastsSounds;
 import random.beasts.common.entity.IDriedAquatic;
-import random.beasts.common.entity.IShellEntity;
-import random.beasts.common.entity.passive.EntityLandwhale;
 import random.beasts.common.init.BeastsItems;
 
 import java.util.Objects;
@@ -31,7 +28,7 @@ public class EntityVileEel extends EntityMob implements IDriedAquatic {
 
     protected void initEntityAI() {
         this.tasks.addTask(0, new EntityAISwimming(this));
-        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityLivingBase.class, 10, true, false, entity -> entity instanceof EntityLiving && !(entity instanceof EntityLandwhale) && !(entity instanceof EntityVileEel)));
+        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityLivingBase.class, 10, true, false, entity -> !(entity instanceof IDriedAquatic)));
         this.tasks.addTask(2, new EntityAIAttackMelee(this, 1.1D, true));
         this.tasks.addTask(3, new EntityAIWanderAvoidWater(this, 1.0D));
         this.tasks.addTask(4, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
@@ -96,9 +93,7 @@ public class EntityVileEel extends EntityMob implements IDriedAquatic {
 
     @Override
     public boolean attackEntityAsMob(Entity entityIn) {
-        if(!this.world.isRemote) {
-            if (!(entityIn instanceof IShellEntity)) entityIn.startRiding(this, true);
-        }
+        if (!this.world.isRemote) entityIn.startRiding(this, true);
         return super.attackEntityAsMob(entityIn);
     }
 }
