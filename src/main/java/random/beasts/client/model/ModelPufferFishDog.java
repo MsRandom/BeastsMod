@@ -226,8 +226,6 @@ public class ModelPufferFishDog extends ModelBase {
         
         else
         {
-            this.body_1.rotateAngleX = (float)Math.signum(entityIn.motionX)/16;
-            this.body_1.rotateAngleZ = (float)Math.signum(entityIn.motionZ)/16;
             this.leftArm_1.rotateAngleX = MathHelper.cos(limbSwing * degree) * speed * limbSwingAmount;
             this.rightArm_1.rotateAngleX = MathHelper.cos(limbSwing * degree + (float) Math.PI) * speed * limbSwingAmount;
             this.leftLeg_1.rotateAngleX = MathHelper.cos(limbSwing * degree + (float) Math.PI) * speed * limbSwingAmount;

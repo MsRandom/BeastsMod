@@ -14,7 +14,7 @@ public class RenderAnemoneCrawler extends RenderLiving<EntityAnemoneCrawler> {
     private static final ResourceLocation[] TEXTURES = new ResourceLocation[3];
 
     public RenderAnemoneCrawler(RenderManager rendermanagerIn) {
-        super(rendermanagerIn, new ModelAnemoneCrawler(), 0.1f);
+        super(rendermanagerIn, new ModelAnemoneCrawler(), 0.4f);
     }
 
     static {

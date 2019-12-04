@@ -15,7 +15,7 @@ public class RenderSkewerShrimp extends RenderLiving<EntitySkewerShrimp> {
     public static final ResourceLocation TEXTURE = new ResourceLocation(BeastsReference.ID, "textures/entity/skewer_shrimp.png");
 
     public RenderSkewerShrimp(RenderManager rendermanagerIn) {
-        super(rendermanagerIn, new ModelSkewerShrimp(), 0.1f);
+        super(rendermanagerIn, new ModelSkewerShrimp(), 0.2f);
     }
 
     @Override
