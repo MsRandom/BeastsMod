@@ -28,7 +28,7 @@ public class EntityVileEel extends EntityMob implements IDriedAquatic {
 
     protected void initEntityAI() {
         this.tasks.addTask(0, new EntityAISwimming(this));
-        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityLivingBase.class, 10, true, false, entity -> !(entity instanceof IDriedAquatic)));
+        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityLivingBase.class, 10, true, false, entity -> !(entity instanceof IDriedAquatic) && getRidingEntity() != entity));
         this.tasks.addTask(2, new EntityAIAttackMelee(this, 1.1D, true));
         this.tasks.addTask(3, new EntityAIWanderAvoidWater(this, 1.0D));
         this.tasks.addTask(4, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
@@ -45,9 +45,12 @@ public class EntityVileEel extends EntityMob implements IDriedAquatic {
         if(this.getRidingEntity() != null) getRidingEntity().attackEntityFrom(DamageSource.causeMobDamage(this), 1);
         super.onLivingUpdate();
     }
+
     @Override
     public void updatePassenger(Entity passenger) {
-        if(isPassenger(passenger)) passenger.setPosition(posX + Math.signum(motionX)/1.25, posY + 0.45, posZ + Math.signum(motionZ)/1.25);
+        //fucking edit this and i'll bite your hand off, it took me way too long to figure out the math for this
+        if (isPassenger(passenger))
+            passenger.setPosition(posX + width * Math.sin(Math.toRadians(-rotationYaw)), posY + 0.45, posZ + width * Math.cos(Math.toRadians(rotationYaw)));
     }
 
     @Override

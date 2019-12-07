@@ -1,11 +1,11 @@
 package random.beasts.client.init;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import random.beasts.common.main.BeastsReference;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BeastsSounds {
 
@@ -26,6 +26,7 @@ public class BeastsSounds {
     public static final SoundEvent SKEWER_SHRIMP_HURT = create("entity.skewer_shrimp.hurt");
     public static final SoundEvent VILE_EEL_AMBIENT = create("entity.vile_eel.ambient");
     public static final SoundEvent VILE_EEL_HURT = create("entity.vile_eel.hurt");
+    public static final SoundEvent SCALLOP_CRACK = create("entity.scallop.crack");
 
     private static SoundEvent create(String s) {
         ResourceLocation name = new ResourceLocation(BeastsReference.ID, s);

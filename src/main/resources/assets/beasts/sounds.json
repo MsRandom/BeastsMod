@@ -77,5 +77,10 @@
     "sounds": [
       "beasts:vile_eel_hurt"
     ]
+  },
+  "entity.scallop.crack": {
+    "sounds": [
+      "beasts:scallop_crack"
+    ]
   }
 }

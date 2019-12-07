@@ -96,8 +96,11 @@ public class BiomeDriedReef extends BeastsBiome {
             for (int i = 0; i < rand.nextInt(4); i++)
                 getRandomTreeFeature(rand).generate(worldIn, rand, position.get());
         if (rand.nextInt(45) == 0) ANEMONE_GENERATOR.generate(worldIn, rand, position.get());
-        for (WorldGenStructure structure : BeastsStructures.SHELLS)
-            if (rand.nextInt(20) == 0) structure.generate(worldIn, rand, position.get());
+        for (WorldGenStructure structure : BeastsStructures.SHELLS) {
+            BlockPos p = position.get();
+            if (worldIn.getBlockState(p.down()).getBlock() == Blocks.SAND)
+                if (rand.nextInt(20) == 0) structure.generate(worldIn, rand, p.down(2));
+        }
     }
 
     private static class WorldGenRockCluster extends WorldGenerator {
