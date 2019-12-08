@@ -9,7 +9,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.pathfinding.PathNavigateFlying;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import random.beasts.client.init.BeastsSounds;
@@ -18,11 +17,13 @@ import random.beasts.common.init.BeastsItems;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
-import java.util.function.Supplier;
 
 public class EntityScallop extends EntityMob implements EntityFlying {
 
-    private Vec3d target;
+    private double preferredRotation = -1;
+    private int preferredAltitude = -1;
+    private int targetBlocks;
+    private double blocksFlew;
 
     public EntityScallop(World worldIn) {
         super(worldIn);
@@ -50,23 +51,26 @@ public class EntityScallop extends EntityMob implements EntityFlying {
     @Override
     public void onLivingUpdate() {
         super.onLivingUpdate();
+        int worldHeight = world.getHeight((int) (posX + 0.5), (int) (posZ + 0.5));
         if (getAttackTarget() == null) {
-            Supplier<Integer> distanceGetter = () -> rand.nextInt(41) - 20;
-            double height = posY - world.getHeight((int) (posX + 0.5), (int) (posZ + 0.5));
-            Runnable targetSetter = () -> target = new Vec3d(posX + distanceGetter.get(), height < 30 ? height + 30 : posY + distanceGetter.get() / 20.0, distanceGetter.get());
-            if (target == null) targetSetter.run();
-            this.motionX += Math.signum(target.x - posX) / 24;
-            this.motionY += Math.signum(target.y - posY) / 24;
-            this.motionZ += Math.signum(target.z - posZ) / 24;
-            getLookHelper().setLookPosition(-target.x, -target.y, -target.z, 0, 0);
-            if (getDistanceSq(target.x, target.y, target.z) < 4) target = null;
-            else {
-                double x = posX - prevPosX;
-                double y = posY - prevPosY;
-                double z = posZ - prevPosZ;
-                double speed = (x * x + y * y + z * z);
-                if (speed < 2) targetSetter.run();
-            }
+            Runnable targetSetter = () -> {
+                if (needsTarget()) {
+                    this.preferredRotation = this.rand.nextDouble() * 360;
+                    this.preferredAltitude = worldHeight + this.rand.nextInt(30) + 30;
+                    this.targetBlocks = this.rand.nextInt(20) + 30;
+                } else {
+                    this.preferredRotation += this.rand.nextInt(31) - 15;
+                    this.preferredAltitude += this.rand.nextInt(21) - 10;
+                    this.targetBlocks += this.rand.nextInt(11) - 5;
+                }
+            };
+            if (needsTarget()) targetSetter.run();
+            double angle = Math.toRadians(preferredRotation);
+            this.motionX += Math.cos(angle) / 24;
+            this.motionZ += Math.sin(-angle) / 24;
+            this.blocksFlew += (posX - prevPosX) + (posZ - prevPosZ);
+            if (Math.abs(targetBlocks - blocksFlew) < 3) targetSetter.run();
+            this.getLookHelper().setLookPosition(posX + (posX - prevPosX), 0, posZ + (posZ - prevPosZ), 0, 0);
 
             Optional<EntityPlayer> player = world.playerEntities.stream().filter(p -> !p.capabilities.isCreativeMode && !p.isSpectator()).reduce((p1, p2) -> {
                 if (getDistanceSq(p1) > getDistanceSq(p2)) return p2;
@@ -82,6 +86,7 @@ public class EntityScallop extends EntityMob implements EntityFlying {
                     return;
                 }
             }
+            this.preferredAltitude = Math.round((float) getAttackTarget().posY + 8);
             if (getDistanceSq(getAttackTarget()) < 2) {
                 attackEntityAsMob(getAttackTarget());
                 getLookHelper().setLookPosition(-posX, -(posY + getEyeHeight()), -posZ, 0, 0);
@@ -91,10 +96,11 @@ public class EntityScallop extends EntityMob implements EntityFlying {
             } else {
                 getLookHelper().setLookPositionWithEntity(getAttackTarget(), 0, 0);
                 this.motionX += Math.signum(getAttackTarget().posX - posX) / 20;
-                this.motionY += Math.signum(getAttackTarget().posY - posY) / 20;
                 this.motionZ += Math.signum(getAttackTarget().posZ - posZ) / 20;
+                if (stableFlying()) this.motionY += Math.signum(getAttackTarget().posY - posY) / 20;
             }
         }
+        if (!stableFlying()) this.motionY += Math.signum(preferredAltitude - posY) / 42;
     }
 
     @Override
@@ -125,5 +131,13 @@ public class EntityScallop extends EntityMob implements EntityFlying {
     @Override
     public boolean isOnLadder() {
         return false;
+    }
+
+    private boolean needsTarget() {
+        return preferredRotation == -1 || preferredAltitude == -1;
+    }
+
+    private boolean stableFlying() {
+        return Math.abs(preferredAltitude - posY) <= 12;
     }
 }
