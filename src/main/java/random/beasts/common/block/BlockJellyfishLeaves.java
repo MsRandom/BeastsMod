@@ -24,6 +24,16 @@ public class BlockJellyfishLeaves extends BeastsLeaves {
         BeastsUtils.addToRegistry(this, "jellyleaves", ItemBlock::new);
     }
 
+    @Override
+    protected int getCheckArea() {
+        return 14;
+    }
+
+    @Override
+    protected int getDecayArea() {
+        return 14;
+    }
+
     @SideOnly(Side.CLIENT)
     public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
         IBlockState iblockstate = blockAccess.getBlockState(pos.offset(side));
