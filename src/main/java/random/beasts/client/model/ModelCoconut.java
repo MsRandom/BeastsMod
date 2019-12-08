@@ -110,7 +110,7 @@ public class ModelCoconut extends ModelBase {
 
     @Override
     public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-        if (entityIn == null || !((EntityCoconutCrab) entityIn).isOut()) GlStateManager.translate(0, 0.48, 0);
+        if (entityIn == null || !((EntityCoconutCrab) entityIn).isOut()) GlStateManager.translate(0, 1.58, 0);
         GlStateManager.rotate(90, 0, 1, 0);
         if (entityIn != null && ((EntityCoconutCrab) entityIn).isOut()) this.body.render(scale);
         else this.shell.render(scale);
