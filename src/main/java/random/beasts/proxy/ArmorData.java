@@ -1,8 +1,5 @@
 package random.beasts.proxy;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
@@ -10,6 +7,9 @@ import random.beasts.client.model.ModelHermitHelm;
 import random.beasts.client.model.ModelPufferArmor;
 import random.beasts.client.model.ModelSpartapodArmor;
 import random.beasts.common.init.BeastsItems;
+
+import java.util.HashMap;
+import java.util.Map;
 
 class ArmorData {
     static final ArmorMap<ModelBiped> MODELS = new ArmorMap<>();
@@ -26,6 +26,8 @@ class ArmorData {
         MODELS.set(EntityEquipmentSlot.LEGS, BeastsItems.PUFFER_LEGS, pufferModel);
         MODELS.set(EntityEquipmentSlot.CHEST, BeastsItems.PUFFER_CHEST, pufferModel);
         MODELS.set(EntityEquipmentSlot.HEAD, BeastsItems.PUFFER_HELMET, pufferModel);
+
+        TEXTURES.set(EntityEquipmentSlot.HEAD, BeastsItems.HERMIT_HELM, "hermit_helm");
 
         TEXTURES.set(EntityEquipmentSlot.FEET, BeastsItems.PUFFER_BOOTS, "puffer_boots");
         TEXTURES.set(EntityEquipmentSlot.LEGS, BeastsItems.PUFFER_LEGS, "puffer_legs");
