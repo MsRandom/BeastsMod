@@ -19,7 +19,7 @@ public class TileEntityCoconutRenderer extends TileEntitySpecialRenderer<TileEnt
         GlStateManager.translate((float)x, (float)y, (float)z);
         GlStateManager.enableRescaleNormal();
         GlStateManager.scale(-1.0F, -1.0F, 1.0F);
-        GlStateManager.translate(-0.501F, -0.301F, 0.501F);
+        GlStateManager.translate(-0.501F, -1.401F, 0.501F);
         GlStateManager.enableAlpha();
         GlStateManager.disableLighting();
         GlStateManager.setActiveTexture(OpenGlHelper.lightmapTexUnit);
