@@ -11,14 +11,14 @@ public class ModelHermitHelm extends ModelBiped {
     public ModelHermitHelm() {
         this.textureWidth = 128;
         this.textureHeight = 128;
-        this.shell3 = new ModelRenderer(this, 70, 40);
+        this.shell3 = new ModelRenderer(this, 70, 104);
         this.shell3.setRotationPoint(0.0F, -2.0F, 0.0F);
         this.shell3.addBox(-2.0F, -4.0F, -2.0F, 4, 4, 4, 0.0F);
         this.setRotateAngle(shell3, 0.0F, 0.0F, -0.2617993877991494F);
         this.bipedLeftArm = new ModelRenderer(this, 32, 48);
         this.bipedLeftArm.setRotationPoint(5.0F, 2.0F, 0.0F);
         this.bipedLeftArm.addBox(-1.0F, -2.0F, -2.0F, 4, 12, 4, 0.0F);
-        this.shell1 = new ModelRenderer(this, 70, 0);
+        this.shell1 = new ModelRenderer(this, 70, 64);
         this.shell1.setRotationPoint(0.0F, 0.0F, 0.0F);
         this.shell1.addBox(-5.0F, -8.5F, -5.0F, 10, 7, 10, 0.0F);
         this.bipedHead = new ModelRenderer(this, 0, 0);
@@ -30,7 +30,7 @@ public class ModelHermitHelm extends ModelBiped {
         this.bipedRightLeg = new ModelRenderer(this, 0, 16);
         this.bipedRightLeg.setRotationPoint(-1.899999976158142F, 12.0F, 0.0F);
         this.bipedRightLeg.addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, 0.0F);
-        this.shell2 = new ModelRenderer(this, 70, 22);
+        this.shell2 = new ModelRenderer(this, 70, 86);
         this.shell2.setRotationPoint(2.0F, -8.0F, 0.0F);
         this.shell2.addBox(-4.0F, -3.0F, -4.0F, 8, 6, 8, 0.0F);
         this.setRotateAngle(shell2, 0.0F, 0.0F, 0.5235987755982988F);
