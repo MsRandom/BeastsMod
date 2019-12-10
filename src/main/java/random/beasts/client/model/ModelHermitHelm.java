@@ -45,16 +45,6 @@ public class ModelHermitHelm extends ModelBiped {
         this.shell1.addChild(this.shell2);
     }
 
-    /*@Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
-        this.bipedLeftArm.render(f5);
-        this.bipedHead.render(f5);
-        this.bipedLeftLeg.render(f5);
-        this.bipedRightLeg.render(f5);
-        this.bipedRightArm.render(f5);
-        this.bipedBody.render(f5);
-    }*/
-
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
         modelRenderer.rotateAngleX = x;
         modelRenderer.rotateAngleY = y;

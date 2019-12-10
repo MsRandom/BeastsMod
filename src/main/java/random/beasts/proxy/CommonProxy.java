@@ -24,6 +24,9 @@ public class CommonProxy {
         registerOreDict();
     }
 
+    public void registerEventRenders() {
+    }
+
     public ModelBiped getArmorModel(Item armorItem, EntityEquipmentSlot armorSlot){
         return null;
     }

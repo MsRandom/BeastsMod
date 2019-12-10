@@ -1,20 +1,33 @@
 package random.beasts.proxy;
 
+import net.minecraft.block.*;
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.statemap.StateMap;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import random.beasts.client.renderer.entity.*;
 import random.beasts.client.renderer.tileentity.TileEntityCoconutRenderer;
+import random.beasts.common.block.BeastsSlab;
+import random.beasts.common.block.BlockAnemoneMouth;
 import random.beasts.common.block.BlockPalmTreeLeaves;
 import random.beasts.common.entity.item.EntityBeastsPainting;
 import random.beasts.common.entity.item.EntityFallingCoconut;
 import random.beasts.common.entity.monster.*;
 import random.beasts.common.entity.passive.*;
 import random.beasts.common.entity.projectile.EntityCoconutBomb;
+import random.beasts.common.init.BeastsBlocks;
+import random.beasts.common.init.BeastsItems;
+import random.beasts.common.item.IHandleMeta;
 import random.beasts.common.main.BeastsReference;
 import random.beasts.common.tileentity.TileEntityCoconut;
+
+import java.util.Objects;
 
 public class ClientProxy extends CommonProxy {
 
@@ -23,16 +36,10 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void preInit() {
 		super.preInit();
-		this.registerRenders();
+		this.registerEntityRenders();
 	}
 
-	@Override
-	public void init() {
-		super.init();
-	}
-
-	private void registerRenders() {
-		//maybe we should find a better way of doing this.. it's currently really messy
+	private void registerEntityRenders() {
 		RenderingRegistry.registerEntityRenderingHandler(EntityCoconutCrab.class, RenderCoconutCrab::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityPufferfishDog.class, RenderPufferfishDog::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityRabbitman.class, RenderRabbitman::new);
@@ -51,7 +58,35 @@ public class ClientProxy extends CommonProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntityAnemoneCrawler.class, RenderAnemoneCrawler::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityLegfish.class, RenderLegfish::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityScallop.class, RenderScallop::new);
+		registerTileEntityRenders();
+	}
 
+	public void registerEventRenders() {
+		for (Item item : BeastsItems.LIST) {
+			if (item instanceof IHandleMeta) {
+				IHandleMeta metaItem = (IHandleMeta) item;
+				for (int i = 0; i < metaItem.getDamage(); i++)
+					ModelLoader.setCustomModelResourceLocation(item, i, new ModelResourceLocation(new ResourceLocation(BeastsReference.ID, Objects.requireNonNull(item.getRegistryName()).getResourcePath() + "_" + metaItem.handleMeta(i)), "inventory"));
+			} else
+				ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(Objects.requireNonNull(item.getRegistryName()), "inventory"));
+		}
+		for (Block block : BeastsBlocks.LIST) {
+			Item item = Item.getItemFromBlock(block);
+			if (item != Items.AIR)
+				ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(Objects.requireNonNull(block.getRegistryName()), "inventory"));
+		}
+		ModelLoader.setCustomStateMapper(BeastsBlocks.JELLY_WOOD_DOOR, new StateMap.Builder().ignore(BlockDoor.POWERED).build());
+		ModelLoader.setCustomStateMapper(BeastsBlocks.JELLY_WOOD_GATE, new StateMap.Builder().ignore(BlockFenceGate.POWERED).build());
+		ModelLoader.setCustomStateMapper(BeastsBlocks.PALM_DOOR, new StateMap.Builder().ignore(BlockDoor.POWERED).build());
+		ModelLoader.setCustomStateMapper(BeastsBlocks.PALM_GATE, new StateMap.Builder().ignore(BlockFenceGate.POWERED).build());
+		ModelLoader.setCustomStateMapper(BeastsBlocks.PALM_LEAVES, new StateMap.Builder().ignore(BlockLeaves.CHECK_DECAY, BlockLeaves.DECAYABLE).build());
+		ModelLoader.setCustomStateMapper(BeastsBlocks.JELLY_LEAVES, new StateMap.Builder().ignore(BlockLeaves.CHECK_DECAY, BlockLeaves.DECAYABLE).build());
+		ModelLoader.setCustomStateMapper(BeastsBlocks.ANEMONE_MOUTH, new StateMap.Builder().ignore(BlockAnemoneMouth.FED).build());
+		ModelLoader.setCustomStateMapper(BeastsBlocks.JELLY_WOOD_SLAB.full, new StateMap.Builder().ignore(BlockSlab.HALF, BeastsSlab.VARIANT).build());
+		ModelLoader.setCustomStateMapper(BeastsBlocks.PALM_SLAB.full, new StateMap.Builder().ignore(BlockSlab.HALF, BeastsSlab.VARIANT).build());
+	}
+
+	private void registerTileEntityRenders() {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCoconut.class, COCONUT_RENDERER);
 	}
 
