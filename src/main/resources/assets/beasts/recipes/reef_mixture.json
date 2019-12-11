@@ -1,0 +1,26 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        " # ",
+        "CBC",
+        " P "
+    ],
+    "key": {
+        "#": {
+            "item": "beasts:cooked_eel_chop"
+        },
+        "C": {
+            "item": "beasts:cooked_shrimp"
+        },
+        "B": {
+            "item": "beasts:cooked_scallop_tongue"
+        },
+        "P": {
+            "item": "beasts:coconut_bowl"
+        }
+    },
+    "result": {
+        "item": "beasts:reef_mixture",
+        "count": 1
+    }
+}

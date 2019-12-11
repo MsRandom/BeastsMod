@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        " # ",
+        "CBR",
+        " P "
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:cooked_rabbit"
+        },
+        "C": {
+            "item": "minecraft:carrot"
+        },
+        "B": {
+            "item": "minecraft:baked_potato"
+        },
+        "R": {
+            "item": "minecraft:red_mushroom"
+        },
+        "P": {
+            "item": "beasts:coconut_bowl"
+        }
+    },
+    "result": {
+        "item": "beasts:coconut_rabbit_stew",
+        "count": 1
+    }
+}

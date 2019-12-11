@@ -1,0 +1,13 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [ {
+            "item": "minecraft:painting"
+        }, {
+            "item": "beasts:puffer_scale"
+        }
+    ],
+    "result": {
+        "item": "beasts:beasts_painting",
+        "count": 1
+    }
+}

@@ -1,0 +1,18 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:brown_mushroom"
+        },
+        {
+            "item": "minecraft:red_mushroom"
+        },
+        {
+            "item": "beasts:coconut_bowl"
+        }
+    ],
+    "result": {
+            "item": "beasts:coconut_mushroom",
+        "count": 1
+    }
+}
