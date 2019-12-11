@@ -3,18 +3,9 @@ package random.beasts.common.entity.passive;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIFollowParent;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAIMate;
-import net.minecraft.entity.ai.EntityAIPanic;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAITempt;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -23,7 +14,6 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
-import net.minecraftforge.oredict.OreDictionary;
 import random.beasts.common.init.BeastsItems;
 
 import javax.annotation.Nullable;
@@ -97,10 +87,15 @@ public class EntityAnemoneCrawler extends EntityAnimal {
     @Nullable
     @Override
     public EntityAgeable createChild(EntityAgeable ageable) {
-        if(rand.nextBoolean()) {
-            EntityAgeable dropper = rand.nextBoolean() ? ageable : this;
-            dropper.dropItem(BeastsItems.MEAT_SCRAPES, 1);
+        if (ageable instanceof EntityAnemoneCrawler) {
+            EntityAnemoneCrawler child = new EntityAnemoneCrawler(world);
+            if (rand.nextBoolean()) {
+                EntityAgeable dropper = rand.nextBoolean() ? ageable : this;
+                dropper.dropItem(BeastsItems.MEAT_SCRAPES, 1);
+            }
+            child.setVariant(rand.nextBoolean() ? ((EntityAnemoneCrawler) ageable).getVariant() : getVariant());
+            return child;
         }
-        return new EntityAnemoneCrawler(world);
+        return null;
     }
 }
