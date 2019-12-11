@@ -118,7 +118,7 @@ public class EntityHermitTurtle extends EntityAnimal implements IShellEntity {
 
         @Override
         public boolean shouldExecute() {
-            List<EntityPlayer> players = this.taskOwner.world.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(this.taskOwner.getPosition()).grow(10));
+            List<EntityPlayer> players = this.taskOwner.world.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(this.taskOwner.getPosition()).grow(5));
             List<EntityVileEel> eels = this.taskOwner.world.getEntitiesWithinAABB(EntityVileEel.class, new AxisAlignedBB(this.taskOwner.getPosition()).grow(10));
             boolean plBool = false;
             if(!players.isEmpty()){
