@@ -13,6 +13,7 @@ import net.minecraft.item.ItemShield;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.Tuple;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -87,7 +88,7 @@ public class CommonEvents {
 
     @SubscribeEvent
     public static void breakBlock(BlockEvent.BreakEvent event) {
-        Function<BlockEvent.BreakEvent, ? extends EntityBranchieBase> createFunc = null;
+        Tuple<Integer, Function<BlockEvent.BreakEvent, ? extends EntityBranchieBase>> createFunc = null;
         IBlockState state = event.getState();
         Block block = state.getBlock();
         for (Collection<? extends Block> blocks : EntityBranchieBase.TYPES.keySet()) {
@@ -96,8 +97,8 @@ public class CommonEvents {
                 break;
             }
         }
-        if(createFunc != null && !event.getWorld().isRemote && event.getPlayer().getRNG().nextInt(6) == 0 && event.getWorld().getBlockState(event.getPos().down()).getBlock() != block) {
-            EntityBranchieBase entity = createFunc.apply(event);
+        if (createFunc != null && !event.getWorld().isRemote && event.getPlayer().getRNG().nextInt(createFunc.getFirst()) == 0 && event.getWorld().getBlockState(event.getPos().down()).getBlock() != block) {
+            EntityBranchieBase entity = createFunc.getSecond().apply(event);
             if(entity != null) {
                 entity.scream();
                 entity.setAttackTarget(event.getPlayer());

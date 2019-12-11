@@ -5,6 +5,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Tuple;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.registry.EntityEntry;
@@ -29,9 +30,9 @@ public class BeastsEntities {
     private static final EntityEntry PUFFERFISH_DOG = createEntry(EntityPufferfishDog.class, 0xFBA70C, 0x429BBA, new SpawnEntry(EnumCreatureType.CREATURE, 25, 1, 1, BeastsBiomes.DRIED_REEF));
     //private static final EntityEntry RABBITMAN = createEntry(EntityRabbitman.class, 0x4E362D, 0xE5E5E5);
 	private static final EntityEntry COCONUT_CRAB = createEntry(EntityCoconutCrab.class, 0x3C1C11, 0xA16745);
-	private static final EntityEntry CORAL_BRANCHIE = createBranchie(EntityCoralBranchie.class, 0xEDEC4C, 0xD6549B, BeastsBlocks.CORAL_PLANTS.values(), EntityCoralBranchie::create);
-	private static final EntityEntry CHORUS_BRANCHIE = createBranchie(EntityChorusBranchie.class, 0x401A40, 0xEED6EE, Collections.singletonList(Blocks.CHORUS_PLANT), EntityChorusBranchie::create);
-	private static final EntityEntry WOOD_BRANCHIE = createBranchie(EntityWoodBranchie.class, 0x745A36, 0x57AD3F, Arrays.asList(Blocks.LOG, Blocks.LOG2), EntityWoodBranchie::create);
+	private static final EntityEntry CORAL_BRANCHIE = createBranchie(EntityCoralBranchie.class, 0xEDEC4C, 0xD6549B, BeastsBlocks.CORAL_PLANTS.values(), new Tuple<>(2, EntityCoralBranchie::create));
+	private static final EntityEntry CHORUS_BRANCHIE = createBranchie(EntityChorusBranchie.class, 0x401A40, 0xEED6EE, Collections.singletonList(Blocks.CHORUS_PLANT), new Tuple<>(2, EntityChorusBranchie::create));
+	private static final EntityEntry WOOD_BRANCHIE = createBranchie(EntityWoodBranchie.class, 0x745A36, 0x57AD3F, Arrays.asList(Blocks.LOG, Blocks.LOG2), new Tuple<>(6, EntityWoodBranchie::create));
 	private static final EntityEntry VILE_EEL = createEntry(EntityVileEel.class, 0x313337, 0x987CAF, new SpawnEntry(EnumCreatureType.MONSTER, 30, 1, 1, BeastsBiomes.DRIED_REEF));
     private static final EntityEntry LANDWHALE = createEntry(EntityLandwhale.class, 0x587377, 0xE25AA5, new SpawnEntry(EnumCreatureType.CREATURE, 30, 1, 1, BeastsBiomes.DRIED_REEF));
 	private static final EntityEntry COCONADE = createEntry(EntityCoconutBomb.class);
@@ -45,7 +46,7 @@ public class BeastsEntities {
 	private static final EntityEntry LEGFISH = createEntry(EntityLegfish.class, 0x6DAF78, 0xDB3E00, new SpawnEntry(EnumCreatureType.CREATURE, 40, 2, 4, BeastsBiomes.DRIED_REEF));
     private static final EntityEntry SCALLOP = createEntry(EntityScallop.class, 0xE8C7A7, 0x7C3318, new SpawnEntry(EnumCreatureType.MONSTER, 40, 4, 8, BeastsBiomes.DRIED_REEF));
 
-	private static EntityEntry createBranchie(Class<? extends EntityBranchieBase> cls, int prim, int sec, Collection<? extends Block> validBlocks, Function<BlockEvent.BreakEvent, ? extends EntityBranchieBase> create) {
+	private static EntityEntry createBranchie(Class<? extends EntityBranchieBase> cls, int prim, int sec, Collection<? extends Block> validBlocks, Tuple<Integer, Function<BlockEvent.BreakEvent, ? extends EntityBranchieBase>> create) {
 		EntityBranchieBase.TYPES.put(validBlocks, create);
 		return createEntry(cls, prim, sec);
 	}

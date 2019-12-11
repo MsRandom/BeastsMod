@@ -1,34 +1,28 @@
 package random.beasts.common.entity.monster;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Function;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackMelee;
-import net.minecraft.entity.ai.EntityAIAvoidEntity;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAIMoveTowardsTarget;
-import net.minecraft.entity.ai.EntityAIPanic;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.Tuple;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.world.BlockEvent;
 import random.beasts.client.init.BeastsSounds;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
+
 public abstract class EntityBranchieBase extends EntityMob {
 
-    public static final Map<Collection<? extends Block>, Function<BlockEvent.BreakEvent, ? extends EntityBranchieBase>> TYPES = new HashMap<>();
+    public static final Map<Collection<? extends Block>, Tuple<Integer, Function<BlockEvent.BreakEvent, ? extends EntityBranchieBase>>> TYPES = new HashMap<>();
     private boolean hasScreamed = false;
 
     EntityBranchieBase(World worldIn) {
