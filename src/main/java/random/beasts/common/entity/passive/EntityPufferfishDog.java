@@ -1,18 +1,10 @@
 package random.beasts.common.entity.passive;
 
-import java.util.UUID;
-
-import javax.annotation.Nonnull;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIFollowOwner;
-import net.minecraft.entity.ai.EntityAIMate;
-import net.minecraft.entity.ai.EntityAISit;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWander;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
@@ -35,6 +27,9 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import random.beasts.client.init.BeastsSounds;
 import random.beasts.common.init.BeastsItems;
+
+import javax.annotation.Nonnull;
+import java.util.UUID;
 
 public class EntityPufferfishDog extends EntityTameable {
 
@@ -59,13 +54,13 @@ public class EntityPufferfishDog extends EntityTameable {
         this.tasks.addTask(2, new EntityAIFollowOwner(this, 0.5, 2f, 5f) {
             @Override
             public boolean shouldExecute() {
-                return !getInflated() && !isPartying() && super.shouldExecute();
+                return !getInflated() && super.shouldExecute();
             }
         });
         this.tasks.addTask(2, new EntityAIWander(this, 0.5, 50) {
             @Override
             public boolean shouldExecute(){
-                return !isSitting() && !isPartying() && super.shouldExecute();
+                return !isSitting() && super.shouldExecute();
             }
         });
     }
@@ -233,8 +228,7 @@ public class EntityPufferfishDog extends EntityTameable {
     }
     
     @SideOnly(Side.CLIENT)
-    public boolean isPartying()
-    {
+    public boolean isPartying() {
         return this.partyPufferfishDog;
     }
 
