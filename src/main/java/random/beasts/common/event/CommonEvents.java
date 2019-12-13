@@ -26,6 +26,7 @@ import random.beasts.common.entity.monster.EntityBranchieBase;
 import random.beasts.common.entity.passive.EntityPufferfishDog;
 import random.beasts.common.entity.passive.EntityRabbitman;
 import random.beasts.common.init.BeastsLootTables;
+import random.beasts.common.main.BeastsMod;
 import random.beasts.common.main.BeastsReference;
 import random.beasts.common.world.storage.loot.BeastsLootTable;
 
@@ -82,8 +83,13 @@ public class CommonEvents {
     
     @SubscribeEvent
     public static void loadLootTable(LootTableLoadEvent event) {
-        BeastsLootTable table = BeastsLootTables.TABLES.get(event.getName().getResourcePath());
-        if(table != null) event.getTable().getPool("main").addEntry(table.tableSupplier.get());
+        //TODO fix this crash without wrapping it
+        try {
+            BeastsLootTable table = BeastsLootTables.TABLES.get(event.getName().getResourcePath());
+            if (table != null) event.getTable().getPool("main").addEntry(table.tableSupplier.get());
+        } catch (NullPointerException e) {
+            BeastsMod.getLogger().error("Failed to load loot tables for Beasts", e);
+        }
     }
 
     @SubscribeEvent
