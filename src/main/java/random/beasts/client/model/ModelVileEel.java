@@ -88,7 +88,7 @@ public class ModelVileEel extends ModelBase {
             GlStateManager.scale(0.5F, 0.5F, 0.5F);
             GlStateManager.translate(0.0F, 24.0F * f5, 1.65F * f5);
         }
-        if(entity instanceof EntityPufferfishDog && ((EntityPufferfishDog)entity).getInflated()) this.body.render(f5);
+        if (entity instanceof EntityPufferfishDog && ((EntityPufferfishDog) entity).isInflated()) this.body.render(f5);
         else this.body.render(f5);
     }
     

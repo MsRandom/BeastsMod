@@ -1,6 +1,7 @@
 {
     "parent": "block/cube_all",
     "textures": {
-        "all": "beasts:blocks/brown_shell_block"
+      "all": "beasts:blocks/brown_shell_block",
+      "particle": "beasts:blocks/brown_shell_block"
     }
 }

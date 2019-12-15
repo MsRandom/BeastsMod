@@ -1,11 +1,5 @@
 package random.beasts.common.block;
 
-import java.util.Random;
-import java.util.function.Function;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.IGrowable;
@@ -23,6 +17,10 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import random.beasts.common.main.BeastsUtils;
 
+import javax.annotation.Nullable;
+import java.util.Random;
+import java.util.function.Function;
+
 @SuppressWarnings("deprecation")
 public class BeastsSapling extends BlockBush implements IGrowable {
 
@@ -32,7 +30,6 @@ public class BeastsSapling extends BlockBush implements IGrowable {
 
     public BeastsSapling(String name, @Nullable Function<Boolean, WorldGenerator> generator, Function<Block, Item> item) {
         this.setDefaultState(this.blockState.getBaseState().withProperty(STAGE, 0));
-        setHardness(0.6F);
         setSoundType(SoundType.PLANT);
         if(generator != null) this.treeGen = generator.apply(true);
         BeastsUtils.addToRegistry(this, name, item);

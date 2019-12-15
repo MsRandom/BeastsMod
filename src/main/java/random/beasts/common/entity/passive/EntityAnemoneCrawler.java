@@ -89,11 +89,9 @@ public class EntityAnemoneCrawler extends EntityAnimal {
     public EntityAgeable createChild(EntityAgeable ageable) {
         if (ageable instanceof EntityAnemoneCrawler) {
             EntityAnemoneCrawler child = new EntityAnemoneCrawler(world);
-            if (rand.nextBoolean()) {
-                EntityAgeable dropper = rand.nextBoolean() ? ageable : this;
-                dropper.dropItem(BeastsItems.MEAT_SCRAPES, 1);
-            }
-            child.setVariant(rand.nextBoolean() ? ((EntityAnemoneCrawler) ageable).getVariant() : getVariant());
+            EntityAnemoneCrawler dropper = rand.nextBoolean() ? (EntityAnemoneCrawler) ageable : this;
+            if (rand.nextBoolean()) dropper.dropItem(BeastsItems.MEAT_SCRAPES, 1);
+            child.setVariant(dropper.getVariant());
             return child;
         }
         return null;

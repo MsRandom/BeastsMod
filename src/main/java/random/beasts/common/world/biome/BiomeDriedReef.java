@@ -14,6 +14,7 @@ import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
 import net.minecraftforge.event.terraingen.TerrainGen;
 import random.beasts.common.block.BlockCoral;
 import random.beasts.common.block.CoralColor;
+import random.beasts.common.init.BeastsBiomes;
 import random.beasts.common.init.BeastsBlocks;
 import random.beasts.common.init.BeastsStructures;
 import random.beasts.common.world.gen.feature.WorldGenAnemone;
@@ -76,14 +77,18 @@ public class BiomeDriedReef extends BeastsBiome {
         return blockpos;
     }
 
-    //this is probably really inefficient but i can't think of any other way of doing it
     private BlockPos getPos(World worldIn, Random rand, BlockPos pos) {
-        BlockPos height = worldIn.getHeight(pos.add(rand.nextInt(16) + 8, 0, rand.nextInt(16) + 8));
-        BlockPos nearest = getNearestGeneratedCoords(height);
-        if (nearest != null && nearest.distanceSq(height) < 100) return getPos(worldIn, rand, height);
-        if (coords.length - 1 < generated) coords = Arrays.copyOf(coords, coords.length + Short.MAX_VALUE + 1);
-        coords[generated++] = height;
-        return height;
+        for (; ; ) {
+            BlockPos height = worldIn.getHeight(pos.add(rand.nextInt(16) + 8, 0, rand.nextInt(16) + 8));
+            BlockPos nearest = getNearestGeneratedCoords(height);
+            if (worldIn.getBiomeForCoordsBody(pos) != BeastsBiomes.DRIED_REEF || (nearest != null && nearest.distanceSq(height) < 100)) {
+                pos = height;
+                continue;
+            }
+            if (coords.length - 1 < generated) coords = Arrays.copyOf(coords, coords.length + Short.MAX_VALUE + 1);
+            coords[generated++] = height;
+            return height;
+        }
     }
 
     @Override

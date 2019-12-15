@@ -46,13 +46,13 @@ public class CommonProxy {
         OreDictionary.registerOre("fenceWood", BeastsBlocks.PALM_FENCE);
         OreDictionary.registerOre("fenceGateWood", BeastsBlocks.PALM_GATE);
         OreDictionary.registerOre("doorWood", BeastsBlocks.PALM_DOOR);
-        OreDictionary.registerOre("logWood", BeastsBlocks.JELLY_WOOD);
-        OreDictionary.registerOre("plankWood", BeastsBlocks.JELLY_WOOD_PLANKS);
-        OreDictionary.registerOre("slabWood", BeastsBlocks.JELLY_WOOD_SLAB.half);
-        OreDictionary.registerOre("stairWood", BeastsBlocks.JELLY_WOOD_STAIRS);
-        OreDictionary.registerOre("fenceWood", BeastsBlocks.JELLY_WOOD_FENCE);
-        OreDictionary.registerOre("fenceGateWood", BeastsBlocks.JELLY_WOOD_GATE);
-        OreDictionary.registerOre("doorWood", BeastsBlocks.JELLY_WOOD_DOOR);
+        OreDictionary.registerOre("logJelly", BeastsBlocks.JELLY_WOOD);
+        OreDictionary.registerOre("plankJelly", BeastsBlocks.JELLY_WOOD_PLANKS);
+        OreDictionary.registerOre("slabJelly", BeastsBlocks.JELLY_WOOD_SLAB.half);
+        OreDictionary.registerOre("stairJelly", BeastsBlocks.JELLY_WOOD_STAIRS);
+        OreDictionary.registerOre("fenceJelly", BeastsBlocks.JELLY_WOOD_FENCE);
+        OreDictionary.registerOre("fenceGateJelly", BeastsBlocks.JELLY_WOOD_GATE);
+        OreDictionary.registerOre("doorJelly", BeastsBlocks.JELLY_WOOD_DOOR);
         for (BlockShell shell : BeastsBlocks.SHELL_BLOCKS) OreDictionary.registerOre("blockShell", shell);
     }
 }

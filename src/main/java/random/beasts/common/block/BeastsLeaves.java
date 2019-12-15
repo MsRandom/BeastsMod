@@ -10,11 +10,12 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 public class BeastsLeaves extends BlockLeaves {
+    private final List<ItemStack> drops = Collections.singletonList(new ItemStack(this));
     private int[] surroundings;
 
     BeastsLeaves() {
@@ -118,6 +119,6 @@ public class BeastsLeaves extends BlockLeaves {
     @Nonnull
     @Override
     public List<ItemStack> onSheared(@Nonnull ItemStack item, IBlockAccess world, BlockPos pos, int fortune) {
-        return new ArrayList<>();
+        return drops;
     }
 }

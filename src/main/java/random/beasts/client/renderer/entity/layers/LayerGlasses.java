@@ -17,7 +17,7 @@ public class LayerGlasses implements LayerRenderer<EntityPufferfishDog> {
 
     public void doRenderLayer(EntityPufferfishDog entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
     	if (entity.hasCustomName() && entity.getCustomNameTag().equalsIgnoreCase("Bufford") && !entity.isInvisible()) {
-    		this.render.bindTexture(entity.getInflated()?BUFFORD_INFLATED:BUFFORD);
+            this.render.bindTexture(entity.isInflated() ? BUFFORD_INFLATED : BUFFORD);
             this.render.getMainModel().render(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
         }
     }

@@ -1,7 +1,5 @@
 package random.beasts.common.block;
 
-import java.util.Random;
-
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
@@ -17,6 +15,8 @@ import net.minecraft.world.World;
 import random.beasts.common.init.BeastsBlocks;
 import random.beasts.common.item.ItemCoralBlock;
 
+import java.util.Random;
+
 @SuppressWarnings("deprecation")
 public class BlockCoralSapling extends BeastsSapling {
     private static final PropertyEnum<CoralColor> TYPE = PropertyEnum.create("type", CoralColor.class);
@@ -31,8 +31,6 @@ public class BlockCoralSapling extends BeastsSapling {
     	IBlockState soil = worldIn.getBlockState(pos.down());
 		return super.canPlaceBlockAt(worldIn, pos) && soil.getBlock() == Blocks.SAND;
 	}
-
-
 
 	@Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {

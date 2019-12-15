@@ -1,7 +1,5 @@
 package random.beasts.client.renderer.entity;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
@@ -10,6 +8,8 @@ import random.beasts.client.renderer.entity.layers.LayerCollar;
 import random.beasts.client.renderer.entity.layers.LayerGlasses;
 import random.beasts.common.entity.passive.EntityPufferfishDog;
 import random.beasts.common.main.BeastsReference;
+
+import javax.annotation.Nullable;
 
 public class RenderPufferfishDog extends RenderLiving<EntityPufferfishDog> {
 
@@ -25,7 +25,7 @@ public class RenderPufferfishDog extends RenderLiving<EntityPufferfishDog> {
     @Nullable
     @Override
     protected ResourceLocation getEntityTexture(EntityPufferfishDog entity) {
-        return entity.getInflated()?TEXTURE_INFLATED:TEXTURE_NORMAL;
+        return entity.isInflated() ? TEXTURE_INFLATED : TEXTURE_NORMAL;
     }
 }
 

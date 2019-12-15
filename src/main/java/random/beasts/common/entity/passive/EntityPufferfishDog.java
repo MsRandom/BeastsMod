@@ -54,7 +54,7 @@ public class EntityPufferfishDog extends EntityTameable {
         this.tasks.addTask(2, new EntityAIFollowOwner(this, 0.5, 2f, 5f) {
             @Override
             public boolean shouldExecute() {
-                return !getInflated() && super.shouldExecute();
+                return !isInflated() && super.shouldExecute();
             }
         });
         this.tasks.addTask(2, new EntityAIWander(this, 0.5, 50) {
@@ -143,7 +143,7 @@ public class EntityPufferfishDog extends EntityTameable {
     	
         if(!world.isRemote) {
             if(isInWater()) this.setAir(300);
-            if (getInflated()) {
+            if (isInflated()) {
                 setThreatTime(getThreatTime() + 1);
                 if (onGround) {
                     if (bounces == 0) bounces = 1;
@@ -248,7 +248,7 @@ public class EntityPufferfishDog extends EntityTameable {
         this.dataManager.set(THREAT_TIME, time);
     }
 
-    public boolean getInflated() {
+    public boolean isInflated() {
         return getThreatTime() > 0;
     }
 

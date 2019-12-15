@@ -3,7 +3,6 @@ package random.beasts.common.block;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.item.ItemBlock;
 import random.beasts.common.main.BeastsUtils;
 
 public class BeastsLog extends BlockLog {
