@@ -4,7 +4,8 @@ import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAIWander;
+import net.minecraft.entity.ai.EntityAISwimming;
+import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
@@ -29,7 +30,8 @@ public class EntityLegfish extends EntityAnimal {
     @Override
     protected void initEntityAI() {
         super.initEntityAI();
-        this.tasks.addTask(0, new EntityAIWander(this, 0.2D));
+        this.tasks.addTask(0, new EntityAIWanderAvoidWater(this, 0.2D));
+        this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityAILookIdle(this));
     }
 

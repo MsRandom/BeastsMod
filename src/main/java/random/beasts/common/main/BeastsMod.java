@@ -10,7 +10,7 @@ import org.apache.logging.log4j.Logger;
 import random.beasts.proxy.CommonProxy;
 
 @SuppressWarnings("unused")
-@Mod(modid = BeastsReference.ID, name = BeastsReference.NAME, version = BeastsReference.VERSION, acceptableRemoteVersions = "[1.03,1.13]")
+@Mod(modid = BeastsReference.ID, name = BeastsReference.NAME, version = BeastsReference.CURRENT_VERSION, acceptableRemoteVersions = "[" + BeastsReference.MIN_VERSION + "," + BeastsReference.CURRENT_VERSION + "]")
 public class BeastsMod {
 
 	private static Logger logger;
