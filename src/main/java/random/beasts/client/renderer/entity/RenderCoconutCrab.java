@@ -1,8 +1,5 @@
 package random.beasts.client.renderer.entity;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
@@ -16,7 +13,10 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import random.beasts.client.model.ModelCoconut;
 import random.beasts.common.entity.monster.EntityCoconutCrab;
-import random.beasts.common.main.BeastsReference;
+import random.beasts.main.BeastsReference;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class RenderCoconutCrab extends RenderLiving<EntityCoconutCrab> {
 

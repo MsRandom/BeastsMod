@@ -1,0 +1,21 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecraft:spawn_egg",
+      "nbt": "{EntityTag:{id:\"beasts:giant_garden_eel\"}}"
+    },
+    "title": {
+      "translate": "advancements.beasts.hammertime.title"
+    },
+    "description": {
+      "translate": "advancements.beasts.hammertime.description"
+    },
+    "frame": "task",
+    "background": "minecraft:textures/blocks/log_jungle.png"
+  },
+  "criteria": {
+    "hasbasicbinos": {
+      "trigger": "beasts:hammertime"
+    }
+  }
+}

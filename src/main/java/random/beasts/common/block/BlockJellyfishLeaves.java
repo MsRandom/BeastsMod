@@ -12,8 +12,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import random.beasts.block.BeastsLeaves;
 import random.beasts.common.init.BeastsBlocks;
-import random.beasts.common.main.BeastsUtils;
+import random.beasts.main.BeastsUtils;
 
 import java.util.Random;
 

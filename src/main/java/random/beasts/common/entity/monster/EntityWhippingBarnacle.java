@@ -14,8 +14,8 @@ import net.minecraft.util.EnumHandSide;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
-import random.beasts.common.entity.IDriedAquatic;
 import random.beasts.common.init.BeastsItems;
+import random.beasts.entity.IDriedAquatic;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;

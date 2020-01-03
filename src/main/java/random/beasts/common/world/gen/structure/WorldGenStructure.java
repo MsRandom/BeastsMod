@@ -10,7 +10,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.template.PlacementSettings;
 import net.minecraft.world.gen.structure.template.Template;
 import net.minecraft.world.gen.structure.template.TemplateManager;
-import random.beasts.common.main.BeastsReference;
+import random.beasts.main.BeastsReference;
+import random.beasts.world.gen.structure.BeastsStructure;
 
 import java.util.Random;
 

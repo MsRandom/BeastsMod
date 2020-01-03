@@ -8,24 +8,23 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import random.beasts.block.BeastsBlock;
 
-public class BlockHermitShell extends BeastsBlock{
-	
-	public static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(0.15F,0,0.15F,0.85F,0.7F,0.85F);
+public class BlockHermitShell extends BeastsBlock {
 
-	public BlockHermitShell() {
-		super(Material.ROCK, "hermit_turtle_shell");
-		this.setHardness(1.5F);
-		this.setResistance(10.0F);
-	}
+    public static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(0.15F, 0, 0.15F, 0.85F, 0.7F, 0.85F);
 
-	public boolean isOpaqueCube(IBlockState state)
-    {
+    public BlockHermitShell() {
+        super(Material.ROCK, "hermit_turtle_shell");
+        this.setHardness(1.5F);
+        this.setResistance(10.0F);
+    }
+
+    public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
 
-    public boolean isFullCube(IBlockState state)
-    {
+    public boolean isFullCube(IBlockState state) {
         return false;
     }
     

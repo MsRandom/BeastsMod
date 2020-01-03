@@ -2,18 +2,15 @@ package random.beasts.common.init;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import random.beasts.block.*;
 import random.beasts.common.block.*;
 import random.beasts.common.world.gen.feature.WorldGenJellyfishTrees;
 import random.beasts.common.world.gen.feature.WorldGenPalmTrees;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class BeastsBlocks {
-
-	public static final List<Block> LIST = new ArrayList<>();
 
 	public static final Block COCONUT = new BlockCoconut();
     public static final Block GLOW_ROOT_TOP = new BlockGlowRoot(true);

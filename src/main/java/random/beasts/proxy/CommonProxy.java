@@ -4,14 +4,17 @@ import net.minecraft.client.model.ModelBiped;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraftforge.oredict.OreDictionary;
+import random.beasts.client.init.BeastsCreativeTabs;
 import random.beasts.common.block.BlockPalmTreeLeaves;
 import random.beasts.common.block.BlockShell;
 import random.beasts.common.init.*;
 import random.beasts.common.network.BeastsGuiHandler;
+import random.beasts.main.BeastsUtils;
 
 public class CommonProxy {
 
     public void preInit() {
+        BeastsUtils.setRegistryTab(BeastsCreativeTabs.MAIN);
         BeastsStructures.init();
         BeastsTriggers.init();
         BeastsTileEntities.init();

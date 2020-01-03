@@ -7,7 +7,7 @@ import random.beasts.client.model.ModelPufferFishDog;
 import random.beasts.client.renderer.entity.layers.LayerCollar;
 import random.beasts.client.renderer.entity.layers.LayerGlasses;
 import random.beasts.common.entity.passive.EntityPufferfishDog;
-import random.beasts.common.main.BeastsReference;
+import random.beasts.main.BeastsReference;
 
 import javax.annotation.Nullable;
 

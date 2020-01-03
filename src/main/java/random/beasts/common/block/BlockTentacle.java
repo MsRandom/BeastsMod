@@ -1,9 +1,5 @@
 package random.beasts.common.block;
 
-import java.util.Random;
-
-import javax.annotation.Nullable;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.properties.PropertyBool;
@@ -24,7 +20,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import random.beasts.common.init.BeastsBlocks;
-import random.beasts.common.main.BeastsUtils;
+import random.beasts.main.BeastsUtils;
+
+import javax.annotation.Nullable;
+import java.util.Random;
 
 public class BlockTentacle extends BlockBush {
 

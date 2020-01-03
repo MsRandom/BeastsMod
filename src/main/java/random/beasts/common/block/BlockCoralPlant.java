@@ -1,10 +1,5 @@
 package random.beasts.common.block;
 
-import java.util.List;
-import java.util.Random;
-
-import javax.annotation.Nullable;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -26,7 +21,11 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import random.beasts.common.init.BeastsBlocks;
 import random.beasts.common.init.BeastsItems;
-import random.beasts.common.main.BeastsUtils;
+import random.beasts.main.BeastsUtils;
+
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.Random;
 
 @SuppressWarnings("deprecation")
 public class BlockCoralPlant extends Block {

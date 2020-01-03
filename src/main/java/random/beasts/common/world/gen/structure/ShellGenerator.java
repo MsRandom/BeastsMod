@@ -9,6 +9,7 @@ import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import random.beasts.common.init.BeastsBiomes;
 import random.beasts.common.init.BeastsStructures;
+import random.beasts.world.gen.structure.BeastsWorldGenerator;
 
 import java.util.Random;
 

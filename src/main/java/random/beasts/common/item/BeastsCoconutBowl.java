@@ -5,6 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 import random.beasts.common.init.BeastsItems;
+import random.beasts.item.BeastsFood;
 
 public class BeastsCoconutBowl extends BeastsFood {
 

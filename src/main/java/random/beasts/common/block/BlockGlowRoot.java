@@ -1,9 +1,5 @@
 package random.beasts.common.block;
 
-import java.util.Random;
-
-import javax.annotation.Nullable;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
@@ -21,8 +17,12 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import random.beasts.block.BeastsBlock;
 import random.beasts.common.init.BeastsBlocks;
 import random.beasts.common.init.BeastsItems;
+
+import javax.annotation.Nullable;
+import java.util.Random;
 
 @SuppressWarnings("deprecation")
 public class BlockGlowRoot extends BeastsBlock {

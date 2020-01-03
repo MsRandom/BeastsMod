@@ -1,14 +1,14 @@
 package random.beasts.client.renderer.entity;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 import random.beasts.client.model.ModelGiantGardenEel;
 import random.beasts.common.entity.monster.EntityGiantGardenEel;
-import random.beasts.common.main.BeastsReference;
+import random.beasts.main.BeastsReference;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class RenderGiantGardenEel extends RenderLiving<EntityGiantGardenEel> {
 

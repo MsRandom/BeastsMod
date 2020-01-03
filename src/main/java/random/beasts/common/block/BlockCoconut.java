@@ -1,10 +1,5 @@
 package random.beasts.common.block;
 
-import java.util.Random;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockFalling;
@@ -26,9 +21,13 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import random.beasts.common.entity.item.EntityFallingCoconut;
-import random.beasts.common.init.BeastsBlocks;
 import random.beasts.common.init.BeastsItems;
 import random.beasts.common.tileentity.TileEntityCoconut;
+import random.beasts.main.BeastsUtils;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Random;
 
 @SuppressWarnings("deprecation")
 public class BlockCoconut extends BlockContainer {
@@ -37,10 +36,7 @@ public class BlockCoconut extends BlockContainer {
 
     public BlockCoconut() {
         super(Material.WOOD);
-        String name = "coconut";
-        setUnlocalizedName(name);
-        setRegistryName(name);
-        BeastsBlocks.LIST.add(this);
+        BeastsUtils.addToRegistry(this, "coconut", null);
     }
 
     public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {

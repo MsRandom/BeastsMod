@@ -3,7 +3,7 @@ package random.beasts.common.world.storage.loot;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.LootEntryTable;
 import random.beasts.common.init.BeastsLootTables;
-import random.beasts.common.main.BeastsReference;
+import random.beasts.main.BeastsReference;
 
 import java.util.function.Supplier;
 

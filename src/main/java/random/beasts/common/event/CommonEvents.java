@@ -22,13 +22,13 @@ import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
-import random.beasts.common.entity.monster.EntityBranchieBase;
+import random.beasts.common.BeastsMod;
 import random.beasts.common.entity.passive.EntityPufferfishDog;
 import random.beasts.common.entity.passive.EntityRabbitman;
 import random.beasts.common.init.BeastsLootTables;
-import random.beasts.common.main.BeastsMod;
-import random.beasts.common.main.BeastsReference;
 import random.beasts.common.world.storage.loot.BeastsLootTable;
+import random.beasts.entity.BeastsBranchie;
+import random.beasts.main.BeastsReference;
 
 import java.util.Collection;
 import java.util.function.Function;
@@ -94,18 +94,18 @@ public class CommonEvents {
 
     @SubscribeEvent
     public static void breakBlock(BlockEvent.BreakEvent event) {
-        Tuple<Integer, Function<BlockEvent.BreakEvent, ? extends EntityBranchieBase>> createFunc = null;
+        Tuple<Integer, Function<BlockEvent.BreakEvent, ? extends BeastsBranchie>> createFunc = null;
         IBlockState state = event.getState();
         Block block = state.getBlock();
-        for (Collection<? extends Block> blocks : EntityBranchieBase.TYPES.keySet()) {
-            if(blocks.contains(block)) {
-                createFunc = EntityBranchieBase.TYPES.get(blocks);
+        for (Collection<? extends Block> blocks : BeastsBranchie.TYPES.keySet()) {
+            if (blocks.contains(block)) {
+                createFunc = BeastsBranchie.TYPES.get(blocks);
                 break;
             }
         }
         if (createFunc != null && !event.getWorld().isRemote && event.getPlayer().getRNG().nextInt(createFunc.getFirst()) == 0 && event.getWorld().getBlockState(event.getPos().down()).getBlock() != block) {
-            EntityBranchieBase entity = createFunc.getSecond().apply(event);
-            if(entity != null) {
+            BeastsBranchie entity = createFunc.getSecond().apply(event);
+            if (entity != null) {
                 entity.scream();
                 entity.setAttackTarget(event.getPlayer());
                 event.getWorld().spawnEntity(entity);

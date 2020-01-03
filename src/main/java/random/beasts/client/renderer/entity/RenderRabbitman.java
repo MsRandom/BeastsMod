@@ -1,14 +1,14 @@
 package random.beasts.client.renderer.entity;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 import random.beasts.client.model.ModelRabbitman;
 import random.beasts.client.renderer.entity.layers.LayerRabbitmanItem;
 import random.beasts.common.entity.passive.EntityRabbitman;
-import random.beasts.common.main.BeastsReference;
+import random.beasts.main.BeastsReference;
+
+import javax.annotation.Nullable;
 
 public class RenderRabbitman extends RenderLiving<EntityRabbitman> {
 

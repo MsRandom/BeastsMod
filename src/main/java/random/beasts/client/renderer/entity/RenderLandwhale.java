@@ -8,7 +8,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import random.beasts.client.model.ModelLandwhale;
 import random.beasts.common.entity.passive.EntityLandwhale;
-import random.beasts.common.main.BeastsReference;
+import random.beasts.main.BeastsReference;
 
 @SideOnly(Side.CLIENT)
 public class RenderLandwhale extends RenderLiving<EntityLandwhale> {
@@ -30,6 +30,6 @@ public class RenderLandwhale extends RenderLiving<EntityLandwhale> {
 	}
 
 	protected ResourceLocation getEntityTexture(EntityLandwhale entity) {
-		return !entity.getSaddle().isEmpty() ? SADDLE : entity.getSheared() ? SHEARED : NORMAL;
-	}
+        return !entity.inventory.getStackInSlot(0).isEmpty() ? SADDLE : entity.getSheared() ? SHEARED : NORMAL;
+    }
 }

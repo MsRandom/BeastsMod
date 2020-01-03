@@ -128,6 +128,11 @@ Config
 
 config.logCascadingWorldGeneration=LogCascadingWorldGeneration
 
+Advancements
+
+advancements.beasts.hammertime.title=Stop, Hammertime!
+advancements.beasts.hammertime.description=Get attacked by a Giant Garden Eel
+
 Miscellaneous
 
 itemGroup.beasts=Beasts

@@ -3,6 +3,7 @@ package random.beasts.common.item;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
+import random.beasts.item.BeastsItem;
 
 public class ItemCoralEssence extends BeastsItem implements ICoralMeta {
     public ItemCoralEssence() {   	

@@ -1,7 +1,5 @@
 package random.beasts.common.item;
 
-import java.util.Objects;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
@@ -12,6 +10,9 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 import random.beasts.common.entity.projectile.EntityCoconutBomb;
+import random.beasts.item.BeastsItem;
+
+import java.util.Objects;
 
 public class ItemCoconade extends BeastsItem {
 

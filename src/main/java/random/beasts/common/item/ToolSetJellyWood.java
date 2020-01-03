@@ -5,6 +5,7 @@ import net.minecraft.init.MobEffects;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
+import random.beasts.item.BeastsToolSet;
 
 public class ToolSetJellyWood extends BeastsToolSet {
     public ToolSetJellyWood() {
@@ -12,8 +13,8 @@ public class ToolSetJellyWood extends BeastsToolSet {
     }
 
     @Override
-    boolean damageEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
-        if(!target.isPotionActive(MobEffects.POISON)) {
+    protected boolean damageEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
+        if (!target.isPotionActive(MobEffects.POISON)) {
             PotionEffect effect = new PotionEffect(MobEffects.POISON, 100);
             if (target.isPotionApplicable(effect)) target.addPotionEffect(effect);
             return true;

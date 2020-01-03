@@ -1,7 +1,7 @@
 package random.beasts.common.config;
 
 import net.minecraftforge.common.config.Config;
-import random.beasts.common.main.BeastsReference;
+import random.beasts.main.BeastsReference;
 
 @Config(modid = BeastsReference.ID)
 public class BeastsConfig {

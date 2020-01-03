@@ -3,7 +3,7 @@ package random.beasts.common.item;
 import net.minecraft.item.ItemShield;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.translation.I18n;
-import random.beasts.common.main.BeastsUtils;
+import random.beasts.main.BeastsUtils;
 
 public class ItemShellShield extends ItemShield
 {

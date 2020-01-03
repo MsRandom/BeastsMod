@@ -10,6 +10,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import random.beasts.common.init.BeastsBlocks;
+import random.beasts.item.BeastsItem;
 
 public class ItemGlowRoot extends BeastsItem {
 

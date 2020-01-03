@@ -7,10 +7,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import random.beasts.common.entity.passive.EntityLandwhale;
 import random.beasts.common.inventory.ContainerLandwhaleInventory;
-import random.beasts.common.main.BeastsReference;
+import random.beasts.main.BeastsReference;
 
 public class GuiLandwhaleInventory extends GuiContainer {
     private static final ResourceLocation GUI = new ResourceLocation(BeastsReference.ID, "textures/gui/container/landwhale.png");
+    private static final ResourceLocation CHEST = new ResourceLocation(BeastsReference.ID, "textures/gui/container/landwhale_chest.png");
     private EntityLandwhale landwhale;
 
     public GuiLandwhaleInventory(EntityLandwhale landwhale, EntityPlayer player) {

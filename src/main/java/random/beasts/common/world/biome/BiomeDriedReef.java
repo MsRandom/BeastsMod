@@ -21,6 +21,7 @@ import random.beasts.common.world.gen.feature.WorldGenAnemone;
 import random.beasts.common.world.gen.feature.WorldGenJellyfishTrees;
 import random.beasts.common.world.gen.feature.WorldGenPalmTrees;
 import random.beasts.common.world.gen.structure.WorldGenStructure;
+import random.beasts.world.biome.BeastsBiome;
 
 import java.util.Arrays;
 import java.util.Random;

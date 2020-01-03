@@ -1,12 +1,12 @@
 package random.beasts.client.renderer.entity;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 import random.beasts.common.entity.monster.EntityWoodBranchie;
-import random.beasts.common.main.BeastsReference;
+import random.beasts.main.BeastsReference;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class RenderWoodBranchie extends RenderBranchieBase<EntityWoodBranchie> {
     private static final Map<String, ResourceLocation> TEXTURES = new HashMap<>();

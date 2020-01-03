@@ -1,8 +1,5 @@
 package random.beasts.common.init;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.world.WorldType;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
@@ -13,9 +10,6 @@ import random.beasts.common.world.types.WorldTypeBeasts;
 public class BeastsBiomes {
 	
 	public static final WorldType BEASTS_WORLD_TYPE = new WorldTypeBeasts();
-	
-    public static final List<Biome> LIST = new ArrayList<>();
-
     public static final Biome DRIED_REEF = new BiomeDriedReef();
 
     public static void addTypes(Biome biome, BiomeManager.BiomeType mainType, int weight, boolean stronghold, boolean village, BiomeDictionary.Type... types) {

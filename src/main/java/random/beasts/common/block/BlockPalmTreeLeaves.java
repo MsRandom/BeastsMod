@@ -13,10 +13,11 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import random.beasts.block.BeastsLeaves;
+import random.beasts.common.BeastsMod;
 import random.beasts.common.entity.item.EntityFallingCoconut;
 import random.beasts.common.init.BeastsBlocks;
-import random.beasts.common.main.BeastsMod;
-import random.beasts.common.main.BeastsUtils;
+import random.beasts.main.BeastsUtils;
 
 import javax.annotation.Nullable;
 import java.util.Random;

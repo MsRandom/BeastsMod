@@ -8,10 +8,10 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import random.beasts.block.BeastsSapling;
 import random.beasts.common.init.BeastsBlocks;
 import random.beasts.common.item.ItemCoralBlock;
 
@@ -31,11 +31,6 @@ public class BlockCoralSapling extends BeastsSapling {
     	IBlockState soil = worldIn.getBlockState(pos.down());
 		return super.canPlaceBlockAt(worldIn, pos) && soil.getBlock() == Blocks.SAND;
 	}
-
-	@Override
-    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-        return SAPLING_AABB;
-    }
 
     @Override
     public int damageDropped(IBlockState state) {

@@ -12,6 +12,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.Tuple;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import random.beasts.block.BeastsAnemoneBlock;
 import random.beasts.common.init.BeastsItems;
 
 import java.util.HashMap;

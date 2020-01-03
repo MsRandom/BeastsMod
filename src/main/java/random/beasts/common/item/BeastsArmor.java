@@ -1,7 +1,5 @@
 package random.beasts.common.item;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -10,8 +8,10 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import random.beasts.common.main.BeastsMod;
-import random.beasts.common.main.BeastsUtils;
+import random.beasts.common.BeastsMod;
+import random.beasts.main.BeastsUtils;
+
+import javax.annotation.Nullable;
 
 public class BeastsArmor extends ItemArmor {
 

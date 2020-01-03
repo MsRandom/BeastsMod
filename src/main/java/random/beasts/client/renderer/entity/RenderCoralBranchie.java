@@ -1,12 +1,12 @@
 package random.beasts.client.renderer.entity;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 import random.beasts.common.entity.monster.EntityCoralBranchie;
-import random.beasts.common.main.BeastsReference;
+import random.beasts.main.BeastsReference;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class RenderCoralBranchie extends RenderBranchieBase<EntityCoralBranchie> {
     private static final Map<String, ResourceLocation> TEXTURES = new HashMap<>();

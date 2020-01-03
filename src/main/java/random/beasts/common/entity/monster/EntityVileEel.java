@@ -15,8 +15,8 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import random.beasts.client.init.BeastsSounds;
-import random.beasts.common.entity.IDriedAquatic;
 import random.beasts.common.init.BeastsItems;
+import random.beasts.entity.IDriedAquatic;
 
 import java.util.Objects;
 

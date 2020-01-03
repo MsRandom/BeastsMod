@@ -4,7 +4,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import random.beasts.common.tileentity.TileEntityCoconut;
-import random.beasts.common.main.BeastsReference;
+import random.beasts.main.BeastsReference;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -11,21 +11,22 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import random.beasts.block.BeastsSlab;
 import random.beasts.client.renderer.entity.*;
 import random.beasts.client.renderer.tileentity.TileEntityCoconutRenderer;
-import random.beasts.common.block.BeastsSlab;
 import random.beasts.common.block.BlockAnemoneMouth;
 import random.beasts.common.block.BlockPalmTreeLeaves;
 import random.beasts.common.entity.item.EntityBeastsPainting;
 import random.beasts.common.entity.item.EntityFallingCoconut;
+import random.beasts.common.entity.item.EntityThrownCoconut;
 import random.beasts.common.entity.monster.*;
 import random.beasts.common.entity.passive.*;
 import random.beasts.common.entity.projectile.EntityCoconutBomb;
 import random.beasts.common.init.BeastsBlocks;
-import random.beasts.common.init.BeastsItems;
-import random.beasts.common.item.IHandleMeta;
-import random.beasts.common.main.BeastsReference;
 import random.beasts.common.tileentity.TileEntityCoconut;
+import random.beasts.init.BeastsRegistries;
+import random.beasts.item.IHandleMeta;
+import random.beasts.main.BeastsReference;
 
 import java.util.Objects;
 
@@ -58,11 +59,12 @@ public class ClientProxy extends CommonProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntityAnemoneCrawler.class, RenderAnemoneCrawler::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityLegfish.class, RenderLegfish::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityScallop.class, RenderScallop::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityThrownCoconut.class, RenderThrownCoconut::new);
 		registerTileEntityRenders();
 	}
 
 	public void registerEventRenders() {
-		for (Item item : BeastsItems.LIST) {
+		for (Item item : BeastsRegistries.ITEMS) {
 			if (item instanceof IHandleMeta) {
 				IHandleMeta metaItem = (IHandleMeta) item;
 				for (int i = 0; i < metaItem.getDamage(); i++)
@@ -70,7 +72,7 @@ public class ClientProxy extends CommonProxy {
 			} else
 				ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(Objects.requireNonNull(item.getRegistryName()), "inventory"));
 		}
-		for (Block block : BeastsBlocks.LIST) {
+		for (Block block : BeastsRegistries.BLOCKS) {
 			Item item = Item.getItemFromBlock(block);
 			if (item != Items.AIR)
 				ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(Objects.requireNonNull(block.getRegistryName()), "inventory"));

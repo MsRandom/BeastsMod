@@ -5,7 +5,7 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 import random.beasts.client.model.ModelLegfish;
 import random.beasts.common.entity.passive.EntityLegfish;
-import random.beasts.common.main.BeastsReference;
+import random.beasts.main.BeastsReference;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;

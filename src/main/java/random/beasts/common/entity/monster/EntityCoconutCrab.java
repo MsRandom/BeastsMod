@@ -23,9 +23,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import random.beasts.client.init.BeastsSounds;
-import random.beasts.common.entity.IShellEntity;
 import random.beasts.common.init.BeastsBlocks;
 import random.beasts.common.init.BeastsItems;
+import random.beasts.entity.IShellEntity;
 
 import javax.annotation.Nonnull;
 import java.util.List;

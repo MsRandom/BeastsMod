@@ -14,9 +14,10 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import random.beasts.client.init.BeastsSounds;
+import random.beasts.common.BeastsMod;
 import random.beasts.common.init.*;
-import random.beasts.common.main.BeastsMod;
-import random.beasts.common.main.BeastsReference;
+import random.beasts.init.BeastsRegistries;
+import random.beasts.main.BeastsReference;
 
 import static net.minecraftforge.common.BiomeDictionary.Type.*;
 
@@ -26,12 +27,18 @@ public class RegistryEvents {
 
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
-        event.getRegistry().registerAll(BeastsBlocks.LIST.toArray(new Block[0]));
+        //resolving the class
+        BeastsBlocks.COCONUT.getRegistryName();
+
+        event.getRegistry().registerAll(BeastsRegistries.BLOCKS.toArray(new Block[0]));
     }
 
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
-        event.getRegistry().registerAll(BeastsItems.LIST.toArray(new Item[0]));
+        //resolving the class
+        BeastsItems.ICON.getRegistryName();
+
+        event.getRegistry().registerAll(BeastsRegistries.ITEMS.toArray(new Item[0]));
         FurnaceRecipes.instance().addSmelting(BeastsItems.CRAB_LEG, new ItemStack(BeastsItems.COOKED_CRAB_LEG), 0.35f);
         FurnaceRecipes.instance().addSmelting(BeastsItems.EEL_CHOP, new ItemStack(BeastsItems.COOKED_EEL_CHOP), 0.50f);
         FurnaceRecipes.instance().addSmelting(BeastsItems.SCALLOP_TONGUE, new ItemStack(BeastsItems.COOKED_SCALLOP_TONGUE), 0.35f);
@@ -42,7 +49,9 @@ public class RegistryEvents {
 
     @SubscribeEvent
     public static void registerBiomes(RegistryEvent.Register<Biome> event) {
-        event.getRegistry().registerAll(BeastsBiomes.LIST.toArray(new Biome[0]));
+        BeastsBiomes.DRIED_REEF.getRegistryName();
+
+        event.getRegistry().registerAll(BeastsRegistries.BIOMES.toArray(new Biome[0]));
         BeastsBiomes.addTypes(BeastsBiomes.DRIED_REEF, BiomeManager.BiomeType.WARM, 10, BEACH, HOT, DRY, SANDY);
     }
 

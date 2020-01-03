@@ -19,9 +19,9 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 import random.beasts.client.init.BeastsSounds;
-import random.beasts.common.entity.IShellEntity;
 import random.beasts.common.entity.monster.EntityVileEel;
 import random.beasts.common.init.BeastsBlocks;
+import random.beasts.entity.IShellEntity;
 
 import javax.annotation.Nullable;
 import java.util.List;
