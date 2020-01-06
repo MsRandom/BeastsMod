@@ -22,6 +22,12 @@ public class EntityLegfish extends EntityAnimal {
     private static final DataParameter<Integer> TYPE = EntityDataManager.createKey(EntityAnemoneCrawler.class, DataSerializers.VARINT);
     private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityAnemoneCrawler.class, DataSerializers.VARINT);
 
+    static {
+        VARIANTS.put(0, 2);
+        VARIANTS.put(1, 5);
+        VARIANTS.put(2, 4);
+    }
+
     public EntityLegfish(World worldIn) {
         super(worldIn);
         setSize(0.3f, 0.3f);
@@ -33,12 +39,6 @@ public class EntityLegfish extends EntityAnimal {
         this.tasks.addTask(0, new EntityAIWanderAvoidWater(this, 0.2D));
         this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityAILookIdle(this));
-    }
-
-    static {
-        VARIANTS.put(0, 2);
-        VARIANTS.put(1, 5);
-        VARIANTS.put(2, 4);
     }
 
     @Override
@@ -68,16 +68,16 @@ public class EntityLegfish extends EntityAnimal {
         return dataManager.get(TYPE);
     }
 
+    private void setType(int value) {
+        dataManager.set(TYPE, value);
+    }
+
     public int getVariant() {
         return dataManager.get(VARIANT);
     }
 
     private void setVariant(int value) {
         dataManager.set(VARIANT, value);
-    }
-
-    private void setType(int value) {
-        dataManager.set(TYPE, value);
     }
 
     @Override

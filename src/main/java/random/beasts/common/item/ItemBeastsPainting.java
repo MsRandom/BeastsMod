@@ -8,8 +8,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import random.beasts.api.item.BeastsItem;
 import random.beasts.common.entity.item.EntityBeastsPainting;
-import random.beasts.item.BeastsItem;
 
 public class ItemBeastsPainting extends BeastsItem {
     public ItemBeastsPainting() {

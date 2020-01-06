@@ -8,7 +8,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import random.beasts.block.BeastsBlock;
+import random.beasts.api.block.BeastsBlock;
 
 public class BlockHermitShell extends BeastsBlock {
 
@@ -27,20 +27,17 @@ public class BlockHermitShell extends BeastsBlock {
     public boolean isFullCube(IBlockState state) {
         return false;
     }
-    
-    public boolean isPassable(IBlockAccess worldIn, BlockPos pos)
-    {
+
+    public boolean isPassable(IBlockAccess worldIn, BlockPos pos) {
         return false;
     }
-    
+
     @SideOnly(Side.CLIENT)
-    public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side)
-    {
+    public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
         return true;
     }
-    
-    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
-    {
+
+    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
         return BOUNDING_BOX;
     }
 }

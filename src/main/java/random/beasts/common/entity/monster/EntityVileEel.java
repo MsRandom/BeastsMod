@@ -14,9 +14,9 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import random.beasts.api.entity.IDriedAquatic;
 import random.beasts.client.init.BeastsSounds;
 import random.beasts.common.init.BeastsItems;
-import random.beasts.entity.IDriedAquatic;
 
 import java.util.Objects;
 
@@ -42,7 +42,7 @@ public class EntityVileEel extends EntityMob implements IDriedAquatic {
 
     @Override
     public void onLivingUpdate() {
-        if(this.getRidingEntity() != null) getRidingEntity().attackEntityFrom(DamageSource.causeMobDamage(this), 1);
+        if (this.getRidingEntity() != null) getRidingEntity().attackEntityFrom(DamageSource.causeMobDamage(this), 1);
         super.onLivingUpdate();
     }
 

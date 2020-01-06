@@ -13,10 +13,10 @@ public class TileEntityCoconutRenderer extends TileEntitySpecialRenderer<TileEnt
 
     @Override
     public void render(TileEntityCoconut te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
-        if(te != null) super.render(te, x, y, z, partialTicks, destroyStage, alpha);
+        if (te != null) super.render(te, x, y, z, partialTicks, destroyStage, alpha);
         GlStateManager.pushMatrix();
         GlStateManager.disableCull();
-        GlStateManager.translate((float)x, (float)y, (float)z);
+        GlStateManager.translate((float) x, (float) y, (float) z);
         GlStateManager.enableRescaleNormal();
         GlStateManager.scale(-1.0F, -1.0F, 1.0F);
         GlStateManager.translate(-0.501F, -1.401F, 0.501F);

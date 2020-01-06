@@ -91,7 +91,7 @@ public class ModelVileEel extends ModelBase {
         if (entity instanceof EntityPufferfishDog && ((EntityPufferfishDog) entity).isInflated()) this.body.render(f5);
         else this.body.render(f5);
     }
-    
+
     @Override
     public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
         super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
@@ -99,16 +99,15 @@ public class ModelVileEel extends ModelBase {
         this.armLeft.rotateAngleX = MathHelper.cos(limbSwing * speed) * degree * limbSwingAmount;
         this.armRight.rotateAngleX = MathHelper.cos(limbSwing * speed + (float) Math.PI) * degree * limbSwingAmount;
         this.legLeft.rotateAngleX = MathHelper.cos(limbSwing * speed + (float) Math.PI) * degree * limbSwingAmount;
-        this.legRight.rotateAngleX = MathHelper.cos(limbSwing * speed) * degree * limbSwingAmount;   
-        this.tailBase.rotateAngleY = MathHelper.cos(20+ limbSwing * speed * 0.7F) * degree * limbSwingAmount;
+        this.legRight.rotateAngleX = MathHelper.cos(limbSwing * speed) * degree * limbSwingAmount;
+        this.tailBase.rotateAngleY = MathHelper.cos(20 + limbSwing * speed * 0.7F) * degree * limbSwingAmount;
 
-        if(entityIn instanceof EntityVileEel){
+        if (entityIn instanceof EntityVileEel) {
 
-            if(!entityIn.getPassengers().isEmpty()){
-                this.head.rotateAngleX = (float)Math.toRadians(-35);
-                this.jaw.rotateAngleX = (float)Math.toRadians(30);
-            }
-            else{
+            if (!entityIn.getPassengers().isEmpty()) {
+                this.head.rotateAngleX = (float) Math.toRadians(-35);
+                this.jaw.rotateAngleX = (float) Math.toRadians(30);
+            } else {
                 this.jaw.rotateAngleX = 0;
                 this.head.rotateAngleX = 0;
             }
@@ -116,10 +115,10 @@ public class ModelVileEel extends ModelBase {
         }
 
     }
-   
+
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
         modelRenderer.rotateAngleX = x;
         modelRenderer.rotateAngleY = y;
-		modelRenderer.rotateAngleZ = z;
-	}
+        modelRenderer.rotateAngleZ = z;
+    }
 }

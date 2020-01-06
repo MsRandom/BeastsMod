@@ -18,10 +18,10 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
+import random.beasts.api.entity.IShellEntity;
 import random.beasts.client.init.BeastsSounds;
 import random.beasts.common.entity.monster.EntityVileEel;
 import random.beasts.common.init.BeastsBlocks;
-import random.beasts.entity.IShellEntity;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -44,15 +44,13 @@ public class EntityHermitTurtle extends EntityAnimal implements IShellEntity {
 
     @Override
     public boolean attackEntityFrom(DamageSource source, float amount) {
-        if(this.isOut()){
+        if (this.isOut()) {
             return super.attackEntityFrom(source, amount);
-        }
-        else{
-            if(source.getImmediateSource() != null){
+        } else {
+            if (source.getImmediateSource() != null) {
                 this.playSound(SoundEvents.ENTITY_ITEM_BREAK, 1.0F, 1.0F);
                 return false;
-            }
-            else{
+            } else {
                 return super.attackEntityFrom(source, amount);
             }
         }
@@ -86,13 +84,13 @@ public class EntityHermitTurtle extends EntityAnimal implements IShellEntity {
         super.entityInit();
         this.dataManager.register(OUT, false);
     }
-    
+
     protected void initEntityAI() {
-    	this.tasks.addTask(0, new AIHide(this, false));
+        this.tasks.addTask(0, new AIHide(this, false));
     }
-    
+
     protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
-        if(rand.nextInt(16) == 0) this.dropItem(Item.getItemFromBlock(BeastsBlocks.HERMIT_SHELL), 1);
+        if (rand.nextInt(16) == 0) this.dropItem(Item.getItemFromBlock(BeastsBlocks.HERMIT_SHELL), 1);
     }
 
     public boolean isOut() {
@@ -109,19 +107,19 @@ public class EntityHermitTurtle extends EntityAnimal implements IShellEntity {
         getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.1F);
         getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(12);
     }
-    
-    static class AIHide extends EntityAITarget{
+
+    static class AIHide extends EntityAITarget {
 
         AIHide(EntityHermitTurtle creature, boolean checkSight) {
-			super(creature, checkSight, true);
-		}
+            super(creature, checkSight, true);
+        }
 
         @Override
         public boolean shouldExecute() {
             List<EntityPlayer> players = this.taskOwner.world.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(this.taskOwner.getPosition()).grow(5));
             List<EntityVileEel> eels = this.taskOwner.world.getEntitiesWithinAABB(EntityVileEel.class, new AxisAlignedBB(this.taskOwner.getPosition()).grow(10));
             boolean plBool = false;
-            if(!players.isEmpty()){
+            if (!players.isEmpty()) {
                 for (EntityPlayer player : players) {
                     if (!player.isSneaking()) {
                         plBool = true;
@@ -131,19 +129,16 @@ public class EntityHermitTurtle extends EntityAnimal implements IShellEntity {
             return plBool || !eels.isEmpty();
         }
 
-        public void startExecuting()
-        {
-            if(((EntityHermitTurtle)this.taskOwner).isOut()) ((EntityHermitTurtle)this.taskOwner).setOut(false);
+        public void startExecuting() {
+            if (((EntityHermitTurtle) this.taskOwner).isOut()) ((EntityHermitTurtle) this.taskOwner).setOut(false);
         }
 
-        public boolean shouldContinueExecuting()
-        {
+        public boolean shouldContinueExecuting() {
             return shouldExecute();
         }
-		
-		public void resetTask()
-	    {
-			if(!((EntityHermitTurtle)this.taskOwner).isOut()) ((EntityHermitTurtle)this.taskOwner).setOut(true);
-	    }	
+
+        public void resetTask() {
+            if (!((EntityHermitTurtle) this.taskOwner).isOut()) ((EntityHermitTurtle) this.taskOwner).setOut(true);
+        }
     }
 }

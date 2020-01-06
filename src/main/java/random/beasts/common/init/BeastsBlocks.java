@@ -2,7 +2,7 @@ package random.beasts.common.init;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import random.beasts.block.*;
+import random.beasts.api.block.*;
 import random.beasts.common.block.*;
 import random.beasts.common.world.gen.feature.WorldGenJellyfishTrees;
 import random.beasts.common.world.gen.feature.WorldGenPalmTrees;
@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class BeastsBlocks {
 
-	public static final Block COCONUT = new BlockCoconut();
+    public static final Block COCONUT = new BlockCoconut();
     public static final Block GLOW_ROOT_TOP = new BlockGlowRoot(true);
     public static final Block GLOW_ROOT_BOTTOM = new BlockGlowRoot(false);
     public static final Block CORAL_BLOCK = new BlockCoral();
@@ -46,7 +46,7 @@ public class BeastsBlocks {
     public static final Map<CoralColor, BlockCoralPlant> CORAL_PLANTS = new HashMap<>();
     public static final BlockShell[] SHELL_BLOCKS = {new BlockShell("shell_block"), new BlockShell("brown_shell_block"), new BlockShell("light_brown_shell_block"), new BlockShell("tan_shell_block")};
 
-	static {
-		for (CoralColor color : CoralColor.values()) CORAL_PLANTS.put(color, new BlockCoralPlant(color));
- 	}
+    static {
+        for (CoralColor color : CoralColor.values()) CORAL_PLANTS.put(color, new BlockCoralPlant(color));
+    }
 }

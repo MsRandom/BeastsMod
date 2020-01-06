@@ -4,12 +4,12 @@ import net.minecraft.client.model.ModelBiped;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraftforge.oredict.OreDictionary;
+import random.beasts.api.main.BeastsUtils;
 import random.beasts.client.init.BeastsCreativeTabs;
 import random.beasts.common.block.BlockPalmTreeLeaves;
 import random.beasts.common.block.BlockShell;
 import random.beasts.common.init.*;
 import random.beasts.common.network.BeastsGuiHandler;
-import random.beasts.main.BeastsUtils;
 
 public class CommonProxy {
 
@@ -30,15 +30,16 @@ public class CommonProxy {
     public void registerEventRenders() {
     }
 
-    public ModelBiped getArmorModel(Item armorItem, EntityEquipmentSlot armorSlot){
+    public ModelBiped getArmorModel(Item armorItem, EntityEquipmentSlot armorSlot) {
         return null;
     }
 
-    public String getArmorTexture(Item armorItem, EntityEquipmentSlot armorSlot){
+    public String getArmorTexture(Item armorItem, EntityEquipmentSlot armorSlot) {
         return null;
     }
 
-    public void setGraphicsLevel(BlockPalmTreeLeaves block, boolean enabled) {}
+    public void setGraphicsLevel(BlockPalmTreeLeaves block, boolean enabled) {
+    }
 
     private void registerOreDict() {
         //this could be done better

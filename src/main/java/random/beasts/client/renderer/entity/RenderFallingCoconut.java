@@ -1,14 +1,14 @@
 package random.beasts.client.renderer.entity;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
-import random.beasts.proxy.ClientProxy;
 import random.beasts.common.entity.item.EntityFallingCoconut;
+import random.beasts.proxy.ClientProxy;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class RenderFallingCoconut extends Render<EntityFallingCoconut> {
 

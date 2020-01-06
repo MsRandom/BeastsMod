@@ -19,8 +19,8 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import random.beasts.api.main.BeastsUtils;
 import random.beasts.common.init.BeastsBlocks;
-import random.beasts.main.BeastsUtils;
 
 import javax.annotation.Nullable;
 import java.util.Random;
@@ -50,8 +50,9 @@ public class BlockTentacle extends BlockBush {
 
     @Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-        int index = state.getValue(SIZE)-1;
-        if(BOUNDING_BOXES[index] == null) BOUNDING_BOXES[index] = new AxisAlignedBB(0.375, 1, 0.375, 0.625, 1 - ((index + 1) * 0.125), 0.625);
+        int index = state.getValue(SIZE) - 1;
+        if (BOUNDING_BOXES[index] == null)
+            BOUNDING_BOXES[index] = new AxisAlignedBB(0.375, 1, 0.375, 0.625, 1 - ((index + 1) * 0.125), 0.625);
         return BOUNDING_BOXES[index];
     }
 
@@ -61,19 +62,16 @@ public class BlockTentacle extends BlockBush {
         return NULL_AABB;
     }
 
-    public boolean isOpaqueCube(IBlockState state)
-    {
+    public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
 
-    public boolean isFullCube(IBlockState state)
-    {
+    public boolean isFullCube(IBlockState state) {
         return false;
     }
 
     @SideOnly(Side.CLIENT)
-    public BlockRenderLayer getBlockLayer()
-    {
+    public BlockRenderLayer getBlockLayer() {
         return BlockRenderLayer.CUTOUT;
     }
 
@@ -85,11 +83,11 @@ public class BlockTentacle extends BlockBush {
     @Override
     public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
         super.onEntityCollidedWithBlock(worldIn, pos, state, entityIn);
-        if(entityIn instanceof EntityLivingBase) {
+        if (entityIn instanceof EntityLivingBase) {
             EntityLivingBase entity = (EntityLivingBase) entityIn;
-            if(!entity.isPotionActive(MobEffects.POISON)) {
+            if (!entity.isPotionActive(MobEffects.POISON)) {
                 PotionEffect effect = new PotionEffect(MobEffects.POISON, 100);
-                if(entity.isPotionApplicable(effect)) entity.addPotionEffect(effect);
+                if (entity.isPotionApplicable(effect)) entity.addPotionEffect(effect);
             }
         }
     }

@@ -106,7 +106,7 @@ public class ModelSkewerShrimp extends ModelBase {
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         this.body.render(f5);
     }
 
@@ -126,7 +126,7 @@ public class ModelSkewerShrimp extends ModelBase {
         this.leg_7.rotateAngleX = MathHelper.cos(60 + limbSwing * speed) * degree * limbSwingAmount;
 
         this.rightWhisker.rotateAngleY = MathHelper.cos(limbSwing * speed * 0.7F) * degree * limbSwingAmount * 0.5F;
-        this.leftWhisker.rotateAngleY = MathHelper.cos(3.15F -limbSwing * speed * 0.7F) * degree * limbSwingAmount * 0.5F;
+        this.leftWhisker.rotateAngleY = MathHelper.cos(3.15F - limbSwing * speed * 0.7F) * degree * limbSwingAmount * 0.5F;
 
         this.tailBase.rotateAngleY = MathHelper.cos(20 + limbSwing * speed * 0.7F) * degree * limbSwingAmount;
         this.tailMid.rotateAngleY = MathHelper.cos(10 + limbSwing * speed * 0.7F) * degree * limbSwingAmount;

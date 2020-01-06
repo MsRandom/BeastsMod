@@ -1,7 +1,5 @@
 package random.beasts.common.entity.item;
 
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.material.Material;
@@ -20,6 +18,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import random.beasts.common.init.BeastsBlocks;
+
+import java.util.List;
 
 public class EntityFallingCoconut extends Entity {
 
@@ -42,26 +42,24 @@ public class EntityFallingCoconut extends Entity {
         double x = pos.getX() + 0.5;
         double y = pos.getY();
         double z = pos.getZ() + 0.5;
-        this.setPosition(x, y + (double)((1.0F - this.height) / 2.0F), z);
+        this.setPosition(x, y + (double) ((1.0F - this.height) / 2.0F), z);
         this.prevPosX = x;
         this.prevPosY = y;
         this.prevPosZ = z;
     }
 
-    public boolean canBeAttackedWithItem()
-    {
+    public boolean canBeAttackedWithItem() {
         return false;
     }
 
-    protected boolean canTriggerWalking()
-    {
+    protected boolean canTriggerWalking() {
         return false;
     }
 
-    protected void entityInit() {}
+    protected void entityInit() {
+    }
 
-    public boolean canBeCollidedWith()
-    {
+    public boolean canBeCollidedWith() {
         return !this.isDead;
     }
 
@@ -89,7 +87,8 @@ public class EntityFallingCoconut extends Entity {
                 BlockPos blockpos1 = new BlockPos(this);
                 if (!this.onGround) {
                     if (this.fallTime > 100 && (blockpos1.getY() < 1 || blockpos1.getY() > 256) || this.fallTime > 600) {
-                        if (this.shouldDropItem && this.world.getGameRules().getBoolean("doEntityDrops")) this.entityDropItem(new ItemStack(block, 1, block.damageDropped(this.fallTile)), 0.0F);
+                        if (this.shouldDropItem && this.world.getGameRules().getBoolean("doEntityDrops"))
+                            this.entityDropItem(new ItemStack(block, 1, block.damageDropped(this.fallTile)), 0.0F);
                         this.setDead();
                     }
                 } else {
@@ -107,7 +106,8 @@ public class EntityFallingCoconut extends Entity {
 
                     if (iblockstate.getBlock() != Blocks.PISTON_EXTENSION) {
                         this.setDead();
-                        if (!(this.world.mayPlace(block, blockpos1, true, EnumFacing.UP, null) && !BlockFalling.canFallThrough(this.world.getBlockState(blockpos1.down())) && this.world.setBlockState(blockpos1, this.fallTile, 3)) && (this.shouldDropItem && this.world.getGameRules().getBoolean("doEntityDrops"))) this.entityDropItem(new ItemStack(block, 1, block.damageDropped(this.fallTile)), 0.0F);
+                        if (!(this.world.mayPlace(block, blockpos1, true, EnumFacing.UP, null) && !BlockFalling.canFallThrough(this.world.getBlockState(blockpos1.down())) && this.world.setBlockState(blockpos1, this.fallTile, 3)) && (this.shouldDropItem && this.world.getGameRules().getBoolean("doEntityDrops")))
+                            this.entityDropItem(new ItemStack(block, 1, block.damageDropped(this.fallTile)), 0.0F);
                     }
                 }
             }
@@ -129,8 +129,7 @@ public class EntityFallingCoconut extends Entity {
         }
     }
 
-    protected void writeEntityToNBT(NBTTagCompound compound)
-    {
+    protected void writeEntityToNBT(NBTTagCompound compound) {
         compound.setInteger("Time", this.fallTime);
         compound.setBoolean("DropItem", this.shouldDropItem);
     }

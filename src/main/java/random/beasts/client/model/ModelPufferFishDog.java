@@ -38,7 +38,7 @@ public class ModelPufferFishDog extends ModelBase {
     public ModelRenderer spikes_7;
     public ModelRenderer collarNormal;
     public ModelRenderer glasses_1;
-    
+
     private State state = State.STANDING;
 
     public ModelPufferFishDog() {
@@ -192,94 +192,79 @@ public class ModelPufferFishDog extends ModelBase {
     @Override
     public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
         float speed = 0.75f, degree = 1.45f;
-          
-        if (this.state == State.PARTY)
-        {
-            float f1 = MathHelper.cos((float)entityIn.ticksExisted);
-            float f2 = MathHelper.sin((float)entityIn.ticksExisted);
+
+        if (this.state == State.PARTY) {
+            float f1 = MathHelper.cos((float) entityIn.ticksExisted);
+            float f2 = MathHelper.sin((float) entityIn.ticksExisted);
             this.body_1.rotationPointX = f1;
             this.body_1.rotationPointY = 20.0F + f2;
-            
+
             this.leftLeg_1.rotationPointX = 1.8F - f1;
             this.leftLeg_1.rotationPointY = 1.0F - f2;
 
             this.leftArm_1.rotationPointX = 2.0F - f1;
             this.leftArm_1.rotationPointY = 1.0F - f2;
-            
+
             this.rightLeg_1.rotationPointX = -1.8F - f1;
             this.rightLeg_1.rotationPointY = 1.0F - f2;
 
             this.rightArm_1.rotationPointX = -2.0F - f1;
             this.rightArm_1.rotationPointY = 1.0F - f2;
-            
+
             this.tail_1.rotationPointX = f1;
             this.tail_1.rotationPointY = f2;
-        }
-        else if(this.state == State.SITTING){
+        } else if (this.state == State.SITTING) {
             this.rightArm_1.rotateAngleZ = 0.2617993877991494F;
             this.leftLeg_1.rotateAngleX = -1.0821041362364843F;
             this.leftLeg_1.rotateAngleZ = -0.2617993877991494F;
             this.rightLeg_1.rotateAngleX = -1.0821041362364843F;
             this.rightLeg_1.rotateAngleZ = 0.2617993877991494F;
             this.leftArm_1.rotateAngleZ = -0.2617993877991494F;
-        } 
-        
-        else
-        {
+        } else {
             this.leftArm_1.rotateAngleX = MathHelper.cos(limbSwing * degree) * speed * limbSwingAmount;
             this.rightArm_1.rotateAngleX = MathHelper.cos(limbSwing * degree + (float) Math.PI) * speed * limbSwingAmount;
             this.leftLeg_1.rotateAngleX = MathHelper.cos(limbSwing * degree + (float) Math.PI) * speed * limbSwingAmount;
             this.rightLeg_1.rotateAngleX = MathHelper.cos(limbSwing * degree) * speed * limbSwingAmount;
         }
     }
-    
-    
+
+
     @Override
-    public void setLivingAnimations(EntityLivingBase entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTickTime)
-    {
-    		
-            
-    	if (((EntityPufferfishDog)entitylivingbaseIn).isPartying())
-        {
+    public void setLivingAnimations(EntityLivingBase entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTickTime) {
+
+
+        if (((EntityPufferfishDog) entitylivingbaseIn).isPartying()) {
             this.state = State.PARTY;
-        }
-    	else if (((EntityPufferfishDog)entitylivingbaseIn).isSitting())
-        {
-        	resetRotationPoints();
+        } else if (((EntityPufferfishDog) entitylivingbaseIn).isSitting()) {
+            resetRotationPoints();
             this.state = State.SITTING;
-        }
-        else if (entitylivingbaseIn.motionX != 0 || entitylivingbaseIn.motionY != 0 || entitylivingbaseIn.motionZ != 0)
-        {
-        	resetRotationPoints();
+        } else if (entitylivingbaseIn.motionX != 0 || entitylivingbaseIn.motionY != 0 || entitylivingbaseIn.motionZ != 0) {
+            resetRotationPoints();
             this.state = State.WALKING;
-        }
-        
-        else
-        {
-        	resetRotationPoints();
+        } else {
+            resetRotationPoints();
             this.state = State.STANDING;
         }
     }
 
     private void resetRotationPoints() {
-    	this.tail_1.setRotationPoint(0.0F, 0.0F, 3.1F);
-    	this.leftArm_1.setRotationPoint(2.0F, 1.0F, -1.0F);
-    	this.leftLeg_1.setRotationPoint(1.8F, 2.0F, 2.5F);
-    	this.body_1.setRotationPoint(0.0F, 20.0F, 0.0F);
-    	this.rightLeg_1.setRotationPoint(-1.8F, 2.0F, 2.5F);
-    	this.rightArm_1.setRotationPoint(-2.0F, 1.0F, -1.0F);
-		
-	}
+        this.tail_1.setRotationPoint(0.0F, 0.0F, 3.1F);
+        this.leftArm_1.setRotationPoint(2.0F, 1.0F, -1.0F);
+        this.leftLeg_1.setRotationPoint(1.8F, 2.0F, 2.5F);
+        this.body_1.setRotationPoint(0.0F, 20.0F, 0.0F);
+        this.rightLeg_1.setRotationPoint(-1.8F, 2.0F, 2.5F);
+        this.rightArm_1.setRotationPoint(-2.0F, 1.0F, -1.0F);
 
-	public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
+    }
+
+    public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
         modelRenderer.rotateAngleX = x;
         modelRenderer.rotateAngleY = y;
         modelRenderer.rotateAngleZ = z;
     }
-	
-	@SideOnly(Side.CLIENT)
-    enum State
-    {
+
+    @SideOnly(Side.CLIENT)
+    enum State {
         WALKING,
         STANDING,
         SITTING,

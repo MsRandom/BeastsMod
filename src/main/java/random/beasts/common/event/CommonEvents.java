@@ -22,13 +22,13 @@ import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
+import random.beasts.api.entity.BeastsBranchie;
+import random.beasts.api.main.BeastsReference;
 import random.beasts.common.BeastsMod;
 import random.beasts.common.entity.passive.EntityPufferfishDog;
 import random.beasts.common.entity.passive.EntityRabbitman;
 import random.beasts.common.init.BeastsLootTables;
 import random.beasts.common.world.storage.loot.BeastsLootTable;
-import random.beasts.entity.BeastsBranchie;
-import random.beasts.main.BeastsReference;
 
 import java.util.Collection;
 import java.util.function.Function;
@@ -41,13 +41,14 @@ public class CommonEvents {
     public static void addEntity(EntityJoinWorldEvent event) {
         if (event.getEntity() instanceof EntityOcelot) {
             final EntityOcelot ocelot = (EntityOcelot) event.getEntity();
-            if(ocelot != null) {
+            if (ocelot != null) {
                 ocelot.targetTasks.addTask(1, new EntityAITargetNonTamed<>(ocelot, EntityPufferfishDog.class, false, target -> target != null && target.getDistance(ocelot) < 32.0));
                 ocelot.targetTasks.addTask(1, new EntityAITargetNonTamed<>(ocelot, EntityRabbitman.class, false, target -> target != null && target.getDistance(ocelot) < 32.0));
             }
         } else if (event.getEntity() instanceof EntityWolf) {
             final EntityWolf wolf = (EntityWolf) event.getEntity();
-            if(wolf != null) wolf.targetTasks.addTask(1, new EntityAITargetNonTamed<>(wolf, EntityRabbitman.class, false, target -> target != null && target.getDistance(wolf) < 32.0));
+            if (wolf != null)
+                wolf.targetTasks.addTask(1, new EntityAITargetNonTamed<>(wolf, EntityRabbitman.class, false, target -> target != null && target.getDistance(wolf) < 32.0));
         }
     }
 
@@ -80,7 +81,7 @@ public class CommonEvents {
         }
         if(ee instanceof EntityPufferfishDog) BeastsTriggers.DISCOVER_PUFFERFISH_DOG.trigger((EntityPlayerMP) player);
     }*/
-    
+
     @SubscribeEvent
     public static void loadLootTable(LootTableLoadEvent event) {
         //TODO fix this crash without wrapping it

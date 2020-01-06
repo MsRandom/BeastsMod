@@ -3,9 +3,9 @@ package random.beasts.client.renderer.entity;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
+import random.beasts.api.main.BeastsReference;
 import random.beasts.client.model.ModelScallop;
 import random.beasts.common.entity.monster.EntityScallop;
-import random.beasts.main.BeastsReference;
 
 import javax.annotation.Nullable;
 

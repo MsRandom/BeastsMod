@@ -1,25 +1,6 @@
 package random.beasts.common.world.gen.structure;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import net.minecraft.block.BlockBed;
-import net.minecraft.block.BlockColored;
-import net.minecraft.block.BlockCrops;
-import net.minecraft.block.BlockFarmland;
-import net.minecraft.block.BlockFenceGate;
-import net.minecraft.block.BlockFlowerPot;
-import net.minecraft.block.BlockLadder;
-import net.minecraft.block.BlockLeaves;
-import net.minecraft.block.BlockPlanks;
-import net.minecraft.block.BlockSlab;
-import net.minecraft.block.BlockStairs;
-import net.minecraft.block.BlockTorch;
-import net.minecraft.block.BlockWoodSlab;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.passive.EntityRabbit;
@@ -35,16 +16,18 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeDesert;
-import net.minecraft.world.biome.BiomeProvider;
-import net.minecraft.world.biome.BiomeSavanna;
-import net.minecraft.world.biome.BiomeTaiga;
+import net.minecraft.world.biome.*;
 import net.minecraft.world.gen.structure.MapGenStructureIO;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraft.world.gen.structure.StructureComponent;
 import net.minecraft.world.gen.structure.template.TemplateManager;
 import random.beasts.common.entity.passive.EntityRabbitman;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 @SuppressWarnings({"ConstantConditions", "unused", "WeakerAccess"})
 public class StructureRabbitVillagePieces {
@@ -173,13 +156,15 @@ public class StructureRabbitVillagePieces {
             }
             this.fillWithBlocks(worldIn, structureBoundingBoxIn, 1, 0, 1, 7, 0, 7, Blocks.STAINED_HARDENED_CLAY.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.ORANGE), Blocks.STAINED_HARDENED_CLAY.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.ORANGE), false);
 
-            for (int i = 2; i <= 6; ++i) for (int n = 2; n <= 6; ++n) if (i != 4 || n != 4) {
-                int j = this.crop.getMaxAge();
-                int k = j / 3;
-                int r = MathHelper.getInt(randomIn, k, j);
-                this.setBlockState(worldIn, Blocks.FARMLAND.getDefaultState().withProperty(BlockFarmland.MOISTURE, r), n, 0, i, structureBoundingBoxIn);
-                this.setBlockState(worldIn, this.crop.getStateFromMeta(r), n, 1, i, structureBoundingBoxIn);
-            }
+            for (int i = 2; i <= 6; ++i)
+                for (int n = 2; n <= 6; ++n)
+                    if (i != 4 || n != 4) {
+                        int j = this.crop.getMaxAge();
+                        int k = j / 3;
+                        int r = MathHelper.getInt(randomIn, k, j);
+                        this.setBlockState(worldIn, Blocks.FARMLAND.getDefaultState().withProperty(BlockFarmland.MOISTURE, r), n, 0, i, structureBoundingBoxIn);
+                        this.setBlockState(worldIn, this.crop.getStateFromMeta(r), n, 1, i, structureBoundingBoxIn);
+                    }
 
             this.setBlockState(worldIn, Blocks.WATER.getDefaultState(), 4, 0, 4, structureBoundingBoxIn);
             this.setBlockState(worldIn, Blocks.WATERLILY.getDefaultState(), 4, 1, 4, structureBoundingBoxIn);
@@ -196,7 +181,8 @@ public class StructureRabbitVillagePieces {
 
     public static class House extends Village {
 
-        public House(){}
+        public House() {
+        }
 
         House(Start start, int type, StructureBoundingBox structureBoundingBox, EnumFacing facing) {
             super(start, type);
@@ -262,7 +248,9 @@ public class StructureRabbitVillagePieces {
             setBlockState(worldIn, leaves, 6, 14, 3, structureBoundingBoxIn);
             setBlockState(worldIn, leaves, 0, 14, 3, structureBoundingBoxIn);
             createVillageDoor(worldIn, structureBoundingBoxIn, randomIn);
-            for (int l = 0; l < 6; ++l) for (int k = 0; k < 6; ++k) clearCurrentPositionBlocksUpwards(worldIn, k, 16, l, structureBoundingBoxIn);
+            for (int l = 0; l < 6; ++l)
+                for (int k = 0; k < 6; ++k)
+                    clearCurrentPositionBlocksUpwards(worldIn, k, 16, l, structureBoundingBoxIn);
             this.spawnRabbitmen(worldIn, structureBoundingBoxIn);
             return true;
         }
@@ -273,15 +261,17 @@ public class StructureRabbitVillagePieces {
             setBlockState(worldIn, stairs.withProperty(BlockStairs.FACING, EnumFacing.SOUTH), x, y, 2, boundingBox);
             setBlockState(worldIn, stairs.withProperty(BlockStairs.FACING, EnumFacing.NORTH), x, y, 4, boundingBox);
             setBlockState(worldIn, Blocks.FLOWER_POT.getDefaultState().withProperty(BlockFlowerPot.CONTENTS, BlockFlowerPot.EnumFlowerType.ORANGE_TULIP), x, y + 1, 4, boundingBox);
-            TileEntity tile = worldIn.getTileEntity(new BlockPos(this.getXWithOffset(x, 4), this.getYWithOffset(y+1), this.getZWithOffset(x, 4)));
-            if (tile instanceof TileEntityFlowerPot) ((TileEntityFlowerPot) tile).setItemStack(new ItemStack(Blocks.RED_FLOWER, 1, 5));
+            TileEntity tile = worldIn.getTileEntity(new BlockPos(this.getXWithOffset(x, 4), this.getYWithOffset(y + 1), this.getZWithOffset(x, 4)));
+            if (tile instanceof TileEntityFlowerPot)
+                ((TileEntityFlowerPot) tile).setItemStack(new ItemStack(Blocks.RED_FLOWER, 1, 5));
         }
     }
 
     public static class Path extends Village {
         private int length;
 
-        public Path(){}
+        public Path() {
+        }
 
         Path(Start start, int type, StructureBoundingBox structureBoundingBox, EnumFacing facing) {
             super(start, type);
@@ -290,6 +280,15 @@ public class StructureRabbitVillagePieces {
             this.length = Math.max(structureBoundingBox.getXSize(), structureBoundingBox.getZSize());
         }
 
+        static StructureBoundingBox findPieceBox(List<StructureComponent> structureComponents, Random rand, int structureMinX, int structureMinY, int structureMinZ, EnumFacing facing) {
+            for (int i = 7 * MathHelper.getInt(rand, 3, 5); i >= 7; i -= 7) {
+                StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(structureMinX, structureMinY, structureMinZ, 0, 0, 0, 3, 3, i, facing);
+                if (StructureComponent.findIntersecting(structureComponents, structureboundingbox) == null)
+                    return structureboundingbox;
+            }
+
+            return null;
+        }
 
         protected void writeStructureToNBT(NBTTagCompound tagCompound) {
             super.writeStructureToNBT(tagCompound);
@@ -300,7 +299,6 @@ public class StructureRabbitVillagePieces {
             super.readStructureFromNBT(tagCompound, templateManager);
             this.length = tagCompound.getInteger("Length");
         }
-
 
         public void buildComponent(StructureComponent componentIn, List<StructureComponent> structureComponents, Random rand) {
             boolean flag = false;
@@ -358,15 +356,6 @@ public class StructureRabbitVillagePieces {
             }
         }
 
-         static StructureBoundingBox findPieceBox(List<StructureComponent> structureComponents, Random rand, int structureMinX, int structureMinY, int structureMinZ, EnumFacing facing) {
-            for (int i = 7 * MathHelper.getInt(rand, 3, 5); i >= 7; i -= 7) {
-                StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(structureMinX, structureMinY, structureMinZ, 0, 0, 0, 3, 3, i, facing);
-                if (StructureComponent.findIntersecting(structureComponents, structureboundingbox) == null) return structureboundingbox;
-            }
-
-            return null;
-        }
-
         public boolean addComponentParts(@Nonnull World worldIn, @Nonnull Random randomIn, @Nonnull StructureBoundingBox structureBoundingBoxIn) {
             super.addComponentParts(worldIn, randomIn, structureBoundingBoxIn);
             IBlockState path = Blocks.GRASS_PATH.getDefaultState();
@@ -379,7 +368,8 @@ public class StructureRabbitVillagePieces {
 
                     if (structureBoundingBoxIn.isVecInside(pos)) {
                         pos = worldIn.getTopSolidOrLiquidBlock(pos).down().add(1, 0, 1);
-                        if (pos.getY() < worldIn.getSeaLevel()) pos = new BlockPos(pos.getX(), worldIn.getSeaLevel() - 1, pos.getZ());
+                        if (pos.getY() < worldIn.getSeaLevel())
+                            pos = new BlockPos(pos.getX(), worldIn.getSeaLevel() - 1, pos.getZ());
 
                         while (pos.getY() >= worldIn.getSeaLevel() - 1) {
                             IBlockState state = worldIn.getBlockState(pos);
@@ -406,8 +396,8 @@ public class StructureRabbitVillagePieces {
     }
 
     static class PieceWeight {
-        Class<? extends Village> villagePieceClass;
         final int villagePieceWeight;
+        Class<? extends Village> villagePieceClass;
         int villagePiecesSpawned;
         int villagePiecesLimit;
 
@@ -432,7 +422,8 @@ public class StructureRabbitVillagePieces {
         List<StructureComponent> pendingRoads = new ArrayList<>();
         Biome biome;
 
-        public Start(){}
+        public Start() {
+        }
 
         Start(BiomeProvider biomeProviderIn, Random rand, int x, int z, List<PieceWeight> weights, int terrainType) {
             super(null, 0, rand, x, z);
@@ -454,7 +445,8 @@ public class StructureRabbitVillagePieces {
         int structureType;
         Start startPiece;
 
-        public Village(){}
+        public Village() {
+        }
 
         Village(Start start, int type) {
             super(type);
@@ -462,6 +454,10 @@ public class StructureRabbitVillagePieces {
                 this.structureType = start.structureType;
                 startPiece = start;
             }
+        }
+
+        static boolean canVillageGoDeeper(StructureBoundingBox structureBoundingBox) {
+            return structureBoundingBox != null && structureBoundingBox.minY > 10;
         }
 
         @Override
@@ -524,10 +520,6 @@ public class StructureRabbitVillagePieces {
             return j == 0 ? -1 : i / j;
         }
 
-        static boolean canVillageGoDeeper(StructureBoundingBox structureBoundingBox) {
-            return structureBoundingBox != null && structureBoundingBox.minY > 10;
-        }
-
         void spawnRabbitmen(World worldIn, StructureBoundingBox structureBoundingBox) {
             for (int i = 0; i < 2; ++i) {
                 int j = this.getXWithOffset(2 + i, 2);
@@ -540,7 +532,7 @@ public class StructureRabbitVillagePieces {
                 worldIn.spawnEntity(entity);
             }
         }
-        
+
         void createVillageDoor(World world, StructureBoundingBox structureBoundingBox, Random rand) {
             this.generateDoor(world, structureBoundingBox, rand, 3, 5, 5, EnumFacing.SOUTH, Blocks.ACACIA_DOOR);
         }
@@ -551,7 +543,8 @@ public class StructureRabbitVillagePieces {
     }
 
     public static class Pen extends Village {
-        public Pen(){}
+        public Pen() {
+        }
 
         Pen(Start start, int type, Random rand, int x, int z) {
             super(start, type);
@@ -598,15 +591,20 @@ public class StructureRabbitVillagePieces {
             this.setBlockState(worldIn, torch, 5, 13, 1, structureBoundingBoxIn);
             this.setBlockState(worldIn, torch, 5, 13, 5, structureBoundingBoxIn);
             this.fillWithAir(worldIn, structureBoundingBoxIn, 2, 11, 2, 4, 11, 4);
-            for (int i = 0; i <= 5; ++i) for (int j = 0; j <= 5; ++j) if (j == 0 || j == 5 || i == 0 || i == 5) this.clearCurrentPositionBlocksUpwards(worldIn, j, 22, i, structureBoundingBoxIn);
-            for (int i = 0; i < randomIn.nextInt(3)+1; i++) for (int j = 0; i < randomIn.nextInt(3)+1; i++) for (int k = 0; i < randomIn.nextInt(2)+1; i++) {
-                EntityRabbit entity = new EntityRabbit(worldIn);
-                BlockPos pos = worldIn.getTopSolidOrLiquidBlock(new BlockPos(getXWithOffset(2 + i + j + k, 2), getYWithOffset(12), getZWithOffset(2 + i + j + k, 2)));
-                entity.setLocationAndAngles(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, 0.0F, 0.0F);
-                entity.onInitialSpawn(worldIn.getDifficultyForLocation(entity.getPosition()), null);
-                if(worldIn.getBlockState(pos).getMaterial() != Material.WATER) entity.setNoAI(true);
-                worldIn.spawnEntity(entity);
-            }
+            for (int i = 0; i <= 5; ++i)
+                for (int j = 0; j <= 5; ++j)
+                    if (j == 0 || j == 5 || i == 0 || i == 5)
+                        this.clearCurrentPositionBlocksUpwards(worldIn, j, 22, i, structureBoundingBoxIn);
+            for (int i = 0; i < randomIn.nextInt(3) + 1; i++)
+                for (int j = 0; i < randomIn.nextInt(3) + 1; i++)
+                    for (int k = 0; i < randomIn.nextInt(2) + 1; i++) {
+                        EntityRabbit entity = new EntityRabbit(worldIn);
+                        BlockPos pos = worldIn.getTopSolidOrLiquidBlock(new BlockPos(getXWithOffset(2 + i + j + k, 2), getYWithOffset(12), getZWithOffset(2 + i + j + k, 2)));
+                        entity.setLocationAndAngles(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, 0.0F, 0.0F);
+                        entity.onInitialSpawn(worldIn.getDifficultyForLocation(entity.getPosition()), null);
+                        if (worldIn.getBlockState(pos).getMaterial() != Material.WATER) entity.setNoAI(true);
+                        worldIn.spawnEntity(entity);
+                    }
             return true;
         }
     }

@@ -20,10 +20,10 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import random.beasts.api.main.BeastsUtils;
 import random.beasts.common.entity.item.EntityFallingCoconut;
 import random.beasts.common.init.BeastsItems;
 import random.beasts.common.tileentity.TileEntityCoconut;
-import random.beasts.main.BeastsUtils;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -32,7 +32,7 @@ import java.util.Random;
 @SuppressWarnings("deprecation")
 public class BlockCoconut extends BlockContainer {
 
-    private static final AxisAlignedBB AABB =  new AxisAlignedBB(0.1, 0, 0.25, 0.6, 0.2, 0.75);
+    private static final AxisAlignedBB AABB = new AxisAlignedBB(0.1, 0, 0.25, 0.6, 0.2, 0.75);
 
     public BlockCoconut() {
         super(Material.WOOD);
@@ -60,7 +60,8 @@ public class BlockCoconut extends BlockContainer {
                 IBlockState state = worldIn.getBlockState(pos);
                 worldIn.setBlockToAir(pos);
                 BlockPos blockpos;
-                for (blockpos = pos.down(); (worldIn.isAirBlock(blockpos) || BlockFalling.canFallThrough(worldIn.getBlockState(blockpos))) && blockpos.getY() > 0; blockpos = blockpos.down()) {}
+                for (blockpos = pos.down(); (worldIn.isAirBlock(blockpos) || BlockFalling.canFallThrough(worldIn.getBlockState(blockpos))) && blockpos.getY() > 0; blockpos = blockpos.down()) {
+                }
                 if (blockpos.getY() > 0) worldIn.setBlockState(blockpos.up(), state);
             }
         }
@@ -121,7 +122,8 @@ public class BlockCoconut extends BlockContainer {
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         Random rand = playerIn.getRNG();
-        for(int i = 0; i < 4; ++i) worldIn.spawnParticle(EnumParticleTypes.BLOCK_DUST, hitX + rand.nextDouble(), hitY + rand.nextDouble(), hitZ + rand.nextDouble(), (rand.nextDouble() - 0.5D) * 0.5D, (rand.nextDouble() - 0.5D) * 0.5D, (rand.nextDouble() - 0.5D) * 0.5D, Block.REGISTRY.getIDForObject(Blocks.SAND));
+        for (int i = 0; i < 4; ++i)
+            worldIn.spawnParticle(EnumParticleTypes.BLOCK_DUST, hitX + rand.nextDouble(), hitY + rand.nextDouble(), hitZ + rand.nextDouble(), (rand.nextDouble() - 0.5D) * 0.5D, (rand.nextDouble() - 0.5D) * 0.5D, (rand.nextDouble() - 0.5D) * 0.5D, Block.REGISTRY.getIDForObject(Blocks.SAND));
         removedByPlayer(state, worldIn, pos, playerIn, true);
         dropBlockAsItem(worldIn, pos, state, 0);
         return true;

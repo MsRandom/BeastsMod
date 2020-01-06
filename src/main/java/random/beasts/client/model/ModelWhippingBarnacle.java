@@ -61,8 +61,8 @@ public class ModelWhippingBarnacle extends ModelBase {
         this.toung2.addChild(this.toung3);
         this.toung4.addChild(this.spike4);
         this.toung4.addChild(this.spike3);
-        tongue = new ModelRenderer[] {toung1, toung2, toung3, toung4};
-        spikes = new ModelRenderer[] {spike1, spike2, spike3, spike4};
+        tongue = new ModelRenderer[]{toung1, toung2, toung3, toung4};
+        spikes = new ModelRenderer[]{spike1, spike2, spike3, spike4};
     }
 
     @Override
@@ -78,12 +78,13 @@ public class ModelWhippingBarnacle extends ModelBase {
             toung1.offsetY = 1.2F;
             for (ModelRenderer spike : spikes) spike.rotateAngleX = 0;
             for (ModelRenderer part : tongue) part.rotateAngleZ = 0;
-        }
-        else {
+        } else {
             toung1.offsetY = 0;
             for (ModelRenderer spike : spikes) spike.rotateAngleX = MathHelper.cos(barnacle.ticksExisted) * 0.1f;
-            if(barnacle.impaling) for (int i = 0; i < tongue.length; i++) tongue[i].rotateAngleZ = Math.min(Math.min(barnacle.impalingTicks, 90) * (i + 1) * 0.0125f, 0.65f);
-            else for (int i = 0; i < tongue.length; i++) tongue[i].rotateAngleZ = MathHelper.cos(barnacle.ticksExisted * 0.1f) * (i + 1) * 0.0625f;
+            if (barnacle.impaling) for (int i = 0; i < tongue.length; i++)
+                tongue[i].rotateAngleZ = Math.min(Math.min(barnacle.impalingTicks, 90) * (i + 1) * 0.0125f, 0.65f);
+            else for (int i = 0; i < tongue.length; i++)
+                tongue[i].rotateAngleZ = MathHelper.cos(barnacle.ticksExisted * 0.1f) * (i + 1) * 0.0625f;
         }
     }
 

@@ -8,15 +8,15 @@ import random.beasts.common.world.biome.BiomeDriedReef;
 import random.beasts.common.world.types.WorldTypeBeasts;
 
 public class BeastsBiomes {
-	
-	public static final WorldType BEASTS_WORLD_TYPE = new WorldTypeBeasts();
+
+    public static final WorldType BEASTS_WORLD_TYPE = new WorldTypeBeasts();
     public static final Biome DRIED_REEF = new BiomeDriedReef();
 
     public static void addTypes(Biome biome, BiomeManager.BiomeType mainType, int weight, boolean stronghold, boolean village, BiomeDictionary.Type... types) {
         BiomeManager.addBiome(mainType, new BiomeManager.BiomeEntry(biome, weight));
         BiomeManager.addSpawnBiome(biome);
-        if(stronghold) BiomeManager.addStrongholdBiome(biome);
-        if(village) BiomeManager.addVillageBiome(biome, false);
+        if (stronghold) BiomeManager.addStrongholdBiome(biome);
+        if (village) BiomeManager.addVillageBiome(biome, false);
         BiomeDictionary.addTypes(biome, types);
     }
 

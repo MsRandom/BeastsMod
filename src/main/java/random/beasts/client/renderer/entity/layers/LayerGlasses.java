@@ -2,9 +2,9 @@ package random.beasts.client.renderer.entity.layers;
 
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.util.ResourceLocation;
+import random.beasts.api.main.BeastsReference;
 import random.beasts.client.renderer.entity.RenderPufferfishDog;
 import random.beasts.common.entity.passive.EntityPufferfishDog;
-import random.beasts.main.BeastsReference;
 
 public class LayerGlasses implements LayerRenderer<EntityPufferfishDog> {
     private static final ResourceLocation BUFFORD = new ResourceLocation(BeastsReference.ID, "textures/entity/pufferfish_dog/bufford.png");
@@ -16,7 +16,7 @@ public class LayerGlasses implements LayerRenderer<EntityPufferfishDog> {
     }
 
     public void doRenderLayer(EntityPufferfishDog entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-    	if (entity.hasCustomName() && entity.getCustomNameTag().equalsIgnoreCase("Bufford") && !entity.isInvisible()) {
+        if (entity.hasCustomName() && entity.getCustomNameTag().equalsIgnoreCase("Bufford") && !entity.isInvisible()) {
             this.render.bindTexture(entity.isInflated() ? BUFFORD_INFLATED : BUFFORD);
             this.render.getMainModel().render(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
         }

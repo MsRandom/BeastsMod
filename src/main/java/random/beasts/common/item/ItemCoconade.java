@@ -9,8 +9,8 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
+import random.beasts.api.item.BeastsItem;
 import random.beasts.common.entity.projectile.EntityCoconutBomb;
-import random.beasts.item.BeastsItem;
 
 import java.util.Objects;
 

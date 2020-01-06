@@ -1,11 +1,10 @@
 package random.beasts.common.block;
 
-import java.util.Random;
-
-import javax.annotation.Nonnull;
-
 import net.minecraft.block.material.MapColor;
 import net.minecraft.util.IStringSerializable;
+
+import javax.annotation.Nonnull;
+import java.util.Random;
 
 public enum CoralColor implements IStringSerializable {
     BLUE(MapColor.BLUE),
@@ -20,13 +19,13 @@ public enum CoralColor implements IStringSerializable {
         this.mapColor = color;
     }
 
+    public static CoralColor getRandom(Random rand) {
+        return values()[rand.nextInt(values().length)];
+    }
+
     @Nonnull
     @Override
     public String getName() {
         return name().toLowerCase();
-    }
-
-    public static CoralColor getRandom(Random rand) {
-        return values()[rand.nextInt(values().length)];
     }
 }

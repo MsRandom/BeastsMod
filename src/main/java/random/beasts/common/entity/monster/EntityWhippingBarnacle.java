@@ -14,8 +14,8 @@ import net.minecraft.util.EnumHandSide;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
+import random.beasts.api.entity.IDriedAquatic;
 import random.beasts.common.init.BeastsItems;
-import random.beasts.entity.IDriedAquatic;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -40,16 +40,17 @@ public class EntityWhippingBarnacle extends EntityMob implements IDriedAquatic {
     public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
         livingdata = super.onInitialSpawn(difficulty, livingdata);
         setColor(rand.nextInt(2));
-        for(int i = EnumFacing.values().length - 1; i >= 0; --i) {
+        for (int i = EnumFacing.values().length - 1; i >= 0; --i) {
             EnumFacing facing = EnumFacing.values()[i];
             boolean flag = world.getBlockState(getPosition().offset(facing.getOpposite())).getBlock() == Blocks.STONE;
-            for(int j = 1; j <= 3; j++) flag &= world.getBlockState(getPosition().offset(facing, i)).getBlock() == Blocks.AIR;
-            if(flag) {
+            for (int j = 1; j <= 3; j++)
+                flag &= world.getBlockState(getPosition().offset(facing, i)).getBlock() == Blocks.AIR;
+            if (flag) {
                 setFacing(facing);
                 break;
             }
         }
-        if(getFacing().getHorizontalIndex() != -1) {
+        if (getFacing().getHorizontalIndex() != -1) {
             rotationYaw = getFacing().getHorizontalAngle();
             setSize(1.5f, 0.5f);
         }
@@ -74,25 +75,24 @@ public class EntityWhippingBarnacle extends EntityMob implements IDriedAquatic {
     public void onUpdate() {
         this.world.profiler.startSection("entityBaseTick");
         EntityLivingBase[] entities = world.getEntitiesWithinAABB(EntityLivingBase.class, getEntityBoundingBox().grow(5)).stream().filter(e -> !(e instanceof IDriedAquatic)).toArray(EntityLivingBase[]::new);
-        if(entities.length == 0) {
+        if (entities.length == 0) {
             ready = false;
             impaling = false;
             impalingTicks = 0;
         } else for (EntityLivingBase entity : entities) {
-            if(!ready) ready = true;
-            if(getDistanceSq(entity) < 2) {
+            if (!ready) ready = true;
+            if (getDistanceSq(entity) < 2) {
                 EnumFacing facing = getFacing();
                 EnumFacing.Axis axis = facing.getAxis();
                 double relativePos;
                 if (axis == EnumFacing.Axis.Z) relativePos = entity.posZ - this.posZ;
                 else relativePos = entity.posX - this.posX;
                 getLookHelper().setLookPositionWithEntity(entity, 0, 0);
-                if(impalingTicks > 0) if(impalingTicks++ == 12) attackEntityAsMob(entity);
+                if (impalingTicks > 0) if (impalingTicks++ == 12) attackEntityAsMob(entity);
                 if (Math.abs(relativePos) < 0.5f) {
                     impaling = true;
-                    if(impalingTicks == 0) impalingTicks = 1;
-                }
-                else if (MathHelper.cos(limbSwing) < relativePos) {
+                    if (impalingTicks == 0) impalingTicks = 1;
+                } else if (MathHelper.cos(limbSwing) < relativePos) {
                     impaling = false;
                     impalingTicks = 0;
                 }
@@ -120,38 +120,42 @@ public class EntityWhippingBarnacle extends EntityMob implements IDriedAquatic {
     }
 
     @Override
-    protected void collideWithEntity(Entity entityIn) {}
+    protected void collideWithEntity(Entity entityIn) {
+    }
 
     @Override
-    public void applyEntityCollision(Entity entityIn) {}
+    public void applyEntityCollision(Entity entityIn) {
+    }
 
     @Override
-    public void knockBack(Entity entityIn, float strength, double xRatio, double zRatio) {}
+    public void knockBack(Entity entityIn, float strength, double xRatio, double zRatio) {
+    }
 
     @Override
     public boolean getCanSpawnHere() {
         boolean flag = false;
-        for(EnumFacing facing : EnumFacing.values()) if(world.getBlockState(getPosition().offset(facing)).getBlock() == Blocks.STONE) {
-            flag = true;
-            break;
-        }
+        for (EnumFacing facing : EnumFacing.values())
+            if (world.getBlockState(getPosition().offset(facing)).getBlock() == Blocks.STONE) {
+                flag = true;
+                break;
+            }
         return flag;
-    }
-
-    public void setFacing(EnumFacing facing) {
-        this.dataManager.set(FACING, facing.getIndex());
     }
 
     public EnumFacing getFacing() {
         return EnumFacing.values()[this.dataManager.get(FACING)];
     }
 
-    public void setColor(int color) {
-        this.dataManager.set(COLOR, color);
+    public void setFacing(EnumFacing facing) {
+        this.dataManager.set(FACING, facing.getIndex());
     }
 
     public int getColor() {
         return this.dataManager.get(COLOR);
+    }
+
+    public void setColor(int color) {
+        this.dataManager.set(COLOR, color);
     }
 
     public EnumCreatureAttribute getCreatureAttribute() {
@@ -169,7 +173,8 @@ public class EntityWhippingBarnacle extends EntityMob implements IDriedAquatic {
     }
 
     @Override
-    public void setItemStackToSlot(EntityEquipmentSlot slotIn, ItemStack stack) {}
+    public void setItemStackToSlot(EntityEquipmentSlot slotIn, ItemStack stack) {
+    }
 
     @Override
     public EnumHandSide getPrimaryHand() {

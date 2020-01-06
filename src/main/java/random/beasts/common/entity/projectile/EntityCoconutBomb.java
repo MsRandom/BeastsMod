@@ -23,13 +23,15 @@ public class EntityCoconutBomb extends EntityThrowable {
 
     @SideOnly(Side.CLIENT)
     public void handleStatusUpdate(byte id) {
-        if (id == 3) for (int i = 0; i < 8; ++i) this.world.spawnParticle(EnumParticleTypes.ITEM_CRACK, this.posX, this.posY, this.posZ, ((double)this.rand.nextFloat() - 0.5D) * 0.08D, ((double)this.rand.nextFloat() - 0.5D) * 0.08D, ((double)this.rand.nextFloat() - 0.5D) * 0.08D, Item.getIdFromItem(BeastsItems.COCONADE));
+        if (id == 3) for (int i = 0; i < 8; ++i)
+            this.world.spawnParticle(EnumParticleTypes.ITEM_CRACK, this.posX, this.posY, this.posZ, ((double) this.rand.nextFloat() - 0.5D) * 0.08D, ((double) this.rand.nextFloat() - 0.5D) * 0.08D, ((double) this.rand.nextFloat() - 0.5D) * 0.08D, Item.getIdFromItem(BeastsItems.COCONADE));
     }
 
     protected void onImpact(RayTraceResult result) {
         if (!this.world.isRemote && result.typeOfHit != RayTraceResult.Type.MISS) {
             BlockPos pos = result.typeOfHit == RayTraceResult.Type.BLOCK ? result.getBlockPos() : result.entityHit.getPosition();
-            if (result.typeOfHit == RayTraceResult.Type.ENTITY) result.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 0.0F);
+            if (result.typeOfHit == RayTraceResult.Type.ENTITY)
+                result.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 0.0F);
             this.world.createExplosion(this, pos.getX(), pos.getY(), pos.getZ(), 1.0F, true);
             this.world.setEntityState(this, (byte) 3);
             this.setDead();

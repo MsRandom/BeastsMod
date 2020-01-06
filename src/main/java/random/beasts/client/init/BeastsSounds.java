@@ -2,7 +2,7 @@ package random.beasts.client.init;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import random.beasts.main.BeastsReference;
+import random.beasts.api.main.BeastsReference;
 
 import java.util.ArrayList;
 import java.util.List;

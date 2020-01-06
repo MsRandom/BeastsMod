@@ -1,7 +1,5 @@
 package random.beasts.common.entity.item;
 
-import java.util.ArrayList;
-
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityHanging;
@@ -17,11 +15,12 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import random.beasts.common.init.BeastsItems;
 
+import java.util.ArrayList;
+
 public class EntityBeastsPainting extends EntityHanging implements IEntityAdditionalSpawnData {
     public BeastsPainting art;
 
-    public EntityBeastsPainting(World worldIn)
-    {
+    public EntityBeastsPainting(World worldIn) {
         super(worldIn);
     }
 
@@ -45,11 +44,6 @@ public class EntityBeastsPainting extends EntityHanging implements IEntityAdditi
         this.art = art;
     }
 
-    @Override
-    public ItemStack getPickedResult(RayTraceResult target) {
-        return new ItemStack(BeastsItems.BEASTS_PAINTING, 1);
-    }
-
     @SideOnly(Side.CLIENT)
     public EntityBeastsPainting(World worldIn, BlockPos pos, EnumFacing side, String name) {
         this(worldIn, pos, side);
@@ -62,6 +56,11 @@ public class EntityBeastsPainting extends EntityHanging implements IEntityAdditi
         }
 
         this.updateFacingWithBoundingBox(side);
+    }
+
+    @Override
+    public ItemStack getPickedResult(RayTraceResult target) {
+        return new ItemStack(BeastsItems.BEASTS_PAINTING, 1);
     }
 
     public void writeEntityToNBT(NBTTagCompound tagCompound) {
@@ -87,7 +86,7 @@ public class EntityBeastsPainting extends EntityHanging implements IEntityAdditi
 
     public void onBroken(Entity entity) {
         if (entity instanceof EntityPlayer) {
-            EntityPlayer entityplayer = (EntityPlayer)entity;
+            EntityPlayer entityplayer = (EntityPlayer) entity;
             if (entityplayer.capabilities.isCreativeMode) return;
         }
 
@@ -128,7 +127,8 @@ public class EntityBeastsPainting extends EntityHanging implements IEntityAdditi
     }
 
     @Override
-    public void playPlaceSound() {}
+    public void playPlaceSound() {
+    }
 
     public enum BeastsPainting {
         WHALE("Whale", 32, 16),

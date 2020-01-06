@@ -5,7 +5,7 @@ import net.minecraft.init.MobEffects;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
-import random.beasts.item.BeastsToolSet;
+import random.beasts.api.item.BeastsToolSet;
 
 public class ToolSetJellyWood extends BeastsToolSet {
     public ToolSetJellyWood() {

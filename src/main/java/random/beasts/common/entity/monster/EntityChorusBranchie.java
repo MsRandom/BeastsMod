@@ -15,12 +15,6 @@ public class EntityChorusBranchie extends EntityBranchieBase {
         super(worldIn);
     }
 
-    @Nullable
-    @Override
-    protected Item getDropItem() {
-        return Items.CHORUS_FRUIT;
-    }
-
     public static EntityChorusBranchie create(BlockEvent.BreakEvent event) {
         EntityChorusBranchie entity = new EntityChorusBranchie(event.getWorld());
         BlockPos pos = event.getPos();
@@ -29,5 +23,11 @@ public class EntityChorusBranchie extends EntityBranchieBase {
         List<EntityChorusBranchie> branchies = event.getWorld().getEntitiesWithinAABB(EntityChorusBranchie.class, new AxisAlignedBB(event.getPos()).grow(10), branchie -> branchie != entity);
         branchies.forEach(branchie -> branchie.setRevengeTarget(event.getPlayer()));
         return entity;
+    }
+
+    @Nullable
+    @Override
+    protected Item getDropItem() {
+        return Items.CHORUS_FRUIT;
     }
 }

@@ -7,13 +7,13 @@ import net.minecraft.world.biome.BiomeProviderSingle;
 import random.beasts.common.init.BeastsBiomes;
 
 public class WorldTypeBeasts extends WorldType {
-	//why is this a thing?
-	public WorldTypeBeasts(){
-		super("beasts");
-	}
+    //why is this a thing?
+    public WorldTypeBeasts() {
+        super("beasts");
+    }
 
-	@Override
-	public BiomeProvider getBiomeProvider(World world) {
-		return new BiomeProviderSingle(BeastsBiomes.DRIED_REEF);
-	}
+    @Override
+    public BiomeProvider getBiomeProvider(World world) {
+        return new BiomeProviderSingle(BeastsBiomes.DRIED_REEF);
+    }
 }

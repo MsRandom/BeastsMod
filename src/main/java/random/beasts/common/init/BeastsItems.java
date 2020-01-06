@@ -6,11 +6,11 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.*;
 import net.minecraft.potion.PotionEffect;
 import net.minecraftforge.common.util.EnumHelper;
+import random.beasts.api.item.BeastsFood;
+import random.beasts.api.item.BeastsItem;
+import random.beasts.api.item.BeastsSword;
+import random.beasts.api.item.BeastsToolSet;
 import random.beasts.common.item.*;
-import random.beasts.item.BeastsFood;
-import random.beasts.item.BeastsItem;
-import random.beasts.item.BeastsSword;
-import random.beasts.item.BeastsToolSet;
 
 public class BeastsItems {
     public static final Item ICON = new BeastsItem("icon", false);

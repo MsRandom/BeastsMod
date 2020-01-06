@@ -11,7 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
-import random.beasts.block.BeastsBlock;
+import random.beasts.api.block.BeastsBlock;
 import random.beasts.common.item.ItemCoralBlock;
 
 @SuppressWarnings("deprecation")
@@ -40,10 +40,9 @@ public class BlockCoral extends BeastsBlock {
     public IBlockState getStateFromMeta(int meta) {
         return getDefaultState().withProperty(COLOR, CoralColor.values()[meta]);
     }
-    
+
     @Override
-    public int damageDropped(IBlockState state)
-    {
+    public int damageDropped(IBlockState state) {
         return state.getValue(COLOR).ordinal();
     }
 

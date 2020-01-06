@@ -11,9 +11,9 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import random.beasts.api.main.BeastsReference;
 import random.beasts.client.model.ModelCoconut;
 import random.beasts.common.entity.monster.EntityCoconutCrab;
-import random.beasts.main.BeastsReference;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -43,8 +43,8 @@ public class RenderCoconutCrab extends RenderLiving<EntityCoconutCrab> {
         private EntityItem item = new EntityItem(Minecraft.getMinecraft().world);
 
         public void doRenderLayer(EntityCoconutCrab entity, float f, float f1, float f2, float f3, float f4, float f5, float f6) {
-            if(!entity.getHeldItem(EnumHand.MAIN_HAND).isEmpty()) {
-                if(!entity.isInvisible() && entity.getHeldItem(EnumHand.MAIN_HAND) != ItemStack.EMPTY) {
+            if (!entity.getHeldItem(EnumHand.MAIN_HAND).isEmpty()) {
+                if (!entity.isInvisible() && entity.getHeldItem(EnumHand.MAIN_HAND) != ItemStack.EMPTY) {
                     item.hoverStart = 0;
                     item.setItem(entity.getHeldItem(EnumHand.MAIN_HAND));
                     GlStateManager.pushMatrix();

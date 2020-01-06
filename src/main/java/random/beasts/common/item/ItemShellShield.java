@@ -3,12 +3,10 @@ package random.beasts.common.item;
 import net.minecraft.item.ItemShield;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.translation.I18n;
-import random.beasts.main.BeastsUtils;
+import random.beasts.api.main.BeastsUtils;
 
-public class ItemShellShield extends ItemShield
-{
-    public ItemShellShield()
-    {
+public class ItemShellShield extends ItemShield {
+    public ItemShellShield() {
         this.setMaxDamage(168);
         BeastsUtils.addToRegistry(this, "shell_shield");
     }

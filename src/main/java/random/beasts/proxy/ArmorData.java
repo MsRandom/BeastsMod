@@ -34,7 +34,7 @@ class ArmorData {
         TEXTURES.set(EntityEquipmentSlot.CHEST, BeastsItems.PUFFER_CHEST, "puffer_chest");
         TEXTURES.set(EntityEquipmentSlot.HEAD, BeastsItems.PUFFER_HELMET, "puffer_helmet");
     }
-    
+
     static class ArmorMap<T> extends HashMap<EntityEquipmentSlot, Map<Item, T>> {
         T getFrom(Item item, EntityEquipmentSlot slot) {
             return computeIfAbsent(slot, k -> new HashMap<>()).get(item);
@@ -43,5 +43,5 @@ class ArmorData {
         private void set(EntityEquipmentSlot slot, Item item, T object) {
             computeIfAbsent(slot, k -> new HashMap<>()).put(item, object);
         }
-    } 
+    }
 }

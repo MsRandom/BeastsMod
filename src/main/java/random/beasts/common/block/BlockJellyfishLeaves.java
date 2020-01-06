@@ -12,9 +12,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import random.beasts.block.BeastsLeaves;
+import random.beasts.api.block.BeastsLeaves;
+import random.beasts.api.main.BeastsUtils;
 import random.beasts.common.init.BeastsBlocks;
-import random.beasts.main.BeastsUtils;
 
 import java.util.Random;
 
@@ -47,7 +47,7 @@ public class BlockJellyfishLeaves extends BeastsLeaves {
     public Item getItemDropped(IBlockState state, Random rand, int fortune) {
         return Item.getItemFromBlock(BeastsBlocks.JELLYWOOD_SAPLING);
     }
-    
+
     public IBlockState getStateFromMeta(int meta) {
         return this.getDefaultState().withProperty(DECAYABLE, (meta & 4) == 0).withProperty(CHECK_DECAY, (meta & 8) > 0);
     }
@@ -58,7 +58,7 @@ public class BlockJellyfishLeaves extends BeastsLeaves {
         if (state.getValue(CHECK_DECAY)) i |= 8;
         return i;
     }
-    
+
     protected BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, CHECK_DECAY, DECAYABLE);
     }

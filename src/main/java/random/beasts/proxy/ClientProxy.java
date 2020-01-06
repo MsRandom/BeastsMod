@@ -11,7 +11,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
-import random.beasts.block.BeastsSlab;
+import random.beasts.api.block.BeastsSlab;
+import random.beasts.api.item.IHandleMeta;
+import random.beasts.api.main.BeastsReference;
+import random.beasts.api.main.BeastsRegistries;
 import random.beasts.client.renderer.entity.*;
 import random.beasts.client.renderer.tileentity.TileEntityCoconutRenderer;
 import random.beasts.common.block.BlockAnemoneMouth;
@@ -24,9 +27,6 @@ import random.beasts.common.entity.passive.*;
 import random.beasts.common.entity.projectile.EntityCoconutBomb;
 import random.beasts.common.init.BeastsBlocks;
 import random.beasts.common.tileentity.TileEntityCoconut;
-import random.beasts.init.BeastsRegistries;
-import random.beasts.item.IHandleMeta;
-import random.beasts.main.BeastsReference;
 
 import java.util.Objects;
 
@@ -60,6 +60,7 @@ public class ClientProxy extends CommonProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntityLegfish.class, RenderLegfish::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityScallop.class, RenderScallop::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityThrownCoconut.class, RenderThrownCoconut::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityTrimola.class, RenderTrimola::new);
 		registerTileEntityRenders();
 	}
 
@@ -102,7 +103,7 @@ public class ClientProxy extends CommonProxy {
 		String texture = ArmorData.TEXTURES.getFrom(armorItem, armorSlot);
 		return texture == null ? null : BeastsReference.ID + ":textures/models/armor/" + texture + ".png";
 	}
-	
+
 	public void setGraphicsLevel(BlockPalmTreeLeaves block, boolean enabled) {
 		block.setGraphicsLevel(enabled);
 	}

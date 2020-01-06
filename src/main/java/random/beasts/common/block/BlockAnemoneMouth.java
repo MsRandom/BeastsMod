@@ -12,7 +12,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.Tuple;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import random.beasts.block.BeastsAnemoneBlock;
+import random.beasts.api.block.BeastsAnemoneBlock;
 import random.beasts.common.init.BeastsItems;
 
 import java.util.HashMap;
@@ -41,11 +41,11 @@ public class BlockAnemoneMouth extends BeastsAnemoneBlock {
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         ItemStack stack = playerIn.getHeldItem(hand);
-        if(stack.getItem() == BeastsItems.MEAT_SCRAPES) {
+        if (stack.getItem() == BeastsItems.MEAT_SCRAPES) {
             if (!playerIn.capabilities.isCreativeMode) stack.shrink(1);
             IBlockState newState = state.cycleProperty(FED);
             int fed = newState.getValue(FED);
-            if(fed == 0 || (fed > 3 && playerIn.getRNG().nextBoolean())) {
+            if (fed == 0 || (fed > 3 && playerIn.getRNG().nextBoolean())) {
                 if (dropTable == null) {
                     dropTable = new HashMap<>();
                     dropTable.put(new ItemStack(Items.BONE), new Tuple<>(1, 2));
@@ -57,7 +57,8 @@ public class BlockAnemoneMouth extends BeastsAnemoneBlock {
                 }
                 ItemStack item = items[playerIn.getRNG().nextInt(items.length)];
                 Tuple<Integer, Integer> chance = dropTable.get(item);
-                for (int i = 0; i < playerIn.getRNG().nextInt(chance.getSecond()) + chance.getFirst(); i++) spawnAsEntity(worldIn, pos, item.copy());
+                for (int i = 0; i < playerIn.getRNG().nextInt(chance.getSecond()) + chance.getFirst(); i++)
+                    spawnAsEntity(worldIn, pos, item.copy());
                 if (fed != 0) newState = state.withProperty(FED, 0);
             }
             worldIn.setBlockState(pos, newState);

@@ -4,8 +4,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
+import random.beasts.api.item.BeastsFood;
 import random.beasts.common.init.BeastsItems;
-import random.beasts.item.BeastsFood;
 
 public class BeastsCoconutBowl extends BeastsFood {
 
@@ -19,7 +19,7 @@ public class BeastsCoconutBowl extends BeastsFood {
 
     @Override
     protected void onFoodEaten(ItemStack stack, World worldIn, EntityPlayer player) {
-        for(PotionEffect effect : effects) player.addPotionEffect(effect);
+        for (PotionEffect effect : effects) player.addPotionEffect(effect);
         player.inventory.add(1, new ItemStack(BeastsItems.COCONUT_BOWL));
         super.onFoodEaten(stack, worldIn, player);
     }

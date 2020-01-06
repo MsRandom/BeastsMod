@@ -13,8 +13,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import random.beasts.api.main.BeastsReference;
 import random.beasts.common.entity.item.EntityBeastsPainting;
-import random.beasts.main.BeastsReference;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,8 +23,7 @@ import java.util.Map;
 public class RenderBeastsPainting extends Render<EntityBeastsPainting> {
     private static final Map<EntityBeastsPainting.BeastsPainting, ResourceLocation> TEXTURES = new HashMap<>();
 
-    public RenderBeastsPainting(RenderManager renderManagerIn)
-    {
+    public RenderBeastsPainting(RenderManager renderManagerIn) {
         super(renderManagerIn);
     }
 
@@ -51,26 +50,26 @@ public class RenderBeastsPainting extends Render<EntityBeastsPainting> {
         GlStateManager.popMatrix();
         super.doRender(entity, x, y, z, entityYaw, partialTicks);
     }
-    
+
     protected ResourceLocation getEntityTexture(EntityBeastsPainting entity) {
         return TEXTURES.putIfAbsent(entity.art, new ResourceLocation(BeastsReference.ID, "textures/painting/" + entity.art.title.toLowerCase().replace(" ", "_") + ".png"));
     }
 
     private void renderBeastsPainting(EntityBeastsPainting painting, int width, int height) {
-        float f = (float)(-width) / 2.0F;
-        float f1 = (float)(-height) / 2.0F;
+        float f = (float) (-width) / 2.0F;
+        float f1 = (float) (-height) / 2.0F;
 
         for (int i = 0; i < width / 16; ++i) {
             for (int j = 0; j < height / 16; ++j) {
-                float f15 = f + (float)((i + 1) * 16);
-                float f16 = f + (float)(i * 16);
-                float f17 = f1 + (float)((j + 1) * 16);
-                float f18 = f1 + (float)(j * 16);
+                float f15 = f + (float) ((i + 1) * 16);
+                float f16 = f + (float) (i * 16);
+                float f17 = f1 + (float) ((j + 1) * 16);
+                float f18 = f1 + (float) (j * 16);
                 this.setLightmap(painting, (f15 + f16) / 2.0F, (f17 + f18) / 2.0F);
-                float f19 = (float)(width - i * 16) / width;
-                float f20 = (float)(width - (i + 1) * 16) / width;
-                float f21 = (float)(height - j * 16) / height;
-                float f22 = (float)(height - (j + 1) * 16) / height;
+                float f19 = (float) (width - i * 16) / width;
+                float f20 = (float) (width - (i + 1) * 16) / width;
+                float f21 = (float) (height - j * 16) / height;
+                float f22 = (float) (height - (j + 1) * 16) / height;
                 Tessellator tessellator = Tessellator.getInstance();
                 BufferBuilder bufferbuilder = tessellator.getBuffer();
                 bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX_NORMAL);
@@ -117,7 +116,7 @@ public class RenderBeastsPainting extends Render<EntityBeastsPainting> {
         int l = this.renderManager.world.getCombinedLight(new BlockPos(i, j, k), 0);
         int i1 = l % 65536;
         int j1 = l / 65536;
-        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)i1, (float)j1);
+        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) i1, (float) j1);
         GlStateManager.color(1.0F, 1.0F, 1.0F);
     }
 }

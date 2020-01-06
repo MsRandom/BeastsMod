@@ -2,8 +2,8 @@ package random.beasts.client.renderer.entity;
 
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
+import random.beasts.api.main.BeastsReference;
 import random.beasts.common.entity.monster.EntityWoodBranchie;
-import random.beasts.main.BeastsReference;
 
 import java.util.HashMap;
 import java.util.Map;

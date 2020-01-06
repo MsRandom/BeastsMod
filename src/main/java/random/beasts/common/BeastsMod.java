@@ -7,7 +7,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import org.apache.logging.log4j.Logger;
-import random.beasts.main.BeastsReference;
+import random.beasts.api.main.BeastsReference;
 import random.beasts.proxy.CommonProxy;
 
 @SuppressWarnings("unused")

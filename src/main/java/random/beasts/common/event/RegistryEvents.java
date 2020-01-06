@@ -13,11 +13,11 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityEntry;
+import random.beasts.api.main.BeastsReference;
+import random.beasts.api.main.BeastsRegistries;
 import random.beasts.client.init.BeastsSounds;
 import random.beasts.common.BeastsMod;
 import random.beasts.common.init.*;
-import random.beasts.init.BeastsRegistries;
-import random.beasts.main.BeastsReference;
 
 import static net.minecraftforge.common.BiomeDictionary.Type.*;
 

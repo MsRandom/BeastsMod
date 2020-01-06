@@ -52,6 +52,7 @@ public class EntityRabbitman extends EntityAgeable implements INpc, IMerchant {
     public static final int VARIANTS = 6;
     private static final Trade[][] TRADES = new Trade[][]{{new MoneyTrade(Items.LEATHER_BOOTS, 3, 1), new MoneyTrade(Items.LEATHER_LEGGINGS, 4, 1), new MoneyTrade(Items.LEATHER_CHESTPLATE, 4, 1), new MoneyTrade(Items.LEATHER_HELMET, 3, 1)}, {new Trade(Items.CARROT, BeastsItems.CARROT_COIN, new EntityVillager.PriceInfo(10, 30), new EntityVillager.PriceInfo(3, 6)), new MoneyTrade(Items.CARROT, new EntityVillager.PriceInfo(3, 6), new EntityVillager.PriceInfo(10, 30)), new Trade(Items.WOODEN_HOE, BeastsItems.CARROT_COIN, 1, 2), new MoneyTrade(Items.WOODEN_HOE, 2, 1)}, {new Trade(Items.GOLDEN_CARROT, BeastsItems.CARROT_COIN, new EntityVillager.PriceInfo(2, 4), new EntityVillager.PriceInfo(2, 4)), new MoneyTrade(Items.GOLDEN_CARROT, new EntityVillager.PriceInfo(2, 4), new EntityVillager.PriceInfo(2, 4)), new Trade(Items.BLAZE_ROD, BeastsItems.CARROT_COIN, new EntityVillager.PriceInfo(3, 5), new EntityVillager.PriceInfo(5, 10)), new MoneyTrade(Items.GOLDEN_CARROT, new EntityVillager.PriceInfo(5, 10), new EntityVillager.PriceInfo(3, 5)), new MoneyTrade(PotionUtils.addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.LEAPING), 10, 1)}, {new Trade(Items.PAPER, BeastsItems.CARROT_COIN, new EntityVillager.PriceInfo(10, 30), new EntityVillager.PriceInfo(3, 6)), new MoneyTrade(Items.PAPER, new EntityVillager.PriceInfo(3, 6), new EntityVillager.PriceInfo(10, 30)), new Trade(Items.BOOK, BeastsItems.CARROT_COIN, new EntityVillager.PriceInfo(5, 15), new EntityVillager.PriceInfo(3, 6)), new MoneyTrade(Items.BOOK, new EntityVillager.PriceInfo(3, 6), new EntityVillager.PriceInfo(5, 15))}, {new Trade(Items.RABBIT, BeastsItems.CARROT_COIN, new EntityVillager.PriceInfo(2, 6), new EntityVillager.PriceInfo(1, 2)), new MoneyTrade(Items.RABBIT, new EntityVillager.PriceInfo(1, 2), new EntityVillager.PriceInfo(2, 6)), new Trade(Items.RABBIT_FOOT, BeastsItems.CARROT_COIN, new EntityVillager.PriceInfo(1, 2), new EntityVillager.PriceInfo(5, 10)), new MoneyTrade(Items.RABBIT_FOOT, new EntityVillager.PriceInfo(5, 10), new EntityVillager.PriceInfo(1, 2))}, {new MoneyTrade(BeastsItems.DIAMOND_CARROT, new EntityVillager.PriceInfo(4, 6), new EntityVillager.PriceInfo(1, 1))}};
     private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityRabbitman.class, DataSerializers.VARINT);
+    private final InventoryBasic inv;
     public boolean hasTarget = false;
     private int randomTickDivider;
     private boolean isMating;
@@ -61,7 +62,6 @@ public class EntityRabbitman extends EntityAgeable implements INpc, IMerchant {
     private boolean needsInitialization;
     private boolean isWillingToMate;
     private int wealth;
-    private final InventoryBasic inv;
     private int trades = 1;
     private Trade[] variantTrades;
     private int ticksSinceHit = 0;
@@ -99,7 +99,7 @@ public class EntityRabbitman extends EntityAgeable implements INpc, IMerchant {
     @Nullable
     @Override
     public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
-        final int variant = rand.nextInt(Math.round(50/(difficulty.getAdditionalDifficulty()+1)))== 0 ? 5 : this.rand.nextInt(VARIANTS - 1);
+        final int variant = rand.nextInt(Math.round(50 / (difficulty.getAdditionalDifficulty() + 1))) == 0 ? 5 : this.rand.nextInt(VARIANTS - 1);
         Trade[] trades = TRADES[variant];
         int currentIndex = 3, randomIndex;
         Trade temporaryValue;
@@ -108,38 +108,39 @@ public class EntityRabbitman extends EntityAgeable implements INpc, IMerchant {
         while (currentIndex != 0) {
             randomIndex = rand.nextInt(currentIndex);
             currentIndex -= 1;
-            if(currentIndex < trades.length-1) {
+            if (currentIndex < trades.length - 1) {
                 temporaryValue = trades[currentIndex];
                 trades[currentIndex] = trades[randomIndex];
                 trades[randomIndex] = temporaryValue;
             }
         }
         this.variantTrades = trades;
-        for (int i = 0; i < 2; i++) if(variantTrades.length-1 >= i) variantTrades[i].addMerchantRecipe(this, buyingList, rand);
+        for (int i = 0; i < 2; i++)
+            if (variantTrades.length - 1 >= i) variantTrades[i].addMerchantRecipe(this, buyingList, rand);
         return livingdata;
     }
 
     @Nullable
     @Override
     public EntityAgeable createChild(@Nonnull EntityAgeable ageable) {
-        if(ageable instanceof EntityRabbitman) {
+        if (ageable instanceof EntityRabbitman) {
             EntityRabbitman child = new EntityRabbitman(this.world);
             child.onInitialSpawn(this.world.getDifficultyForLocation(child.getPos()), null);
-            child.setVariant(new int[]{this.getVariant(), ((EntityRabbitman)ageable).getVariant()}[rand.nextInt(2)]);
+            child.setVariant(new int[]{this.getVariant(), ((EntityRabbitman) ageable).getVariant()}[rand.nextInt(2)]);
             return child;
         }
         return null;
-    }
-
-    @Override
-    public void setCustomer(@Nullable EntityPlayer player) {
-        this.customer = player;
     }
 
     @Nullable
     @Override
     public EntityPlayer getCustomer() {
         return this.customer;
+    }
+
+    @Override
+    public void setCustomer(@Nullable EntityPlayer player) {
+        this.customer = player;
     }
 
     @Nullable
@@ -168,7 +169,8 @@ public class EntityRabbitman extends EntityAgeable implements INpc, IMerchant {
         }
 
         if (recipe.getItemToBuy().getItem() == BeastsItems.CARROT_COIN) this.wealth += recipe.getItemToBuy().getCount();
-        if (recipe.getRewardsExp()) this.world.spawnEntity(new EntityXPOrb(this.world, this.posX, this.posY + 0.5D, this.posZ, i));
+        if (recipe.getRewardsExp())
+            this.world.spawnEntity(new EntityXPOrb(this.world, this.posX, this.posY + 0.5D, this.posZ, i));
     }
 
     @Override
@@ -238,7 +240,8 @@ public class EntityRabbitman extends EntityAgeable implements INpc, IMerchant {
     private boolean hasEnoughItems(boolean multiple) {
         for (int i = 0; i < this.inv.getSizeInventory(); ++i) {
             ItemStack stack = this.inv.getStackInSlot(i);
-            if(!stack.isEmpty() && stack.getItem() == BeastsItems.CARROT_COIN && stack.getCount() >= (multiple ? 6 : 3)) return true;
+            if (!stack.isEmpty() && stack.getItem() == BeastsItems.CARROT_COIN && stack.getCount() >= (multiple ? 6 : 3))
+                return true;
         }
         return false;
     }
@@ -252,7 +255,7 @@ public class EntityRabbitman extends EntityAgeable implements INpc, IMerchant {
     }
 
     protected void onGrowingAdult() {
-        if(getVariant() == 1) this.tasks.addTask(8, new AIHarvestCarrots());
+        if (getVariant() == 1) this.tasks.addTask(8, new AIHarvestCarrots());
         super.onGrowingAdult();
     }
 
@@ -273,12 +276,15 @@ public class EntityRabbitman extends EntityAgeable implements INpc, IMerchant {
             --this.timeUntilReset;
             if (this.timeUntilReset <= 0) {
                 if (this.needsInitialization) {
-                    for (MerchantRecipe merchantrecipe : this.buyingList) if (merchantrecipe.isRecipeDisabled()) merchantrecipe.increaseMaxTradeUses(this.rand.nextInt(6) + this.rand.nextInt(6) + 2);
+                    for (MerchantRecipe merchantrecipe : this.buyingList)
+                        if (merchantrecipe.isRecipeDisabled())
+                            merchantrecipe.increaseMaxTradeUses(this.rand.nextInt(6) + this.rand.nextInt(6) + 2);
                     this.needsInitialization = false;
                 }
                 this.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 200, 0));
                 trades++;
-                for (int i = 2*(trades-1); i < 2*trades; i++) if(variantTrades.length-1 >= i) variantTrades[i].addMerchantRecipe(this, buyingList, rand);
+                for (int i = 2 * (trades - 1); i < 2 * trades; i++)
+                    if (variantTrades.length - 1 >= i) variantTrades[i].addMerchantRecipe(this, buyingList, rand);
             }
         }
         super.updateAITasks();
@@ -286,27 +292,31 @@ public class EntityRabbitman extends EntityAgeable implements INpc, IMerchant {
 
     public void onUpdate() {
         super.onUpdate();
-        if (!this.world.isRemote && this.getVariant() == 5 && this.world.getDifficulty() == EnumDifficulty.PEACEFUL) this.setDead();
+        if (!this.world.isRemote && this.getVariant() == 5 && this.world.getDifficulty() == EnumDifficulty.PEACEFUL)
+            this.setDead();
     }
 
     @Override
     public void onLivingUpdate() {
         super.onLivingUpdate();
-        if(!world.isRemote) {
+        if (!world.isRemote) {
             if (!this.isChild() && this.getAttackTarget() == null && this.getVariant() == 5) {
                 List<EntityRabbitman> list = world.getEntitiesWithinAABB(EntityRabbitman.class, this.getEntityBoundingBox().grow(32), target -> target != null && target.getVariant() != 5);
                 if (list.isEmpty()) {
                     EntityPlayer player = null;
-                    for(EntityPlayer p : world.getEntitiesWithinAABB(EntityPlayer.class, this.getEntityBoundingBox().grow(26))) if(player == null || (p.isEntityInvulnerable(DamageSource.causeMobDamage(this)) && p.getDistance(this) < player.getDistance(this))) player = p;
-                    if(player != null) {
+                    for (EntityPlayer p : world.getEntitiesWithinAABB(EntityPlayer.class, this.getEntityBoundingBox().grow(26)))
+                        if (player == null || (p.isEntityInvulnerable(DamageSource.causeMobDamage(this)) && p.getDistance(this) < player.getDistance(this)))
+                            player = p;
+                    if (player != null) {
                         this.setAttackTarget(player);
                         this.setHeldItem(EnumHand.MAIN_HAND, new ItemStack(BeastsItems.DIAMOND_CARROT));
                         List<EntityRabbitman> innocents = world.getEntitiesWithinAABB(EntityRabbitman.class, this.getEntityBoundingBox().grow(36), target -> target != this);
-                        for (EntityRabbitman innocent : innocents) innocent.tasks.addTask(0, new EntityAIAvoidEntity<>(this, EntityRabbitman.class, input -> input == this, 48, 0.25, 0.5));
+                        for (EntityRabbitman innocent : innocents)
+                            innocent.tasks.addTask(0, new EntityAIAvoidEntity<>(this, EntityRabbitman.class, input -> input == this, 48, 0.25, 0.5));
                     }
                 }
             }
-            if(this.getAttackTarget() != null) {
+            if (this.getAttackTarget() != null) {
                 if (getDistance(getAttackTarget()) < 1.2 && ticksSinceHit == 0) {
                     attackEntityAsMob(getAttackTarget());
                     if (!getAttackTarget().isEntityAlive()) {
@@ -319,7 +329,7 @@ public class EntityRabbitman extends EntityAgeable implements INpc, IMerchant {
                     this.hasTarget = true;
                 }
             }
-            if(ticksSinceHit != 0 && ticksSinceHit < 20) ticksSinceHit++;
+            if (ticksSinceHit != 0 && ticksSinceHit < 20) ticksSinceHit++;
             else ticksSinceHit = 0;
         }
     }
@@ -402,16 +412,59 @@ public class EntityRabbitman extends EntityAgeable implements INpc, IMerchant {
 
     @Nonnull
     public SoundCategory getSoundCategory() {
-        return this.getVariant() == 5? SoundCategory.HOSTILE : SoundCategory.NEUTRAL;
+        return this.getVariant() == 5 ? SoundCategory.HOSTILE : SoundCategory.NEUTRAL;
+    }
+
+    public static class Trade implements EntityVillager.ITradeList {
+        Item sell;
+        ItemStack buy;
+        EntityVillager.PriceInfo price;
+        EntityVillager.PriceInfo amount;
+        private Item buyItem;
+
+        Trade(Item sell, Item buy, EntityVillager.PriceInfo price, EntityVillager.PriceInfo amount) {
+            this.price = price;
+            this.amount = amount;
+            this.sell = sell;
+            this.buyItem = buy;
+        }
+
+        Trade(Item sell, Item buy, int price, int amount) {
+            this(sell, buy, new EntityVillager.PriceInfo(price, price), new EntityVillager.PriceInfo(amount, amount));
+        }
+
+        Trade(Item sell, ItemStack buy, int price, int amount) {
+            this(sell, null, new EntityVillager.PriceInfo(price, price), new EntityVillager.PriceInfo(amount, amount));
+            this.buy = buy;
+        }
+
+        public void addMerchantRecipe(@Nonnull IMerchant merchant, @Nonnull MerchantRecipeList recipeList, @Nonnull Random random) {
+            recipeList.add(new MerchantRecipe(new ItemStack(sell, this.price.getPrice(random)), this.buy == null ? new ItemStack(buyItem, this.amount.getPrice(random)) : buy));
+        }
+    }
+
+    public static class MoneyTrade extends Trade {
+
+        MoneyTrade(Item buy, EntityVillager.PriceInfo price, EntityVillager.PriceInfo amount) {
+            super(BeastsItems.CARROT_COIN, buy, price, amount);
+        }
+
+        MoneyTrade(Item buy, int price, int amount) {
+            super(BeastsItems.CARROT_COIN, buy, price, amount);
+        }
+
+        MoneyTrade(ItemStack buy, int price, int amount) {
+            super(BeastsItems.CARROT_COIN, buy, price, amount);
+        }
     }
 
     private class AIMate extends EntityAIBase {
 
         private final EntityRabbitman entity;
-        private EntityRabbitman mate;
         private final World world;
-        private int matingTimeout;
         Village village;
+        private EntityRabbitman mate;
+        private int matingTimeout;
 
         AIMate() {
             this.entity = EntityRabbitman.this;
@@ -444,7 +497,8 @@ public class EntityRabbitman extends EntityAgeable implements INpc, IMerchant {
         public void updateTask() {
             --this.matingTimeout;
             this.entity.getLookHelper().setLookPositionWithEntity(this.mate, 10.0F, 30.0F);
-            if (this.entity.getDistanceSq(this.mate) > 2.25D) this.entity.getNavigator().tryMoveToEntityLiving(this.mate, 0.25D);
+            if (this.entity.getDistanceSq(this.mate) > 2.25D)
+                this.entity.getNavigator().tryMoveToEntityLiving(this.mate, 0.25D);
             else if (this.matingTimeout == 0 && this.mate.isMating()) this.giveBirth();
             if (this.entity.getRNG().nextInt(35) == 0) this.world.setEntityState(this.entity, (byte) 12);
         }
@@ -470,8 +524,8 @@ public class EntityRabbitman extends EntityAgeable implements INpc, IMerchant {
     }
 
     public class AIInteract extends EntityAIWatchClosest2 {
-        private int interactionDelay;
         private final EntityRabbitman rabbitman;
+        private int interactionDelay;
 
         AIInteract() {
             super(EntityRabbitman.this, EntityRabbitman.class, 3.0F, 0.02F);
@@ -559,7 +613,8 @@ public class EntityRabbitman extends EntityAgeable implements INpc, IMerchant {
                 IBlockState state = world.getBlockState(blockpos);
                 Block block = state.getBlock();
 
-                if (this.currentTask == 0 && block instanceof BlockCrops && ((BlockCrops) block).isMaxAge(state)) world.destroyBlock(blockpos, true);
+                if (this.currentTask == 0 && block instanceof BlockCrops && ((BlockCrops) block).isMaxAge(state))
+                    world.destroyBlock(blockpos, true);
                 else if (this.currentTask == 1 && state.getMaterial() == Material.AIR) {
                     InventoryBasic inv = this.entity.inv;
                     for (int i = 0; i < inv.getSizeInventory(); ++i) {
@@ -597,49 +652,6 @@ public class EntityRabbitman extends EntityAgeable implements INpc, IMerchant {
             }
 
             return false;
-        }
-    }
-
-    public static class Trade implements EntityVillager.ITradeList {
-        private Item buyItem;
-        Item sell;
-        ItemStack buy;
-        EntityVillager.PriceInfo price;
-        EntityVillager.PriceInfo amount;
-
-        Trade(Item sell, Item buy, EntityVillager.PriceInfo price, EntityVillager.PriceInfo amount) {
-            this.price = price;
-            this.amount = amount;
-            this.sell = sell;
-            this.buyItem = buy;
-        }
-
-        Trade(Item sell, Item buy, int price, int amount) {
-            this(sell, buy, new EntityVillager.PriceInfo(price, price), new EntityVillager.PriceInfo(amount, amount));
-        }
-
-        Trade(Item sell, ItemStack buy, int price, int amount) {
-            this(sell, null, new EntityVillager.PriceInfo(price, price), new EntityVillager.PriceInfo(amount, amount));
-            this.buy = buy;
-        }
-
-        public void addMerchantRecipe(@Nonnull IMerchant merchant, @Nonnull MerchantRecipeList recipeList, @Nonnull Random random) {
-            recipeList.add(new MerchantRecipe(new ItemStack(sell, this.price.getPrice(random)), this.buy==null?new ItemStack(buyItem, this.amount.getPrice(random)):buy));
-        }
-    }
-
-    public static class MoneyTrade extends Trade {
-
-        MoneyTrade(Item buy, EntityVillager.PriceInfo price, EntityVillager.PriceInfo amount) {
-            super(BeastsItems.CARROT_COIN, buy, price, amount);
-        }
-
-        MoneyTrade(Item buy, int price, int amount) {
-            super(BeastsItems.CARROT_COIN, buy, price, amount);
-        }
-
-        MoneyTrade(ItemStack buy, int price, int amount) {
-            super(BeastsItems.CARROT_COIN, buy, price, amount);
         }
     }
 }

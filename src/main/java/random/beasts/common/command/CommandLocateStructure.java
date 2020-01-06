@@ -1,11 +1,5 @@
 package random.beasts.common.command;
 
-import java.util.Collections;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -13,8 +7,12 @@ import net.minecraft.command.WrongUsageException;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentTranslation;
-import random.beasts.common.world.biome.BiomeDriedReef;
 import random.beasts.common.world.gen.structure.RabbitVillageGenerator;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Collections;
+import java.util.List;
 
 public class CommandLocateStructure extends CommandBase {
 
@@ -37,7 +35,7 @@ public class CommandLocateStructure extends CommandBase {
             throw new WrongUsageException("commands.locate.usage");
         } else {
             String s = args[0];
-            BlockPos blockpos = s.equals("RabbitVillage") ? RabbitVillageGenerator.getNearestStructurePos(sender.getEntityWorld(), sender.getPosition()):sender.getEntityWorld().findNearestStructure(s, sender.getPosition(), false);
+            BlockPos blockpos = s.equals("RabbitVillage") ? RabbitVillageGenerator.getNearestStructurePos(sender.getEntityWorld(), sender.getPosition()) : sender.getEntityWorld().findNearestStructure(s, sender.getPosition(), false);
             if (blockpos != null) {
                 sender.sendMessage(new TextComponentTranslation("commands.locate.success", s, blockpos.getX(), blockpos.getZ()));
             } else {

@@ -9,8 +9,8 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import random.beasts.api.item.BeastsItem;
 import random.beasts.common.init.BeastsBlocks;
-import random.beasts.item.BeastsItem;
 
 public class ItemGlowRoot extends BeastsItem {
 
@@ -20,9 +20,10 @@ public class ItemGlowRoot extends BeastsItem {
 
     @Override
     public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        if(facing != EnumFacing.DOWN || worldIn.getBlockState(pos).getBlock() == BeastsBlocks.GLOW_ROOT_BOTTOM || worldIn.getBlockState(pos).getBlock() == BeastsBlocks.GLOW_ROOT_TOP) return super.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
+        if (facing != EnumFacing.DOWN || worldIn.getBlockState(pos).getBlock() == BeastsBlocks.GLOW_ROOT_BOTTOM || worldIn.getBlockState(pos).getBlock() == BeastsBlocks.GLOW_ROOT_TOP)
+            return super.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
         BlockPos down = pos.down();
-        if(worldIn.getBlockState(down) == Blocks.AIR.getDefaultState() && worldIn.getBlockState(pos.down().down()) == Blocks.AIR.getDefaultState() ) {
+        if (worldIn.getBlockState(down) == Blocks.AIR.getDefaultState() && worldIn.getBlockState(pos.down().down()) == Blocks.AIR.getDefaultState()) {
             worldIn.setBlockState(down, BeastsBlocks.GLOW_ROOT_TOP.getDefaultState());
             worldIn.setBlockState(down.down(), BeastsBlocks.GLOW_ROOT_BOTTOM.getDefaultState());
             SoundType soundtype = worldIn.getBlockState(down).getBlock().getSoundType(worldIn.getBlockState(pos.down()), worldIn, pos, player);

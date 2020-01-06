@@ -3,8 +3,8 @@ package random.beasts.common.init;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.advancements.ICriterionInstance;
 import net.minecraft.advancements.ICriterionTrigger;
-import random.beasts.advancements.BeastsTrigger;
-import random.beasts.init.BeastsRegistries;
+import random.beasts.api.advancements.BeastsTrigger;
+import random.beasts.api.main.BeastsRegistries;
 
 public class BeastsTriggers {
 

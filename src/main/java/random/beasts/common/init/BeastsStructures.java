@@ -3,10 +3,10 @@ package random.beasts.common.init;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.ForgeModContainer;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import random.beasts.api.main.BeastsRegistries;
+import random.beasts.api.world.gen.structure.BeastsStructure;
 import random.beasts.common.config.BeastsConfig;
 import random.beasts.common.world.gen.structure.WorldGenStructure;
-import random.beasts.init.BeastsRegistries;
-import random.beasts.world.gen.structure.BeastsStructure;
 
 public class BeastsStructures {
     public static final WorldGenStructure[] SHELLS = new WorldGenStructure[4];

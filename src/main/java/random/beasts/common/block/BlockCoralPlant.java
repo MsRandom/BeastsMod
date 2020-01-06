@@ -19,9 +19,9 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import random.beasts.api.main.BeastsUtils;
 import random.beasts.common.init.BeastsBlocks;
 import random.beasts.common.init.BeastsItems;
-import random.beasts.main.BeastsUtils;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -44,6 +44,12 @@ public class BlockCoralPlant extends Block {
         setSoundType(SoundType.PLANT);
         this.setDefaultState(this.blockState.getBaseState().withProperty(NORTH, false).withProperty(EAST, false).withProperty(SOUTH, false).withProperty(WEST, false).withProperty(UP, false).withProperty(DOWN, false));
         BeastsUtils.addToRegistry(this, "coral_plant_" + color.getName(), null);
+    }
+
+    private static boolean areAllNeighborsEmpty(World worldIn, BlockPos pos, @Nullable EnumFacing excludingSide) {
+        for (EnumFacing enumfacing : EnumFacing.Plane.HORIZONTAL)
+            if (enumfacing != excludingSide && !worldIn.isAirBlock(pos.offset(enumfacing))) return false;
+        return true;
     }
 
     public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
@@ -73,12 +79,18 @@ public class BlockCoralPlant extends Block {
         float f = 0.1875F;
         float f1 = 0.8125F;
         addCollisionBoxToList(pos, entityBox, collidingBoxes, new AxisAlignedBB(f, f, f, f1, f1, f1));
-        if (state.getValue(WEST)) addCollisionBoxToList(pos, entityBox, collidingBoxes, new AxisAlignedBB(0.0D, f, f, f, f1, f1));
-        if (state.getValue(EAST)) addCollisionBoxToList(pos, entityBox, collidingBoxes, new AxisAlignedBB(f1, f, f, 1.0D, f1, f1));
-        if (state.getValue(UP)) addCollisionBoxToList(pos, entityBox, collidingBoxes, new AxisAlignedBB(f, f1, f, f1, 1.0D, f1));
-        if (state.getValue(DOWN)) addCollisionBoxToList(pos, entityBox, collidingBoxes, new AxisAlignedBB(f, 0.0D, f, f1, f, f1));
-        if (state.getValue(NORTH)) addCollisionBoxToList(pos, entityBox, collidingBoxes, new AxisAlignedBB(f, f, 0.0D, f1, f1, f));
-        if (state.getValue(SOUTH)) addCollisionBoxToList(pos, entityBox, collidingBoxes, new AxisAlignedBB(f, f, f1, f1, f1, 1.0D));
+        if (state.getValue(WEST))
+            addCollisionBoxToList(pos, entityBox, collidingBoxes, new AxisAlignedBB(0.0D, f, f, f, f1, f1));
+        if (state.getValue(EAST))
+            addCollisionBoxToList(pos, entityBox, collidingBoxes, new AxisAlignedBB(f1, f, f, 1.0D, f1, f1));
+        if (state.getValue(UP))
+            addCollisionBoxToList(pos, entityBox, collidingBoxes, new AxisAlignedBB(f, f1, f, f1, 1.0D, f1));
+        if (state.getValue(DOWN))
+            addCollisionBoxToList(pos, entityBox, collidingBoxes, new AxisAlignedBB(f, 0.0D, f, f1, f, f1));
+        if (state.getValue(NORTH))
+            addCollisionBoxToList(pos, entityBox, collidingBoxes, new AxisAlignedBB(f, f, 0.0D, f1, f1, f));
+        if (state.getValue(SOUTH))
+            addCollisionBoxToList(pos, entityBox, collidingBoxes, new AxisAlignedBB(f, f, f1, f1, f1, 1.0D));
     }
 
     public int getMetaFromState(IBlockState state) {
@@ -152,7 +164,7 @@ public class BlockCoralPlant extends Block {
     }
 
     public boolean generatePlant(World worldIn, BlockPos pos, Random rand) {
-        if(worldIn.getBlockState(pos.down()).getBlock() == Blocks.SAND) {
+        if (worldIn.getBlockState(pos.down()).getBlock() == Blocks.SAND) {
             worldIn.setBlockState(pos, getDefaultState(), 2);
             growTreeRecursive(worldIn, pos, rand, pos, 8, 0);
             return true;
@@ -180,10 +192,5 @@ public class BlockCoralPlant extends Block {
                 }
             }
         }
-    }
-
-    private static boolean areAllNeighborsEmpty(World worldIn, BlockPos pos, @Nullable EnumFacing excludingSide) {
-        for (EnumFacing enumfacing : EnumFacing.Plane.HORIZONTAL) if (enumfacing != excludingSide && !worldIn.isAirBlock(pos.offset(enumfacing))) return false;
-        return true;
     }
 }

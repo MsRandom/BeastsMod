@@ -24,7 +24,10 @@ public class WorldGenPalmTrees extends WorldGenAbstractTree {
             int height = rand.nextInt(4) + 7;
             int radius = rand.nextInt(2) + 2;
             if (radius % 2 == 0) radius += 1;
-            for (int i = -1; i < 2; i++) for (int j = -1; j < 2; j++) for (int k = -1; k < 2; k++) setBlockAndNotifyAdequately(world, position.add(i, height + k, j), leaves);
+            for (int i = -1; i < 2; i++)
+                for (int j = -1; j < 2; j++)
+                    for (int k = -1; k < 2; k++)
+                        setBlockAndNotifyAdequately(world, position.add(i, height + k, j), leaves);
             for (int i = 1; i <= radius; i++) {
                 int h = height - i + 1;
                 setBlockAndNotifyAdequately(world, position.add(0, h, i + 1), leaves);
@@ -58,7 +61,7 @@ public class WorldGenPalmTrees extends WorldGenAbstractTree {
             }
 
             for (int i = -5; i < 5; i++) {
-                if(i != 0) {
+                if (i != 0) {
                     pos = position.add(i, 0, i);
                     pos = world.getHeight(pos);
                     if (rand.nextInt(3) == 0) {

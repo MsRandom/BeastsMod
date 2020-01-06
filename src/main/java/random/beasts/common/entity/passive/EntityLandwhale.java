@@ -34,13 +34,13 @@ import net.minecraftforge.common.IShearable;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import random.beasts.api.entity.IDriedAquatic;
 import random.beasts.client.init.BeastsSounds;
 import random.beasts.common.BeastsMod;
 import random.beasts.common.block.CoralColor;
 import random.beasts.common.init.BeastsBlocks;
 import random.beasts.common.init.BeastsItems;
 import random.beasts.common.network.BeastsGuiHandler;
-import random.beasts.entity.IDriedAquatic;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -53,10 +53,10 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
     private static final DataParameter<Boolean> SADDLE = EntityDataManager.createKey(EntityLandwhale.class, DataSerializers.BOOLEAN);
     private static final DataParameter<Boolean> DATA_ID_CHEST = EntityDataManager.createKey(EntityLandwhale.class, DataSerializers.BOOLEAN);
     private static final DataParameter<Boolean> COCONUT = EntityDataManager.createKey(EntityLandwhale.class, DataSerializers.BOOLEAN);
-    private int ticksSinceSheared = 0;
     public InventoryBasic inventory;
     @SideOnly(Side.CLIENT)
     public int animationTicks = 0;
+    private int ticksSinceSheared = 0;
     private EntityItem target;
 
     public EntityLandwhale(World worldIn) {
@@ -213,18 +213,18 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
     }
 
     @Override
-	public void updatePassenger(Entity passenger) {
-    	if (this.isPassenger(passenger)) {
-    		float f;
-    		int i = this.getPassengers().indexOf(passenger);
-    		if(i == 0) f = 0.2F;
-    		else f = -0.6F;
-    		Vec3d vec3d = (new Vec3d(f, 0.0D, 0.0D)).rotateYaw(-this.rotationYaw * 0.017453292F - ((float)Math.PI / 2F));
+    public void updatePassenger(Entity passenger) {
+        if (this.isPassenger(passenger)) {
+            float f;
+            int i = this.getPassengers().indexOf(passenger);
+            if (i == 0) f = 0.2F;
+            else f = -0.6F;
+            Vec3d vec3d = (new Vec3d(f, 0.0D, 0.0D)).rotateYaw(-this.rotationYaw * 0.017453292F - ((float) Math.PI / 2F));
             passenger.setPosition(this.posX + vec3d.x, this.posY + this.getMountedYOffset() + passenger.getYOffset(), this.posZ + vec3d.z);
         }
-	}
+    }
 
-	public void travel(float strafe, float vertical, float forward) {
+    public void travel(float strafe, float vertical, float forward) {
         if (this.getControllingPassenger() != null && this.canBeSteered() && !inventory.getStackInSlot(0).isEmpty()) {
             EntityLivingBase entitylivingbase = (EntityLivingBase) this.getControllingPassenger();
             this.rotationYaw = entitylivingbase.rotationYaw;
@@ -279,18 +279,18 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
             }
         } else if (!this.isTamed() && stack.getItem() == BeastsItems.COCONUT_JUICE) {
             if (!player.capabilities.isCreativeMode) stack.shrink(1);
-            if(!this.world.isRemote) {
-            	if (this.rand.nextInt(3) == 0 && !ForgeEventFactory.onAnimalTame(this, player)) {
-            		this.setTamedBy(player);
+            if (!this.world.isRemote) {
+                if (this.rand.nextInt(3) == 0 && !ForgeEventFactory.onAnimalTame(this, player)) {
+                    this.setTamedBy(player);
                     this.isJumping = false;
-                    this.navigator.clearPath();                
+                    this.navigator.clearPath();
                     this.playTameEffect(true);
                     this.world.setEntityState(this, (byte) 7);
                 } else {
                     this.playTameEffect(false);
                     this.world.setEntityState(this, (byte) 6);
                 }
-            }       
+            }
             return true;
         }
         return super.processInteract(player, hand);
@@ -340,12 +340,12 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
         return list.isEmpty() ? null : list.get(0);
     }
 
-	@Override
-	public double getMountedYOffset() {
-		return this.height + 0.1F;
-	}
+    @Override
+    public double getMountedYOffset() {
+        return this.height + 0.1F;
+    }
 
-	@Override
+    @Override
     public boolean isBreedingItem(ItemStack stack) {
         return stack.getItem() == BeastsItems.REEF_MIXTURE;
     }
@@ -363,7 +363,7 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
     @Override
     public void playLivingSound() {
         super.playLivingSound();
-        if(world.isRemote) animationTicks = 1;
+        if (world.isRemote) animationTicks = 1;
     }
 
     protected void playStepSound(BlockPos pos, Block blockIn) {
@@ -393,7 +393,7 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
     @Override
     public void setCustomNameTag(String name) {
         super.setCustomNameTag(name);
-        if(this.inventory != null) this.inventory.setCustomName(name);
+        if (this.inventory != null) this.inventory.setCustomName(name);
     }
 
     @Override

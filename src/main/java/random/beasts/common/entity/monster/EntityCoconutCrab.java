@@ -22,10 +22,10 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
+import random.beasts.api.entity.IShellEntity;
 import random.beasts.client.init.BeastsSounds;
 import random.beasts.common.init.BeastsBlocks;
 import random.beasts.common.init.BeastsItems;
-import random.beasts.entity.IShellEntity;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -98,20 +98,20 @@ public class EntityCoconutCrab extends EntityMob implements IShellEntity {
 
     @Override
     public void knockBack(Entity entityIn, float strength, double xRatio, double zRatio) {
-        if(isOut()) super.knockBack(entityIn, strength, xRatio, zRatio);
+        if (isOut()) super.knockBack(entityIn, strength, xRatio, zRatio);
     }
 
     @Override
     public boolean attackEntityAsMob(Entity entityIn) {
         boolean ret = super.attackEntityAsMob(entityIn);
-        if(ret) playSound(BeastsSounds.CRAB_ATTACK, getSoundVolume(), getSoundPitch());
+        if (ret) playSound(BeastsSounds.CRAB_ATTACK, getSoundVolume(), getSoundPitch());
         return ret;
     }
 
     @Override
     public boolean attackEntityFrom(@Nonnull DamageSource source, float amount) {
-        if((isOut() || source == DamageSource.OUT_OF_WORLD)) {
-            if(source.getImmediateSource() != null) attackEntityAsMob(source.getImmediateSource());
+        if ((isOut() || source == DamageSource.OUT_OF_WORLD)) {
+            if (source.getImmediateSource() != null) attackEntityAsMob(source.getImmediateSource());
             return super.attackEntityFrom(source, amount);
         }
         return false;
@@ -130,21 +130,23 @@ public class EntityCoconutCrab extends EntityMob implements IShellEntity {
         if (lootingModifier > 0) i += this.rand.nextInt(lootingModifier + 1);
         for (int j = 0; j < i; ++j) this.dropItem(leg, 1);
         this.dropItem(Objects.requireNonNull(coconut), 1);
-        if(!this.getHeldItem(EnumHand.MAIN_HAND).isEmpty()) this.entityDropItem(this.getHeldItem(EnumHand.MAIN_HAND), 0);
+        if (!this.getHeldItem(EnumHand.MAIN_HAND).isEmpty())
+            this.entityDropItem(this.getHeldItem(EnumHand.MAIN_HAND), 0);
     }
 
     @Override
     public boolean getCanSpawnHere() {
-        if(rand.nextInt(4) == 0) return this.getBlockPathWeight(new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ)) >= 0.0F && world.getBlockState(getPosition()).canEntitySpawn(this) && this.world.getDifficulty() != EnumDifficulty.PEACEFUL ;
+        if (rand.nextInt(4) == 0)
+            return this.getBlockPathWeight(new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ)) >= 0.0F && world.getBlockState(getPosition()).canEntitySpawn(this) && this.world.getDifficulty() != EnumDifficulty.PEACEFUL;
         world.setBlockState(getPosition(), BeastsBlocks.COCONUT.getDefaultState());
         return false;
     }
 
     @Override
     protected boolean processInteract(EntityPlayer player, EnumHand hand) {
-        if(!isOut()) {
+        if (!isOut()) {
             setOut(true);
-            if(!player.capabilities.isCreativeMode) {
+            if (!player.capabilities.isCreativeMode) {
                 setAttackTarget(player);
                 attackEntityAsMob(player);
             }
@@ -167,8 +169,8 @@ public class EntityCoconutCrab extends EntityMob implements IShellEntity {
 
     @Override
     public void onUpdate() {
-        if(isOut()) {
-            if(world.getBlockState(getPosition().down()).getBlock() == Blocks.SAND && rand.nextInt(500) == 0) {
+        if (isOut()) {
+            if (world.getBlockState(getPosition().down()).getBlock() == Blocks.SAND && rand.nextInt(500) == 0) {
                 setOut(false);
                 setFire(0);
                 for (int i = 0; i < 9; ++i) {
@@ -180,17 +182,18 @@ public class EntityCoconutCrab extends EntityMob implements IShellEntity {
                 return;
             }
 
-            if(this.getHeldItem(EnumHand.MAIN_HAND).isEmpty()) {
+            if (this.getHeldItem(EnumHand.MAIN_HAND).isEmpty()) {
                 List<EntityItem> list = this.world.getEntitiesWithinAABB(EntityItem.class, this.getEntityBoundingBox().grow(8.0D));
                 double d0 = Double.MAX_VALUE;
                 EntityItem item = null;
 
-                for (EntityItem itm : list) if (itm.getItem().getItem() instanceof ItemSword) {
-                    if (this.getDistanceSq(itm) < d0) {
-                        item = itm;
-                        d0 = this.getDistanceSq(itm);
+                for (EntityItem itm : list)
+                    if (itm.getItem().getItem() instanceof ItemSword) {
+                        if (this.getDistanceSq(itm) < d0) {
+                            item = itm;
+                            d0 = this.getDistanceSq(itm);
+                        }
                     }
-                }
 
                 if (item != null && !item.isDead) {
                     this.setHeldItem(EnumHand.MAIN_HAND, item.getItem());
@@ -198,8 +201,8 @@ public class EntityCoconutCrab extends EntityMob implements IShellEntity {
                 }
             }
 
-            if(this.getAttackTarget() == null) {
-                if(newPos == null) {
+            if (this.getAttackTarget() == null) {
+                if (newPos == null) {
                     int distance = rand.nextInt(7) + 10;
                     int dir = rand.nextBoolean() ? 1 : -1;
                     newPos = new BlockPos(posX + dir * distance, posY, posZ + dir * distance);

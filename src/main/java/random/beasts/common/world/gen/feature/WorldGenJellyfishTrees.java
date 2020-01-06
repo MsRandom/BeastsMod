@@ -60,10 +60,11 @@ public class WorldGenJellyfishTrees extends WorldGenAbstractTree {
                 setBlockAndNotifyAdequately(worldIn, leavesPos.add(2, h, i), leaves);
                 setBlockAndNotifyAdequately(worldIn, leavesPos.add(radius - 3, h, i), leaves);
             }
-            for (int i = 3; i < radius - 3; i++) for (int j = 3; j < radius - 3; j++) {
-                BlockPos p = leavesPos.add(i, h, j);
-                setBlockAndNotifyAdequately(worldIn, p, leaves);
-            }
+            for (int i = 3; i < radius - 3; i++)
+                for (int j = 3; j < radius - 3; j++) {
+                    BlockPos p = leavesPos.add(i, h, j);
+                    setBlockAndNotifyAdequately(worldIn, p, leaves);
+                }
 
             BlockPos pos = position;
             setBlockAndNotifyAdequately(worldIn, pos, log);
@@ -76,16 +77,17 @@ public class WorldGenJellyfishTrees extends WorldGenAbstractTree {
         }
         return false;
     }
-    
+
     private void generateTentacles(BlockPos pos, World world, Random rand) {
         BlockPos lower = pos.down();
-        if(world.getBlockState(lower).getBlock() == Blocks.AIR && rand.nextInt(3) == 0) {
+        if (world.getBlockState(lower).getBlock() == Blocks.AIR && rand.nextInt(3) == 0) {
             int size = rand.nextInt(16) + 1;
             boolean full = size > 8;
             IBlockState state = BeastsBlocks.TENTACLE.getDefaultState();
             setBlockAndNotifyAdequately(world, lower, full ? state.withProperty(BlockTentacle.FULL, true) : state.withProperty(BlockTentacle.SIZE, 8));
             setBlockAndNotifyAdequately(world, lower.down(), full ? state.withProperty(BlockTentacle.FULL, true) : state.withProperty(BlockTentacle.SIZE, size));
-            if(full) setBlockAndNotifyAdequately(world, lower.down().down(), state.withProperty(BlockTentacle.SIZE, size - 8));
+            if (full)
+                setBlockAndNotifyAdequately(world, lower.down().down(), state.withProperty(BlockTentacle.SIZE, size - 8));
         }
     }
 
@@ -100,6 +102,6 @@ public class WorldGenJellyfishTrees extends WorldGenAbstractTree {
 
     private void setBlockWithTentacle(World worldIn, BlockPos pos, IBlockState state, boolean tentacle) {
         super.setBlockAndNotifyAdequately(worldIn, pos, state);
-        if(tentacle) generateTentacles(pos, worldIn, worldIn.rand);
+        if (tentacle) generateTentacles(pos, worldIn, worldIn.rand);
     }
 }

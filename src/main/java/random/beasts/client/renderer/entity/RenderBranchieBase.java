@@ -5,8 +5,8 @@ import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import random.beasts.api.entity.BeastsBranchie;
 import random.beasts.client.model.ModelBranchie;
-import random.beasts.entity.BeastsBranchie;
 
 @SideOnly(Side.CLIENT)
 public abstract class RenderBranchieBase<T extends BeastsBranchie> extends RenderLiving<T> {

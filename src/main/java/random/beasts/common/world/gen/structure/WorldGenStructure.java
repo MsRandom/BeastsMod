@@ -10,8 +10,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.template.PlacementSettings;
 import net.minecraft.world.gen.structure.template.Template;
 import net.minecraft.world.gen.structure.template.TemplateManager;
-import random.beasts.main.BeastsReference;
-import random.beasts.world.gen.structure.BeastsStructure;
+import random.beasts.api.main.BeastsReference;
+import random.beasts.api.world.gen.structure.BeastsStructure;
 
 import java.util.Random;
 
@@ -23,11 +23,11 @@ public class WorldGenStructure extends BeastsStructure {
         super(() -> {
         });
         this.structureName = new ResourceLocation(BeastsReference.ID, name);
-	}
-	
-	@Override
+    }
+
+    @Override
     public boolean generate(World world, Random rand, BlockPos pos) {
-		MinecraftServer mcServer = world.getMinecraftServer();
+        MinecraftServer mcServer = world.getMinecraftServer();
         if (mcServer != null) {
             TemplateManager manager = mcServer.getWorld(0).getStructureTemplateManager();
             Template template = manager.get(mcServer, structureName);
@@ -40,5 +40,5 @@ public class WorldGenStructure extends BeastsStructure {
             }
         }
         return false;
-	}
+    }
 }

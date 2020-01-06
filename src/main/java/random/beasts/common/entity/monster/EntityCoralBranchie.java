@@ -28,6 +28,19 @@ public class EntityCoralBranchie extends EntityBranchieBase {
         super(worldIn);
     }
 
+    public static EntityCoralBranchie create(BlockEvent.BreakEvent event) {
+        EntityCoralBranchie entity = new EntityCoralBranchie(event.getWorld());
+        BlockPos pos = event.getPos();
+        CoralColor color = ((BlockCoralPlant) event.getState().getBlock()).color;
+        EntityPlayer player = event.getPlayer();
+        entity.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
+        entity.onInitialSpawn(event.getWorld().getDifficultyForLocation(pos), null);
+        entity.setVariant(color);
+        List<EntityCoralBranchie> branchies = event.getWorld().getEntitiesWithinAABB(EntityCoralBranchie.class, new AxisAlignedBB(event.getPos()).grow(10), branchie -> branchie != null && branchie != entity && branchie.getVariant() == color);
+        branchies.forEach(branchie -> branchie.setRevengeTarget(player));
+        return entity;
+    }
+
     @Override
     protected void entityInit() {
         super.entityInit();
@@ -42,12 +55,12 @@ public class EntityCoralBranchie extends EntityBranchieBase {
         return livingdata;
     }
 
-    private void setVariant(CoralColor variant) {
-        this.dataManager.set(VARIANT, variant.ordinal());
-    }
-
     public CoralColor getVariant() {
         return CoralColor.values()[this.dataManager.get(VARIANT)];
+    }
+
+    private void setVariant(CoralColor variant) {
+        this.dataManager.set(VARIANT, variant.ordinal());
     }
 
     @Nullable
@@ -76,18 +89,5 @@ public class EntityCoralBranchie extends EntityBranchieBase {
     public void readEntityFromNBT(NBTTagCompound compound) {
         super.readEntityFromNBT(compound);
         this.setVariant(CoralColor.values()[compound.getInteger("variant")]);
-    }
-
-    public static EntityCoralBranchie create(BlockEvent.BreakEvent event) {
-        EntityCoralBranchie entity = new EntityCoralBranchie(event.getWorld());
-        BlockPos pos = event.getPos();
-        CoralColor color = ((BlockCoralPlant)event.getState().getBlock()).color;
-        EntityPlayer player = event.getPlayer();
-        entity.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
-        entity.onInitialSpawn(event.getWorld().getDifficultyForLocation(pos), null);
-        entity.setVariant(color);
-        List<EntityCoralBranchie> branchies = event.getWorld().getEntitiesWithinAABB(EntityCoralBranchie.class, new AxisAlignedBB(event.getPos()).grow(10), branchie -> branchie != null && branchie != entity && branchie.getVariant() == color);
-        branchies.forEach(branchie -> branchie.setRevengeTarget(player));
-        return entity;
     }
 }

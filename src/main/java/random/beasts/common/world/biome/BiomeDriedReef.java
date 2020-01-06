@@ -12,6 +12,7 @@ import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
 import net.minecraftforge.event.terraingen.TerrainGen;
+import random.beasts.api.world.biome.BeastsBiome;
 import random.beasts.common.block.BlockCoral;
 import random.beasts.common.block.CoralColor;
 import random.beasts.common.init.BeastsBiomes;
@@ -21,7 +22,6 @@ import random.beasts.common.world.gen.feature.WorldGenAnemone;
 import random.beasts.common.world.gen.feature.WorldGenJellyfishTrees;
 import random.beasts.common.world.gen.feature.WorldGenPalmTrees;
 import random.beasts.common.world.gen.structure.WorldGenStructure;
-import random.beasts.world.biome.BeastsBiome;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -53,11 +53,6 @@ public class BiomeDriedReef extends BeastsBiome {
         this.decorator.generateFalls = false;
     }
 
-    @Override
-    public WorldGenAbstractTree getRandomTreeFeature(Random rand) {
-        return rand.nextInt(10) == 0 ? JELLYFISH_TREE_GENERATOR : PALM_TREE_GENERATOR;
-    }
-
     private static BlockPos getNearestGeneratedCoords(BlockPos pos) {
         BlockPos blockpos = null;
         BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos(pos);
@@ -76,6 +71,11 @@ public class BiomeDriedReef extends BeastsBiome {
             }
         }
         return blockpos;
+    }
+
+    @Override
+    public WorldGenAbstractTree getRandomTreeFeature(Random rand) {
+        return rand.nextInt(10) == 0 ? JELLYFISH_TREE_GENERATOR : PALM_TREE_GENERATOR;
     }
 
     private BlockPos getPos(World worldIn, Random rand, BlockPos pos) {

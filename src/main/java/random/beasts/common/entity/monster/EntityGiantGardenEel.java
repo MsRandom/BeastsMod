@@ -25,8 +25,8 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public class EntityGiantGardenEel extends EntityMob {
-	
-	private EntityLivingBase targetedEntity;
+
+    private EntityLivingBase targetedEntity;
 
     private float slamTimer = 250;
     private int lastSlam = 0;
@@ -45,10 +45,12 @@ public class EntityGiantGardenEel extends EntityMob {
     }
 
     @Override
-    protected void collideWithEntity(Entity entityIn) {}
+    protected void collideWithEntity(Entity entityIn) {
+    }
 
     @Override
-    public void applyEntityCollision(Entity entityIn) {}
+    public void applyEntityCollision(Entity entityIn) {
+    }
 
     @Override
     protected void applyEntityAttributes() {
@@ -71,7 +73,7 @@ public class EntityGiantGardenEel extends EntityMob {
     protected float getSoundVolume() {
         return 0.4F;
     }
-    
+
     @SideOnly(Side.CLIENT)
     public float getSlamTimer() {
         return this.slamTimer;
@@ -80,10 +82,10 @@ public class EntityGiantGardenEel extends EntityMob {
     @Override
     public void onUpdate() {
         super.onUpdate();
-    	
+
         lastSlam++;
         if (slamTimer < 250) slamTimer += 10;
-        if(lastSlam > 25) {
+        if (lastSlam > 25) {
             Predicate<Entity> predicate = e -> EntitySelectors.NOT_SPECTATING.apply(e) && e instanceof EntityLivingBase && !(e instanceof EntityGiantGardenEel) && (!(e instanceof EntityPlayer) || !((EntityPlayer) e).capabilities.isCreativeMode);
             List<Entity> entitiesInRange = world.getEntitiesInAABBexcluding(this, this.getEntityBoundingBox().grow(3), predicate::test);
             entitiesInRange.forEach(e -> {

@@ -11,7 +11,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import random.beasts.block.BeastsSapling;
+import random.beasts.api.block.BeastsSapling;
 import random.beasts.common.init.BeastsBlocks;
 import random.beasts.common.item.ItemCoralBlock;
 
@@ -27,10 +27,10 @@ public class BlockCoralSapling extends BeastsSapling {
     }
 
     @Override
-	public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
-    	IBlockState soil = worldIn.getBlockState(pos.down());
-		return super.canPlaceBlockAt(worldIn, pos) && soil.getBlock() == Blocks.SAND;
-	}
+    public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
+        IBlockState soil = worldIn.getBlockState(pos.down());
+        return super.canPlaceBlockAt(worldIn, pos) && soil.getBlock() == Blocks.SAND;
+    }
 
     @Override
     public int damageDropped(IBlockState state) {

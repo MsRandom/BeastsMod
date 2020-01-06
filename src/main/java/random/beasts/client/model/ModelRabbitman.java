@@ -81,7 +81,7 @@ public class ModelRabbitman extends ModelBase {
 
     @Override
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
-        if(((EntityLivingBase)entity).isChild()) {
+        if (((EntityLivingBase) entity).isChild()) {
             GlStateManager.scale(0.5F, 0.5F, 0.5F);
             GlStateManager.translate(0.0F, 24.0F * f5, 0.0F);
         }
@@ -91,12 +91,12 @@ public class ModelRabbitman extends ModelBase {
 
     @Override
     public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
-        this.head.rotateAngleY = (float)Math.toRadians(netHeadYaw);
-        this.head.rotateAngleX = (float)Math.toRadians(headPitch);
+        this.head.rotateAngleY = (float) Math.toRadians(netHeadYaw);
+        this.head.rotateAngleX = (float) Math.toRadians(headPitch);
         this.legRight.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount * 0.5F;
-        this.legLeft.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount * 0.5F;
+        this.legLeft.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount * 0.5F;
     }
-    
+
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
         modelRenderer.rotateAngleX = x;
         modelRenderer.rotateAngleY = y;

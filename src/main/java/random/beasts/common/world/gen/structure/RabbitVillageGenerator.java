@@ -8,7 +8,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraft.world.gen.structure.StructureComponent;
 import net.minecraft.world.gen.structure.StructureStart;
-import random.beasts.world.gen.structure.BeastsStructure;
+import random.beasts.api.world.gen.structure.BeastsStructure;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
@@ -29,7 +29,8 @@ public class RabbitVillageGenerator extends BeastsStructure {
         int[] p = getRandomPos(world, chunkX, chunkZ);
         int k = p[0];
         int l = p[1];
-        if (chunkX == k && chunkZ == l) return world.getBiomeProvider().areBiomesViable(chunkX * 16 + 8, chunkZ * 16 + 8, 0, Collections.singletonList(Biomes.PLAINS));
+        if (chunkX == k && chunkZ == l)
+            return world.getBiomeProvider().areBiomesViable(chunkX * 16 + 8, chunkZ * 16 + 8, 0, Collections.singletonList(Biomes.PLAINS));
         return false;
     }
 
@@ -38,7 +39,7 @@ public class RabbitVillageGenerator extends BeastsStructure {
         BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos(worldIn.getChunkFromBlockCoords(pos).getPos().getBlock(0, 0, 0));
         double d0 = Double.MAX_VALUE;
         for (ChunkPos chunkpos : structureCoords) {
-            if(chunkpos != null) {
+            if (chunkpos != null) {
                 mutableBlockPos.setPos((chunkpos.x << 4) + 8, 32, (chunkpos.z << 4) + 8);
                 double d1 = mutableBlockPos.distanceSq(pos);
                 if (blockpos == null) {
@@ -61,7 +62,7 @@ public class RabbitVillageGenerator extends BeastsStructure {
         int l1 = j1 / 32;
         int i2 = k1 / 32;
         Random rand = worldIn.setRandomSeed(l1, i2, 1351);
-        return new int[] {(l1 * 32) + rand.nextInt(24), (i2 * 32) + rand.nextInt(24)};
+        return new int[]{(l1 * 32) + rand.nextInt(24), (i2 * 32) + rand.nextInt(24)};
     }
 
     @Nonnull
@@ -72,9 +73,10 @@ public class RabbitVillageGenerator extends BeastsStructure {
     @Override
     public boolean generate(@Nonnull World worldIn, @Nonnull Random rand, @Nonnull BlockPos position) {
         boolean canSpawn = canSpawnStructureAtCoords(worldIn, position.getX() >> 4, position.getZ() >> 4);
-        if(rand.nextInt(1351) == 0) {
+        if (rand.nextInt(1351) == 0) {
             this.getStructureStart(worldIn, position.getX() >> 4, position.getZ() >> 4, rand).generateStructure(worldIn, rand, new StructureBoundingBox(position.getX() - 48, position.getZ() - 48, position.getX() + 48, position.getZ() + 48));
-            if(structureCoords.length-1 < generated) structureCoords = Arrays.copyOf(structureCoords, structureCoords.length + Byte.MAX_VALUE + 1);
+            if (structureCoords.length - 1 < generated)
+                structureCoords = Arrays.copyOf(structureCoords, structureCoords.length + Byte.MAX_VALUE + 1);
             structureCoords[generated++] = new ChunkPos(position);
         }
         return canSpawn;
@@ -84,7 +86,8 @@ public class RabbitVillageGenerator extends BeastsStructure {
         private boolean hasMoreThanTwoComponents;
 
         @SuppressWarnings("unused")
-        public Start(){}
+        public Start() {
+        }
 
         Start(World worldIn, Random rand, int x, int z) {
             super(x, z);
@@ -109,7 +112,8 @@ public class RabbitVillageGenerator extends BeastsStructure {
 
             this.updateBoundingBox();
             int k = 0;
-            for (StructureComponent component : this.components) if (!(component instanceof StructureRabbitVillagePieces.Path)) ++k;
+            for (StructureComponent component : this.components)
+                if (!(component instanceof StructureRabbitVillagePieces.Path)) ++k;
             this.hasMoreThanTwoComponents = k > 2;
         }
 

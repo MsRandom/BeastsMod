@@ -5,7 +5,7 @@ import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
-import random.beasts.item.BeastsFood;
+import random.beasts.api.item.BeastsFood;
 
 public class ItemScallopTongue extends BeastsFood {
 

@@ -13,25 +13,25 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import random.beasts.block.BeastsLeaves;
+import random.beasts.api.block.BeastsLeaves;
+import random.beasts.api.main.BeastsUtils;
 import random.beasts.common.BeastsMod;
 import random.beasts.common.entity.item.EntityFallingCoconut;
 import random.beasts.common.init.BeastsBlocks;
-import random.beasts.main.BeastsUtils;
 
 import javax.annotation.Nullable;
 import java.util.Random;
 
 public class BlockPalmTreeLeaves extends BeastsLeaves {
     public BlockPalmTreeLeaves() {
-    	BeastsMod.proxy.setGraphicsLevel(this, true);
+        BeastsMod.proxy.setGraphicsLevel(this, true);
         BeastsUtils.addToRegistry(this, "palmleaves");
     }
 
     @Override
     public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
         super.updateTick(worldIn, pos, state, rand);
-        if(rand.nextInt(200) == 0) worldIn.spawnEntity(new EntityFallingCoconut(worldIn, pos));
+        if (rand.nextInt(200) == 0) worldIn.spawnEntity(new EntityFallingCoconut(worldIn, pos));
     }
 
     protected int getSaplingDropChance(IBlockState state) {

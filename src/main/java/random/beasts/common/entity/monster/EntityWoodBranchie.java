@@ -30,6 +30,19 @@ public class EntityWoodBranchie extends EntityBranchieBase {
         super(worldIn);
     }
 
+    public static EntityWoodBranchie create(BlockEvent.BreakEvent event) {
+        EntityWoodBranchie entity = new EntityWoodBranchie(event.getWorld());
+        BlockPos pos = event.getPos();
+        IBlockState state = event.getState();
+        BlockPlanks.EnumType variant = state.getBlock() == Blocks.LOG ? state.getValue(BlockOldLog.VARIANT) : state.getValue(BlockNewLog.VARIANT);
+        entity.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
+        entity.onInitialSpawn(event.getWorld().getDifficultyForLocation(pos), null);
+        entity.setVariant(variant);
+        List<EntityWoodBranchie> branchies = event.getWorld().getEntitiesWithinAABB(EntityWoodBranchie.class, new AxisAlignedBB(event.getPos()).grow(10), branchie -> branchie != null && branchie != entity && branchie.getVariant() == variant);
+        branchies.forEach(branchie -> branchie.setRevengeTarget(event.getPlayer()));
+        return entity;
+    }
+
     @Override
     protected void entityInit() {
         super.entityInit();
@@ -44,12 +57,12 @@ public class EntityWoodBranchie extends EntityBranchieBase {
         return livingdata;
     }
 
-    private void setVariant(BlockPlanks.EnumType variant) {
-        this.dataManager.set(VARIANT, variant.ordinal());
-    }
-
     public BlockPlanks.EnumType getVariant() {
         return BlockPlanks.EnumType.values()[this.dataManager.get(VARIANT)];
+    }
+
+    private void setVariant(BlockPlanks.EnumType variant) {
+        this.dataManager.set(VARIANT, variant.ordinal());
     }
 
     @Nullable
@@ -65,7 +78,8 @@ public class EntityWoodBranchie extends EntityBranchieBase {
             int i = this.rand.nextInt(3) + 2;
             if (lootingModifier > 0) i += this.rand.nextInt(lootingModifier + 1);
             for (int j = 0; j < i; ++j) this.entityDropItem(new ItemStack(Items.STICK), 0);
-            for (int j = 0; j < Math.floor(i/2f); ++j) this.entityDropItem(new ItemStack(item, 1, getVariant().ordinal()), 0);
+            for (int j = 0; j < Math.floor(i / 2f); ++j)
+                this.entityDropItem(new ItemStack(item, 1, getVariant().ordinal()), 0);
         }
     }
 
@@ -79,18 +93,5 @@ public class EntityWoodBranchie extends EntityBranchieBase {
     public void readEntityFromNBT(NBTTagCompound compound) {
         super.readEntityFromNBT(compound);
         this.setVariant(BlockPlanks.EnumType.values()[compound.getInteger("variant")]);
-    }
-
-    public static EntityWoodBranchie create(BlockEvent.BreakEvent event) {
-        EntityWoodBranchie entity = new EntityWoodBranchie(event.getWorld());
-        BlockPos pos = event.getPos();
-        IBlockState state = event.getState();
-        BlockPlanks.EnumType variant = state.getBlock() == Blocks.LOG ? state.getValue(BlockOldLog.VARIANT) : state.getValue(BlockNewLog.VARIANT);
-        entity.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
-        entity.onInitialSpawn(event.getWorld().getDifficultyForLocation(pos), null);
-        entity.setVariant(variant);
-        List<EntityWoodBranchie> branchies = event.getWorld().getEntitiesWithinAABB(EntityWoodBranchie.class, new AxisAlignedBB(event.getPos()).grow(10), branchie -> branchie != null && branchie != entity && branchie.getVariant() == variant);
-        branchies.forEach(branchie -> branchie.setRevengeTarget(event.getPlayer()));
-        return entity;
     }
 }

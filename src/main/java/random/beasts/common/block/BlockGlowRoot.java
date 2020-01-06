@@ -17,7 +17,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import random.beasts.block.BeastsBlock;
+import random.beasts.api.block.BeastsBlock;
 import random.beasts.common.init.BeastsBlocks;
 import random.beasts.common.init.BeastsItems;
 
@@ -38,7 +38,7 @@ public class BlockGlowRoot extends BeastsBlock {
 
     private boolean canBlockStay(World worldIn, BlockPos pos) {
         BlockPos up = pos.up();
-        if(isTop) return worldIn.getBlockState(up).getBlock() != Blocks.AIR;
+        if (isTop) return worldIn.getBlockState(up).getBlock() != Blocks.AIR;
         return worldIn.getBlockState(up).getBlock() == BeastsBlocks.GLOW_ROOT_TOP;
     }
 
@@ -67,9 +67,8 @@ public class BlockGlowRoot extends BeastsBlock {
     public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
         if (isTop) {
             if (player.capabilities.isCreativeMode) worldIn.setBlockToAir(pos.down());
-            else worldIn.destroyBlock(pos.down(),true);
-        }
-        else worldIn.setBlockState(pos.up(), Blocks.AIR.getDefaultState(), 2);
+            else worldIn.destroyBlock(pos.down(), true);
+        } else worldIn.setBlockState(pos.up(), Blocks.AIR.getDefaultState(), 2);
         super.onBlockHarvested(worldIn, pos, state, player);
     }
 

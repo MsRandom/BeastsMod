@@ -23,15 +23,17 @@ public class ItemPufferArmor extends BeastsArmor {
     public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
         super.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
         //todo change this to use EnchantmentHelper and ItemEnchantedBook
-        if(((NonNullList<ItemStack>)entityIn.getArmorInventoryList()).stream().allMatch(s -> s.getItem() instanceof ItemPufferArmor)) for (ItemStack s : entityIn.getArmorInventoryList()) {
-            boolean flag = false;
-            if (s.getTagCompound() != null && s.getTagCompound().hasKey("ench", 9)) {
-                NBTTagList list = s.getTagCompound().getTagList("ench", 10);
-                int index = getEnchantmentIndex(list);
-                if (index != -1) flag = true;
+        if (((NonNullList<ItemStack>) entityIn.getArmorInventoryList()).stream().allMatch(s -> s.getItem() instanceof ItemPufferArmor))
+            for (ItemStack s : entityIn.getArmorInventoryList()) {
+                boolean flag = false;
+                if (s.getTagCompound() != null && s.getTagCompound().hasKey("ench", 9)) {
+                    NBTTagList list = s.getTagCompound().getTagList("ench", 10);
+                    int index = getEnchantmentIndex(list);
+                    if (index != -1) flag = true;
+                }
+                if (!flag) s.addEnchantment(Enchantments.THORNS, 2);
             }
-            if(!flag) s.addEnchantment(Enchantments.THORNS, 2);
-        } else for (ItemStack s : entityIn.getArmorInventoryList()) {
+        else for (ItemStack s : entityIn.getArmorInventoryList()) {
             if (s.getTagCompound() != null && s.getTagCompound().hasKey("ench", 9)) {
                 NBTTagList list = s.getTagCompound().getTagList("ench", 10);
                 int index = getEnchantmentIndex(list);

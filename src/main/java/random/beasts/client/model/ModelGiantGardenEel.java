@@ -42,16 +42,16 @@ public class ModelGiantGardenEel extends ModelBase {
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         this.body.render(f5);
     }
 
     @Override
-    public void setLivingAnimations(EntityLivingBase entityIn,float limbSwing, float limbSwingAmount, float partialTickTime) {
-        EntityGiantGardenEel gardenEel = (EntityGiantGardenEel)entityIn;
+    public void setLivingAnimations(EntityLivingBase entityIn, float limbSwing, float limbSwingAmount, float partialTickTime) {
+        EntityGiantGardenEel gardenEel = (EntityGiantGardenEel) entityIn;
         float slam = gardenEel.getSlamTimer();
-         this.body.rotateAngleX = (250 - slam)/180f;
-         if(slam == 250) for(int i = 0; i < parts.length; i++) {
+        this.body.rotateAngleX = (250 - slam) / 180f;
+        if (slam == 250) for (int i = 0; i < parts.length; i++) {
             float degree = 0.25f * (i + 1);
             parts[i].rotateAngleZ = MathHelper.cos(gardenEel.ticksExisted * 0.05f) * degree * 0.1f;
         }

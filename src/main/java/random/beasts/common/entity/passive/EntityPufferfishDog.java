@@ -36,8 +36,8 @@ public class EntityPufferfishDog extends EntityTameable {
     private static final DataParameter<Integer> COLLAR_COLOR = EntityDataManager.createKey(EntityPufferfishDog.class, DataSerializers.VARINT);
     private static final DataParameter<Float> THREAT_TIME = EntityDataManager.createKey(EntityPufferfishDog.class, DataSerializers.FLOAT);
     private int bounces = 0;
-	private BlockPos jukeboxPosition;
-	private boolean partyPufferfishDog;
+    private BlockPos jukeboxPosition;
+    private boolean partyPufferfishDog;
 
     private EntityPufferfishDog(World worldIn) {
         super(worldIn);
@@ -59,14 +59,15 @@ public class EntityPufferfishDog extends EntityTameable {
         });
         this.tasks.addTask(2, new EntityAIWander(this, 0.5, 50) {
             @Override
-            public boolean shouldExecute(){
+            public boolean shouldExecute() {
                 return !isSitting() && super.shouldExecute();
             }
         });
     }
 
     @Override
-    public void fall(float distance, float damageMultiplier) { }
+    public void fall(float distance, float damageMultiplier) {
+    }
 
     @Override
     public EntityAgeable createChild(@Nonnull EntityAgeable ageable) {
@@ -134,15 +135,14 @@ public class EntityPufferfishDog extends EntityTameable {
 
     @Override
     public void onLivingUpdate() {
-    	
-    	 if (this.jukeboxPosition == null || this.jukeboxPosition.distanceSq(this.posX, this.posY, this.posZ) > 12.0D || this.world.getBlockState(this.jukeboxPosition).getBlock() != Blocks.JUKEBOX)
-         {
-             this.partyPufferfishDog = false;
-             this.jukeboxPosition = null;
-         }
-    	
-        if(!world.isRemote) {
-            if(isInWater()) this.setAir(300);
+
+        if (this.jukeboxPosition == null || this.jukeboxPosition.distanceSq(this.posX, this.posY, this.posZ) > 12.0D || this.world.getBlockState(this.jukeboxPosition).getBlock() != Blocks.JUKEBOX) {
+            this.partyPufferfishDog = false;
+            this.jukeboxPosition = null;
+        }
+
+        if (!world.isRemote) {
+            if (isInWater()) this.setAir(300);
             if (isInflated()) {
                 setThreatTime(getThreatTime() + 1);
                 if (onGround) {
@@ -150,7 +150,8 @@ public class EntityPufferfishDog extends EntityTameable {
                     else motionY += 0.25 / bounces++;
                 } else motionY -= 0.01;
                 if (getThreatTime() > 140) setInflated(false);
-                for (Entity entity : this.world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().grow(1))) if(entity != this.getOwner()) entity.attackEntityFrom(DamageSource.CACTUS, 1.0F);
+                for (Entity entity : this.world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().grow(1)))
+                    if (entity != this.getOwner()) entity.attackEntityFrom(DamageSource.CACTUS, 1.0F);
             } else bounces = 0;
         }
         super.onLivingUpdate();
@@ -198,7 +199,7 @@ public class EntityPufferfishDog extends EntityTameable {
     @Override
     public boolean attackEntityFrom(@Nonnull DamageSource source, float amount) {
         if (source != DamageSource.FALL) {
-            if(source.getImmediateSource() != null) setInflated(true);
+            if (source.getImmediateSource() != null) setInflated(true);
             return super.attackEntityFrom(source, amount);
         }
         return false;
@@ -218,15 +219,14 @@ public class EntityPufferfishDog extends EntityTameable {
     public boolean isBreedingItem(ItemStack stack) {
         return stack.getItem() == Items.SPIDER_EYE;
     }
-    
+
     @Override
     @SideOnly(Side.CLIENT)
-    public void setPartying(BlockPos pos, boolean p_191987_2_)
-    {
+    public void setPartying(BlockPos pos, boolean p_191987_2_) {
         this.jukeboxPosition = pos;
         this.partyPufferfishDog = p_191987_2_;
     }
-    
+
     @SideOnly(Side.CLIENT)
     public boolean isPartying() {
         return this.partyPufferfishDog;
@@ -256,7 +256,7 @@ public class EntityPufferfishDog extends EntityTameable {
         playSound(inflated ? BeastsSounds.PUFFERFISH_BLOW_UP : BeastsSounds.PUFFERFISH_BLOW_OUT, getSoundVolume(), getSoundPitch());
         setSitting(false);
         setNoGravity(inflated);
-        setThreatTime(inflated?1:0);
-        motionY += inflated?0.5:0;
+        setThreatTime(inflated ? 1 : 0);
+        motionY += inflated ? 0.5 : 0;
     }
 }
