@@ -20,10 +20,10 @@ import java.util.Objects;
 
 public class BeastsGuiHandler implements IGuiHandler {
 
-    public static final BeastsGuiScreen GUI_LANDWHALE = new BeastsGuiScreen((player, world, x, y, z) -> new ContainerLandwhaleInventory((EntityLandwhale) Objects.requireNonNull(world.getEntityByID(x)), player), (player, world, x, y, z) -> new GuiLandwhaleInventory((EntityLandwhale) world.getEntityByID(x), player));
-    public static final BeastsGuiScreen GUI_TRIMOLA = new BeastsGuiScreen((player, world, x, y, z) -> new ContainerTrimolaInventory((EntityTrimola) Objects.requireNonNull(world.getEntityByID(x)), player), (player, world, x, y, z) -> new GuiTrimolaInventory((EntityTrimola) world.getEntityByID(x), player));
     private static final List<BeastsGuiScreen> LIST = new ArrayList<>();
     private static int lastId = 0;
+    public static final BeastsGuiScreen GUI_LANDWHALE = new BeastsGuiScreen((player, world, x, y, z) -> new ContainerLandwhaleInventory((EntityLandwhale) Objects.requireNonNull(world.getEntityByID(x)), player), (player, world, x, y, z) -> new GuiLandwhaleInventory((EntityLandwhale) world.getEntityByID(x), player));
+    public static final BeastsGuiScreen GUI_TRIMOLA = new BeastsGuiScreen((player, world, x, y, z) -> new ContainerTrimolaInventory((EntityTrimola) Objects.requireNonNull(world.getEntityByID(x)), player), (player, world, x, y, z) -> new GuiTrimolaInventory((EntityTrimola) world.getEntityByID(x), player));
 
     public static void init() {
         NetworkRegistry.INSTANCE.registerGuiHandler(BeastsMod.instance, new BeastsGuiHandler());

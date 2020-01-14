@@ -95,6 +95,8 @@ public class EntityTrimola extends EntityTameable implements IInventoryChangedLi
     protected void entityInit() {
         super.entityInit();
         this.dataManager.register(SADDLE, ItemStack.EMPTY);
+        dataManager.register(VARIANT, 0);
+
     }
 
     public int getVariant() {

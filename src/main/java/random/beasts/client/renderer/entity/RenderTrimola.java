@@ -14,7 +14,7 @@ public class RenderTrimola extends RenderLiving<EntityTrimola> {
     private static final ResourceLocation[] SADDLE_TEXTURES = new ResourceLocation[]{new ResourceLocation(BeastsReference.ID, "textures/entity/trimola/saddle_1"), new ResourceLocation(BeastsReference.ID, "textures/entity/trimola/saddle_2")};
 
     public RenderTrimola(RenderManager rendermanagerIn) {
-        super(rendermanagerIn, new ModelTrimola(), 0.2f);
+        super(rendermanagerIn, new ModelTrimola(), 0.4f);
     }
 
     @Nullable

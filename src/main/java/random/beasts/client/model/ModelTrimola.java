@@ -70,6 +70,7 @@ public class ModelTrimola extends ModelBase {
         }
         this.leftfrontleg.rotateAngleX = MathHelper.cos(limbSwing * 0.5f) * 0.4f * limbSwingAmount;
         this.rightfrontleg.rotateAngleX = MathHelper.cos(limbSwing * 0.5f + (float) Math.PI) * 0.4f * limbSwingAmount;
+        this.backleg.rotateAngleX = MathHelper.cos(limbSwing * 0.5f + (float) Math.PI) * 0.4f * limbSwingAmount;
         /*if(attackTicks == 0) {
             this.backleg.rotateAngleX = MathHelper.cos(limbSwing * 0.5f + ((float) Math.PI / 2)) * 0.4f * limbSwingAmount;
         }*/
