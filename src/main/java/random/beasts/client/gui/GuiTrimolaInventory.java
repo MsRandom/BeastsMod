@@ -25,6 +25,6 @@ public class GuiTrimolaInventory extends GuiContainer {
         int i = (this.width - this.xSize) / 2;
         int j = (this.height - this.ySize) / 2;
         this.drawTexturedModalRect(i, j, 0, 0, this.xSize, this.ySize);
-        GuiInventory.drawEntityOnScreen(i + 97, j + 60, 10, i + 97 - mouseX, j + 25 - mouseY, trimola);
+        GuiInventory.drawEntityOnScreen(i + 97, j + 60, 20, i + 97 - mouseX, j + 25 - mouseY, trimola);
     }
 }
