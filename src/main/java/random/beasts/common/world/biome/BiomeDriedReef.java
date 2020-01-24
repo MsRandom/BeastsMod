@@ -79,10 +79,10 @@ public class BiomeDriedReef extends BeastsBiome {
     }
 
     private BlockPos getPos(World worldIn, Random rand, BlockPos pos) {
-        for (; ; ) {
+        while (true) {
             BlockPos height = worldIn.getHeight(pos.add(rand.nextInt(16) + 8, 0, rand.nextInt(16) + 8));
             BlockPos nearest = getNearestGeneratedCoords(height);
-            if (worldIn.getBiomeForCoordsBody(pos) != BeastsBiomes.DRIED_REEF || (nearest != null && nearest.distanceSq(height) < 100)) {
+            if (worldIn.getBiome(pos) != BeastsBiomes.DRIED_REEF || (nearest != null && nearest.distanceSq(height) < 100)) {
                 pos = height;
                 continue;
             }

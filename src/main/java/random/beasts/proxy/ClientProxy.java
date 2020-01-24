@@ -1,12 +1,6 @@
 package random.beasts.proxy;
 
-import java.util.Objects;
-
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockDoor;
-import net.minecraft.block.BlockFenceGate;
-import net.minecraft.block.BlockLeaves;
-import net.minecraft.block.BlockSlab;
+import net.minecraft.block.*;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.StateMap;
@@ -21,53 +15,20 @@ import random.beasts.api.block.BeastsSlab;
 import random.beasts.api.item.IHandleMeta;
 import random.beasts.api.main.BeastsReference;
 import random.beasts.api.main.BeastsRegistries;
-import random.beasts.client.renderer.entity.RenderAnemoneCrawler;
-import random.beasts.client.renderer.entity.RenderBeastsPainting;
-import random.beasts.client.renderer.entity.RenderChorusBranchie;
-import random.beasts.client.renderer.entity.RenderCoconutBomb;
-import random.beasts.client.renderer.entity.RenderCoconutCrab;
-import random.beasts.client.renderer.entity.RenderCoralBranchie;
-import random.beasts.client.renderer.entity.RenderFallingCoconut;
-import random.beasts.client.renderer.entity.RenderGiantGardenEel;
-import random.beasts.client.renderer.entity.RenderHermitTurtle;
-import random.beasts.client.renderer.entity.RenderLandwhale;
-import random.beasts.client.renderer.entity.RenderLegfish;
-import random.beasts.client.renderer.entity.RenderPufferfishDog;
-import random.beasts.client.renderer.entity.RenderRabbitman;
-import random.beasts.client.renderer.entity.RenderScallop;
-import random.beasts.client.renderer.entity.RenderSkewerShrimp;
-import random.beasts.client.renderer.entity.RenderSlimeSlug;
-import random.beasts.client.renderer.entity.RenderThrownCoconut;
-import random.beasts.client.renderer.entity.RenderTrimola;
-import random.beasts.client.renderer.entity.RenderVileEel;
-import random.beasts.client.renderer.entity.RenderWhippingBarnacle;
-import random.beasts.client.renderer.entity.RenderWoodBranchie;
+import random.beasts.client.renderer.entity.*;
 import random.beasts.client.renderer.tileentity.TileEntityCoconutRenderer;
 import random.beasts.common.block.BlockAnemoneMouth;
 import random.beasts.common.block.BlockPalmTreeLeaves;
 import random.beasts.common.entity.item.EntityBeastsPainting;
 import random.beasts.common.entity.item.EntityFallingCoconut;
 import random.beasts.common.entity.item.EntityThrownCoconut;
-import random.beasts.common.entity.monster.EntityChorusBranchie;
-import random.beasts.common.entity.monster.EntityCoconutCrab;
-import random.beasts.common.entity.monster.EntityCoralBranchie;
-import random.beasts.common.entity.monster.EntityGiantGardenEel;
-import random.beasts.common.entity.monster.EntityScallop;
-import random.beasts.common.entity.monster.EntitySkewerShrimp;
-import random.beasts.common.entity.monster.EntityTrimola;
-import random.beasts.common.entity.monster.EntityVileEel;
-import random.beasts.common.entity.monster.EntityWhippingBarnacle;
-import random.beasts.common.entity.monster.EntityWoodBranchie;
-import random.beasts.common.entity.passive.EntityAnemoneCrawler;
-import random.beasts.common.entity.passive.EntityHermitTurtle;
-import random.beasts.common.entity.passive.EntityLandwhale;
-import random.beasts.common.entity.passive.EntityLegfish;
-import random.beasts.common.entity.passive.EntityPufferfishDog;
-import random.beasts.common.entity.passive.EntityRabbitman;
-import random.beasts.common.entity.passive.EntitySlimeSlug;
+import random.beasts.common.entity.monster.*;
+import random.beasts.common.entity.passive.*;
 import random.beasts.common.entity.projectile.EntityCoconutBomb;
 import random.beasts.common.init.BeastsBlocks;
 import random.beasts.common.tileentity.TileEntityCoconut;
+
+import java.util.Objects;
 
 public class ClientProxy extends CommonProxy {
 
@@ -76,6 +37,7 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void preInit() {
 		super.preInit();
+		ClientRegistry.registerKeyBinding(EntityTrimola.ATTACK);
 		this.registerEntityRenders();
 	}
 

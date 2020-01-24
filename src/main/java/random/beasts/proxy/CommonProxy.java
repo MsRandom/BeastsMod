@@ -3,13 +3,19 @@ package random.beasts.proxy;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
+import net.minecraftforge.common.util.EnumHelper;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.oredict.OreDictionary;
+import random.beasts.api.main.BeastsReference;
 import random.beasts.api.main.BeastsUtils;
 import random.beasts.client.init.BeastsCreativeTabs;
 import random.beasts.common.block.BlockPalmTreeLeaves;
 import random.beasts.common.block.BlockShell;
 import random.beasts.common.init.*;
 import random.beasts.common.network.BeastsGuiHandler;
+import random.beasts.common.world.biome.RealisticBiomeDriedReef;
+import rtg.api.RTGAPI;
+import rtg.util.ModCompat;
 
 public class CommonProxy {
 
@@ -24,6 +30,10 @@ public class CommonProxy {
     }
 
     public void init() {
+        if (Loader.isModLoaded("rtg")) {
+            EnumHelper.addEnum(ModCompat.Mods.class, BeastsReference.ID, new Class[0]);
+            RTGAPI.RTG_BIOMES.addBiomes(new RealisticBiomeDriedReef());
+        }
         registerOreDict();
     }
 

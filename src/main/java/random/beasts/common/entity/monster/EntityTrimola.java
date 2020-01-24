@@ -9,7 +9,6 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.IInventoryChangedListener;
 import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
@@ -31,7 +30,7 @@ import javax.annotation.Nullable;
 
 public class EntityTrimola extends EntityTameable implements IInventoryChangedListener {
     @SideOnly(Side.CLIENT)
-    private static final KeyBinding ATTACK = new KeyBinding("trimola.attack", 19, "key.categories.misc");
+    public static final KeyBinding ATTACK = new KeyBinding("trimola.attack", 19, "key.categories.misc");
     private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityTrimola.class, DataSerializers.VARINT);
     private static final DataParameter<ItemStack> SADDLE = EntityDataManager.createKey(EntityTrimola.class, DataSerializers.ITEM_STACK);
     public InventoryBasic inventory;
@@ -46,12 +45,13 @@ public class EntityTrimola extends EntityTameable implements IInventoryChangedLi
     @Override
     protected void initEntityAI() {
         this.tasks.addTask(0, new EntityAISwimming(this));
+        this.tasks.addTask(0, new EntityAINearestAttackableTarget<>(this, EntityLivingBase.class, 10, true, false, entity -> entity == getAttackTarget()));
         this.tasks.addTask(1, new EntityAIPanic(this, 2.0D));
-        this.tasks.addTask(2, new EntityAIMate(this, 1.0D));
-        this.tasks.addTask(4, new EntityAIFollowParent(this, 1.25D));
-        this.tasks.addTask(5, new EntityAIWanderAvoidWater(this, 1.0D));
-        this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
-        this.tasks.addTask(7, new EntityAILookIdle(this));
+        this.tasks.addTask(1, new EntityAIMate(this, 1.0D));
+        this.tasks.addTask(1, new EntityAIFollowParent(this, 1.25D));
+        this.tasks.addTask(2, new EntityAIWanderAvoidWater(this, 1.0D));
+        this.tasks.addTask(2, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
+        this.tasks.addTask(2, new EntityAILookIdle(this));
     }
 
     @Override
@@ -75,7 +75,7 @@ public class EntityTrimola extends EntityTameable implements IInventoryChangedLi
         if (attackTicks > 0 && attackTicks < 300) ++attackTicks;
         else attackTicks = 0;
         if (attackTicks == 150) {
-            world.getEntitiesWithinAABB(EntityLivingBase.class, getEntityBoundingBox()).stream().filter(e -> e == this).forEach(this::attackEntityAsMob);
+            world.getEntitiesWithinAABB(EntityLivingBase.class, getEntityBoundingBox()).stream().filter(e -> e != this).forEach(this::attackEntityAsMob);
         }
     }
 
@@ -113,7 +113,6 @@ public class EntityTrimola extends EntityTameable implements IInventoryChangedLi
 
     public void setSaddle(ItemStack saddle) {
         this.dataManager.set(SADDLE, saddle);
-        this.inventory.setInventorySlotContents(0, saddle);
     }
 
     @Override
@@ -133,7 +132,9 @@ public class EntityTrimola extends EntityTameable implements IInventoryChangedLi
         initInventory();
         setVariant(compound.getInteger("Variant"));
         if (compound.hasKey("Saddle")) {
-            setSaddle(new ItemStack(compound.getCompoundTag("Saddle")));
+            ItemStack saddle = new ItemStack(compound.getCompoundTag("Saddle"));
+            setSaddle(saddle);
+            this.inventory.setInventorySlotContents(0, saddle);
         }
     }
 
@@ -151,7 +152,7 @@ public class EntityTrimola extends EntityTameable implements IInventoryChangedLi
             }
             if (stack.getItem() == Item.getItemFromBlock(BeastsBlocks.JELLY_LEAVES)) {
                 if (!player.capabilities.isCreativeMode) stack.shrink(1);
-                this.heal(((ItemFood) stack.getItem()).getHealAmount(stack));
+                this.heal(5);
                 return true;
             }
         } else if (!this.isTamed() && stack.getItem() == Item.getItemFromBlock(BeastsBlocks.JELLY_LEAVES)) {

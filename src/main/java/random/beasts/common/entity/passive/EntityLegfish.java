@@ -19,8 +19,8 @@ import java.util.HashMap;
 
 public class EntityLegfish extends EntityAnimal {
     public static final HashMap<Integer, Integer> VARIANTS = new HashMap<>();
-    private static final DataParameter<Integer> TYPE = EntityDataManager.createKey(EntityAnemoneCrawler.class, DataSerializers.VARINT);
-    private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityAnemoneCrawler.class, DataSerializers.VARINT);
+    private static final DataParameter<Integer> TYPE = EntityDataManager.createKey(EntityLegfish.class, DataSerializers.VARINT);
+    private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityLegfish.class, DataSerializers.VARINT);
 
     static {
         VARIANTS.put(0, 2);
