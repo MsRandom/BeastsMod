@@ -13,7 +13,7 @@ public class ContainerTrimolaInventory extends Container {
     public ContainerTrimolaInventory(EntityTrimola trimola, EntityPlayer player) {
         this.trimola = trimola;
         trimola.inventory.openInventory(player);
-        this.addSlotToContainer(new Slot(trimola.inventory, 0, 8, 18) {
+        this.addSlotToContainer(new Slot(trimola.inventory, 0, 54, 18) {
             public boolean isItemValid(ItemStack stack) {
                 return stack.getItem() == Items.SADDLE && !this.getHasStack() && trimola.getSaddle().isEmpty();
             }

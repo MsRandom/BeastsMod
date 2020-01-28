@@ -1,6 +1,9 @@
 package random.beasts.api.block;
 
+import java.util.function.Function;
+
 import net.minecraft.block.BlockSlab;
+import net.minecraft.block.BlockWoodSlab;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
@@ -10,8 +13,6 @@ import net.minecraft.item.ItemSlab;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
 import random.beasts.api.main.BeastsUtils;
-
-import java.util.function.Function;
 
 public class BeastsSlab {
     public static final PropertyEnum<FakeVariant> VARIANT = PropertyEnum.create("variant", FakeVariant.class);
