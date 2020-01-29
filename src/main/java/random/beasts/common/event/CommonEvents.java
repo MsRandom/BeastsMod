@@ -14,6 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.Tuple;
+import net.minecraft.world.storage.loot.LootPool;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -86,8 +87,11 @@ public class CommonEvents {
     public static void loadLootTable(LootTableLoadEvent event) {
         //TODO fix this crash without wrapping it
         try {
-            BeastsLootTable table = BeastsLootTables.TABLES.get(event.getName().getResourcePath());
-            if (table != null) event.getTable().getPool("main").addEntry(table.tableSupplier.get());
+            BeastsLootTable table = BeastsLootTables.TABLES.get(event.getName());
+            if (table != null) {
+                LootPool pool = event.getTable().getPool("main");
+                if (pool != null) pool.addEntry(table.tableSupplier.get());
+            }
         } catch (NullPointerException e) {
             BeastsMod.getLogger().error("Failed to load loot tables for Beasts", e);
         }

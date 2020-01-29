@@ -32,8 +32,6 @@ import java.util.Objects;
 
 public class ClientProxy extends CommonProxy {
 
-	public static final TileEntityCoconutRenderer COCONUT_RENDERER = new TileEntityCoconutRenderer();
-
 	@Override
 	public void preInit() {
 		super.preInit();
@@ -92,7 +90,7 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	private void registerTileEntityRenders() {
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCoconut.class, COCONUT_RENDERER);
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCoconut.class, new TileEntityCoconutRenderer());
 	}
 
 	@Override

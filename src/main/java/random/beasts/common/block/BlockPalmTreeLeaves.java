@@ -39,7 +39,7 @@ public class BlockPalmTreeLeaves extends BeastsLeaves {
     }
 
     protected ItemStack getSilkTouchDrop(IBlockState state) {
-        return new ItemStack(Item.getItemFromBlock(this), 1, BlockPlanks.EnumType.JUNGLE.getMetadata());
+        return new ItemStack(this);
     }
 
     public IBlockState getStateFromMeta(int meta) {

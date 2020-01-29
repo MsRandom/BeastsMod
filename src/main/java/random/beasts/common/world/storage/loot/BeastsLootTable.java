@@ -15,6 +15,6 @@ public class BeastsLootTable {
     public BeastsLootTable(String location, String replace, Supplier<LootEntryTable> apply) {
         this.tableSupplier = apply;
         this.id = new ResourceLocation(BeastsReference.ID, location);
-        BeastsLootTables.TABLES.put(replace, this);
+        BeastsLootTables.TABLES.put(new ResourceLocation(replace), this);
     }
 }

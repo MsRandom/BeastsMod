@@ -6,6 +6,7 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -41,6 +42,11 @@ public class BlockJellyfishLeaves extends BeastsLeaves {
         Block block = iblockstate.getBlock();
         if (blockState != iblockstate) return true;
         return block != this && super.shouldSideBeRendered(blockState, blockAccess, pos, side);
+    }
+
+    @Override
+    protected ItemStack getSilkTouchDrop(IBlockState state) {
+        return new ItemStack(this);
     }
 
     @Override

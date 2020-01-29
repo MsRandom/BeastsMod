@@ -2,6 +2,8 @@ package random.beasts.client.model;
 
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityArmorStand;
 
 public class ModelPufferArmor extends ModelBiped {
     public ModelRenderer right;
@@ -250,6 +252,12 @@ public class ModelPufferArmor extends ModelBiped {
         this.bipedLeftArm.render(f5);
         this.bipedLeftLeg.render(f5);
     }*/
+
+    @Override
+    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
+        if (entityIn instanceof EntityArmorStand) return;
+        super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
+    }
 
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
         modelRenderer.rotateAngleX = x;

@@ -1,11 +1,10 @@
 package random.beasts.client.renderer.entity;
 
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
+import random.beasts.client.renderer.RenderCoconut;
 import random.beasts.common.entity.item.EntityFallingCoconut;
-import random.beasts.proxy.ClientProxy;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -19,13 +18,12 @@ public class RenderFallingCoconut extends Render<EntityFallingCoconut> {
     @Override
     public void doRender(EntityFallingCoconut entity, double x, double y, double z, float entityYaw, float partialTicks) {
         super.doRender(entity, x, y, z, entityYaw, partialTicks);
-        GlStateManager.translate(0.501F, 0, -0.501F);
-        ClientProxy.COCONUT_RENDERER.render(null, x, y, z, partialTicks, -1, 1);
+        RenderCoconut.render(x, y, z, this::bindTexture, this.renderOutlines, this.getTeamColor(entity));
     }
 
     @Nullable
     @Override
     protected ResourceLocation getEntityTexture(@Nonnull EntityFallingCoconut entity) {
-        return RenderCoconutCrab.TEXTURE;
+        return RenderCoconut.TEXTURE;
     }
 }

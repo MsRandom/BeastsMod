@@ -44,6 +44,12 @@ public class BeastsSapling extends BlockBush implements IGrowable {
     }
 
     @Override
+    public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
+        IBlockState soil = worldIn.getBlockState(pos.down());
+        return super.canPlaceBlockAt(worldIn, pos) && soil.getBlock() == Blocks.SAND;
+    }
+
+    @Override
     protected boolean canSustainBush(IBlockState state) {
         return state.getBlock() == Blocks.SAND;
     }

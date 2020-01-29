@@ -12,6 +12,7 @@ import net.minecraft.pathfinding.PathNavigateFlying;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import random.beasts.client.init.BeastsSounds;
+import random.beasts.common.init.BeastsBiomes;
 import random.beasts.common.init.BeastsBlocks;
 import random.beasts.common.init.BeastsItems;
 
@@ -72,7 +73,7 @@ public class EntityScallop extends EntityMob implements EntityFlying {
             if (Math.abs(targetBlocks - blocksFlew) < 3) targetSetter.run();
             this.getLookHelper().setLookPosition(posX + (posX - prevPosX), 0, posZ + (posZ - prevPosZ), 0, 0);
 
-            Optional<EntityPlayer> player = world.playerEntities.stream().filter(p -> !p.capabilities.isCreativeMode && !p.isSpectator()).reduce((p1, p2) -> {
+            Optional<EntityPlayer> player = world.playerEntities.stream().filter(p -> !p.capabilities.isCreativeMode && !p.isSpectator() && world.getBiome(p.getPosition()) == BeastsBiomes.DRIED_REEF && getDistanceSq(p) <= 1280).reduce((p1, p2) -> {
                 if (getDistanceSq(p1) > getDistanceSq(p2)) return p2;
                 return p1;
             });
@@ -81,7 +82,12 @@ public class EntityScallop extends EntityMob implements EntityFlying {
         } else {
             if (getAttackTarget() instanceof EntityPlayer) {
                 EntityPlayer player = (EntityPlayer) getAttackTarget();
-                if (player.capabilities.isCreativeMode || player.isSpectator()) {
+                boolean dead = player.isDead;
+                if (player.capabilities.isCreativeMode || player.isSpectator() || dead) {
+                    if (dead) {
+                        preferredAltitude = -1;
+                        preferredRotation = -1;
+                    }
                     setAttackTarget(null);
                     return;
                 }

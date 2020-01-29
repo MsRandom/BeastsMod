@@ -11,16 +11,14 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import random.beasts.api.main.BeastsReference;
 import random.beasts.client.model.ModelCoconut;
+import random.beasts.client.renderer.RenderCoconut;
 import random.beasts.common.entity.monster.EntityCoconutCrab;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class RenderCoconutCrab extends RenderLiving<EntityCoconutCrab> {
-
-    public static final ResourceLocation TEXTURE = new ResourceLocation(BeastsReference.ID, "textures/entity/coconut_crab.png");
 
     public RenderCoconutCrab(RenderManager rendermanagerIn) {
         super(rendermanagerIn, new ModelCoconut(), 0.1f);
@@ -35,7 +33,7 @@ public class RenderCoconutCrab extends RenderLiving<EntityCoconutCrab> {
     @Nullable
     @Override
     protected ResourceLocation getEntityTexture(@Nonnull EntityCoconutCrab entity) {
-        return TEXTURE;
+        return RenderCoconut.TEXTURE;
     }
 
     @SideOnly(Side.CLIENT)

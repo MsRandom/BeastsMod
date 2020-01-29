@@ -5,7 +5,6 @@ import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
@@ -24,12 +23,6 @@ public class BlockCoralSapling extends BeastsSapling {
     public BlockCoralSapling() {
         super("coral_sapling", null, ItemCoralBlock::new);
         this.setDefaultState(getDefaultState().withProperty(TYPE, CoralColor.BLUE));
-    }
-
-    @Override
-    public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
-        IBlockState soil = worldIn.getBlockState(pos.down());
-        return super.canPlaceBlockAt(worldIn, pos) && soil.getBlock() == Blocks.SAND;
     }
 
     @Override

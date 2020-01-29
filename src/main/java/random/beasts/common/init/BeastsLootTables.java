@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BeastsLootTables {
-    public static final Map<String, BeastsLootTable> TABLES = new HashMap<>();
+    public static final Map<ResourceLocation, BeastsLootTable> TABLES = new HashMap<>();
     private static final BeastsLootTable FISH = new BeastsLootTable("inject/fish", "gameplay/fishing", () -> getInjectEntry("fish", 100));
 
     public static void init() {

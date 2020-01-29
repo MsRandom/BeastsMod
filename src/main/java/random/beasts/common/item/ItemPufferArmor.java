@@ -20,6 +20,11 @@ public class ItemPufferArmor extends BeastsArmor {
     }
 
     @Override
+    public boolean hasEffect(ItemStack stack) {
+        return false;
+    }
+
+    @Override
     public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
         super.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
         //todo change this to use EnchantmentHelper and ItemEnchantedBook

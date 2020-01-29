@@ -6,6 +6,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -17,6 +18,7 @@ import random.beasts.common.init.BeastsItems;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class BlockAnemoneMouth extends BeastsAnemoneBlock {
     public static final PropertyInteger FED = PropertyInteger.create("fed", 0, 6);
@@ -26,6 +28,16 @@ public class BlockAnemoneMouth extends BeastsAnemoneBlock {
     public BlockAnemoneMouth() {
         super("mouth");
         this.setDefaultState(getDefaultState().withProperty(FED, 0));
+    }
+
+    @Override
+    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+        return Items.AIR;
+    }
+
+    @Override
+    protected ItemStack getSilkTouchDrop(IBlockState state) {
+        return new ItemStack(this);
     }
 
     @Override
