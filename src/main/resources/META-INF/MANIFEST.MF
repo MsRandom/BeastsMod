@@ -1,2 +1,3 @@
 Manifest-Version: 1.0
 FMLCorePlugin: random.beasts.api.world.biome.underground.ChunkCorePlugin
+FMLCorePluginContainsFMLMod: true

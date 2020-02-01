@@ -45,6 +45,7 @@ processResources {
 jar {
     manifest {
         attributes "FMLCorePlugin": "random.beasts.api.world.biome.ChunkCorePlugin"
+        attributes "FMLCorePluginContainsFMLMod": true
     }
 }
 

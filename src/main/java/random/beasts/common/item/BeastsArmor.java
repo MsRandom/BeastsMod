@@ -31,7 +31,11 @@ public class BeastsArmor extends ItemArmor {
             armorModel.isChild = defaultModel.isChild;
             armorModel.rightArmPose = defaultModel.rightArmPose;
             armorModel.leftArmPose = defaultModel.leftArmPose;
-            if (entityLiving instanceof EntityArmorStand) armorModel.bipedHead.rotateAngleY = 0;
+            if (entityLiving instanceof EntityArmorStand) armorModel.boxList.forEach(a -> {
+                a.rotateAngleX = 0;
+                a.rotateAngleY = 0;
+                a.rotateAngleZ = 0;
+            });
         }
 
         return armorModel;

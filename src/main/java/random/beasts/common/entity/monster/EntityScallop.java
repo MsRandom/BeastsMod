@@ -9,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.pathfinding.PathNavigateFlying;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import random.beasts.client.init.BeastsSounds;
@@ -52,6 +53,7 @@ public class EntityScallop extends EntityMob implements EntityFlying {
     @Override
     public void onLivingUpdate() {
         super.onLivingUpdate();
+        int speed = MathHelper.floor(4 / getEntityAttribute(SharedMonsterAttributes.FLYING_SPEED).getAttributeValue());
         int worldHeight = world.getHeight((int) (posX + 0.5), (int) (posZ + 0.5));
         if (getAttackTarget() == null) {
             Runnable targetSetter = () -> {
@@ -101,12 +103,12 @@ public class EntityScallop extends EntityMob implements EntityFlying {
                 this.motionZ = -motionZ;
             } else {
                 getLookHelper().setLookPositionWithEntity(getAttackTarget(), 0, 0);
-                this.motionX += Math.signum(getAttackTarget().posX - posX) / 20;
-                this.motionZ += Math.signum(getAttackTarget().posZ - posZ) / 20;
-                if (stableFlying()) this.motionY += Math.signum(getAttackTarget().posY - posY) / 20;
+                this.motionX += Math.signum(getAttackTarget().posX - posX) / speed;
+                this.motionZ += Math.signum(getAttackTarget().posZ - posZ) / speed;
+                if (stableFlying()) this.motionY += Math.signum(getAttackTarget().posY - posY) / speed;
             }
         }
-        if (!stableFlying()) this.motionY += Math.signum(preferredAltitude - posY) / 42;
+        if (!stableFlying()) this.motionY += Math.signum(preferredAltitude - posY) / (speed * 2);
     }
 
     @Override
@@ -114,6 +116,7 @@ public class EntityScallop extends EntityMob implements EntityFlying {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(8);
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3);
+        this.getEntityAttribute(SharedMonsterAttributes.FLYING_SPEED).setBaseValue(0.16);
         this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1);
     }
 

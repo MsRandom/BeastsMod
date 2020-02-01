@@ -23,7 +23,7 @@ public class RenderCoconut {
         GlStateManager.translate((float) x, (float) y, (float) z);
         //GlStateManager.enableRescaleNormal();
         GlStateManager.scale(-1.0F, -1.0F, 1.0F);
-        //GlStateManager.translate(-0.501F, -1.401F, 0.501F);
+        GlStateManager.translate(-0.501F, -1.401F, 0.501F);
         //GlStateManager.enableAlpha();
         //GlStateManager.setActiveTexture(OpenGlHelper.lightmapTexUnit);
         //GlStateManager.setActiveTexture(OpenGlHelper.defaultTexUnit);

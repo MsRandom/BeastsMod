@@ -89,10 +89,10 @@ public abstract class UndergroundBiome extends BeastsBiome {
 
     private final byte[] blockBiomeArray = new byte[255];
 
-    public static Biome getBiome(BlockPos pos, Chunk chunk) {
+    public static Biome getBiome(BlockPos pos, Object chunk) {
         int i = pos.getX() & 15;
         int j = pos.getZ() & 15;
-        UndergroundGenerationCapabilities.UndergroundBiomes biomes = chunk.getCapability(UndergroundGenerationCapabilities.CAPABILITY, null);
+        UndergroundGenerationCapabilities.UndergroundBiomes biomes = ((Chunk) chunk).getCapability(UndergroundGenerationCapabilities.CAPABILITY, null);
         if (biomes != null) {
             int k = biomes.blockBiomeArray[j << 4 | i][pos.getY() / 16] & 255;
             if (k != 255) return Biome.getBiome(k);
