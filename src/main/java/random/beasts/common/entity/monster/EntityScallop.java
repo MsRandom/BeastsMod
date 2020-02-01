@@ -114,6 +114,7 @@ public class EntityScallop extends EntityMob implements EntityFlying {
     @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
+        this.getAttributeMap().registerAttribute(SharedMonsterAttributes.FLYING_SPEED);
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(8);
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3);
         this.getEntityAttribute(SharedMonsterAttributes.FLYING_SPEED).setBaseValue(0.16);
