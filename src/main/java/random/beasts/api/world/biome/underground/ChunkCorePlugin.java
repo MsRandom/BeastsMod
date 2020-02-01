@@ -12,6 +12,7 @@ import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.*;
 
 import javax.annotation.Nullable;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Map;
 
@@ -54,7 +55,7 @@ public class ChunkCorePlugin implements IFMLLoadingPlugin {
                     cls.methods.stream().filter(v -> v.name.equals("getBiome") || v.name.equals("func_177411_a")).findAny().ifPresent(method -> {
                         InsnList instructions = method.instructions;
                         LabelNode label = (LabelNode) instructions.getFirst();
-                        //instructions.insert(label, new FrameNode(Opcodes.F_APPEND, 4, new Object[] { 7, Type.getInternalName(BlockPos.class), Type.getInternalName(BiomeProvider.class), Type.getInternalName(Biome.class) }, 0, null));
+                        instructions.insert(label, new FrameNode(Opcodes.F_SAME, 0, null, 0, null));
                         instructions.insertBefore(label, new InsnNode(Opcodes.ARETURN));
                         instructions.insertBefore(instructions.getFirst(), new VarInsnNode(Opcodes.ALOAD, 3));
                         instructions.insertBefore(instructions.getFirst(), new JumpInsnNode(Opcodes.IFNULL, label));
@@ -66,7 +67,10 @@ public class ChunkCorePlugin implements IFMLLoadingPlugin {
                     });
                     ClassWriter writer = new ClassWriter(reader, 0);
                     cls.accept(writer);
-                    //return writer.toByteArray();
+                    FileOutputStream stream = new FileOutputStream("/home/random/IdeaProjects/BeastsMod/c.class");
+                    stream.write(writer.toByteArray());
+                    stream.close();
+                    return writer.toByteArray();
                 } catch (IOException e) {
                     LogManager.getLogger().error("Failed to transform Chunk class, underground biomes won't work.", e);
                 }
