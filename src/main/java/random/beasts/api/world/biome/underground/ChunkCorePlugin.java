@@ -12,7 +12,6 @@ import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.*;
 
 import javax.annotation.Nullable;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Map;
 
@@ -67,9 +66,6 @@ public class ChunkCorePlugin implements IFMLLoadingPlugin {
                     });
                     ClassWriter writer = new ClassWriter(reader, 0);
                     cls.accept(writer);
-                    FileOutputStream stream = new FileOutputStream("/home/random/IdeaProjects/BeastsMod/c.class");
-                    stream.write(writer.toByteArray());
-                    stream.close();
                     return writer.toByteArray();
                 } catch (IOException e) {
                     LogManager.getLogger().error("Failed to transform Chunk class, underground biomes won't work.", e);
