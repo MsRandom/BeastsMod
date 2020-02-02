@@ -43,7 +43,7 @@ public class UndergroundGenerationEvents {
             BlockPos pos = new BlockPos(event.getChunkX() * 16, 0, event.getChunkZ() * 16);
             for (UndergroundBiome undergroundBiome : UndergroundBiome.getRegistered()) {
                 if (undergroundBiome.getBiome() == null || undergroundBiome.getBiome() == world.getBiome(pos)) {
-                    if (rand.nextInt(undergroundBiome.getRarity()) == 0 && undergroundBiome.getCondition().test(event.getWorld(), pos)) {
+                    if (rand.nextInt(undergroundBiome.getRarity()) == 0 && (undergroundBiome.getCondition() == null || undergroundBiome.getCondition().test(event.getWorld(), pos))) {
                         int height = undergroundBiome.getHeight() == null ? rand.nextInt(50) + 10 : undergroundBiome.getHeight().generateInt(rand);
                         pos = new BlockPos(pos.getX(), height, pos.getZ());
                         Consumer<BlockPos> generate = p -> {
@@ -58,9 +58,7 @@ public class UndergroundGenerationEvents {
                         };
                         int size = undergroundBiome.getSize() == null ? rand.nextInt(48) + 16 : undergroundBiome.getSize().generateInt(rand);
                         generate.accept(pos);
-                        for (int i = 1; i < size / 16; ++i) {
-                            generate.accept(pos.add(i * 16, 0, i * 16));
-                        }
+                        for (int i = 1; i < size / 16; ++i) generate.accept(pos.add(i * 16, 0, i * 16));
                     }
                 }
             }

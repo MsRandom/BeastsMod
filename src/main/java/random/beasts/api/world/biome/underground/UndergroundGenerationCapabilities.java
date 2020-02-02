@@ -15,7 +15,6 @@ import javax.annotation.Nullable;
 
 @SuppressWarnings("ConstantConditions")
 public class UndergroundGenerationCapabilities implements ICapabilityProvider {
-
     @CapabilityInject(UndergroundBiome.class)
     public static final Capability<UndergroundBiomes> CAPABILITY = null;
     public static final ResourceLocation KEY = new ResourceLocation(BeastsReference.ID, "underground_biomes");
@@ -28,7 +27,7 @@ public class UndergroundGenerationCapabilities implements ICapabilityProvider {
     @Nullable
     @Override
     public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-        return capability != null && hasCapability(capability, facing) ? CAPABILITY.cast(CAPABILITY.getDefaultInstance()) : null;
+        return capability == CAPABILITY ? CAPABILITY.cast(CAPABILITY.getDefaultInstance()) : null;
     }
 
     public static class UndergroundBiomes {

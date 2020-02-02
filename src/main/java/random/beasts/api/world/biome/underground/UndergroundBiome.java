@@ -18,8 +18,9 @@ import java.util.function.BiPredicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public abstract class UndergroundBiome extends BeastsBiome {
+public class UndergroundBiome extends BeastsBiome {
     //private static final SimpleNetworkWrapper INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel(BeastsReference.ID + ":underground_biomes");
+
     private static final List<UndergroundBiome> REGISTERED = new ArrayList<>();
     private static ImmutableList<UndergroundBiome> biomeCache;
     private final List<Biome.SpawnListEntry> spawnableCreatureList = new ArrayList<>();
