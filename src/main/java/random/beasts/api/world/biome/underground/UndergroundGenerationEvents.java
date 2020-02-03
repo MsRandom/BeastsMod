@@ -11,6 +11,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.terraingen.PopulateChunkEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
 import random.beasts.api.main.BeastsReference;
 
 import java.util.Random;
@@ -21,25 +22,20 @@ import java.util.function.Consumer;
 public class UndergroundGenerationEvents {
     @SubscribeEvent
     public static void register(RegistryEvent.Register<Biome> event) {
+        UndergroundBiome.CHANNEL.registerMessage(MessageUpdateBiomes.Handler.class, MessageUpdateBiomes.class, 0, Side.CLIENT);
         CapabilityManager.INSTANCE.register(UndergroundGenerationCapabilities.UndergroundBiomes.class, new UndergroundGenerationCapabilities.UndergroundBiomeStorage(), UndergroundGenerationCapabilities.UndergroundBiomes::new);
     }
 
     @SubscribeEvent
     public static void init(AttachCapabilitiesEvent<Chunk> event) {
-        event.addCapability(UndergroundGenerationCapabilities.KEY, new UndergroundGenerationCapabilities());
-        UndergroundGenerationCapabilities.UndergroundBiomes biomes = event.getObject().getCapability(UndergroundGenerationCapabilities.CAPABILITY, null);
-        if (biomes != null) {
-            for (int i = 0; i < 16; ++i) {
-                biomes.blockBiomeArray[i] = event.getObject().getBiomeArray();
-            }
-        }
+        event.addCapability(UndergroundBiome.KEY, new UndergroundGenerationCapabilities());
     }
 
     @SubscribeEvent
     public static void generate(PopulateChunkEvent.Post event) {
         World world = event.getWorld();
         Random rand = event.getRand();
-        if (!world.isRemote) {
+        if (!world.isRemote && world.provider.getDimension() == 0) {
             BlockPos pos = new BlockPos(event.getChunkX() * 16, 0, event.getChunkZ() * 16);
             for (UndergroundBiome undergroundBiome : UndergroundBiome.getRegistered()) {
                 if (undergroundBiome.getBiome() == null || undergroundBiome.getBiome() == world.getBiome(pos)) {
@@ -50,10 +46,15 @@ public class UndergroundGenerationEvents {
                             Chunk chunk = world.getChunkFromBlockCoords(p);
                             UndergroundGenerationCapabilities.UndergroundBiomes biomes = chunk.getCapability(UndergroundGenerationCapabilities.CAPABILITY, null);
                             if (biomes != null) {
-                                biomes.blockBiomeArray[event.getChunkX() << 4 | event.getChunkZ()][height / 16] = (byte) (Biome.getIdForBiome(undergroundBiome) & 255);
+                                int x = p.getX() & 15;
+                                int z = p.getZ() & 15;
+                                byte biome = (byte) (Biome.getIdForBiome(undergroundBiome) & 255);
+                                biomes.blockBiomeArray[Math.min(height, 255) >> 4][x << 4 | z] = biome;
+                                UndergroundBiome.CHANNEL.sendToAll(new MessageUpdateBiomes(p, biome));
                                 MinecraftForge.EVENT_BUS.post(new UndergroundBiomeEvent.Generate(world, rand, p));
                                 undergroundBiome.populate(world, rand, p);
                                 undergroundBiome.decorate(world, rand, p);
+                                chunk.markDirty();
                             }
                         };
                         int size = undergroundBiome.getSize() == null ? rand.nextInt(48) + 16 : undergroundBiome.getSize().generateInt(rand);

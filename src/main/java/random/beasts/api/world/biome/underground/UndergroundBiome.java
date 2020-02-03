@@ -2,12 +2,15 @@ package random.beasts.api.world.biome.underground;
 
 import com.google.common.collect.ImmutableList;
 import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.storage.loot.RandomValueRange;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import random.beasts.api.main.BeastsReference;
 import random.beasts.api.world.biome.BeastsBiome;
 
 import java.util.ArrayList;
@@ -19,8 +22,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class UndergroundBiome extends BeastsBiome {
-    //private static final SimpleNetworkWrapper INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel(BeastsReference.ID + ":underground_biomes");
-
+    public static final ResourceLocation KEY = new ResourceLocation(BeastsReference.ID, "underground_biomes");
+    public static final SimpleNetworkWrapper CHANNEL = new SimpleNetworkWrapper(KEY.toString());
     private static final List<UndergroundBiome> REGISTERED = new ArrayList<>();
     private static ImmutableList<UndergroundBiome> biomeCache;
     private final List<Biome.SpawnListEntry> spawnableCreatureList = new ArrayList<>();
@@ -88,15 +91,16 @@ public class UndergroundBiome extends BeastsBiome {
         else throw new IllegalArgumentException("Underground Biome \"" + biome.name + "\" is already registered.");
     }
 
-    private final byte[] blockBiomeArray = new byte[255];
-
+    @SuppressWarnings("unused")
     public static Biome getBiome(BlockPos pos, Object chunk) {
+        if (!(chunk instanceof Chunk))
+            throw new IllegalArgumentException("Illegal argument for parameter chunk in UndergroundBiome::getBiome");
         int i = pos.getX() & 15;
         int j = pos.getZ() & 15;
         UndergroundGenerationCapabilities.UndergroundBiomes biomes = ((Chunk) chunk).getCapability(UndergroundGenerationCapabilities.CAPABILITY, null);
         if (biomes != null) {
-            int k = biomes.blockBiomeArray[j << 4 | i][pos.getY() / 16] & 255;
-            if (k != 255) return Biome.getBiome(k);
+            byte biome = biomes.blockBiomeArray[Math.min(pos.getY(), 255) >> 4][j << 4 | i];
+            if (biome > 0) return Biome.getBiome(biome & 255);
         }
         return null;
     }
