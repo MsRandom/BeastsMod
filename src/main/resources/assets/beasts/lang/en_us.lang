@@ -1,5 +1,6 @@
 Entities
 
+entity.butterfly_fish.name=Butterflyfish
 entity.vile_eel.name=Vile Eel
 entity.pufferfish_dog.name=Pufferpup
 entity.rabbitman.name=Rabbitman
@@ -21,6 +22,8 @@ entity.slime_slug.name=Slime Slug
 
 Items
 
+item.fairy_bread.name=Fairy Bread
+item.butterflyfish_wing.name=Butterflyfish Wing
 item.reef_mixture.name=Reef Mixture
 item.leafy_bone.name=Leafy Bone
 item.carrot_coin.name=Carrot Coin [NYI]

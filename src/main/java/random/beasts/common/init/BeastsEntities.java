@@ -49,6 +49,7 @@ public class BeastsEntities {
     private static final EntityEntry SCALLOP = createEntry(EntityScallop.class, 0xE8C7A7, 0x7C3318, new SpawnEntry(EnumCreatureType.MONSTER, 30, 2, 4, BeastsBiomes.DRIED_REEF));
     private static final EntityEntry TRIMOLA = createEntry(EntityTrimola.class, 0x261E1B, 0xA09783, new SpawnEntry(EnumCreatureType.CREATURE, 20, 2, 4, BeastsBiomes.DRIED_REEF));
     private static final EntityEntry SLIME_SLUG = createEntry(EntitySlimeSlug.class, 0xD3524C, 0xFFDB66, new SpawnEntry(EnumCreatureType.CREATURE, 20, 2, 4, BeastsBiomes.DRIED_REEF));
+    private static final EntityEntry BUTTERFLYFISH = createEntry(EntityButterflyFish.class, 0x5B3138, 0xEE5705, new SpawnEntry(EnumCreatureType.CREATURE, 20, 2, 4, BeastsBiomes.DRIED_REEF));
     private static final EntityEntry THROWN_COCONUT = createEntry(EntityThrownCoconut.class);
 
     private static EntityEntry createBranchie(Class<? extends BeastsBranchie> cls, int prim, int sec, Collection<? extends Block> validBlocks, Tuple<Integer, Function<BlockEvent.BreakEvent, ? extends BeastsBranchie>> create) {

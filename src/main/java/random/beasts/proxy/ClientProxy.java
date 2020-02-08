@@ -61,6 +61,7 @@ public class ClientProxy extends CommonProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntityThrownCoconut.class, RenderThrownCoconut::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityTrimola.class, RenderTrimola::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntitySlimeSlug.class, RenderSlimeSlug::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityButterflyFish.class, RenderButterflyFish::new);
 		registerTileEntityRenders();
 	}
 
