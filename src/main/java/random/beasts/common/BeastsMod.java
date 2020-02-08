@@ -12,7 +12,7 @@ import random.beasts.proxy.CommonProxy;
 
 @SuppressWarnings("unused")
 @Mod(modid = BeastsReference.ID, name = BeastsReference.NAME, version = BeastsReference.CURRENT_VERSION, acceptableRemoteVersions = BeastsReference.VERSION_RANGE)
-public class BeastsMod {
+public class BeastsMod {// extends DummyModContainer {
 
     @SidedProxy(serverSide = BeastsReference.COMMON_PROXY, clientSide = BeastsReference.CLIENT_PROXY)
     public static CommonProxy proxy;
