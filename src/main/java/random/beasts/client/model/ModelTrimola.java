@@ -1,6 +1,7 @@
 package random.beasts.client.model;
 
 import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.model.ModelHorse;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
@@ -57,23 +58,37 @@ public class ModelTrimola extends ModelBase {
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         this.body.render(f5);
     }
-
+    private float speed = 2.0F, degree = 1.0F;
     @Override
     public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
         super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
-        int attackTicks = ((EntityTrimola) entityIn).attackTicks;
-        if (attackTicks > 0) {
+        this.body.rotateAngleX = 0.0F;
+        this.backleg.rotateAngleX = 0.0F;
+        this.body.rotationPointY = 9;
+        if(entityIn instanceof EntityTrimola && ((EntityTrimola)entityIn).isRearing()){
             limbSwing = entityIn.ticksExisted;
-            limbSwingAmount = 0.3f;
-            if (attackTicks > 150) attackTicks = 150 - (attackTicks - 150);
-            this.body.rotateAngleX = attackTicks / 150f;
+            limbSwingAmount = 0.23F;
+            this.body.rotateAngleX = (float) Math.toRadians(-30.0F);
+            this.body.rotationPointY = 7;
+            this.backleg.rotateAngleX = (float) Math.toRadians(30.0F);
+            this.leftfrontleg.rotateAngleX = MathHelper.cos((limbSwing * speed * 0.4F) + (float) Math.PI) * (degree * 1.8F) * limbSwingAmount * 0.5F;
+            this.rightfrontleg.rotateAngleX = MathHelper.cos((limbSwing * speed * 0.4F) + (float) Math.PI) * (degree * -1.8F) * limbSwingAmount * 0.5F;
         }
-        this.leftfrontleg.rotateAngleX = MathHelper.cos(limbSwing * 0.5f) * 0.4f * limbSwingAmount;
-        this.rightfrontleg.rotateAngleX = MathHelper.cos(limbSwing * 0.5f + (float) Math.PI) * 0.4f * limbSwingAmount;
-        this.backleg.rotateAngleX = MathHelper.cos(limbSwing * 0.5f + (float) Math.PI) * 0.4f * limbSwingAmount;
+        else {
+/*            int attackTicks = ((EntityTrimola) entityIn).attackTicks;
+            if (attackTicks > 0) {
+                limbSwing = entityIn.ticksExisted;
+                limbSwingAmount = 0.3f;
+                if (attackTicks > 150) attackTicks = 150 - (attackTicks - 150);
+                this.body.rotateAngleX = attackTicks / 150f;
+            }*/
+            this.leftfrontleg.rotateAngleX = MathHelper.cos(limbSwing * 0.5f) * 0.4f * limbSwingAmount;
+            this.rightfrontleg.rotateAngleX = MathHelper.cos(limbSwing * 0.5f + (float) Math.PI) * 0.4f * limbSwingAmount;
+            this.backleg.rotateAngleX = MathHelper.cos(limbSwing * 0.5f + (float) Math.PI) * 0.4f * limbSwingAmount;
         /*if(attackTicks == 0) {
             this.backleg.rotateAngleX = MathHelper.cos(limbSwing * 0.5f + ((float) Math.PI / 2)) * 0.4f * limbSwingAmount;
         }*/
+        }
     }
 
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {

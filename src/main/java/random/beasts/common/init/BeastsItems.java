@@ -1,10 +1,12 @@
 package random.beasts.common.init;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.*;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.EnumHelper;
 import random.beasts.api.item.BeastsFood;
 import random.beasts.api.item.BeastsItem;
@@ -46,7 +48,21 @@ public class BeastsItems {
     public static final ItemFood COOKED_KEBAB = new BeastsFood("cooked_kebab", 8, 0.7F);
     public static final ItemFood EEL_CHOP = new BeastsFood("eel_chop", 3, 0.3F);
     public static final ItemFood COOKED_EEL_CHOP = new BeastsFood("cooked_eel_chop", 8, 0.5F);
-    public static final ItemFood COCONUT_JUICE = new BeastsCoconutBowl("coconut_juice", 4, 0.5F);
+	public static final ItemFood FAIRY_BREAD = new BeastsFood("fairy_bread", 2, 0.2F){
+		@Override
+		protected void onFoodEaten(ItemStack stack, World worldIn, EntityPlayer player) {
+			super.onFoodEaten(stack, worldIn, player);
+			player.heal(5.0F);
+		}
+	};
+	public static final ItemFood BUTTERFLYFISH_WING = new BeastsFood("butterflyfish_wing", 0, 0.0F){
+		@Override
+		protected void onFoodEaten(ItemStack stack, World worldIn, EntityPlayer player) {
+			super.onFoodEaten(stack, worldIn, player);
+			player.heal(3.0F);
+		}
+	};
+	public static final ItemFood COCONUT_JUICE = new BeastsCoconutBowl("coconut_juice", 4, 0.5F);
     public static final ItemArmor PUFFER_HELMET = new ItemPufferArmor("helmet", EntityEquipmentSlot.HEAD);
     public static final ItemArmor PUFFER_CHEST = new ItemPufferArmor("chest", EntityEquipmentSlot.CHEST);
     public static final ItemArmor PUFFER_LEGS = new ItemPufferArmor("legs", EntityEquipmentSlot.LEGS);

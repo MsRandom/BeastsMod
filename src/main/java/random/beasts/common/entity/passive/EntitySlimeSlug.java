@@ -8,6 +8,8 @@ import net.minecraft.entity.ai.EntityAIPanic;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -19,14 +21,16 @@ import javax.annotation.Nullable;
 import java.util.HashMap;
 
 public class EntitySlimeSlug extends EntityAnimal {
-    public static final HashMap<Integer, Integer> VARIANTS = new HashMap<>();
-    private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityAnemoneCrawler.class, DataSerializers.VARINT);
+//    public static final HashMap<Integer, Integer> VARIANTS = new HashMap<>();
+    private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntitySlimeSlug.class, DataSerializers.VARINT);
 
+/*
     static {
         VARIANTS.put(0, 2);
         VARIANTS.put(1, 5);
         VARIANTS.put(2, 4);
     }
+*/
 
     public EntitySlimeSlug(World worldIn) {
         super(worldIn);
@@ -60,7 +64,14 @@ public class EntitySlimeSlug extends EntityAnimal {
     @Override
     public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
         livingdata = super.onInitialSpawn(difficulty, livingdata);
+        this.setVariant(this.getRNG().nextInt(4));
         return livingdata;
+    }
+
+    @Override
+    protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
+        super.dropFewItems(wasRecentlyHit, lootingModifier);
+        this.entityDropItem(new ItemStack(Items.SLIME_BALL, this.getRNG().nextInt(2) + 1), 0);
     }
 
     public int getVariant() {

@@ -19,9 +19,9 @@ public class ModelSpartapodArmor extends ModelBiped {
         this.bipedHead = new ModelRenderer(this, 0, 0);
         this.bipedHead.setRotationPoint(0.0F, 0.0F, 0.0F);
         this.bipedHead.addBox(-4.0F, -8.0F, -4.0F, 8, 8, 8, 0.0F);
-        this.headFin = new ModelRenderer(this, 65, 11);
-        this.headFin.setRotationPoint(0.0F, -9.0F, 0.5F);
-        this.headFin.addBox(0.0F, -6.0F, -6.0F, 0, 12, 13, 0.0F);
+        this.headFin = new ModelRenderer(this, 65, 21);
+        this.headFin.setRotationPoint(0.0F, -7.0F, 1.0F);
+        this.headFin.addBox(-0.5F, -6.0F, -5.0F, 1, 11, 12, 0.0F);
         this.helmetBase = new ModelRenderer(this, 64, 0);
         this.helmetBase.setRotationPoint(0.0F, 0.0F, 0.0F);
         this.helmetBase.addBox(-5.0F, -9.0F, -5.0F, 10, 11, 10, 0.0F);

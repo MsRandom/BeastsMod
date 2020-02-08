@@ -11,7 +11,7 @@ import random.beasts.common.entity.passive.EntitySlimeSlug;
 
 public class RenderSlimeSlug extends RenderLiving<EntitySlimeSlug> {
 
-    private static final ResourceLocation[] TEXTURES = new ResourceLocation[3];
+    private static final ResourceLocation[] TEXTURES = new ResourceLocation[4];
 
     static {
         for (int i = 0; i < TEXTURES.length; i++)

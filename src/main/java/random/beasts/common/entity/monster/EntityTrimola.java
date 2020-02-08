@@ -16,6 +16,7 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
@@ -27,6 +28,7 @@ import random.beasts.common.network.BeastsGuiHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.List;
 
 public class EntityTrimola extends EntityTameable implements IInventoryChangedListener {
     @SideOnly(Side.CLIENT)
@@ -35,6 +37,8 @@ public class EntityTrimola extends EntityTameable implements IInventoryChangedLi
     private static final DataParameter<ItemStack> SADDLE = EntityDataManager.createKey(EntityTrimola.class, DataSerializers.ITEM_STACK);
     public InventoryBasic inventory;
     public int attackTicks = 0;
+    private boolean rearing;
+    private int rearingTime = 0;
 
     public EntityTrimola(World worldIn) {
         super(worldIn);
@@ -45,13 +49,76 @@ public class EntityTrimola extends EntityTameable implements IInventoryChangedLi
     @Override
     protected void initEntityAI() {
         this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(0, new EntityAINearestAttackableTarget<>(this, EntityLivingBase.class, 10, true, false, entity -> entity == getAttackTarget()));
-        this.tasks.addTask(1, new EntityAIPanic(this, 2.0D));
+//        this.tasks.addTask(0, new EntityAINearestAttackableTarget<>(this, EntityLivingBase.class, 10, true, false, entity -> entity == getAttackTarget()));
         this.tasks.addTask(1, new EntityAIMate(this, 1.0D));
         this.tasks.addTask(1, new EntityAIFollowParent(this, 1.25D));
         this.tasks.addTask(2, new EntityAIWanderAvoidWater(this, 1.0D));
         this.tasks.addTask(2, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
         this.tasks.addTask(2, new EntityAILookIdle(this));
+        this.targetTasks.addTask(2, new EntityAIHurtByTarget(this, false));
+        this.tasks.addTask(1, new EntityAIAttackMelee(this, 1.0, false));
+    }
+
+    public boolean isRearing(){return rearing;}
+
+    @Override
+    public boolean canBeSteered() {
+        return true;
+    }
+
+    @Nullable
+    public Entity getControllingPassenger() {
+        List<Entity> list = this.getPassengers();
+        return list.isEmpty() ? null : list.get(0);
+    }
+
+    public void travel(float strafe, float vertical, float forward) {
+        if (this.getControllingPassenger() != null && this.canBeSteered()) {
+            EntityLivingBase entitylivingbase = (EntityLivingBase) this.getControllingPassenger();
+            this.rotationYaw = entitylivingbase.rotationYaw;
+            this.prevRotationYaw = this.rotationYaw;
+            this.rotationPitch = entitylivingbase.rotationPitch * 0.5F;
+            this.setRotation(this.rotationYaw, this.rotationPitch);
+            this.renderYawOffset = this.rotationYaw;
+            this.rotationYawHead = this.renderYawOffset;
+            strafe = entitylivingbase.moveStrafing * 0.5F;
+            forward = entitylivingbase.moveForward;
+            this.stepHeight = 1.0F;
+            if (forward <= 0.0F) forward *= 0.25F;
+
+            if (this.canPassengerSteer()) {
+                this.setAIMoveSpeed((float) this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getAttributeValue());
+                super.travel(strafe, vertical, forward);
+            } else if (entitylivingbase instanceof EntityPlayer) {
+                this.motionX = 0.0D;
+                this.motionY = 0.0D;
+                this.motionZ = 0.0D;
+            }
+
+            this.prevLimbSwingAmount = this.limbSwingAmount;
+            double d1 = this.posX - this.prevPosX;
+            double d0 = this.posZ - this.prevPosZ;
+            float f2 = MathHelper.sqrt(d1 * d1 + d0 * d0) * 4.0F;
+
+            if (f2 > 1.0F) f2 = 1.0F;
+            this.limbSwingAmount += (f2 - this.limbSwingAmount) * 0.4F;
+            this.limbSwing += this.limbSwingAmount;
+        } else super.travel(strafe, vertical, forward);
+    }
+
+    @Override
+    public void setTamedBy(EntityPlayer player) {
+        super.setTamedBy(player);
+        if(this.getRevengeTarget() == player)
+            this.setRevengeTarget(null);
+    }
+
+    @Override
+    public void handleStatusUpdate(byte id) {
+        if(id == 69){
+            this.rearing = true;
+        }
+        super.handleStatusUpdate(id);
     }
 
     @Override
@@ -72,10 +139,20 @@ public class EntityTrimola extends EntityTameable implements IInventoryChangedLi
     @Override
     public void onLivingUpdate() {
         super.onLivingUpdate();
+/*
         if (attackTicks > 0 && attackTicks < 300) ++attackTicks;
         else attackTicks = 0;
         if (attackTicks == 150) {
             world.getEntitiesWithinAABB(EntityLivingBase.class, getEntityBoundingBox()).stream().filter(e -> e != this).forEach(this::attackEntityAsMob);
+        }
+*/
+
+        if (this.isRearing()) {
+            ++rearingTime;
+            if (rearingTime >= 25) {
+                rearingTime = 0;
+                this.rearing = false;
+            }
         }
     }
 
@@ -85,6 +162,8 @@ public class EntityTrimola extends EntityTameable implements IInventoryChangedLi
         boolean attack = false;
         if (world.isRemote && ATTACK.isKeyDown()) {
             attack = true;
+            this.rearing = true;
+            this.rearingTime = 0;
         }
         if (attack) {
             attackTicks = 1;
@@ -96,7 +175,6 @@ public class EntityTrimola extends EntityTameable implements IInventoryChangedLi
         super.entityInit();
         this.dataManager.register(SADDLE, ItemStack.EMPTY);
         dataManager.register(VARIANT, 0);
-
     }
 
     public int getVariant() {
@@ -141,6 +219,7 @@ public class EntityTrimola extends EntityTameable implements IInventoryChangedLi
     @Override
     public boolean processInteract(EntityPlayer player, @Nonnull EnumHand hand) {
         ItemStack stack = player.getHeldItem(hand);
+
         if (!this.isChild() && this.isTamed() && (this.isOwner(player) || this.getControllingPassenger() != null)) {
             if (player.isSneaking()) {
                 player.openGui(BeastsMod.instance, BeastsGuiHandler.GUI_TRIMOLA.getId(), world, this.getEntityId(), 0, 0);
@@ -193,9 +272,22 @@ public class EntityTrimola extends EntityTameable implements IInventoryChangedLi
     }
 
     @Override
+    protected boolean isMovementBlocked() {
+        return this.rearing && super.isMovementBlocked();
+    }
+
+    @Override
+    public boolean attackEntityAsMob(Entity entityIn) {
+        this.rearing = true;
+        this.world.setEntityState(this, (byte)69);
+        entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), 2.0F);
+        return super.attackEntityAsMob(entityIn);
+    }
+
+    @Override
     public boolean attackEntityFrom(DamageSource source, float amount) {
         if (source.getTrueSource() instanceof EntityLivingBase)
-            setAttackTarget((EntityLivingBase) source.getTrueSource());
+            setRevengeTarget((EntityLivingBase) source.getTrueSource());
         return super.attackEntityFrom(source, amount);
     }
 
