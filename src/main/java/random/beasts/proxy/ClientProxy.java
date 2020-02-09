@@ -1,9 +1,11 @@
 package random.beasts.proxy;
 
 import net.minecraft.block.*;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.StateMap;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
@@ -11,6 +13,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.relauncher.Side;
 import random.beasts.api.block.BeastsSlab;
 import random.beasts.api.item.IHandleMeta;
 import random.beasts.api.main.BeastsReference;
@@ -37,6 +41,14 @@ public class ClientProxy extends CommonProxy {
 		super.preInit();
 		ClientRegistry.registerKeyBinding(EntityTrimola.ATTACK);
 		this.registerEntityRenders();
+	}
+
+	@Override
+	public EntityPlayer getPlayer(MessageContext ctx) {
+		if (ctx.side == Side.SERVER) {
+			return ctx.getServerHandler().player;
+		}
+		return Minecraft.getMinecraft().player;
 	}
 
 	private void registerEntityRenders() {

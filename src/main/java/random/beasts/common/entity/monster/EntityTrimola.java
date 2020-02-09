@@ -25,6 +25,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import random.beasts.common.BeastsMod;
 import random.beasts.common.init.BeastsBlocks;
 import random.beasts.common.network.BeastsGuiHandler;
+import random.beasts.common.network.BeastsPacketHandler;
+import random.beasts.common.network.packet.PacketTrimolaAttack;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -38,6 +40,7 @@ public class EntityTrimola extends EntityTameable implements IInventoryChangedLi
     public InventoryBasic inventory;
     public int attackTicks = 0;
     private boolean rearing;
+    private int rearCoolDown;
     private int rearingTime = 0;
 
     public EntityTrimola(World worldIn) {
@@ -154,16 +157,20 @@ public class EntityTrimola extends EntityTameable implements IInventoryChangedLi
                 this.rearing = false;
             }
         }
+        if(rearCoolDown > 0)
+            rearCoolDown--;
     }
 
     @Override
     public void updatePassenger(Entity passenger) {
         super.updatePassenger(passenger);
         boolean attack = false;
-        if (world.isRemote && ATTACK.isKeyDown()) {
+        if (world.isRemote && ATTACK.isKeyDown() && rearCoolDown == 0) {
             attack = true;
             this.rearing = true;
             this.rearingTime = 0;
+            rearCoolDown = 20;
+            BeastsPacketHandler.net.sendToServer(new PacketTrimolaAttack(this));
         }
         if (attack) {
             attackTicks = 1;

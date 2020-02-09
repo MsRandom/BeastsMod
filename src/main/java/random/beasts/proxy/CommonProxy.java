@@ -1,10 +1,13 @@
 package random.beasts.proxy;
 
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.oredict.OreDictionary;
 import random.beasts.api.main.BeastsReference;
 import random.beasts.api.main.BeastsUtils;
@@ -13,11 +16,19 @@ import random.beasts.common.block.BlockPalmTreeLeaves;
 import random.beasts.common.block.BlockShell;
 import random.beasts.common.init.*;
 import random.beasts.common.network.BeastsGuiHandler;
+import random.beasts.common.network.BeastsPacketHandler;
 import random.beasts.common.world.biome.RealisticBiomeDriedReef;
 import rtg.api.RTGAPI;
 import rtg.util.ModCompat;
 
 public class CommonProxy {
+
+    public EntityPlayer getPlayer(MessageContext ctx) {
+        if (ctx.side == Side.SERVER) {
+            return ctx.getServerHandler().player;
+        }
+        return null;
+    }
 
     public void preInit() {
         BeastsUtils.setRegistryTab(BeastsCreativeTabs.MAIN);
@@ -35,6 +46,7 @@ public class CommonProxy {
             RTGAPI.RTG_BIOMES.addBiomes(new RealisticBiomeDriedReef());
         }
         registerOreDict();
+        BeastsPacketHandler.initPackets();
     }
 
     public void registerEventRenders() {
