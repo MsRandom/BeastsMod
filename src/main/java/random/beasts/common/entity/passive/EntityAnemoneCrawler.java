@@ -92,6 +92,8 @@ public class EntityAnemoneCrawler extends EntityAnimal {
             EntityAnemoneCrawler dropper = rand.nextBoolean() ? (EntityAnemoneCrawler) ageable : this;
             if (rand.nextBoolean()) dropper.dropItem(BeastsItems.MEAT_SCRAPES, 1);
             child.setVariant(dropper.getVariant());
+            if(this.getRNG().nextInt(10) == 0)
+                this.setVariant(3);
             return child;
         }
         return null;
