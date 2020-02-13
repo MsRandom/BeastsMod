@@ -93,7 +93,7 @@ public class EntityAnemoneCrawler extends EntityAnimal {
             if (rand.nextBoolean()) dropper.dropItem(BeastsItems.MEAT_SCRAPES, 1);
             child.setVariant(dropper.getVariant());
             if(this.getRNG().nextInt(10) == 0)
-                this.setVariant(3);
+                child.setVariant(3);
             return child;
         }
         return null;
