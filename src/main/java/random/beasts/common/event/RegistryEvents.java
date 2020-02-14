@@ -17,6 +17,7 @@ import random.beasts.api.main.BeastsReference;
 import random.beasts.api.main.BeastsRegistries;
 import random.beasts.client.init.BeastsSounds;
 import random.beasts.common.BeastsMod;
+import random.beasts.common.config.BeastsConfig;
 import random.beasts.common.init.*;
 
 import static net.minecraftforge.common.BiomeDictionary.Type.*;
@@ -52,7 +53,7 @@ public class RegistryEvents {
         BeastsBiomes.DRIED_REEF.getRegistryName();
 
         event.getRegistry().registerAll(BeastsRegistries.BIOMES.toArray(new Biome[0]));
-        BeastsBiomes.addTypes(BeastsBiomes.DRIED_REEF, BiomeManager.BiomeType.WARM, 10, BEACH, HOT, DRY, SANDY);
+        BeastsBiomes.addTypes(BeastsBiomes.DRIED_REEF, BiomeManager.BiomeType.WARM, BeastsConfig.reefWeight, BEACH, HOT, DRY, SANDY);
     }
 
     @SubscribeEvent

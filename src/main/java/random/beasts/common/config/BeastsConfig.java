@@ -8,4 +8,9 @@ public class BeastsConfig {
 
     @Config.LangKey("config.logCascadingWorldGeneration")
     public static boolean logCascadingWorldGeneration = false;
+
+    @Config.Name("Dried Reef Weight")
+    @Config.Comment("The biome weight of the dried reef biome")
+    public static int reefWeight = 10;
+
 }
