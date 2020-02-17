@@ -51,6 +51,12 @@ public class BeastsEntities {
     private static final EntityEntry SLIME_SLUG = createEntry(EntitySlimeSlug.class, 0xD3524C, 0xFFDB66);
     private static final EntityEntry BUTTERFLYFISH = createEntry(EntityButterflyFish.class, 0x5B3138, 0xEE5705);
     private static final EntityEntry THROWN_COCONUT = createEntry(EntityThrownCoconut.class);
+    private static final EntityEntry FIREFLY_SQUID = createEntry(EntityFireflySquid.class, 0x411A43, 0x50A870);
+    private static final EntityEntry TUPALA = createEntry(EntityTupala.class, 0x411A43, 0x50A870);
+    private static final EntityEntry GLOW_SHRIMP = createEntry(EntityGlowShrimp.class, 0x411A43, 0x50A870);
+    private static final EntityEntry ANGLER_QUEEN = createEntry(EntityAnglerQueen.class, 0x411A43, 0x50A870);
+    private static final EntityEntry ANGLER_PUP = createEntry(EntityAnglerPup.class, 0x411A43, 0x50A870);
+    private static final EntityEntry ISOPOD = createEntry(EntityIsopod.class, 0x411A43, 0x50A870);
 
     private static EntityEntry createBranchie(Class<? extends BeastsBranchie> cls, int prim, int sec, Collection<? extends Block> validBlocks, Tuple<Integer, Function<BlockEvent.BreakEvent, ? extends BeastsBranchie>> create) {
         BeastsBranchie.TYPES.put(validBlocks, create);
