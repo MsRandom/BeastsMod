@@ -27,9 +27,7 @@ public class UndergroundGenerationEvents {
 
     @SubscribeEvent
     public static void register(RegistryEvent.Register<Biome> event) {
-        MessageUpdateBiomes.Handler handler = new MessageUpdateBiomes.Handler();
-        BeastsReference.NETWORK_CHANNEL.registerMessage(handler, MessageUpdateBiomes.class, 0, Side.CLIENT);
-        BeastsReference.NETWORK_CHANNEL.registerMessage(handler, MessageUpdateBiomes.class, 0, Side.SERVER);
+        BeastsReference.NETWORK_CHANNEL.registerMessage(new MessageUpdateBiomes.Handler(), MessageUpdateBiomes.class, 0, Side.CLIENT);
         CapabilityManager.INSTANCE.register(UndergroundGenerationCapabilities.UndergroundBiomes.class, new UndergroundGenerationCapabilities.UndergroundBiomeStorage(), UndergroundGenerationCapabilities.UndergroundBiomes::new);
     }
 

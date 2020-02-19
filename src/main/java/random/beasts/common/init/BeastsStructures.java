@@ -15,7 +15,7 @@ public class BeastsStructures {
     }
 
     public static void init() {
-        for (BeastsStructure structure : BeastsRegistries.STRUCTURES) {
+        for (BeastsStructure structure : BeastsRegistries.STRUCTURES.get()) {
             if (!(structure instanceof WorldGenStructure)) {
                 GameRegistry.registerWorldGenerator((random, chunkX, chunkZ, world, chunkGenerator, chunkProvider) -> structure.generate(world, random, world.getHeight(new BlockPos((chunkX * 16) + 8, 0, (chunkZ * 16) + 8))), 0);
                 structure.registerer.run();

@@ -3,6 +3,7 @@ package random.beasts.common.init;
 import com.google.common.base.CaseFormat;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.Tuple;
@@ -26,7 +27,7 @@ import java.util.function.Function;
 @SuppressWarnings("unused")
 public class BeastsEntities {
     public static final Map<Class<?>, EntityType<?>> ENTRIES = new HashMap<>();
-    public static final Map<EntityType<?>, SpawnEntry[]> SPAWNS = new HashMap<>();
+    public static final Map<EntityType<? extends EntityLiving>, SpawnEntry[]> SPAWNS = new HashMap<>();
     public static final EntityType<EntityCoconutBomb> COCONADE = create(EntityCoconutBomb::new, EntityCoconutBomb.class, 0.25F, 0.25F);
 
     private static int entityId = 0;
@@ -64,7 +65,7 @@ public class BeastsEntities {
         return create(factory, cls, EnumCreatureType.CREATURE, 0.2F, 0.9F, prim, sec);
     }
 
-    private static <T extends Entity> EntityType<T> create(Function<World, T> factory, Class<T> cls, EnumCreatureType classification, float width, float height, int prim, int sec, SpawnEntry... spawns) {
+    private static <T extends EntityLiving> EntityType<T> create(Function<World, T> factory, Class<T> cls, EnumCreatureType classification, float width, float height, int prim, int sec, SpawnEntry... spawns) {
         EntityType<T> type = create(factory, cls, classification, width, height);
         EGGS.put(type, new Tuple<>(prim, sec));
         if (spawns.length > 0) SPAWNS.put(type, spawns);
@@ -109,17 +110,24 @@ public class BeastsEntities {
     //Wrapper for the forge EntityEntry that's identical to 1.14 so porting to it is easier
     public static class EntityType<T extends Entity> {
         private final EntityEntryBuilder<T> base;
+        private final Class<T> cls;
         private final EnumCreatureType classification;
         private final Function<World, T> factory;
         private final Tuple<Float, Float> size;
         private String name;
         private EntityEntry built;
 
-        public EntityType(EntityEntryBuilder<T> base, EnumCreatureType classification, Function<World, T> factory, Tuple<Float, Float> size) {
+        public EntityType(EntityEntryBuilder<T> base, Class<T> cls, EnumCreatureType classification, Function<World, T> factory, Tuple<Float, Float> size) {
+            base.entity(cls);
             this.base = base;
+            this.cls = cls;
             this.classification = classification;
             this.factory = factory;
             this.size = size;
+        }
+
+        public Class<T> getEntityClass() {
+            return this.cls;
         }
 
         public EnumCreatureType getClassification() {
@@ -136,6 +144,10 @@ public class BeastsEntities {
 
         public final void setRegistryName(String name) {
             this.name = name;
+        }
+
+        public final String getRegistryName() {
+            return this.name;
         }
 
         public EntityEntry getFinal() {
@@ -166,8 +178,8 @@ public class BeastsEntities {
 
             public EntityType<T> build(String id) {
                 EntityEntryBuilder<T> builder = EntityEntryBuilder.create();
-                builder.entity(cls).name(id).tracker(10, 20, true);
-                return new EntityType<>(builder, classification, factory, size);
+                builder.name(id).tracker(20, 2, true);
+                return new EntityType<>(builder, cls, classification, factory, size);
             }
         }
     }

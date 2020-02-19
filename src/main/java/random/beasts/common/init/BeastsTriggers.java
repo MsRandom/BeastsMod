@@ -12,7 +12,7 @@ public class BeastsTriggers {
     public static final BeastsTrigger HAMMERTIME = new BeastsTrigger("hammertime");
 
     public static void init() {
-        for (ICriterionTrigger<? extends ICriterionInstance> trigger : BeastsRegistries.ADVANCEMENTS)
+        for (ICriterionTrigger<? extends ICriterionInstance> trigger : BeastsRegistries.ADVANCEMENTS.get())
             CriteriaTriggers.register(trigger);
     }
 }

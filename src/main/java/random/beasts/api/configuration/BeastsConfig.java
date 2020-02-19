@@ -2,7 +2,6 @@ package random.beasts.api.configuration;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import random.beasts.common.init.BeastsEntities;
 
@@ -13,6 +12,7 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 public class BeastsConfig {
+    private static final String BIOMES = "biomes";
     public static Configuration config = new Configuration(new File("config/beasts.cfg"));
     public static int reefWeight = 10;
 
@@ -21,8 +21,7 @@ public class BeastsConfig {
 
         BeastsEntities.SPAWNS.forEach((type, spawns) -> {
             for (BeastsEntities.SpawnEntry spawn : spawns) {
-                EntityEntry entry = type.getFinal();
-                String category = entry.getName();
+                String category = type.getRegistryName();
                 spawn.weight = config.getInt("Chance", category, spawn.weight, 1, 128, "Spawn chance");
                 spawn.min = config.getInt("Min", category, spawn.min, 1, 32, "Minimum group spawns");
                 spawn.max = config.getInt("Max", category, spawn.max, 1, 32, "Maximum group spawns");
@@ -32,7 +31,7 @@ public class BeastsConfig {
             }
         });
 
-        reefWeight = config.getInt("Reefweight", "Biomes", 10, 0, 128, "The spawn chance of the Dried Reef biome");
+        reefWeight = config.getInt("Reefweight", BIOMES, 10, 0, 128, "The spawn chance of the Dried Reef biome");
 
         config.save();
     }

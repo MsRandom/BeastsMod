@@ -8,15 +8,12 @@ import net.minecraft.world.biome.Biome;
 import net.minecraftforge.fml.common.IWorldGenerator;
 import random.beasts.api.world.gen.structure.BeastsStructure;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class BeastsRegistries {
     //TODO Move all other registries here
-    public static final List<Block> BLOCKS = new ArrayList<>();
-    public static final List<Item> ITEMS = new ArrayList<>();
-    public static final List<Biome> BIOMES = new ArrayList<>();
-    public static final List<BeastsStructure> STRUCTURES = new ArrayList<>();
-    public static final List<IWorldGenerator> GENERATORS = new ArrayList<>();
-    public static final List<ICriterionTrigger<? extends ICriterionInstance>> ADVANCEMENTS = new ArrayList<>();
+    public static final BeastsRegistry<Block> BLOCKS = new BeastsRegistry<>();
+    public static final BeastsRegistry<Item> ITEMS = new BeastsRegistry<>();
+    public static final BeastsRegistry<Biome> BIOMES = new BeastsRegistry<>();
+    public static final BeastsRegistry<BeastsStructure> STRUCTURES = new BeastsRegistry<>();
+    public static final BeastsRegistry<IWorldGenerator> GENERATORS = new BeastsRegistry<>();
+    public static final BeastsRegistry<ICriterionTrigger<? extends ICriterionInstance>> ADVANCEMENTS = new BeastsRegistry<>();
 }

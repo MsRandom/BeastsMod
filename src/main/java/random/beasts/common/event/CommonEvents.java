@@ -23,6 +23,7 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import random.beasts.api.entity.BeastsBranchie;
@@ -34,9 +35,7 @@ import random.beasts.common.init.BeastsEntities;
 import random.beasts.common.init.BeastsLootTables;
 import random.beasts.common.world.storage.loot.BeastsLootTable;
 
-import java.lang.invoke.MethodHandle;
-import java.lang.invoke.MethodHandles;
-import java.lang.invoke.MethodType;
+import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
@@ -45,32 +44,17 @@ import java.util.function.Function;
 @Mod.EventBusSubscriber(modid = BeastsReference.ID)
 public class CommonEvents {
 
-    private static BiConsumer<Entity, Tuple<Float, Float>> sizeSetter;
+    private static final BiConsumer<Entity, Tuple<Float, Float>> sizeSetter;
 
     static {
         //since this will be gone in 1.14, there is no error handling
-        MethodHandles.Lookup lookup = MethodHandles.lookup();
-        try {
-            setSizeSetter(lookup, "setSize");
-        } catch (NoSuchMethodException e) {
+        final Method method = ObfuscationReflectionHelper.findMethod(Entity.class, "func_70105_a", Void.TYPE, Float.TYPE, Float.TYPE);
+        sizeSetter = (entity, size) -> {
             try {
-                setSizeSetter(lookup, "func_70105_a");
-            } catch (NoSuchMethodException ignored) {
+                method.invoke(entity, size.getFirst(), size.getSecond());
+            } catch (ReflectiveOperationException ignored) {
             }
-        }
-    }
-
-    private static void setSizeSetter(MethodHandles.Lookup lookup, String name) throws NoSuchMethodException {
-        try {
-            final MethodHandle handle = lookup.findVirtual(Entity.class, name, MethodType.methodType(Void.TYPE, Float.TYPE, Float.TYPE));
-            sizeSetter = (entity, size) -> {
-                try {
-                    handle.invokeExact(entity, (float) size.getFirst(), (float) size.getSecond());
-                } catch (Throwable ignored) {
-                }
-            };
-        } catch (IllegalAccessException ignored) {
-        }
+        };
     }
 
     @Deprecated

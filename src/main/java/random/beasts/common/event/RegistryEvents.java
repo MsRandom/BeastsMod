@@ -1,7 +1,6 @@
 package random.beasts.common.event;
 
 import net.minecraft.block.Block;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
@@ -29,18 +28,12 @@ public class RegistryEvents {
 
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
-        //resolving the class
-        BeastsBlocks.COCONUT.getRegistryName();
-
-        event.getRegistry().registerAll(BeastsRegistries.BLOCKS.toArray(new Block[0]));
+        event.getRegistry().registerAll(BeastsRegistries.BLOCKS.get(BeastsBlocks.COCONUT).toArray(new Block[0]));
     }
 
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
-        //resolving the class
-        BeastsItems.ICON.getRegistryName();
-
-        event.getRegistry().registerAll(BeastsRegistries.ITEMS.toArray(new Item[0]));
+        event.getRegistry().registerAll(BeastsRegistries.ITEMS.get(BeastsItems.ICON).toArray(new Item[0]));
         FurnaceRecipes.instance().addSmelting(BeastsItems.CRAB_LEG, new ItemStack(BeastsItems.COOKED_CRAB_LEG), 0.35f);
         FurnaceRecipes.instance().addSmelting(BeastsItems.EEL_CHOP, new ItemStack(BeastsItems.COOKED_EEL_CHOP), 0.50f);
         FurnaceRecipes.instance().addSmelting(BeastsItems.SCALLOP_TONGUE, new ItemStack(BeastsItems.COOKED_SCALLOP_TONGUE), 0.35f);
@@ -53,10 +46,7 @@ public class RegistryEvents {
 
     @SubscribeEvent
     public static void registerBiomes(RegistryEvent.Register<Biome> event) {
-        //resolving the class
-        BeastsBiomes.DRIED_REEF.getRegistryName();
-
-        event.getRegistry().registerAll(BeastsRegistries.BIOMES.toArray(new Biome[0]));
+        event.getRegistry().registerAll(BeastsRegistries.BIOMES.get(BeastsBiomes.DRIED_REEF).toArray(new Biome[0]));
         BeastsBiomes.addTypes(BeastsBiomes.DRIED_REEF, BiomeManager.BiomeType.WARM, BeastsConfig.reefWeight, BEACH, HOT, DRY, SANDY);
     }
 
@@ -65,21 +55,9 @@ public class RegistryEvents {
         event.getRegistry().registerAll(BeastsSounds.LIST.toArray(new SoundEvent[0]));
     }
 
-    @SuppressWarnings("unchecked")
     @SubscribeEvent
     public static void registerEntities(RegistryEvent.Register<EntityEntry> event) {
         event.getRegistry().registerAll(BeastsEntities.ENTRIES.values().stream().map(BeastsEntities.EntityType::getFinal).toArray(EntityEntry[]::new));
-        BeastsEntities.SPAWNS.forEach((type, spawns) -> {
-            if (type.getFinal().getEntityClass().isAssignableFrom(EntityLiving.class)) {
-                Class<? extends EntityLiving> cls = (Class<? extends EntityLiving>) type.getFinal().getEntityClass();
-                for (BeastsEntities.SpawnEntry spawn : spawns) {
-                    Biome.SpawnListEntry entry = new Biome.SpawnListEntry(cls, spawn.weight, spawn.min, spawn.max);
-                    for (Biome biome : spawn.biomes) {
-                        biome.getSpawnableList(type.getClassification()).add(entry);
-                    }
-                }
-            }
-        });
     }
 
     @SubscribeEvent

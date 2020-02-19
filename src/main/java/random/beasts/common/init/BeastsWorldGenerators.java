@@ -8,6 +8,7 @@ public class BeastsWorldGenerators {
     //public static BeastsWorldGenerator SHELL = new ShellGenerator();
 
     public static void init() {
-        for (IWorldGenerator generator : BeastsRegistries.GENERATORS) GameRegistry.registerWorldGenerator(generator, 0);
+        for (IWorldGenerator generator : BeastsRegistries.GENERATORS.get())
+            GameRegistry.registerWorldGenerator(generator, 0);
     }
 }
