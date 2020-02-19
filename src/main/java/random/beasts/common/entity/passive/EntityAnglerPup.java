@@ -1,15 +1,8 @@
 package random.beasts.common.entity.passive;
 
-import javax.annotation.Nonnull;
-
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIFollowOwner;
-import net.minecraft.entity.ai.EntityAIMate;
-import net.minecraft.entity.ai.EntityAISit;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWander;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,7 +14,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -30,6 +22,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import random.beasts.common.init.BeastsItems;
 
+import javax.annotation.Nonnull;
+
 public class EntityAnglerPup extends EntityTameable {
 
     private static final DataParameter<Integer> COLLAR_COLOR = EntityDataManager.createKey(EntityAnglerPup.class, DataSerializers.VARINT);
@@ -37,10 +31,9 @@ public class EntityAnglerPup extends EntityTameable {
     private int bounces = 0;
     private BlockPos jukeboxPosition;
     private boolean partyPufferfishDog;
-    
-	public EntityAnglerPup(World worldIn) {
+
+    public EntityAnglerPup(World worldIn) {
 		super(worldIn);
-		this.setSize(0.5F, 0.5F);
 	}
 
     @Override

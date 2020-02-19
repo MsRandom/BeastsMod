@@ -16,6 +16,7 @@ import net.minecraftforge.event.world.BlockEvent;
 import random.beasts.common.block.BlockCoralPlant;
 import random.beasts.common.block.CoralColor;
 import random.beasts.common.init.BeastsBlocks;
+import random.beasts.common.init.BeastsEntities;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -29,7 +30,7 @@ public class EntityCoralBranchie extends EntityBranchieBase {
     }
 
     public static EntityCoralBranchie create(BlockEvent.BreakEvent event) {
-        EntityCoralBranchie entity = new EntityCoralBranchie(event.getWorld());
+        EntityCoralBranchie entity = BeastsEntities.CORAL_BRANCHIE.create(event.getWorld());
         BlockPos pos = event.getPos();
         CoralColor color = ((BlockCoralPlant) event.getState().getBlock()).color;
         EntityPlayer player = event.getPlayer();

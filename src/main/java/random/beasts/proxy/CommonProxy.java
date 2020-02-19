@@ -9,11 +9,13 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.oredict.OreDictionary;
+import random.beasts.api.configuration.BeastsConfig;
 import random.beasts.api.main.BeastsReference;
 import random.beasts.api.main.BeastsUtils;
 import random.beasts.client.init.BeastsCreativeTabs;
 import random.beasts.common.block.BlockPalmTreeLeaves;
 import random.beasts.common.block.BlockShell;
+import random.beasts.common.block.BlockShellPiece;
 import random.beasts.common.init.*;
 import random.beasts.common.network.BeastsGuiHandler;
 import random.beasts.common.network.BeastsPacketHandler;
@@ -30,8 +32,13 @@ public class CommonProxy {
         return null;
     }
 
+    public boolean isTrimolaAttacking() {
+        return false;
+    }
+
     public void preInit() {
         BeastsUtils.setRegistryTab(BeastsCreativeTabs.MAIN);
+        BeastsConfig.init();
         BeastsStructures.init();
         BeastsTriggers.init();
         BeastsTileEntities.init();
@@ -80,5 +87,6 @@ public class CommonProxy {
         OreDictionary.registerOre("fenceGateJelly", BeastsBlocks.JELLY_WOOD_GATE);
         OreDictionary.registerOre("doorJelly", BeastsBlocks.JELLY_WOOD_DOOR);
         for (BlockShell shell : BeastsBlocks.SHELL_BLOCKS) OreDictionary.registerOre("blockShell", shell);
+        for (BlockShellPiece shell : BeastsBlocks.SHELL_PIECES) OreDictionary.registerOre("pieceShell", shell);
     }
 }

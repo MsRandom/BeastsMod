@@ -15,7 +15,6 @@ public class EntitySkewerShrimp extends EntityMob {
 
     public EntitySkewerShrimp(World worldIn) {
         super(worldIn);
-        this.setSize(0.5f, 0.4f);
         this.tasks.addTask(0, new EntityAIWander(this, 0.6F));
         this.targetTasks.addTask(0, new EntityAIHurtByTarget(this, true));
         this.tasks.addTask(1, new EntityAIAttackMelee(this, 0.6F, true));

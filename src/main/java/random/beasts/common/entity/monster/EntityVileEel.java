@@ -23,7 +23,6 @@ import java.util.Objects;
 public class EntityVileEel extends EntityMob implements IDriedAquatic {
     public EntityVileEel(World worldIn) {
         super(worldIn);
-        this.setSize(1.5F, 1.8F);
     }
 
     protected void initEntityAI() {

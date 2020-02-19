@@ -5,6 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.StateMap;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -35,31 +36,37 @@ import random.beasts.common.tileentity.TileEntityCoconut;
 import java.util.Objects;
 
 public class ClientProxy extends CommonProxy {
+    public static final KeyBinding TRIMOLA_ATTACK = new KeyBinding("trimola.attack", 19, "key.categories.misc");
 
-	@Override
-	public void preInit() {
-		super.preInit();
-		ClientRegistry.registerKeyBinding(EntityTrimola.ATTACK);
-		this.registerEntityRenders();
-	}
+    @Override
+    public void preInit() {
+        super.preInit();
+        ClientRegistry.registerKeyBinding(TRIMOLA_ATTACK);
+        this.registerEntityRenders();
+    }
 
-	@Override
-	public EntityPlayer getPlayer(MessageContext ctx) {
-		if (ctx.side == Side.SERVER) {
-			return ctx.getServerHandler().player;
-		}
-		return Minecraft.getMinecraft().player;
-	}
+    @Override
+    public EntityPlayer getPlayer(MessageContext ctx) {
+        if (ctx.side == Side.SERVER) {
+            return ctx.getServerHandler().player;
+        }
+        return Minecraft.getMinecraft().player;
+    }
 
-	private void registerEntityRenders() {
-		RenderingRegistry.registerEntityRenderingHandler(EntityCoconutCrab.class, RenderCoconutCrab::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityPufferfishDog.class, RenderPufferfishDog::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityRabbitman.class, RenderRabbitman::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntitySkewerShrimp.class, RenderSkewerShrimp::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityGiantGardenEel.class, RenderGiantGardenEel::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityVileEel.class, RenderVileEel::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityLandwhale.class, RenderLandwhale::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityCoconutBomb.class, RenderCoconutBomb::new);
+    @Override
+    public boolean isTrimolaAttacking() {
+        return TRIMOLA_ATTACK.isKeyDown();
+    }
+
+    private void registerEntityRenders() {
+        RenderingRegistry.registerEntityRenderingHandler(EntityCoconutCrab.class, RenderCoconutCrab::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityPufferfishDog.class, RenderPufferfishDog::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityRabbitman.class, RenderRabbitman::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntitySkewerShrimp.class, RenderSkewerShrimp::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityGiantGardenEel.class, RenderGiantGardenEel::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityVileEel.class, RenderVileEel::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityLandwhale.class, RenderLandwhale::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityCoconutBomb.class, RenderCoconutBomb::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityCoralBranchie.class, RenderCoralBranchie::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityChorusBranchie.class, RenderChorusBranchie::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityWoodBranchie.class, RenderWoodBranchie::new);

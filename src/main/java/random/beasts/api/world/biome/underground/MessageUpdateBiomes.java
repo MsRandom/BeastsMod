@@ -7,6 +7,7 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.relauncher.Side;
 
 public class MessageUpdateBiomes implements IMessage {
     private BlockPos pos;
@@ -37,13 +38,15 @@ public class MessageUpdateBiomes implements IMessage {
     public static class Handler implements IMessageHandler<MessageUpdateBiomes, IMessage> {
         @Override
         public IMessage onMessage(MessageUpdateBiomes message, MessageContext ctx) {
-            int x = message.pos.getX() & 15;
-            int z = message.pos.getZ() & 15;
-            Chunk chunk = Minecraft.getMinecraft().world.getChunkFromBlockCoords(message.pos);
-            UndergroundGenerationCapabilities.UndergroundBiomes biomes = chunk.getCapability(UndergroundGenerationCapabilities.CAPABILITY, null);
-            if (biomes != null) {
-                biomes.blockBiomeArray[Math.min(message.pos.getY(), 255) >> 4][x << 4 | z] = message.biome;
-                chunk.markDirty();
+            if (ctx.side == Side.CLIENT) {
+                int x = message.pos.getX() & 15;
+                int z = message.pos.getZ() & 15;
+                Chunk chunk = Minecraft.getMinecraft().world.getChunkFromBlockCoords(message.pos);
+                UndergroundGenerationCapabilities.UndergroundBiomes biomes = chunk.getCapability(UndergroundGenerationCapabilities.CAPABILITY, null);
+                if (biomes != null) {
+                    biomes.blockBiomeArray[Math.min(message.pos.getY(), 255) >> 4][x << 4 | z] = message.biome;
+                    chunk.markDirty();
+                }
             }
             return null;
         }

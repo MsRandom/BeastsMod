@@ -18,6 +18,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import net.minecraftforge.event.world.BlockEvent;
+import random.beasts.common.init.BeastsEntities;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -31,7 +32,7 @@ public class EntityWoodBranchie extends EntityBranchieBase {
     }
 
     public static EntityWoodBranchie create(BlockEvent.BreakEvent event) {
-        EntityWoodBranchie entity = new EntityWoodBranchie(event.getWorld());
+        EntityWoodBranchie entity = BeastsEntities.WOOD_BRANCHIE.create(event.getWorld());
         BlockPos pos = event.getPos();
         IBlockState state = event.getState();
         BlockPlanks.EnumType variant = state.getBlock() == Blocks.LOG ? state.getValue(BlockOldLog.VARIANT) : state.getValue(BlockNewLog.VARIANT);

@@ -44,7 +44,11 @@ public class BeastsBlocks {
     public static final Block ANEMONE_TENTACLE = new BeastsAnemoneBlock("tentacle");
     //this is a map so any coral plant can be gotten by the color or index/ordinal
     public static final Map<CoralColor, BlockCoralPlant> CORAL_PLANTS = new HashMap<>();
+    public static final Block SHELL_BRICK = new BlockShell("shell_brick");
+    public static final Block SHELL_STAIRS = new BeastsStairs(SHELL_BRICK, "shell");
+    public static final BeastsSlab SHELL_SLAB = new BeastsSlab("shell");
     public static final BlockShell[] SHELL_BLOCKS = {new BlockShell("shell_block"), new BlockShell("brown_shell_block"), new BlockShell("light_brown_shell_block"), new BlockShell("tan_shell_block")};
+    public static final BlockShellPiece[] SHELL_PIECES = {new BlockShellPiece("shell_piece"), new BlockShellPiece("brown_shell_piece"), new BlockShellPiece("light_brown_shell_piece"), new BlockShellPiece("tan_shell_piece")};
 
     static {
         for (CoralColor color : CoralColor.values()) CORAL_PLANTS.put(color, new BlockCoralPlant(color));

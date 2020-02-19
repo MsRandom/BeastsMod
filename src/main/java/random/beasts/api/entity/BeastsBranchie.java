@@ -26,7 +26,6 @@ public abstract class BeastsBranchie extends EntityMob {
 
     protected BeastsBranchie(World worldIn) {
         super(worldIn);
-        this.setSize(0.2F, 0.9F);
     }
 
     protected void initEntityAI() {

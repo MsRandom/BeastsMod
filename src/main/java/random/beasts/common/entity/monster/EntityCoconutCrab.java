@@ -41,7 +41,6 @@ public class EntityCoconutCrab extends EntityMob implements IShellEntity {
 
     public EntityCoconutCrab(World worldIn) {
         super(worldIn);
-        this.setSize(0.5f, 0.4f);
         this.setNoAI(true);
     }
 

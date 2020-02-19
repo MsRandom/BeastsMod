@@ -18,23 +18,12 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
-import java.util.HashMap;
 
 public class EntitySlimeSlug extends EntityAnimal {
-//    public static final HashMap<Integer, Integer> VARIANTS = new HashMap<>();
     private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntitySlimeSlug.class, DataSerializers.VARINT);
-
-/*
-    static {
-        VARIANTS.put(0, 2);
-        VARIANTS.put(1, 5);
-        VARIANTS.put(2, 4);
-    }
-*/
 
     public EntitySlimeSlug(World worldIn) {
         super(worldIn);
-        setSize(0.8f, 1.0f);
     }
 
     @Override
@@ -44,7 +33,6 @@ public class EntitySlimeSlug extends EntityAnimal {
         this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityAIPanic(this, 0.4D));
         this.tasks.addTask(2, new EntityAILookIdle(this));
-        
     }
 
     @Override

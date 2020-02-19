@@ -6,6 +6,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.world.BlockEvent;
+import random.beasts.common.init.BeastsEntities;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -16,7 +17,7 @@ public class EntityChorusBranchie extends EntityBranchieBase {
     }
 
     public static EntityChorusBranchie create(BlockEvent.BreakEvent event) {
-        EntityChorusBranchie entity = new EntityChorusBranchie(event.getWorld());
+        EntityChorusBranchie entity = BeastsEntities.CHORUS_BRANCHIE.create(event.getWorld());
         BlockPos pos = event.getPos();
         entity.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
         entity.onInitialSpawn(event.getWorld().getDifficultyForLocation(pos), null);

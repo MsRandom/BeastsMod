@@ -1,8 +1,10 @@
 package random.beasts.common.entity.passive;
 
 import net.minecraft.entity.EntityAgeable;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
@@ -16,6 +18,7 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
+import java.util.function.Predicate;
 
 public class EntityLegfish extends EntityAnimal {
     public static final HashMap<Integer, Integer> VARIANTS = new HashMap<>();
@@ -30,7 +33,8 @@ public class EntityLegfish extends EntityAnimal {
 
     public EntityLegfish(World worldIn) {
         super(worldIn);
-        setSize(0.3f, 0.3f);
+        EntityAIBase aiAttackTargets = null;
+        Predicate<EntityLiving> attackPredicate = e -> true;
     }
 
     @Override

@@ -32,13 +32,12 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IShearable;
 import net.minecraftforge.event.ForgeEventFactory;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import random.beasts.api.entity.IDriedAquatic;
 import random.beasts.client.init.BeastsSounds;
 import random.beasts.common.BeastsMod;
 import random.beasts.common.block.CoralColor;
 import random.beasts.common.init.BeastsBlocks;
+import random.beasts.common.init.BeastsEntities;
 import random.beasts.common.init.BeastsItems;
 import random.beasts.common.network.BeastsGuiHandler;
 
@@ -54,14 +53,12 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
     private static final DataParameter<Boolean> DATA_ID_CHEST = EntityDataManager.createKey(EntityLandwhale.class, DataSerializers.BOOLEAN);
     private static final DataParameter<Boolean> COCONUT = EntityDataManager.createKey(EntityLandwhale.class, DataSerializers.BOOLEAN);
     public InventoryBasic inventory;
-    @SideOnly(Side.CLIENT)
     public int animationTicks = 0;
     private int ticksSinceSheared = 0;
     private EntityItem target;
 
     public EntityLandwhale(World worldIn) {
         super(worldIn);
-        this.setSize(1.8F, 2.0F);
         this.initChest();
     }
 
@@ -375,7 +372,7 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
     }
 
     public EntityLandwhale createChild(EntityAgeable ageable) {
-        return new EntityLandwhale(this.world);
+        return BeastsEntities.LANDWHALE.create(this.world);
     }
 
     public float getEyeHeight() {

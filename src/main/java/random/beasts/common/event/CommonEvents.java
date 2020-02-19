@@ -2,6 +2,7 @@ package random.beasts.common.event;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.EntityAITargetNonTamed;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.passive.EntityWolf;
@@ -17,6 +18,7 @@ import net.minecraft.util.Tuple;
 import net.minecraft.world.storage.loot.LootPool;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.LootTableLoadEvent;
+import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.world.BlockEvent;
@@ -28,15 +30,56 @@ import random.beasts.api.main.BeastsReference;
 import random.beasts.common.BeastsMod;
 import random.beasts.common.entity.passive.EntityPufferfishDog;
 import random.beasts.common.entity.passive.EntityRabbitman;
+import random.beasts.common.init.BeastsEntities;
 import random.beasts.common.init.BeastsLootTables;
 import random.beasts.common.world.storage.loot.BeastsLootTable;
 
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
 import java.util.Collection;
+import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 @SuppressWarnings("unused")
 @Mod.EventBusSubscriber(modid = BeastsReference.ID)
 public class CommonEvents {
+
+    private static BiConsumer<Entity, Tuple<Float, Float>> sizeSetter;
+
+    static {
+        //since this will be gone in 1.14, there is no error handling
+        MethodHandles.Lookup lookup = MethodHandles.lookup();
+        try {
+            setSizeSetter(lookup, "setSize");
+        } catch (NoSuchMethodException e) {
+            try {
+                setSizeSetter(lookup, "func_70105_a");
+            } catch (NoSuchMethodException ignored) {
+            }
+        }
+    }
+
+    private static void setSizeSetter(MethodHandles.Lookup lookup, String name) throws NoSuchMethodException {
+        try {
+            final MethodHandle handle = lookup.findVirtual(Entity.class, name, MethodType.methodType(Void.TYPE, Float.TYPE, Float.TYPE));
+            sizeSetter = (entity, size) -> {
+                try {
+                    handle.invokeExact(entity, (float) size.getFirst(), (float) size.getSecond());
+                } catch (Throwable ignored) {
+                }
+            };
+        } catch (IllegalAccessException ignored) {
+        }
+    }
+
+    @Deprecated
+    @SubscribeEvent
+    public static void constructEntity(EntityEvent.EntityConstructing event) {
+        if (sizeSetter != null && BeastsEntities.ENTRIES.containsKey(event.getEntity().getClass())) {
+            sizeSetter.accept(event.getEntity(), BeastsEntities.ENTRIES.get(event.getEntity().getClass()).getSize());
+        }
+    }
 
     @SubscribeEvent
     public static void addEntity(EntityJoinWorldEvent event) {

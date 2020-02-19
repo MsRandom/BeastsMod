@@ -9,7 +9,6 @@ public class EntityTupala extends EntityAnimal {
 
 	public EntityTupala(World worldIn) {
 		super(worldIn);
-		this.setSize(0.3F, 0.3F);
 	}
 
 	@Override

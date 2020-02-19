@@ -28,6 +28,10 @@ public class BeastsBlock extends Block {
 
     public BeastsBlock(Material materialIn, MapColor color, String name, @Nullable Function<Block, Item> item) {
         super(materialIn, color);
+        register(name, item);
+    }
+
+    protected void register(String name, @Nullable Function<Block, Item> item) {
         BeastsUtils.addToRegistry(this, name, item);
     }
 }

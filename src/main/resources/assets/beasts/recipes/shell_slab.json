@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "beast:shell_brick"
+    }
+  },
+  "result": {
+    "item": "beasts:shell_slab",
+    "data": 0,
+    "count": 6
+  }
+}

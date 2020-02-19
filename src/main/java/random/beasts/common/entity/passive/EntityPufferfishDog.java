@@ -26,6 +26,7 @@ import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import random.beasts.client.init.BeastsSounds;
+import random.beasts.common.init.BeastsEntities;
 import random.beasts.common.init.BeastsItems;
 
 import javax.annotation.Nonnull;
@@ -39,9 +40,8 @@ public class EntityPufferfishDog extends EntityTameable {
     private BlockPos jukeboxPosition;
     private boolean partyPufferfishDog;
 
-    private EntityPufferfishDog(World worldIn) {
+    public EntityPufferfishDog(World worldIn) {
         super(worldIn);
-        this.setSize(0.5f, 0.5f);
     }
 
     @Override
@@ -71,7 +71,7 @@ public class EntityPufferfishDog extends EntityTameable {
 
     @Override
     public EntityAgeable createChild(@Nonnull EntityAgeable ageable) {
-        EntityPufferfishDog child = new EntityPufferfishDog(this.world);
+        EntityPufferfishDog child = BeastsEntities.PUFFERFISH_DOG.create(world);
         UUID uuid = this.getOwnerId();
         if (uuid != null) {
             child.setOwnerId(uuid);

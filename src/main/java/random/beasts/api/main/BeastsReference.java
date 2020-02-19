@@ -1,5 +1,7 @@
 package random.beasts.api.main;
 
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+
 public class BeastsReference {
 
     public static final String ID = "beasts";
@@ -11,4 +13,5 @@ public class BeastsReference {
     public static final String PROXY_LOCATION = "random." + ID + ".proxy.";
     public static final String COMMON_PROXY = PROXY_LOCATION + "CommonProxy";
     public static final String CLIENT_PROXY = PROXY_LOCATION + "ClientProxy";
+    public static final SimpleNetworkWrapper NETWORK_CHANNEL = new SimpleNetworkWrapper(BeastsReference.ID);
 }

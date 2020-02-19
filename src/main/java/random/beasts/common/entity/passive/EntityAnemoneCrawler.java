@@ -14,6 +14,7 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
+import random.beasts.common.init.BeastsEntities;
 import random.beasts.common.init.BeastsItems;
 
 import javax.annotation.Nullable;
@@ -23,7 +24,6 @@ public class EntityAnemoneCrawler extends EntityAnimal {
 
     public EntityAnemoneCrawler(World worldIn) {
         super(worldIn);
-        setSize(0.5f, 0.5f);
     }
 
     @Override
@@ -88,7 +88,7 @@ public class EntityAnemoneCrawler extends EntityAnimal {
     @Override
     public EntityAgeable createChild(EntityAgeable ageable) {
         if (ageable instanceof EntityAnemoneCrawler) {
-            EntityAnemoneCrawler child = new EntityAnemoneCrawler(world);
+            EntityAnemoneCrawler child = BeastsEntities.ANEMONE_CRAWLER.create(world);
             EntityAnemoneCrawler dropper = rand.nextBoolean() ? (EntityAnemoneCrawler) ageable : this;
             if (rand.nextBoolean()) dropper.dropItem(BeastsItems.MEAT_SCRAPES, 1);
             child.setVariant(dropper.getVariant());

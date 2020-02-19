@@ -19,14 +19,11 @@ import net.minecraft.world.World;
 import random.beasts.common.init.BeastsItems;
 
 public class EntityButterflyFish extends EntityAnimal {
-
-	private static final DataParameter<Integer> VARIANT = EntityDataManager.<Integer>createKey(EntityButterflyFish.class, DataSerializers.VARINT);
+	private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityButterflyFish.class, DataSerializers.VARINT);
 	private BlockPos spawnPosition;
-	private int stopped;
 
 	public EntityButterflyFish(World worldIn) {
 		super(worldIn);
-		this.setSize(0.3F, 0.3F);
 	}
 
 	@Override
@@ -81,7 +78,7 @@ public class EntityButterflyFish extends EntityAnimal {
 			this.spawnPosition = null;
 		}
 
-		if (this.spawnPosition == null || this.rand.nextInt(30) == 0 || this.spawnPosition.distanceSq((double) ((int) this.posX), (double) ((int) this.posY), (double) ((int) this.posZ)) < 4.0D) {
+		if (this.spawnPosition == null || this.rand.nextInt(30) == 0 || this.spawnPosition.distanceSq((int) this.posX, (int) this.posY, (int) this.posZ) < 4.0D) {
 			this.spawnPosition = new BlockPos((int) this.posX + this.rand.nextInt(7) - this.rand.nextInt(7),
 					(int) this.posY + this.rand.nextInt(6) - 2,
 					(int) this.posZ + this.rand.nextInt(7) - this.rand.nextInt(7));

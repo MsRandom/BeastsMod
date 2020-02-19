@@ -21,8 +21,8 @@ public class ItemCoconut extends BeastsFood {
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
-        ItemStack itemstack = playerIn.getHeldItem(handIn);
         if (playerIn.isSneaking()) {
+            ItemStack itemstack = playerIn.getHeldItem(handIn);
             if (!playerIn.capabilities.isCreativeMode) itemstack.shrink(1);
             worldIn.playSound(null, playerIn.posX, playerIn.posY, playerIn.posZ, SoundEvents.ENTITY_SNOWBALL_THROW, SoundCategory.NEUTRAL, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 
@@ -33,7 +33,7 @@ public class ItemCoconut extends BeastsFood {
             }
 
             playerIn.addStat(Objects.requireNonNull(StatList.getObjectUseStats(this)));
-        }
-        return new ActionResult<>(EnumActionResult.SUCCESS, itemstack);
+            return new ActionResult<>(EnumActionResult.SUCCESS, itemstack);
+        } else return super.onItemRightClick(worldIn, playerIn, handIn);
     }
 }

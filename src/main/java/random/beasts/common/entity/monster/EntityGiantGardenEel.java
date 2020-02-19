@@ -33,7 +33,6 @@ public class EntityGiantGardenEel extends EntityMob {
 
     public EntityGiantGardenEel(World worldIn) {
         super(worldIn);
-        this.setSize(0.5f, 2.7f);
         this.experienceValue = 3;
     }
 

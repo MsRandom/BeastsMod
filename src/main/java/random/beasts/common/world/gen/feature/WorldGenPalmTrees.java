@@ -8,6 +8,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 import random.beasts.common.entity.monster.EntityCoconutCrab;
 import random.beasts.common.init.BeastsBlocks;
+import random.beasts.common.init.BeastsEntities;
 
 import java.util.Random;
 
@@ -66,7 +67,7 @@ public class WorldGenPalmTrees extends WorldGenAbstractTree {
                     pos = world.getHeight(pos);
                     if (rand.nextInt(3) == 0) {
                         if (rand.nextInt(10) < 2) {
-                            EntityCoconutCrab crab = new EntityCoconutCrab(world);
+                            EntityCoconutCrab crab = BeastsEntities.COCONUT_CRAB.create(world);
                             crab.setLocationAndAngles(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0, 0);
                             crab.onInitialSpawn(world.getDifficultyForLocation(pos), null);
                             world.spawnEntity(crab);

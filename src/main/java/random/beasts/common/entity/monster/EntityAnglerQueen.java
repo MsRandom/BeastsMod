@@ -1,44 +1,16 @@
 package random.beasts.common.entity.monster;
 
-import java.util.List;
-import java.util.Random;
-
-import javax.annotation.Nullable;
-
-import com.google.common.base.Predicate;
-import com.google.common.collect.Lists;
-
-import io.netty.util.internal.MathUtil;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.entity.ai.EntityAIFindEntityNearestPlayer;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.monster.EntityElderGuardian;
-import net.minecraft.entity.monster.EntityGuardian;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.passive.EntitySquid;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.*;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import random.beasts.client.init.BeastsSounds;
@@ -46,17 +18,16 @@ import random.beasts.common.entity.passive.EntityAnglerPup;
 
 public class EntityAnglerQueen extends EntityMob {
 
-    private static final DataParameter<Boolean> CHARGING_BEAM = EntityDataManager.<Boolean>createKey(EntityAnglerQueen.class, DataSerializers.BOOLEAN);
-    private static final DataParameter<Boolean> USING_BEAM = EntityDataManager.<Boolean>createKey(EntityAnglerQueen.class, DataSerializers.BOOLEAN);
-    private static final DataParameter<Float> LASER_PITCH = EntityDataManager.<Float>createKey(EntityAnglerQueen.class, DataSerializers.FLOAT);
-    private static final DataParameter<Float> LASER_YAW = EntityDataManager.<Float>createKey(EntityAnglerQueen.class, DataSerializers.FLOAT);
-    private static final DataParameter<Float> PREV_LASER_PITCH = EntityDataManager.<Float>createKey(EntityAnglerQueen.class, DataSerializers.FLOAT);
-    private static final DataParameter<Float> PREV_LASER_YAW = EntityDataManager.<Float>createKey(EntityAnglerQueen.class, DataSerializers.FLOAT);
+    private static final DataParameter<Boolean> CHARGING_BEAM = EntityDataManager.createKey(EntityAnglerQueen.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<Boolean> USING_BEAM = EntityDataManager.createKey(EntityAnglerQueen.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<Float> LASER_PITCH = EntityDataManager.createKey(EntityAnglerQueen.class, DataSerializers.FLOAT);
+    private static final DataParameter<Float> LASER_YAW = EntityDataManager.createKey(EntityAnglerQueen.class, DataSerializers.FLOAT);
+    private static final DataParameter<Float> PREV_LASER_PITCH = EntityDataManager.createKey(EntityAnglerQueen.class, DataSerializers.FLOAT);
+    private static final DataParameter<Float> PREV_LASER_YAW = EntityDataManager.createKey(EntityAnglerQueen.class, DataSerializers.FLOAT);
 
-	public EntityAnglerQueen(World worldIn) {
-		super(worldIn);
-		this.setSize(2.4F, 1.8F);
-	}
+    public EntityAnglerQueen(World worldIn) {
+        super(worldIn);
+    }
 
     protected void initEntityAI() {
         this.tasks.addTask(1, new EntityAISwimming(this));
@@ -92,7 +63,7 @@ public class EntityAnglerQueen extends EntityMob {
     }
 
     public float getLaserPitch() {
-        return ((Float)this.dataManager.get(LASER_PITCH)).floatValue();
+        return this.dataManager.get(LASER_PITCH).floatValue();
     }
 
     private void setLaserYaw(float laserYaw) {
@@ -100,7 +71,7 @@ public class EntityAnglerQueen extends EntityMob {
     }
 
     public float getLaserYaw() {
-        return ((Float)this.dataManager.get(LASER_YAW)).floatValue();
+        return this.dataManager.get(LASER_YAW).floatValue();
     }
     
     private void setPrevLaserPitch(float prevLaserPitch) {
@@ -108,7 +79,7 @@ public class EntityAnglerQueen extends EntityMob {
     }
 
     public float getPrevLaserPitch() {
-        return ((Float)this.dataManager.get(PREV_LASER_PITCH)).floatValue();
+        return this.dataManager.get(PREV_LASER_PITCH).floatValue();
     }
 
     private void setPrevLaserYaw(float prevLaserYaw) {
@@ -116,7 +87,7 @@ public class EntityAnglerQueen extends EntityMob {
     }
 
     public float getPrevLaserYaw() {
-        return ((Float)this.dataManager.get(PREV_LASER_YAW)).floatValue();
+        return this.dataManager.get(PREV_LASER_YAW).floatValue();
     }
     
     private void setUsingBeam(boolean isUsingBeam) {
@@ -124,7 +95,7 @@ public class EntityAnglerQueen extends EntityMob {
     }
 
     public boolean isUsingBeam() {
-        return ((Boolean)this.dataManager.get(USING_BEAM)).booleanValue();
+        return this.dataManager.get(USING_BEAM).booleanValue();
     }
     
     private void setChargingBeam(boolean isChargingBeam) {
@@ -132,7 +103,7 @@ public class EntityAnglerQueen extends EntityMob {
     }
 
     public boolean isChargingBeam() {
-        return ((Boolean)this.dataManager.get(CHARGING_BEAM)).booleanValue();
+        return this.dataManager.get(CHARGING_BEAM).booleanValue();
     }
     
     public void notifyDataManagerChange(DataParameter<?> key) {
@@ -215,8 +186,8 @@ public class EntityAnglerQueen extends EntityMob {
                     double d0 = targetX - lureX;
                     double d1 = targetY - lureY;
                     double d2 = targetZ - lureZ;
-                    double d3 = (double)MathHelper.sqrt(d0 * d0 + d2 * d2);
-                    float targetYaw = (float)(MathHelper.atan2(d2, d0) * (180D / Math.PI)) - 90.0F;
+                    double d3 = MathHelper.sqrt(d0 * d0 + d2 * d2);
+                    float targetYaw = (float) (MathHelper.atan2(d2, d0) * (180D / Math.PI)) - 90.0F;
                     float targetPitch = (float)(-(MathHelper.atan2(d1, d3) * (180D / Math.PI)));
                     guardian.setLaserPitch(this.updateRotation(guardian.getLaserPitch(), targetPitch, 35f - this.guardian.world.getDifficulty().getDifficultyId()*2f, 0.75f));
                     guardian.setLaserYaw(this.updateRotation(guardian.getLaserYaw(), targetYaw, 20f - this.guardian.world.getDifficulty().getDifficultyId()*2f, 0.75f));

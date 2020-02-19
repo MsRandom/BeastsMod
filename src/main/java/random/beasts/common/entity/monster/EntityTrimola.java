@@ -1,6 +1,5 @@
 package random.beasts.common.entity.monster;
 
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.passive.EntityTameable;
@@ -20,12 +19,10 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import random.beasts.api.main.BeastsReference;
 import random.beasts.common.BeastsMod;
 import random.beasts.common.init.BeastsBlocks;
 import random.beasts.common.network.BeastsGuiHandler;
-import random.beasts.common.network.BeastsPacketHandler;
 import random.beasts.common.network.packet.PacketTrimolaAttack;
 
 import javax.annotation.Nonnull;
@@ -33,8 +30,6 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class EntityTrimola extends EntityTameable implements IInventoryChangedListener {
-    @SideOnly(Side.CLIENT)
-    public static final KeyBinding ATTACK = new KeyBinding("trimola.attack", 19, "key.categories.misc");
     private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityTrimola.class, DataSerializers.VARINT);
     private static final DataParameter<ItemStack> SADDLE = EntityDataManager.createKey(EntityTrimola.class, DataSerializers.ITEM_STACK);
     public InventoryBasic inventory;
@@ -45,7 +40,6 @@ public class EntityTrimola extends EntityTameable implements IInventoryChangedLi
 
     public EntityTrimola(World worldIn) {
         super(worldIn);
-        this.setSize(1.0F, 1.2F);
         initInventory();
     }
 
@@ -165,12 +159,12 @@ public class EntityTrimola extends EntityTameable implements IInventoryChangedLi
     public void updatePassenger(Entity passenger) {
         super.updatePassenger(passenger);
         boolean attack = false;
-        if (world.isRemote && ATTACK.isKeyDown() && rearCoolDown == 0) {
+        if (world.isRemote && BeastsMod.proxy.isTrimolaAttacking() && rearCoolDown == 0) {
             attack = true;
             this.rearing = true;
             this.rearingTime = 0;
             rearCoolDown = 20;
-            BeastsPacketHandler.net.sendToServer(new PacketTrimolaAttack(this));
+            BeastsReference.NETWORK_CHANNEL.sendToServer(new PacketTrimolaAttack(this));
         }
         if (attack) {
             attackTicks = 1;

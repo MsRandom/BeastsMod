@@ -9,7 +9,6 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.storage.loot.RandomValueRange;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import random.beasts.api.main.BeastsReference;
 import random.beasts.api.world.biome.BeastsBiome;
 
@@ -23,7 +22,6 @@ import java.util.stream.Stream;
 
 public class UndergroundBiome extends BeastsBiome {
     public static final ResourceLocation KEY = new ResourceLocation(BeastsReference.ID, "underground_biomes");
-    public static final SimpleNetworkWrapper CHANNEL = new SimpleNetworkWrapper(KEY.toString());
     private static final List<UndergroundBiome> REGISTERED = new ArrayList<>();
     private static ImmutableList<UndergroundBiome> biomeCache;
     private final List<Biome.SpawnListEntry> spawnableCreatureList = new ArrayList<>();
@@ -102,6 +100,7 @@ public class UndergroundBiome extends BeastsBiome {
             byte biome = biomes.blockBiomeArray[Math.min(pos.getY(), 255) >> 4][j << 4 | i];
             if (biome > 0) return Biome.getBiome(biome & 255);
         }
+
         return null;
     }
 

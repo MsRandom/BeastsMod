@@ -9,7 +9,6 @@ public class EntityIsopod extends EntityAnimal {
 
 	public EntityIsopod(World worldIn) {
 		super(worldIn);
-		this.setSize(0.3F, 0.3F);
 	}
 
 	@Override

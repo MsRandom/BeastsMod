@@ -9,6 +9,7 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
@@ -19,6 +20,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import random.beasts.api.block.BeastsBlock;
 import random.beasts.api.main.BeastsUtils;
 import random.beasts.common.init.BeastsBlocks;
 import random.beasts.common.init.BeastsItems;
@@ -26,9 +28,10 @@ import random.beasts.common.init.BeastsItems;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Function;
 
 @SuppressWarnings("deprecation")
-public class BlockCoralPlant extends Block {
+public class BlockCoralPlant extends BeastsBlock {
     private static final PropertyBool NORTH = PropertyBool.create("north");
     private static final PropertyBool EAST = PropertyBool.create("east");
     private static final PropertyBool SOUTH = PropertyBool.create("south");
@@ -38,12 +41,16 @@ public class BlockCoralPlant extends Block {
     public CoralColor color;
 
     public BlockCoralPlant(CoralColor color) {
-        super(Material.PLANTS, color.mapColor);
+        super(Material.PLANTS, color.mapColor, "coral_plant_" + color.getName());
         this.color = color;
         setHardness(2.0F);
         setSoundType(SoundType.PLANT);
         this.setDefaultState(this.blockState.getBaseState().withProperty(NORTH, false).withProperty(EAST, false).withProperty(SOUTH, false).withProperty(WEST, false).withProperty(UP, false).withProperty(DOWN, false));
-        BeastsUtils.addToRegistry(this, "coral_plant_" + color.getName(), null);
+    }
+
+    @Override
+    protected void register(String name, @Nullable Function<Block, Item> item) {
+        BeastsUtils.addToRegistry(this, name, null);
     }
 
     private static boolean areAllNeighborsEmpty(World worldIn, BlockPos pos, @Nullable EnumFacing excludingSide) {

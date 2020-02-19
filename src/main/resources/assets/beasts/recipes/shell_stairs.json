@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#  ",
+    "## ",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "beasts:shell_brick"
+    }
+  },
+  "result": {
+    "item": "beasts:shell_stairs",
+    "count": 4
+  }
+}

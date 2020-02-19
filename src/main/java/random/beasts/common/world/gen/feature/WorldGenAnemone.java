@@ -7,6 +7,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import random.beasts.common.entity.passive.EntityAnemoneCrawler;
 import random.beasts.common.init.BeastsBlocks;
+import random.beasts.common.init.BeastsEntities;
 
 import java.util.Random;
 import java.util.function.Function;
@@ -53,7 +54,7 @@ public class WorldGenAnemone extends WorldGenerator {
             setInAllDirections(worldIn, 4, 1, vertical[5], tentacle);
             setBlockAndNotifyAdequately(worldIn, vertical[5], BeastsBlocks.ANEMONE_MOUTH.getDefaultState());
             for (int i = 0; i < rand.nextInt(2) + 1; i++) {
-                EntityAnemoneCrawler crawler = new EntityAnemoneCrawler(worldIn);
+                EntityAnemoneCrawler crawler = BeastsEntities.ANEMONE_CRAWLER.create(worldIn);
                 crawler.setLocationAndAngles(position.getX() + i, vertical[6].getY(), position.getZ() + i, 0, 0);
                 crawler.onInitialSpawn(worldIn.getDifficultyForLocation(crawler.getPosition()), null);
                 worldIn.spawnEntity(crawler);

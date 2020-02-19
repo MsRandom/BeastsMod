@@ -4,42 +4,36 @@ import com.google.common.collect.Iterables;
 import net.minecraft.block.BlockStone;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.WeightedRandom;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 import net.minecraft.world.gen.feature.WorldGenerator;
-import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
-import net.minecraftforge.event.terraingen.TerrainGen;
 import random.beasts.api.world.biome.BeastsBiome;
 import random.beasts.common.block.BlockCoral;
 import random.beasts.common.block.CoralColor;
-import random.beasts.common.init.BeastsBiomes;
 import random.beasts.common.init.BeastsBlocks;
 import random.beasts.common.init.BeastsStructures;
 import random.beasts.common.world.gen.feature.WorldGenAnemone;
 import random.beasts.common.world.gen.feature.WorldGenJellyfishTrees;
 import random.beasts.common.world.gen.feature.WorldGenPalmTrees;
-import random.beasts.common.world.gen.structure.WorldGenStructure;
 
-import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
-import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class BiomeDriedReef extends BeastsBiome {
-
-    private static final WorldGenBlob ROCK_GENERATOR = new WorldGenBlob(Blocks.STONE.getDefaultState(), 3);
-    private static final WorldGenBlob ANDESITE_GENERATOR = new WorldGenBlob(Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.ANDESITE), 3);
-    private static final WorldGenBlob CORAL_BLOCK_GENERATOR = new WorldGenCoralBlock();
+    private static final WorldGenRockBlob ROCK_GENERATOR = new WorldGenRockBlob(Blocks.STONE.getDefaultState(), 3);
+    private static final WorldGenRockBlob ANDESITE_GENERATOR = new WorldGenRockBlob(Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.ANDESITE), 3);
+    private static final WorldGenRockBlob CORAL_BLOCK_GENERATOR = new WorldGenCoralBlock();
     private static final WorldGenAnemone ANEMONE_GENERATOR = new WorldGenAnemone();
     private static final WorldGenCoralPlant CORAL_PLANT_GENERATOR = new WorldGenCoralPlant();
     private static final WorldGenJellyfishTrees JELLYFISH_TREE_GENERATOR = new WorldGenJellyfishTrees(false);
     private static final WorldGenPalmTrees PALM_TREE_GENERATOR = new WorldGenPalmTrees(false);
     private static final WorldGenRockCluster ROCK_CLUSTER = new WorldGenRockCluster();
-    private static final WorldGenBlob[] ROCKS = {ROCK_GENERATOR, ANDESITE_GENERATOR};
-    private static BlockPos[] coords = new BlockPos[Short.MAX_VALUE + 1];
-    private static int generated = 0;
+    private static final WorldGenRockBlob[] ROCKS = {ROCK_GENERATOR, ANDESITE_GENERATOR};
+    private static final List<WeightedGenerator> GENERATORS = Stream.concat(Stream.of(new WeightedGenerator(10, CORAL_PLANT_GENERATOR), new WeightedGenerator(30, ROCK_CLUSTER), new WeightedGenerator(50, JELLYFISH_TREE_GENERATOR), new WeightedGenerator(20, PALM_TREE_GENERATOR), new WeightedGenerator(45, ANEMONE_GENERATOR)), Stream.of(BeastsStructures.SHELLS).map(s -> new WeightedGenerator(20, s))).collect(Collectors.toList());
 
     public BiomeDriedReef() {
         super("dried_reef", new BiomeProperties("Dried Reef").setBaseHeight(0.125F).setHeightVariation(0.05F).setTemperature(2.0F).setRainfall(0.0F).setTemperature(2).setRainDisabled().setWaterColor(0x00FFFF));
@@ -53,60 +47,24 @@ public class BiomeDriedReef extends BeastsBiome {
         this.decorator.generateFalls = false;
     }
 
-    private static BlockPos getNearestGeneratedCoords(BlockPos pos) {
-        BlockPos blockpos = null;
-        BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos(pos);
-        double d0 = Double.MAX_VALUE;
-        for (BlockPos pos1 : coords) {
-            if (pos1 != null) {
-                mutableBlockPos.setPos(pos1);
-                double d1 = mutableBlockPos.distanceSq(pos);
-                if (blockpos == null) {
-                    blockpos = new BlockPos(mutableBlockPos);
-                    d0 = d1;
-                } else if (d1 < d0) {
-                    blockpos = new BlockPos(mutableBlockPos);
-                    d0 = d1;
-                }
-            }
-        }
-        return blockpos;
-    }
-
-    @Override
-    public WorldGenAbstractTree getRandomTreeFeature(Random rand) {
-        return rand.nextInt(10) == 0 ? JELLYFISH_TREE_GENERATOR : PALM_TREE_GENERATOR;
-    }
-
-    private BlockPos getPos(World worldIn, Random rand, BlockPos pos) {
-        while (true) {
-            BlockPos height = worldIn.getHeight(pos.add(rand.nextInt(16) + 8, 0, rand.nextInt(16) + 8));
-            BlockPos nearest = getNearestGeneratedCoords(height);
-            if (worldIn.getBiome(pos) != BeastsBiomes.DRIED_REEF || (nearest != null && nearest.distanceSq(height) < 100)) {
-                pos = height;
-                continue;
-            }
-            if (coords.length - 1 < generated) coords = Arrays.copyOf(coords, coords.length + Short.MAX_VALUE + 1);
-            coords[generated++] = height;
-            return height;
-        }
-    }
-
     @Override
     public void decorate(World worldIn, Random rand, BlockPos pos) {
         super.decorate(worldIn, rand, pos);
-        Supplier<BlockPos> position = () -> getPos(worldIn, rand, pos);
-        for (int i = 0; i < rand.nextInt(4); ++i) CORAL_PLANT_GENERATOR.generate(worldIn, rand, position.get());
-        if (rand.nextInt(30) == 0) ROCK_CLUSTER.generate(worldIn, rand, position.get());
-        if (rand.nextInt(10) == 0 && TerrainGen.decorate(worldIn, rand, new ChunkPos(pos), DecorateBiomeEvent.Decorate.EventType.TREE))
-            for (int i = 0; i < rand.nextInt(4); i++)
-                getRandomTreeFeature(rand).generate(worldIn, rand, position.get());
-        if (rand.nextInt(45) == 0) ANEMONE_GENERATOR.generate(worldIn, rand, position.get());
-        for (WorldGenStructure structure : BeastsStructures.SHELLS) {
-            BlockPos p = position.get();
-            if (worldIn.getBlockState(p.down()).getBlock() == Blocks.SAND)
-                if (rand.nextInt(20) == 0) structure.generate(worldIn, rand, p.down(2));
+        /*int k = 0;
+        for(int i = 0; i < 16; i += 4) {
+            for (int j = 0; j < 16; j += 4) {
+                BlockPos shell = pos.add(i, 0, j);
+                if (rand.nextInt(6) == 0) {
+                    shell = worldIn.getTopSolidOrLiquidBlock(shell);
+                    if (worldIn.getBlockState(shell).getMaterial() != Material.WATER && !(worldIn.getBlockState(shell.down()).getBlock() instanceof BlockShellPiece)) {
+                        worldIn.setBlockState(shell, BeastsBlocks.SHELL_PIECES[rand.nextInt(BeastsBlocks.SHELL_BLOCKS.length)].getDefaultState());
+                        if(k++ == 3) break;
+                    }
+                }
+            }
         }
+        WeightedGenerator item = WeightedRandom.getRandomItem(rand, GENERATORS);
+        if(item != null) item.generator.generate(worldIn, rand, pos);*/
     }
 
     private static class WorldGenRockCluster extends WorldGenerator {
@@ -190,17 +148,17 @@ public class BiomeDriedReef extends BeastsBiome {
         }
     }
 
-    private static class WorldGenBlob extends WorldGenerator {
+    private static class WorldGenRockBlob extends WorldGenerator {
         private IBlockState block;
         private int size;
 
-        WorldGenBlob(IBlockState blockIn, int size) {
+        WorldGenRockBlob(IBlockState blockIn, int size) {
             super(false);
             this.block = blockIn;
             this.size = size;
         }
 
-        WorldGenBlob(IBlockState blockIn) {
+        WorldGenRockBlob(IBlockState blockIn) {
             this(blockIn, 0);
         }
 
@@ -225,7 +183,7 @@ public class BiomeDriedReef extends BeastsBiome {
         }
     }
 
-    private static class WorldGenCoralBlock extends WorldGenBlob {
+    private static class WorldGenCoralBlock extends WorldGenRockBlob {
 
         private IBlockState[] states = new IBlockState[CoralColor.values().length];
 
@@ -248,9 +206,16 @@ public class BiomeDriedReef extends BeastsBiome {
         }
 
         public boolean generate(World worldIn, Random rand, BlockPos position) {
-            //ChunkPos chunkPos = worldIn.getChunkFromBlockCoords(position).getPos();
-            //for(BlockPos pos : BlockPos.getAllInBox(new BlockPos(chunkPos.getXStart(), position.getY() - 16, chunkPos.getZStart()), new BlockPos(chunkPos.getXEnd(), position.getY() + 16, chunkPos.getZEnd()))) if(worldIn.getBlockState(pos).getBlock() instanceof BlockLeaves) return false;
             return BeastsBlocks.CORAL_PLANTS.get(CoralColor.getRandom(rand)).generatePlant(worldIn, position, rand);
+        }
+    }
+
+    public static class WeightedGenerator extends WeightedRandom.Item {
+        public final WorldGenerator generator;
+
+        public WeightedGenerator(int itemWeightIn, WorldGenerator generator) {
+            super(itemWeightIn);
+            this.generator = generator;
         }
     }
 }

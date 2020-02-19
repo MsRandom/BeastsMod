@@ -29,7 +29,6 @@ public class EntityScallop extends EntityMob implements EntityFlying {
 
     public EntityScallop(World worldIn) {
         super(worldIn);
-        setSize(0.5f, 0.5f);
         setNoGravity(true);
     }
 

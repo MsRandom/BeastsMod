@@ -6,11 +6,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityFlying;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -21,14 +18,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
-import random.beasts.client.init.BeastsSounds;
-import random.beasts.common.block.CoralColor;
-import random.beasts.common.init.BeastsBiomes;
-import random.beasts.common.init.BeastsBlocks;
-import random.beasts.common.init.BeastsItems;
 
 import javax.annotation.Nullable;
-import java.util.Optional;
 
 public class EntityFireflySquid extends EntityAnimal implements EntityFlying {
 
@@ -38,7 +29,6 @@ public class EntityFireflySquid extends EntityAnimal implements EntityFlying {
 
     public EntityFireflySquid(World worldIn) {
         super(worldIn);
-        setSize(0.5f, 0.5f);
         setNoGravity(true);
     }
 
@@ -83,23 +73,23 @@ public class EntityFireflySquid extends EntityAnimal implements EntityFlying {
     }
 
 	protected void updateAITasks() {
-		super.updateAITasks();
+        super.updateAITasks();
 
-		if (this.spawnPosition != null && (!this.world.isAirBlock(this.spawnPosition) || this.spawnPosition.getY() < 1)) {
-			this.spawnPosition = null;
-		}
+        if (this.spawnPosition != null && (!this.world.isAirBlock(this.spawnPosition) || this.spawnPosition.getY() < 1)) {
+            this.spawnPosition = null;
+        }
 
-		if (this.spawnPosition == null || this.rand.nextInt(30) == 0 || this.spawnPosition.distanceSq((double) ((int) this.posX), (double) ((int) this.posY), (double) ((int) this.posZ)) < 4.0D) {
-			this.spawnPosition = new BlockPos((int) this.posX + this.rand.nextInt(7) - this.rand.nextInt(7),
-					(int) this.posY + this.rand.nextInt(6) - 2,
-					(int) this.posZ + this.rand.nextInt(7) - this.rand.nextInt(7));
-		}
+        if (this.spawnPosition == null || this.rand.nextInt(30) == 0 || this.spawnPosition.distanceSq((int) this.posX, (int) this.posY, (int) this.posZ) < 4.0D) {
+            this.spawnPosition = new BlockPos((int) this.posX + this.rand.nextInt(7) - this.rand.nextInt(7),
+                    (int) this.posY + this.rand.nextInt(6) - 2,
+                    (int) this.posZ + this.rand.nextInt(7) - this.rand.nextInt(7));
+        }
 
-		double d0 = (double) this.spawnPosition.getX() + 0.5D - this.posX;
-		double d1 = (double) this.spawnPosition.getY() + 0.1D - this.posY;
-		double d2 = (double) this.spawnPosition.getZ() + 0.5D - this.posZ;
-		double speed = 0.02d;
-		this.motionX += (Math.signum(d0) * 0.5D - this.motionX) * speed;
+        double d0 = (double) this.spawnPosition.getX() + 0.5D - this.posX;
+        double d1 = (double) this.spawnPosition.getY() + 0.1D - this.posY;
+        double d2 = (double) this.spawnPosition.getZ() + 0.5D - this.posZ;
+        double speed = 0.02d;
+        this.motionX += (Math.signum(d0) * 0.5D - this.motionX) * speed;
 		this.motionY += (Math.signum(d1) * 0.699999988079071D - this.motionY) * speed;
 		this.motionZ += (Math.signum(d2) * 0.5D - this.motionZ) * speed;
 		float f = (float) (MathHelper.atan2(this.motionZ, this.motionX) * (180D / Math.PI)) - 90.0F;
