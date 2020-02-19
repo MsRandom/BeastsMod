@@ -12,7 +12,7 @@ public class BeastsBiomes {
 
     public static final WorldType BEASTS_WORLD_TYPE = new WorldTypeBeasts();
     public static final Biome DRIED_REEF = new BiomeDriedReef();
-    public static final UndergroundBiome THE_ABYSS = new UndergroundBiome("the_abyss", 50, DRIED_REEF);
+    public static final UndergroundBiome THE_ABYSS = new UndergroundBiome("The Abyss", 20, DRIED_REEF);
 
     public static void addTypes(Biome biome, BiomeManager.BiomeType mainType, int weight, boolean stronghold, boolean village, BiomeDictionary.Type... types) {
         BiomeManager.addBiome(mainType, new BiomeManager.BiomeEntry(biome, weight));

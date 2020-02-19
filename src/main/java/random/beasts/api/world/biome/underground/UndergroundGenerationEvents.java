@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
 @Mod.EventBusSubscriber(modid = BeastsReference.ID)
@@ -45,7 +46,7 @@ public class UndergroundGenerationEvents {
             for (UndergroundBiome undergroundBiome : UndergroundBiome.getRegistered()) {
                 if (undergroundBiome.getBiome() == null || undergroundBiome.getBiome() == world.getBiome(pos)) {
                     if (rand.nextInt(undergroundBiome.getRarity()) == 0 && (undergroundBiome.getCondition() == null || undergroundBiome.getCondition().test(event.getWorld(), pos))) {
-                        int height = undergroundBiome.getHeight() == null ? rand.nextInt(50) + 10 : undergroundBiome.getHeight().generateInt(rand);
+                        int height = undergroundBiome.getHeight() == null ? rand.nextInt(45) + 10 : undergroundBiome.getHeight().generateInt(rand);
                         pos = new BlockPos(pos.getX(), height, pos.getZ());
                         Consumer<BlockPos> generate = p -> {
                             ChunkPos c = new ChunkPos(p);
@@ -53,10 +54,8 @@ public class UndergroundGenerationEvents {
                                 Chunk chunk = world.getChunkFromBlockCoords(p);
                                 UndergroundGenerationCapabilities.UndergroundBiomes biomes = chunk.getCapability(UndergroundGenerationCapabilities.CAPABILITY, null);
                                 if (biomes != null) {
-                                    int x = p.getX() & 15;
-                                    int z = p.getZ() & 15;
                                     byte biome = (byte) (Biome.getIdForBiome(undergroundBiome) & 255);
-                                    biomes.blockBiomeArray[Math.min(height, 255) >> 4][x << 4 | z] = biome;
+                                    biomes.blockBiomeArray[Math.min(height, 255) >> 5] = biome;
                                     BeastsReference.NETWORK_CHANNEL.sendToAll(new MessageUpdateBiomes(p, biome));
                                     MinecraftForge.EVENT_BUS.post(new UndergroundBiomeEvent.Generate(world, rand, p));
                                     undergroundBiome.populate(world, rand, p);
@@ -72,9 +71,11 @@ public class UndergroundGenerationEvents {
                             if (c.x == event.getChunkX() && c.z == event.getChunkZ()) gen.run();
                             else QUEUED.put(c, gen);
                         };
-                        int size = undergroundBiome.getSize() == null ? rand.nextInt(48) + 16 : undergroundBiome.getSize().generateInt(rand);
+                        Supplier<Integer> size = () -> undergroundBiome.getSize() == null ? rand.nextInt(35) + 48 : undergroundBiome.getSize().generateInt(rand);
                         generate.accept(pos);
-                        for (int i = 1; i < size / 16; ++i) generate.accept(pos.add(i * 16, 0, i * 16));
+                        for (int i = 1; i < size.get() / 16; ++i)
+                            for (int j = 1; j < size.get() / 16; ++j)
+                                generate.accept(pos.add(i * 16, 0, j * 16));
                     }
                 }
             }

@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
@@ -12,16 +13,14 @@ import net.minecraftforge.common.MinecraftForge;
 import random.beasts.api.main.BeastsReference;
 import random.beasts.api.world.biome.BeastsBiome;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.function.BiPredicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class UndergroundBiome extends BeastsBiome {
     public static final ResourceLocation KEY = new ResourceLocation(BeastsReference.ID, "underground_biomes");
+    public static final Map<ChunkPos, byte[]> GENERATED = new HashMap<>();
     private static final List<UndergroundBiome> REGISTERED = new ArrayList<>();
     private static ImmutableList<UndergroundBiome> biomeCache;
     private final List<Biome.SpawnListEntry> spawnableCreatureList = new ArrayList<>();
@@ -90,17 +89,21 @@ public class UndergroundBiome extends BeastsBiome {
     }
 
     @SuppressWarnings("unused")
-    public static Biome getBiome(BlockPos pos, Object chunk) {
-        if (!(chunk instanceof Chunk))
-            throw new IllegalArgumentException("Illegal argument for parameter chunk in UndergroundBiome::getBiome");
-        int i = pos.getX() & 15;
-        int j = pos.getZ() & 15;
-        UndergroundGenerationCapabilities.UndergroundBiomes biomes = ((Chunk) chunk).getCapability(UndergroundGenerationCapabilities.CAPABILITY, null);
-        if (biomes != null) {
-            byte biome = biomes.blockBiomeArray[Math.min(pos.getY(), 255) >> 4][j << 4 | i];
+    public static Biome getBiome(BlockPos pos, Object object) {
+        if (!(object instanceof Chunk))
+            throw new IllegalArgumentException("Illegal argument for parameter object in UndergroundBiome::getBiome");
+        Chunk chunk = (Chunk) object;
+        byte[] blockBiomeArray = null;
+        if (chunk.getWorld().isRemote) {
+            blockBiomeArray = GENERATED.get(chunk.getPos());
+        } else {
+            UndergroundGenerationCapabilities.UndergroundBiomes biomes = chunk.getCapability(UndergroundGenerationCapabilities.CAPABILITY, null);
+            if (biomes != null) blockBiomeArray = biomes.blockBiomeArray;
+        }
+        if (blockBiomeArray != null) {
+            byte biome = blockBiomeArray[Math.min(pos.getY(), 255) >> 5];
             if (biome > 0) return Biome.getBiome(biome & 255);
         }
-
         return null;
     }
 

@@ -2,7 +2,6 @@ package random.beasts.api.world.biome.underground;
 
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagByteArray;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
@@ -28,26 +27,19 @@ public class UndergroundGenerationCapabilities implements ICapabilityProvider {
     }
 
     public static class UndergroundBiomes {
-        byte[][] blockBiomeArray = new byte[16][256];
+        byte[] blockBiomeArray = new byte[8];
     }
 
     public static class UndergroundBiomeStorage implements Capability.IStorage<UndergroundBiomes> {
         @Nullable
         @Override
         public NBTBase writeNBT(Capability<UndergroundBiomes> capability, UndergroundBiomes instance, EnumFacing side) {
-            NBTTagList list = new NBTTagList();
-            for (int i = 0; i < 16; ++i) {
-                list.set(i, new NBTTagByteArray(instance.blockBiomeArray[i]));
-            }
-            return list;
+            return new NBTTagByteArray(instance.blockBiomeArray);
         }
 
         @Override
         public void readNBT(Capability<UndergroundBiomes> capability, UndergroundBiomes instance, EnumFacing side, NBTBase nbt) {
-            NBTTagList list = (NBTTagList) nbt;
-            for (int i = 0; i < 16; ++i) {
-                instance.blockBiomeArray[i] = ((NBTTagByteArray) list.get(i)).getByteArray();
-            }
+            instance.blockBiomeArray = ((NBTTagByteArray) nbt).getByteArray();
         }
     }
 }

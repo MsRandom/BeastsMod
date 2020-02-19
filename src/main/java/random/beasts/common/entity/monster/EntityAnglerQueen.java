@@ -6,11 +6,14 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.*;
+import net.minecraft.world.BossInfo;
+import net.minecraft.world.BossInfoServer;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import random.beasts.client.init.BeastsSounds;
@@ -24,8 +27,11 @@ public class EntityAnglerQueen extends EntityMob {
     private static final DataParameter<Float> PREV_LASER_PITCH = EntityDataManager.createKey(EntityAnglerQueen.class, DataSerializers.FLOAT);
     private static final DataParameter<Float> PREV_LASER_YAW = EntityDataManager.createKey(EntityAnglerQueen.class, DataSerializers.FLOAT);
 
+    private final BossInfoServer bossInfo = (BossInfoServer) new BossInfoServer(getDisplayName(), BossInfo.Color.PURPLE, BossInfo.Overlay.PROGRESS).setCreateFog(true).setDarkenSky(true);
+
     public EntityAnglerQueen(World worldIn) {
         super(worldIn);
+        this.experienceValue = 30;
     }
 
     protected void initEntityAI() {
@@ -103,6 +109,29 @@ public class EntityAnglerQueen extends EntityMob {
 
     private void setChargingBeam(boolean isChargingBeam) {
         this.dataManager.set(CHARGING_BEAM, isChargingBeam);
+    }
+
+    @Override
+    protected void updateAITasks() {
+        super.updateAITasks();
+        bossInfo.setPercent(getHealth() / getMaxHealth());
+    }
+
+    @Override
+    public void addTrackingPlayer(EntityPlayerMP player) {
+        super.addTrackingPlayer(player);
+        bossInfo.addPlayer(player);
+    }
+
+    @Override
+    public void removeTrackingPlayer(EntityPlayerMP player) {
+        super.removeTrackingPlayer(player);
+        bossInfo.removePlayer(player);
+    }
+
+    @Override
+    public boolean isNonBoss() {
+        return false;
     }
 
     static class AIBeamAttack extends EntityAIBase {

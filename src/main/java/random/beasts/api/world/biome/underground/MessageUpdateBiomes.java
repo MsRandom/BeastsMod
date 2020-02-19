@@ -1,9 +1,8 @@
 package random.beasts.api.world.biome.underground;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.chunk.Chunk;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -37,14 +36,14 @@ public class MessageUpdateBiomes implements IMessage {
     public static class Handler implements IMessageHandler<MessageUpdateBiomes, IMessage> {
         @Override
         public IMessage onMessage(MessageUpdateBiomes message, MessageContext ctx) {
-            int x = message.pos.getX() & 15;
-            int z = message.pos.getZ() & 15;
-            Chunk chunk = Minecraft.getMinecraft().world.getChunkFromBlockCoords(message.pos);
-            UndergroundGenerationCapabilities.UndergroundBiomes biomes = chunk.getCapability(UndergroundGenerationCapabilities.CAPABILITY, null);
-            if (biomes != null) {
-                biomes.blockBiomeArray[Math.min(message.pos.getY(), 255) >> 4][x << 4 | z] = message.biome;
-                chunk.markDirty();
+            ChunkPos pos = new ChunkPos(message.pos);
+            byte[] blockBiomeArray;
+            if (UndergroundBiome.GENERATED.containsKey(pos)) blockBiomeArray = UndergroundBiome.GENERATED.get(pos);
+            else {
+                blockBiomeArray = new byte[8];
+                UndergroundBiome.GENERATED.put(pos, blockBiomeArray);
             }
+            blockBiomeArray[Math.min(message.pos.getY(), 255) >> 5] = message.biome;
             return null;
         }
     }
