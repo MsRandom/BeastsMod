@@ -1,4 +1,17 @@
 {
+  "entity.angler_queen_beam":{
+    "sounds": [ 
+        { "name": "beasts:angler_queen_beam_1", "stream": true}, 
+        { "name": "beasts:angler_queen_beam_2", "stream": true}, 
+        { "name": "beasts:angler_queen_beam_3", "stream": true}, 
+        { "name": "beasts:angler_queen_beam_4", "stream": true}
+    ]
+  },
+  "entity.angler_queen_beam_charge":{
+    "sounds": [ 
+        { "name": "beasts:angler_queen_beam_charge", "stream": true}
+    ]
+  },
   "entity.branchie.hurt": {
     "sounds": [
       "beasts:branchie_hurt"
