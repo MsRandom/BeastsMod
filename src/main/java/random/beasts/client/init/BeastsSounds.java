@@ -11,6 +11,8 @@ public class BeastsSounds {
 
     public static final List<SoundEvent> LIST = new ArrayList<>();
 
+    public static final SoundEvent ANGLER_QUEEN_BEAM = create("entity.angler_queen_beam");
+    public static final SoundEvent ANGLER_QUEEN_BEAM_CHARGE = create("entity.angler_queen_beam_charge");
     public static final SoundEvent BRANCHIE_HURT = create("entity.branchie.hurt");
     public static final SoundEvent BRANCHIE_SCREAM = create("entity.branchie.scream");
     public static final SoundEvent CRAB_ATTACK = create("entity.crab.attack");
