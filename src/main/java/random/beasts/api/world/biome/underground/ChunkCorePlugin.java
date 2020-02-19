@@ -3,7 +3,6 @@ package random.beasts.api.world.biome.underground;
 import net.minecraft.launchwrapper.IClassTransformer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
@@ -47,7 +46,6 @@ public class ChunkCorePlugin implements IFMLLoadingPlugin {
         @Override
         public byte[] transform(String name, String transformedName, byte[] basicClass) {
             if (transformedName.equals("net.minecraft.world.chunk.Chunk")) {
-                ObfuscationReflectionHelper.setPrivateValue(ClassLoader.class, null, new String[]{"/usr/lib/jvm/java-8-openjdk/jre/lib/amd64"}, "sys_paths");
                 ClassNode cls = new ClassNode();
                 ClassReader reader = new ClassReader(basicClass);
                 reader.accept(cls, 0);
