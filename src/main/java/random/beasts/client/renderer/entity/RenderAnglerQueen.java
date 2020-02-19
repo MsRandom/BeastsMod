@@ -10,13 +10,17 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityGuardian;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import random.beasts.api.main.BeastsReference;
+import random.beasts.client.init.BeastsSounds;
 import random.beasts.client.model.ModelAnglerQueen;
 import random.beasts.client.model.ModelVileEel;
 import random.beasts.client.renderer.entity.layers.LayerAnglerQueenGlow;
@@ -36,38 +40,37 @@ public class RenderAnglerQueen extends RenderLiving<EntityAnglerQueen> {
         this.addLayer(new LayerAnglerQueenGlow(this));
     }
     
-    public boolean shouldRender(EntityAnglerQueen livingEntity, ICamera camera, double camX, double camY, double camZ)
-    {
-        if (super.shouldRender(livingEntity, camera, camX, camY, camZ))
-        {
+    public boolean shouldRender(EntityAnglerQueen livingEntity, ICamera camera, double camX, double camY, double camZ) {
+        if (super.shouldRender(livingEntity, camera, camX, camY, camZ)) {
             return true;
         }
-        else
-        {
-            if (livingEntity.hasTargetedEntity())
-            {
-                EntityLivingBase entitylivingbase = livingEntity.getTargetedEntity();
+        else {
+            if (livingEntity.isUsingBeam()) {
+                double rot = livingEntity.renderYawOffset * 0.01745329238474369D + (Math.PI / 2D);
+                double xMod = Math.cos(rot) * (double)(livingEntity.width+1f);
+                double zMod = Math.sin(rot) * (double)(livingEntity.width+1f);
+                double yMod = livingEntity.height+1f;
+                Vec3d vec3d1 = this.getPosition(livingEntity, xMod, yMod, zMod, 1.0F);
+                
+                Vec3d laserAngle = Vec3d.fromPitchYaw(livingEntity.getLaserPitch(), livingEntity.getLaserYaw());
+                double range = 30d;
+    			Vec3d hitVec = vec3d1.add(laserAngle.scale(range));
+                
+    			RayTraceResult trace = livingEntity.world.rayTraceBlocks(vec3d1, hitVec);
+    			if(trace != null && trace.hitVec != null) 
+    				hitVec = trace.hitVec;
+                
+                Vec3d vec3d = hitVec;
 
-                if (entitylivingbase != null)
-                {
-                    double xMod = Math.sin(Math.toRadians(livingEntity.rotationYaw));
-                    double zMod = Math.cos(Math.toRadians(livingEntity.rotationYaw));
-                    Vec3d vec3d = this.getPosition(entitylivingbase, 0, (double)entitylivingbase.height * 0.5D, 0, 1.0F);
-                    Vec3d vec3d1 = this.getPosition(livingEntity, xMod, (double)livingEntity.getEyeHeight(), zMod, 1.0F);
-
-                    if (camera.isBoundingBoxInFrustum(new AxisAlignedBB(vec3d1.x, vec3d1.y, vec3d1.z, vec3d.x, vec3d.y, vec3d.z)))
-                    {
-                        return true;
-                    }
+                if (camera.isBoundingBoxInFrustum(new AxisAlignedBB(vec3d1.x, vec3d1.y, vec3d1.z, vec3d.x, vec3d.y, vec3d.z).grow(0.5d))) {
+                    return true;
                 }
             }
-
             return false;
         }
     }
     
-    private Vec3d getPosition(EntityLivingBase entityLivingBaseIn, double xMod, double yMod, double zMod, float partialTicks)
-    {
+    private Vec3d getPosition(EntityLivingBase entityLivingBaseIn, double xMod, double yMod, double zMod, float partialTicks) {
         double d0 = xMod + entityLivingBaseIn.lastTickPosX + (entityLivingBaseIn.posX - entityLivingBaseIn.lastTickPosX) * (double)partialTicks;
         double d1 = yMod + entityLivingBaseIn.lastTickPosY + (entityLivingBaseIn.posY - entityLivingBaseIn.lastTickPosY) * (double)partialTicks;
         double d2 = zMod + entityLivingBaseIn.lastTickPosZ + (entityLivingBaseIn.posZ - entityLivingBaseIn.lastTickPosZ) * (double)partialTicks;
@@ -80,11 +83,27 @@ public class RenderAnglerQueen extends RenderLiving<EntityAnglerQueen> {
     public void doRender(EntityAnglerQueen entity, double x, double y, double z, float entityYaw, float partialTicks)
     {
         super.doRender(entity, x, y, z, entityYaw, partialTicks);
-        EntityLivingBase entitylivingbase = entity.getTargetedEntity();
 
-        if (entitylivingbase != null)
+        double rot = this.interpolateValue((double)entity.prevRenderYawOffset, (double)entity.renderYawOffset, (double)partialTicks) * 0.01745329238474369D + (Math.PI / 2D);
+        double xMod = Math.cos(rot) * (double)(entity.width+1f);
+        double zMod = Math.sin(rot) * (double)(entity.width+1f);
+        double yMod = entity.height + 0.8f;
+        Vec3d lurePos = this.getPosition(entity, xMod, yMod, zMod, partialTicks);
+        if(entity.isChargingBeam()) {
+        	if(entity.getRNG().nextBoolean() && entity.getRNG().nextBoolean()) {
+				double alfa = entity.getRNG().nextDouble()*2*(double)Math.PI;
+				double beta = entity.getRNG().nextDouble()*2*(double)Math.PI;
+				double gamma = entity.getRNG().nextDouble()*2*(double)Math.PI;
+				double distance = 0.6d;
+				double x2 = distance*Math.cos(alfa);
+				double z2 = distance*Math.cos(beta);
+				double y2 = distance*Math.cos(gamma);
+			
+				entity.world.spawnParticle(EnumParticleTypes.END_ROD, lurePos.x + x2, lurePos.y + y2, lurePos.z + z2, -x2/15d, -y2/15d, -z2/15d);	
+        	}
+        }
+        if (entity.isUsingBeam())
         {
-            float f = entity.getAttackAnimationScale(partialTicks);
             Tessellator tessellator = Tessellator.getInstance();
             BufferBuilder bufferbuilder = tessellator.getBuffer();
             this.bindTexture(QUEEN_BEAM_TEXTURE);
@@ -101,20 +120,26 @@ public class RenderAnglerQueen extends RenderLiving<EntityAnglerQueen> {
             float f3 = f2 * 0.5F % 1.0F;
             GlStateManager.pushMatrix();
             
-            //double rot = this.interpolateRotation(entity.prevRotationYaw, entity.rotationYaw, partialTicks);
-            double rot = this.interpolateValue((double)entity.prevRenderYawOffset, (double)entity.renderYawOffset, (double)partialTicks) * 0.01745329238474369D + (Math.PI / 2D);
-            double xMod = Math.cos(rot) * (double)(entity.width+1f);
-            double zMod = Math.sin(rot) * (double)(entity.width+1f);
-            double yMod = entity.height+1f;
             GlStateManager.translate((float)x + xMod, (float)y + yMod, (float)z + zMod);
-            double x1 = entity.prevLaserPosition.x + (entity.laserPosition.x - entity.prevLaserPosition.x) * (double)partialTicks;
-            double y1 = entity.prevLaserPosition.y + (entity.laserPosition.y - entity.prevLaserPosition.y) * (double)partialTicks;
-            double z1 = entity.prevLaserPosition.z + (entity.laserPosition.z - entity.prevLaserPosition.z) * (double)partialTicks;
+
+            Vec3d laserAngle = Vec3d.fromPitchYaw(this.interpolateRotation(entity.getPrevLaserPitch(), entity.getLaserPitch(), partialTicks), 
+            		this.interpolateRotation(entity.getPrevLaserYaw(), entity.getLaserYaw(), partialTicks));
+            double range = 30d;
+			Vec3d hitVec = lurePos.add(laserAngle.scale(range));
+
+			RayTraceResult trace = entity.world.rayTraceBlocks(lurePos, hitVec);
+			if(trace != null && trace.hitVec != null) {
+				hitVec = trace.hitVec;
+	            for(int i = 0; i < 4; ++i) {
+	            	entity.world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, hitVec.x, hitVec.y, hitVec.z, 0, 0, 0);
+	            }
+                if(entity.ticksExisted%15==0)
+                	entity.world.playSound(hitVec.x, hitVec.y, hitVec.z, BeastsSounds.ANGLER_QUEEN_BEAM, SoundCategory.HOSTILE, 1f, 1f, false);
+			}
             
-            Vec3d vec3d = new Vec3d(x1, y1, z1);
-            Vec3d vec3d1 = this.getPosition(entity, xMod, yMod, zMod, partialTicks);
+            Vec3d vec3d = hitVec;
             
-            Vec3d vec3d2 = vec3d.subtract(vec3d1);
+            Vec3d vec3d2 = vec3d.subtract(lurePos);
             double d0 = vec3d2.lengthVector() + 1.0D;
             vec3d2 = vec3d2.normalize();
             float f5 = (float)Math.acos(vec3d2.y);
@@ -124,7 +149,6 @@ public class RenderAnglerQueen extends RenderLiving<EntityAnglerQueen> {
             int i = 1;
             double d1 = (double)f2 * 0.05D * -1.5D;
             bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
-            float f7 = f * f;
             int j = 255;
             int k = 255;
             int l = 255;
