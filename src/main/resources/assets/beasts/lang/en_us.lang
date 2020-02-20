@@ -144,3 +144,4 @@ itemGroup.beasts=Beasts
 item.icon.name=Beasts Icon
 generator.beasts=Beasts Biomes
 generator.beasts.info=Only Beasts Mod Biomes.
+config.biomes.category=Biomes

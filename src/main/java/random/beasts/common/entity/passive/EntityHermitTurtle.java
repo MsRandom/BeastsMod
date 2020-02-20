@@ -29,6 +29,7 @@ import java.util.List;
 
 public class EntityHermitTurtle extends EntityAnimal implements IShellEntity {
     private static final DataParameter<Boolean> OUT = EntityDataManager.createKey(EntityHermitTurtle.class, DataSerializers.BOOLEAN);
+    public int exitTicks = 25;
 
     public EntityHermitTurtle(World worldIn) {
         super(worldIn);
@@ -98,7 +99,18 @@ public class EntityHermitTurtle extends EntityAnimal implements IShellEntity {
     }
 
     private void setOut(boolean out) {
+        this.exitTicks = out ? 24 : 1;
         this.dataManager.set(OUT, out);
+    }
+
+    @Override
+    public void onUpdate() {
+        super.onUpdate();
+        if (world.isRemote) {
+            boolean out = isOut();
+            if (exitTicks != (out ? 0 : 25))
+                exitTicks += (out ? -1 : 1);
+        }
     }
 
     @Override

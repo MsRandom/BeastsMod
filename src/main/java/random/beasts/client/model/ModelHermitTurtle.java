@@ -4,7 +4,6 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.MathHelper;
 import random.beasts.common.entity.passive.EntityHermitTurtle;
 
@@ -51,12 +50,15 @@ public class ModelHermitTurtle extends ModelBase {
 
     @Override
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
-        this.head.isHidden = !((EntityHermitTurtle) entity).isOut();
-        if (((EntityLivingBase) entity).isChild()) {
+        EntityHermitTurtle turtle = (EntityHermitTurtle) entity;
+        this.head.offsetZ = turtle.exitTicks / 50f;
+        this.leftArm.rotateAngleY = (turtle.exitTicks / 125f) - 0.2f;
+        this.rightArm.rotateAngleY = (turtle.exitTicks / -125f) + 0.2f;
+        if (turtle.isChild()) {
             GlStateManager.scale(0.5F, 0.5F, 0.5F);
             GlStateManager.translate(0.0F, 24.0F * f5, 0.0F);
         }
-        if (entity.isSneaking()) GlStateManager.translate(0.0F, 0.2F, 0.0F);
+        if (turtle.isSneaking()) GlStateManager.translate(0.0F, 0.2F, 0.0F);
         this.shell1.render(f5);
     }
 

@@ -33,7 +33,7 @@ public class EntityTrimola extends EntityTameable implements IInventoryChangedLi
     private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityTrimola.class, DataSerializers.VARINT);
     private static final DataParameter<ItemStack> SADDLE = EntityDataManager.createKey(EntityTrimola.class, DataSerializers.ITEM_STACK);
     public InventoryBasic inventory;
-    public int attackTicks = 0;
+    public int attackTimeout = 0;
     private boolean rearing;
     private int rearCoolDown;
     private int rearingTime = 0;
@@ -136,14 +136,6 @@ public class EntityTrimola extends EntityTameable implements IInventoryChangedLi
     @Override
     public void onLivingUpdate() {
         super.onLivingUpdate();
-/*
-        if (attackTicks > 0 && attackTicks < 300) ++attackTicks;
-        else attackTicks = 0;
-        if (attackTicks == 150) {
-            world.getEntitiesWithinAABB(EntityLivingBase.class, getEntityBoundingBox()).stream().filter(e -> e != this).forEach(this::attackEntityAsMob);
-        }
-*/
-
         if (this.isRearing()) {
             ++rearingTime;
             if (rearingTime >= 25) {
@@ -158,16 +150,18 @@ public class EntityTrimola extends EntityTameable implements IInventoryChangedLi
     @Override
     public void updatePassenger(Entity passenger) {
         super.updatePassenger(passenger);
-        boolean attack = false;
-        if (world.isRemote && BeastsMod.proxy.isTrimolaAttacking() && rearCoolDown == 0) {
-            attack = true;
-            this.rearing = true;
-            this.rearingTime = 0;
-            rearCoolDown = 20;
-            BeastsReference.NETWORK_CHANNEL.sendToServer(new PacketTrimolaAttack(this));
-        }
-        if (attack) {
-            attackTicks = 1;
+        if (world.isRemote) {
+            if (attackTimeout == 0 && BeastsMod.proxy.isTrimolaAttacking() && rearCoolDown == 0) {
+                attackTimeout = 1;
+                this.rearing = true;
+                this.rearingTime = 0;
+                rearCoolDown = 20;
+                BeastsReference.NETWORK_CHANNEL.sendToServer(new PacketTrimolaAttack(this));
+            }
+
+            if (attackTimeout != 0)
+                if (attackTimeout++ >= 100)
+                    attackTimeout = 0;
         }
     }
 

@@ -14,6 +14,7 @@ import random.beasts.api.main.BeastsReference;
 import random.beasts.api.world.biome.BeastsBiome;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiPredicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -24,48 +25,48 @@ public class UndergroundBiome extends BeastsBiome {
     private static final List<UndergroundBiome> REGISTERED = new ArrayList<>();
     private static ImmutableList<UndergroundBiome> biomeCache;
     private final List<Biome.SpawnListEntry> spawnableCreatureList = new ArrayList<>();
-    private final int rarity;
+    private final AtomicInteger rarity;
     private final Biome biome;
     private final BiPredicate<World, BlockPos> condition;
     private final RandomValueRange size;
     private final RandomValueRange height;
     private final String name;
 
-    public UndergroundBiome(String name, int rarity) {
+    public UndergroundBiome(String name, AtomicInteger rarity) {
         this(name, rarity, null, null, null, null);
     }
 
-    public UndergroundBiome(String name, int rarity, RandomValueRange height) {
+    public UndergroundBiome(String name, AtomicInteger rarity, RandomValueRange height) {
         this(name, rarity, null, null, null, height);
     }
 
-    public UndergroundBiome(String name, int rarity, BiPredicate<World, BlockPos> conditions) {
+    public UndergroundBiome(String name, AtomicInteger rarity, BiPredicate<World, BlockPos> conditions) {
         this(name, rarity, conditions, null);
     }
 
-    public UndergroundBiome(String name, int rarity, BiPredicate<World, BlockPos> conditions, RandomValueRange size) {
+    public UndergroundBiome(String name, AtomicInteger rarity, BiPredicate<World, BlockPos> conditions, RandomValueRange size) {
         this(name, rarity, null, conditions, size, null);
     }
 
-    public UndergroundBiome(String name, int rarity, BiPredicate<World, BlockPos> conditions, RandomValueRange size, RandomValueRange height) {
+    public UndergroundBiome(String name, AtomicInteger rarity, BiPredicate<World, BlockPos> conditions, RandomValueRange size, RandomValueRange height) {
         this(name, rarity, null, conditions, size, height);
     }
 
-    public UndergroundBiome(String name, int rarity, Biome baseBiome) {
+    public UndergroundBiome(String name, AtomicInteger rarity, Biome baseBiome) {
         this(name, rarity, baseBiome, null, null);
     }
 
-    public UndergroundBiome(String name, int rarity, Biome baseBiome, RandomValueRange height) {
+    public UndergroundBiome(String name, AtomicInteger rarity, Biome baseBiome, RandomValueRange height) {
         this(name, rarity, baseBiome, null, height);
     }
 
-    public UndergroundBiome(String name, int rarity, Biome baseBiome, RandomValueRange size, RandomValueRange height) {
+    public UndergroundBiome(String name, AtomicInteger rarity, Biome baseBiome, RandomValueRange size, RandomValueRange height) {
         this(name, rarity, baseBiome, null, size, height);
     }
 
-    public UndergroundBiome(String name, int rarity, Biome baseBiome, BiPredicate<World, BlockPos> conditions, RandomValueRange size, RandomValueRange height) {
+    public UndergroundBiome(String name, AtomicInteger rarity, Biome baseBiome, BiPredicate<World, BlockPos> conditions, RandomValueRange size, RandomValueRange height) {
         super(name.replace(' ', '_').toLowerCase(), new BiomeProperties(name));
-        this.name = name;
+        this.name = Objects.requireNonNull(getRegistryName()).getResourcePath();
         this.rarity = rarity;
         this.biome = baseBiome;
         this.condition = conditions;
@@ -136,7 +137,7 @@ public class UndergroundBiome extends BeastsBiome {
     }
 
     public int getRarity() {
-        return rarity;
+        return rarity.get();
     }
 
     public BiPredicate<World, BlockPos> getCondition() {

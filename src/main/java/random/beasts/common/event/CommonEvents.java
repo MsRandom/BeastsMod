@@ -3,6 +3,7 @@ package random.beasts.common.event;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.ai.EntityAITargetNonTamed;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.passive.EntityWolf;
@@ -44,14 +45,24 @@ import java.util.function.Function;
 @Mod.EventBusSubscriber(modid = BeastsReference.ID)
 public class CommonEvents {
 
-    private static final BiConsumer<Entity, Tuple<Float, Float>> sizeSetter;
+    private static final BiConsumer<Entity, Tuple<Float, Float>> entitySizeSetter;
+    private static final BiConsumer<Entity, Tuple<Float, Float>> ageableSizeSetter;
 
     static {
         //since this will be gone in 1.14, there is no error handling
         final Method method = ObfuscationReflectionHelper.findMethod(Entity.class, "func_70105_a", Void.TYPE, Float.TYPE, Float.TYPE);
-        sizeSetter = (entity, size) -> {
+        final Method ageableSize = ObfuscationReflectionHelper.findMethod(EntityAgeable.class, "func_70105_a", Void.TYPE, Float.TYPE, Float.TYPE);
+        final Method ageableScale = ObfuscationReflectionHelper.findMethod(EntityAgeable.class, "func_98055_j", Void.TYPE, Float.TYPE);
+        entitySizeSetter = (entity, size) -> {
             try {
                 method.invoke(entity, size.getFirst(), size.getSecond());
+            } catch (ReflectiveOperationException ignored) {
+            }
+        };
+        ageableSizeSetter = (entity, size) -> {
+            try {
+                ageableSize.invoke(entity, size.getFirst(), size.getSecond());
+                ageableScale.invoke(entity, 1);
             } catch (ReflectiveOperationException ignored) {
             }
         };
@@ -60,8 +71,9 @@ public class CommonEvents {
     @Deprecated
     @SubscribeEvent
     public static void constructEntity(EntityEvent.EntityConstructing event) {
-        if (sizeSetter != null && BeastsEntities.ENTRIES.containsKey(event.getEntity().getClass())) {
-            sizeSetter.accept(event.getEntity(), BeastsEntities.ENTRIES.get(event.getEntity().getClass()).getSize());
+        if (BeastsEntities.SIZES.containsKey(event.getEntity().getClass())) {
+            BiConsumer<Entity, Tuple<Float, Float>> setSize = event.getEntity() instanceof EntityAgeable ? ageableSizeSetter : entitySizeSetter;
+            setSize.accept(event.getEntity(), BeastsEntities.SIZES.get(event.getEntity().getClass()));
         }
     }
 

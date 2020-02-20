@@ -8,6 +8,7 @@ import net.minecraft.util.WeightedRandom;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import random.beasts.api.world.biome.BeastsBiome;
 import random.beasts.common.block.BlockCoral;
@@ -32,6 +33,7 @@ public class BiomeDriedReef extends BeastsBiome {
     private static final WorldGenJellyfishTrees JELLYFISH_TREE_GENERATOR = new WorldGenJellyfishTrees(false);
     private static final WorldGenPalmTrees PALM_TREE_GENERATOR = new WorldGenPalmTrees(false);
     private static final WorldGenRockCluster ROCK_CLUSTER = new WorldGenRockCluster();
+    private static final WorldGenGroundCover GROUND_COVER = new WorldGenGroundCover();
     private static final WorldGenRockBlob[] ROCKS = {ROCK_GENERATOR, ANDESITE_GENERATOR};
     private static final List<WeightedGenerator> GENERATORS = Stream.concat(Stream.of(new WeightedGenerator(10, CORAL_PLANT_GENERATOR), new WeightedGenerator(30, ROCK_CLUSTER), new WeightedGenerator(50, JELLYFISH_TREE_GENERATOR), new WeightedGenerator(20, PALM_TREE_GENERATOR), new WeightedGenerator(45, ANEMONE_GENERATOR)), Stream.of(BeastsStructures.SHELLS).map(s -> new WeightedGenerator(20, s))).collect(Collectors.toList());
 
@@ -48,23 +50,29 @@ public class BiomeDriedReef extends BeastsBiome {
     }
 
     @Override
+    public WorldGenAbstractTree getRandomTreeFeature(Random rand) {
+        return rand.nextInt(10) == 0 ? JELLYFISH_TREE_GENERATOR : PALM_TREE_GENERATOR;
+    }
+
+    @Override
     public void decorate(World worldIn, Random rand, BlockPos pos) {
         super.decorate(worldIn, rand, pos);
-        /*int k = 0;
-        for(int i = 0; i < 16; i += 4) {
-            for (int j = 0; j < 16; j += 4) {
-                BlockPos shell = pos.add(i, 0, j);
-                if (rand.nextInt(6) == 0) {
-                    shell = worldIn.getTopSolidOrLiquidBlock(shell);
-                    if (worldIn.getBlockState(shell).getMaterial() != Material.WATER && !(worldIn.getBlockState(shell.down()).getBlock() instanceof BlockShellPiece)) {
-                        worldIn.setBlockState(shell, BeastsBlocks.SHELL_PIECES[rand.nextInt(BeastsBlocks.SHELL_BLOCKS.length)].getDefaultState());
-                        if(k++ == 3) break;
-                    }
-                }
+        for (int j5 = 0; j5 < 12; ++j5) {
+            int l9 = rand.nextInt(16) + 8;
+            int k13 = rand.nextInt(16) + 8;
+            int l16 = worldIn.getHeight(pos.add(l9, 0, k13)).getY() * 2;
+
+            if (l16 > 0) {
+                int j19 = rand.nextInt(l16);
+                GROUND_COVER.generate(worldIn, rand, pos.add(l9, j19, k13));
             }
         }
-        WeightedGenerator item = WeightedRandom.getRandomItem(rand, GENERATORS);
-        if(item != null) item.generator.generate(worldIn, rand, pos);*/
+
+        for (int j2 = 0; j2 < 3; ++j2) {
+            int k6 = rand.nextInt(16) + 8;
+            int l = rand.nextInt(16) + 8;
+            getRandomTreeFeature(rand).generate(worldIn, rand, worldIn.getHeight(pos.add(k6, 0, l)));
+        }
     }
 
     private static class WorldGenRockCluster extends WorldGenerator {
@@ -207,6 +215,19 @@ public class BiomeDriedReef extends BeastsBiome {
 
         public boolean generate(World worldIn, Random rand, BlockPos position) {
             return BeastsBlocks.CORAL_PLANTS.get(CoralColor.getRandom(rand)).generatePlant(worldIn, position, rand);
+        }
+    }
+
+    public static class WorldGenGroundCover extends WorldGenerator {
+        public boolean generate(World worldIn, Random rand, BlockPos position) {
+            for (int i = 0; i < 10; ++i) {
+                BlockPos blockpos = position.add(rand.nextInt(8) - rand.nextInt(8), rand.nextInt(4) - rand.nextInt(4), rand.nextInt(8) - rand.nextInt(8));
+                if (worldIn.isAirBlock(blockpos) && !worldIn.isAirBlock(blockpos.down())) {
+                    worldIn.setBlockState(blockpos, BeastsBlocks.SHELL_PIECES[rand.nextInt(BeastsBlocks.SHELL_BLOCKS.length)].getDefaultState(), 2);
+                }
+            }
+
+            return true;
         }
     }
 

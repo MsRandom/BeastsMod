@@ -47,6 +47,7 @@ public class RegistryEvents {
     @SubscribeEvent
     public static void registerBiomes(RegistryEvent.Register<Biome> event) {
         event.getRegistry().registerAll(BeastsRegistries.BIOMES.get(BeastsBiomes.DRIED_REEF).toArray(new Biome[0]));
+        BeastsConfig.init();
         BeastsBiomes.addTypes(BeastsBiomes.DRIED_REEF, BiomeManager.BiomeType.WARM, BeastsConfig.reefWeight, BEACH, HOT, DRY, SANDY);
     }
 
@@ -57,7 +58,15 @@ public class RegistryEvents {
 
     @SubscribeEvent
     public static void registerEntities(RegistryEvent.Register<EntityEntry> event) {
-        event.getRegistry().registerAll(BeastsEntities.ENTRIES.values().stream().map(BeastsEntities.EntityType::getFinal).toArray(EntityEntry[]::new));
+        event.getRegistry().registerAll(BeastsEntities.LIST.stream().map(BeastsEntities.EntityType::getFinal).toArray(EntityEntry[]::new));
+        BeastsEntities.SPAWNS.forEach((type, spawns) -> {
+            for (BeastsEntities.SpawnEntry spawn : spawns) {
+                Biome.SpawnListEntry entry = new Biome.SpawnListEntry(type.getEntityClass(), spawn.weight, spawn.min, spawn.max);
+                for (Biome biome : spawn.biomes) {
+                    biome.getSpawnableList(type.getClassification()).add(entry);
+                }
+            }
+        });
     }
 
     @SubscribeEvent
