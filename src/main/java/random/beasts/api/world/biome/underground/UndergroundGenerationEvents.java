@@ -49,14 +49,14 @@ public class UndergroundGenerationEvents {
                 Tuple<ChunkPos, UndergroundBiomeBounds> set = FINAL.get(0);
                 UndergroundBiomeBounds bounds = set.getSecond();
                 generate(world, new BlockPos(set.getFirst().x * 16, bounds.maxY << 5, set.getFirst().z * 16), bounds, bounds.biome, rand);
+                QUEUED.remove(set.getFirst());
                 FINAL.remove(0);
             }
             if (QUEUED.containsKey(current)) {
                 UndergroundBiomeBounds bounds = QUEUED.get(current);
                 generate(world, pos.up(bounds.maxY << 5), bounds, bounds.biome, rand);
                 QUEUED.remove(current);
-                rem++;
-                if (gen - rem < 16)
+                if (gen - rem++ > 4)
                     QUEUED.forEach((key, value) -> FINAL.add(new Tuple<>(key, value)));
             } else {
                 for (UndergroundBiome undergroundBiome : UndergroundBiome.getRegistered()) {

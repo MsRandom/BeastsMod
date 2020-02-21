@@ -94,7 +94,7 @@ public class UndergroundBiome extends BeastsBiome {
         if (!(object instanceof Chunk))
             throw new IllegalArgumentException("Illegal argument for parameter object in UndergroundBiome::getBiome");
         ChunkPos chunk = ((Chunk) object).getPos();
-        if (GENERATED.containsKey(chunk)) return GENERATED.get(chunk)[Math.min(pos.getY(), 255) >> 5];
+        if (GENERATED.containsKey(chunk)) return GENERATED.get(chunk)[Math.max(Math.min(pos.getY(), 255), 0) >> 5];
         return null;
     }
 
