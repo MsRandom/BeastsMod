@@ -106,6 +106,11 @@ public class UndergroundBiome extends BeastsBiome {
         MinecraftForge.EVENT_BUS.post(new UndergroundBiomeEvent.Decorate(world, rand, pos, bounds));
     }
 
+    @Deprecated
+    @Override
+    public final void decorate(World worldIn, Random rand, BlockPos pos) {
+    }
+
     public List<Biome.SpawnListEntry> getSpawnableList() {
         return getSpawnableList(biome);
     }

@@ -1,5 +1,6 @@
 package random.beasts.api.world.biome.underground;
 
+import net.minecraft.util.Tuple;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
@@ -14,9 +15,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import random.beasts.api.main.BeastsReference;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -24,6 +23,9 @@ import java.util.function.Supplier;
 @Mod.EventBusSubscriber(modid = BeastsReference.ID)
 public class UndergroundGenerationEvents {
     private static final Map<ChunkPos, UndergroundBiomeBounds> QUEUED = new HashMap<>();
+    private static final List<Tuple<ChunkPos, UndergroundBiomeBounds>> FINAL = new ArrayList<>();
+    private static int gen = 0;
+    private static int rem = 0;
 
     @SubscribeEvent
     public static void register(RegistryEvent.Register<Biome> event) {
@@ -43,10 +45,19 @@ public class UndergroundGenerationEvents {
         if (!world.isRemote && world.provider.getDimension() == 0) {
             ChunkPos current = new ChunkPos(event.getChunkX(), event.getChunkZ());
             BlockPos pos = new BlockPos(current.x * 16, 0, current.z * 16);
+            if (FINAL.size() != 0) {
+                Tuple<ChunkPos, UndergroundBiomeBounds> set = FINAL.get(0);
+                UndergroundBiomeBounds bounds = set.getSecond();
+                generate(world, new BlockPos(set.getFirst().x * 16, bounds.maxY << 5, set.getFirst().z * 16), bounds, bounds.biome, rand);
+                FINAL.remove(0);
+            }
             if (QUEUED.containsKey(current)) {
                 UndergroundBiomeBounds bounds = QUEUED.get(current);
                 generate(world, pos.up(bounds.maxY << 5), bounds, bounds.biome, rand);
                 QUEUED.remove(current);
+                rem++;
+                if (gen - rem < 16)
+                    QUEUED.forEach((key, value) -> FINAL.add(new Tuple<>(key, value)));
             } else {
                 for (UndergroundBiome undergroundBiome : UndergroundBiome.getRegistered()) {
                     if (undergroundBiome.getBiome() == null || undergroundBiome.getBiome() == world.getBiome(pos)) {
@@ -58,7 +69,10 @@ public class UndergroundGenerationEvents {
                             BlockPos f = pos;
                             Consumer<ChunkPos> generate = c -> {
                                 if (current.equals(c)) generate(world, f, bounds, undergroundBiome, rand);
-                                else QUEUED.put(c, bounds);
+                                else {
+                                    QUEUED.put(c, bounds);
+                                    gen++;
+                                }
                             };
                             generate.accept(current);
                             for (int i = 1; i < size.get() / 16; ++i)
