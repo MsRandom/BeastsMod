@@ -18,7 +18,7 @@ public class BeastsConfig {
     public static Configuration config = new Configuration(new File("config/beasts.cfg"));
     public static int reefWeight = 10;
     //this is atmoic so the abyss can still be final and not have to be moved to init
-    public static AtomicInteger abyssWeight = new AtomicInteger(10);
+    public static AtomicInteger abyssWeight = new AtomicInteger(20);
 
     public static void init() {
         config.load();

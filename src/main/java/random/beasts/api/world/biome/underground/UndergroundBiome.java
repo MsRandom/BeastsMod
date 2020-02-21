@@ -21,7 +21,7 @@ import java.util.stream.Stream;
 
 public class UndergroundBiome extends BeastsBiome {
     public static final ResourceLocation KEY = new ResourceLocation(BeastsReference.ID, "underground_biomes");
-    public static final Map<ChunkPos, byte[]> GENERATED = new HashMap<>();
+    public static final Map<ChunkPos, UndergroundBiome[]> GENERATED = new HashMap<>();
     private static final List<UndergroundBiome> REGISTERED = new ArrayList<>();
     private static ImmutableList<UndergroundBiome> biomeCache;
     private final List<Biome.SpawnListEntry> spawnableCreatureList = new ArrayList<>();
@@ -93,18 +93,8 @@ public class UndergroundBiome extends BeastsBiome {
     public static Biome getBiome(BlockPos pos, Object object) {
         if (!(object instanceof Chunk))
             throw new IllegalArgumentException("Illegal argument for parameter object in UndergroundBiome::getBiome");
-        Chunk chunk = (Chunk) object;
-        byte[] blockBiomeArray = null;
-        if (chunk.getWorld().isRemote) {
-            blockBiomeArray = GENERATED.get(chunk.getPos());
-        } else {
-            UndergroundGenerationCapabilities.UndergroundBiomes biomes = chunk.getCapability(UndergroundGenerationCapabilities.CAPABILITY, null);
-            if (biomes != null) blockBiomeArray = biomes.blockBiomeArray;
-        }
-        if (blockBiomeArray != null) {
-            byte biome = blockBiomeArray[Math.min(pos.getY(), 255) >> 5];
-            if (biome > 0) return Biome.getBiome(biome & 255);
-        }
+        ChunkPos chunk = ((Chunk) object).getPos();
+        if (GENERATED.containsKey(chunk)) return GENERATED.get(chunk)[Math.min(pos.getY(), 255) >> 5];
         return null;
     }
 

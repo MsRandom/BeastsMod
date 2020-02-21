@@ -4,7 +4,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -24,7 +23,7 @@ import java.util.function.Supplier;
 @SuppressWarnings("unused")
 @Mod.EventBusSubscriber(modid = BeastsReference.ID)
 public class UndergroundGenerationEvents {
-    private static final Map<ChunkPos, BlockPos> QUEUED = new HashMap<>();
+    private static final Map<ChunkPos, UndergroundBiomeBounds> QUEUED = new HashMap<>();
 
     @SubscribeEvent
     public static void register(RegistryEvent.Register<Biome> event) {
@@ -33,7 +32,7 @@ public class UndergroundGenerationEvents {
     }
 
     @SubscribeEvent
-    public static void init(AttachCapabilitiesEvent<Chunk> event) {
+    public static void init(AttachCapabilitiesEvent<World> event) {
         event.addCapability(UndergroundBiome.KEY, new UndergroundGenerationCapabilities());
     }
 
@@ -44,42 +43,43 @@ public class UndergroundGenerationEvents {
         if (!world.isRemote && world.provider.getDimension() == 0) {
             ChunkPos current = new ChunkPos(event.getChunkX(), event.getChunkZ());
             BlockPos pos = new BlockPos(current.x * 16, 0, current.z * 16);
-            for (UndergroundBiome undergroundBiome : UndergroundBiome.getRegistered()) {
-                if (undergroundBiome.getBiome() == null || undergroundBiome.getBiome() == world.getBiome(pos)) {
-                    if (rand.nextInt(undergroundBiome.getRarity()) == 0 && (undergroundBiome.getCondition() == null || undergroundBiome.getCondition().test(event.getWorld(), pos))) {
-                        int height = undergroundBiome.getHeight() == null ? rand.nextInt(45) + 10 : undergroundBiome.getHeight().generateInt(rand);
-                        pos = new BlockPos(pos.getX(), height, pos.getZ());
-                        if (QUEUED.containsKey(current)) {
-                            generate(world, QUEUED.get(current), undergroundBiome, height, rand);
-                            QUEUED.remove(current);
+            if (QUEUED.containsKey(current)) {
+                UndergroundBiomeBounds bounds = QUEUED.get(current);
+                generate(world, pos.up(bounds.maxY << 5), bounds, bounds.biome, rand);
+                QUEUED.remove(current);
+            } else {
+                for (UndergroundBiome undergroundBiome : UndergroundBiome.getRegistered()) {
+                    if (undergroundBiome.getBiome() == null || undergroundBiome.getBiome() == world.getBiome(pos)) {
+                        if (rand.nextInt(undergroundBiome.getRarity()) == 0 && (undergroundBiome.getCondition() == null || undergroundBiome.getCondition().test(event.getWorld(), pos))) {
+                            int height = undergroundBiome.getHeight() == null ? rand.nextInt(45) + 10 : undergroundBiome.getHeight().generateInt(rand);
+                            Supplier<Integer> size = () -> undergroundBiome.getSize() == null ? rand.nextInt(35) + 48 : undergroundBiome.getSize().generateInt(rand);
+                            pos = new BlockPos(pos.getX(), height, pos.getZ());
+                            UndergroundBiomeBounds bounds = new UndergroundBiomeBounds(undergroundBiome, current.x, (byte) (height >> 5), current.z, current.x + (size.get() >> 4), (byte) (height >> 5), current.z + (size.get() >> 4));
+                            BlockPos f = pos;
+                            Consumer<ChunkPos> generate = c -> {
+                                if (current.equals(c)) generate(world, f, bounds, undergroundBiome, rand);
+                                else QUEUED.put(c, bounds);
+                            };
+                            generate.accept(current);
+                            for (int i = 1; i < size.get() / 16; ++i)
+                                for (int j = 1; j < size.get() / 16; ++j)
+                                    generate.accept(new ChunkPos(current.x + i, current.z + j));
                         }
-                        Consumer<BlockPos> generate = p -> {
-                            ChunkPos c = new ChunkPos(p);
-                            if (current.equals(c)) generate(world, p, undergroundBiome, height, rand);
-                            else QUEUED.put(c, p);
-                        };
-                        Supplier<Integer> size = () -> undergroundBiome.getSize() == null ? rand.nextInt(35) + 48 : undergroundBiome.getSize().generateInt(rand);
-                        generate.accept(pos);
-                        for (int i = 1; i < size.get() / 16; ++i)
-                            for (int j = 1; j < size.get() / 16; ++j)
-                                generate.accept(pos.add(i * 16, 0, j * 16));
                     }
                 }
             }
         }
     }
 
-    private static void generate(World world, BlockPos p, UndergroundBiome undergroundBiome, int height, Random rand) {
-        Chunk chunk = world.getChunkFromBlockCoords(p);
-        UndergroundGenerationCapabilities.UndergroundBiomes biomes = chunk.getCapability(UndergroundGenerationCapabilities.CAPABILITY, null);
+    private static void generate(World world, BlockPos pos, UndergroundBiomeBounds bounds, UndergroundBiome undergroundBiome, Random rand) {
+        UndergroundGenerationCapabilities.UndergroundBiomes biomes = world.getCapability(UndergroundGenerationCapabilities.CAPABILITY, null);
         if (biomes != null) {
             byte biome = (byte) (Biome.getIdForBiome(undergroundBiome) & 255);
-            biomes.blockBiomeArray[Math.min(height, 255) >> 5] = biome;
-            BeastsReference.NETWORK_CHANNEL.sendToAll(new MessageUpdateBiomes(p, biome));
-            MinecraftForge.EVENT_BUS.post(new UndergroundBiomeEvent.Generate(world, rand, p));
-            undergroundBiome.populate(world, rand, p);
-            undergroundBiome.decorate(world, rand, p);
-            chunk.markDirty();
+            biomes.biomeList.add(bounds);
+            BeastsReference.NETWORK_CHANNEL.sendToAll(new MessageUpdateBiomes(bounds));
+            MinecraftForge.EVENT_BUS.post(new UndergroundBiomeEvent.Generate(world, rand, pos));
+            undergroundBiome.populate(world, rand, pos);
+            undergroundBiome.decorate(world, rand, pos);
         }
     }
 }
