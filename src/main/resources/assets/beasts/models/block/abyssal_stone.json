@@ -1,0 +1,7 @@
+{
+    "parent": "block/cube_all",
+    "textures": {
+      "all": "beasts:blocks/abyssal_stone",
+      "particle": "beasts:blocks/abyssal_stone"
+    }
+}
