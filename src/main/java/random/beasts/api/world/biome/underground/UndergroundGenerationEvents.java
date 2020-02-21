@@ -77,9 +77,9 @@ public class UndergroundGenerationEvents {
             byte biome = (byte) (Biome.getIdForBiome(undergroundBiome) & 255);
             biomes.biomeList.add(bounds);
             BeastsReference.NETWORK_CHANNEL.sendToAll(new MessageUpdateBiomes(bounds));
-            MinecraftForge.EVENT_BUS.post(new UndergroundBiomeEvent.Generate(world, rand, pos));
-            undergroundBiome.populate(world, rand, pos);
-            undergroundBiome.decorate(world, rand, pos);
+            MinecraftForge.EVENT_BUS.post(new UndergroundBiomeEvent.Generate(world, rand, pos, bounds));
+            undergroundBiome.populate(world, rand, pos, bounds);
+            undergroundBiome.decorate(world, rand, pos, bounds);
         }
     }
 }

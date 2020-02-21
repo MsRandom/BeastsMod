@@ -7,6 +7,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import random.beasts.api.configuration.BeastsConfig;
 import random.beasts.api.world.biome.underground.UndergroundBiome;
+import random.beasts.api.world.biome.underground.UndergroundBiomeBounds;
 import random.beasts.common.init.BeastsBlocks;
 
 import java.util.Random;
@@ -16,10 +17,10 @@ public class BiomeAbyss extends UndergroundBiome {
 	public BiomeAbyss(Biome base) {
 		super("The Abyss", BeastsConfig.abyssWeight, base);
 	}
-	
+
 	@Override
-	public void populate(World world, Random rand, BlockPos pos) {
-		super.populate(world, rand, pos);
+	public void populate(World world, Random rand, BlockPos pos, UndergroundBiomeBounds bounds) {
+		super.populate(world, rand, pos, bounds);
 		ChunkPos chunk = new ChunkPos(pos);
 		BlockPos chunkStart = new BlockPos(chunk.getXStart(), (pos.getY() >> 5) * 32, chunk.getZStart());
 		BlockPos chunkEnd = chunkStart.add(15, 32, 15);
@@ -54,5 +55,4 @@ public class BiomeAbyss extends UndergroundBiome {
 			}
 		}
 	}
-
 }

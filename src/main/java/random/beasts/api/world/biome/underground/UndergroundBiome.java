@@ -98,12 +98,12 @@ public class UndergroundBiome extends BeastsBiome {
         return null;
     }
 
-    public void populate(World world, Random rand, BlockPos pos) {
-        MinecraftForge.EVENT_BUS.post(new UndergroundBiomeEvent.Populate(world, rand, pos));
+    public void populate(World world, Random rand, BlockPos pos, UndergroundBiomeBounds bounds) {
+        MinecraftForge.EVENT_BUS.post(new UndergroundBiomeEvent.Populate(world, rand, pos, bounds));
     }
 
-    public void decorate(World world, Random rand, BlockPos pos) {
-        MinecraftForge.EVENT_BUS.post(new UndergroundBiomeEvent.Decorate(world, rand, pos));
+    public void decorate(World world, Random rand, BlockPos pos, UndergroundBiomeBounds bounds) {
+        MinecraftForge.EVENT_BUS.post(new UndergroundBiomeEvent.Decorate(world, rand, pos, bounds));
     }
 
     public List<Biome.SpawnListEntry> getSpawnableList() {

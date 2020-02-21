@@ -10,11 +10,13 @@ public class UndergroundBiomeEvent extends Event {
     private final World world;
     private final Random rand;
     private final BlockPos pos;
+    private final UndergroundBiomeBounds bounds;
 
-    public UndergroundBiomeEvent(World world, Random rand, BlockPos pos) {
+    public UndergroundBiomeEvent(World world, Random rand, BlockPos pos, UndergroundBiomeBounds bounds) {
         this.world = world;
         this.rand = rand;
         this.pos = pos;
+        this.bounds = bounds;
     }
 
     public World getWorld() {
@@ -29,21 +31,25 @@ public class UndergroundBiomeEvent extends Event {
         return this.pos;
     }
 
+    public UndergroundBiomeBounds getBounds() {
+        return this.bounds;
+    }
+
     public static class Populate extends UndergroundBiomeEvent {
-        public Populate(World world, Random rand, BlockPos pos) {
-            super(world, rand, pos);
+        public Populate(World world, Random rand, BlockPos pos, UndergroundBiomeBounds bounds) {
+            super(world, rand, pos, bounds);
         }
     }
 
     public static class Decorate extends UndergroundBiomeEvent {
-        public Decorate(World world, Random rand, BlockPos pos) {
-            super(world, rand, pos);
+        public Decorate(World world, Random rand, BlockPos pos, UndergroundBiomeBounds bounds) {
+            super(world, rand, pos, bounds);
         }
     }
 
     public static class Generate extends UndergroundBiomeEvent {
-        public Generate(World world, Random rand, BlockPos pos) {
-            super(world, rand, pos);
+        public Generate(World world, Random rand, BlockPos pos, UndergroundBiomeBounds bounds) {
+            super(world, rand, pos, bounds);
         }
     }
 }
