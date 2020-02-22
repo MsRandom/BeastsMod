@@ -46,6 +46,7 @@ public class UndergroundGenerationCapabilities implements ICapabilityProvider {
                 compound.setInteger("minX", bounds.minX);
                 compound.setByte("minY", bounds.minY);
                 compound.setInteger("minZ", bounds.minZ);
+                compound.setInteger("maxX", bounds.maxX);
                 compound.setByte("maxY", bounds.maxY);
                 compound.setInteger("maxZ", bounds.maxZ);
                 nbt.appendTag(compound);

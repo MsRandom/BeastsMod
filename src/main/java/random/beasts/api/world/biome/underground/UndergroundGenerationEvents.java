@@ -45,40 +45,27 @@ public class UndergroundGenerationEvents {
         if (!world.isRemote && world.provider.getDimension() == 0) {
             ChunkPos current = new ChunkPos(event.getChunkX(), event.getChunkZ());
             BlockPos pos = new BlockPos(current.x * 16, 0, current.z * 16);
-            if (FINAL.size() != 0) {
-                Tuple<ChunkPos, UndergroundBiomeBounds> set = FINAL.get(0);
-                UndergroundBiomeBounds bounds = set.getSecond();
-                generate(world, new BlockPos(set.getFirst().x * 16, bounds.maxY << 5, set.getFirst().z * 16), bounds, bounds.biome, rand);
-                QUEUED.remove(set.getFirst());
-                FINAL.remove(0);
-            }
-            if (QUEUED.containsKey(current)) {
-                UndergroundBiomeBounds bounds = QUEUED.get(current);
-                generate(world, pos.up(bounds.maxY << 5), bounds, bounds.biome, rand);
-                QUEUED.remove(current);
-                if (gen - rem++ > 4)
-                    QUEUED.forEach((key, value) -> FINAL.add(new Tuple<>(key, value)));
-            } else {
-                for (UndergroundBiome undergroundBiome : UndergroundBiome.getRegistered()) {
-                    if (undergroundBiome.getBiome() == null || undergroundBiome.getBiome() == world.getBiome(pos)) {
-                        if (rand.nextInt(undergroundBiome.getRarity()) == 0 && (undergroundBiome.getCondition() == null || undergroundBiome.getCondition().test(event.getWorld(), pos))) {
-                            int height = undergroundBiome.getHeight() == null ? rand.nextInt(45) + 10 : undergroundBiome.getHeight().generateInt(rand);
-                            Supplier<Integer> size = () -> undergroundBiome.getSize() == null ? rand.nextInt(35) + 48 : undergroundBiome.getSize().generateInt(rand);
-                            pos = new BlockPos(pos.getX(), height, pos.getZ());
-                            UndergroundBiomeBounds bounds = new UndergroundBiomeBounds(undergroundBiome, current.x, (byte) (height >> 5), current.z, current.x + (size.get() >> 4), (byte) (height >> 5), current.z + (size.get() >> 4));
-                            BlockPos f = pos;
-                            Consumer<ChunkPos> generate = c -> {
-                                if (current.equals(c)) generate(world, f, bounds, undergroundBiome, rand);
-                                else {
-                                    QUEUED.put(c, bounds);
-                                    gen++;
-                                }
-                            };
-                            generate.accept(current);
-                            for (int i = 1; i < size.get() / 16; ++i)
-                                for (int j = 1; j < size.get() / 16; ++j)
-                                    generate.accept(new ChunkPos(current.x + i, current.z + j));
-                        }
+            for (UndergroundBiome undergroundBiome : UndergroundBiome.getRegistered()) {
+                if (undergroundBiome.getBiome() == null || undergroundBiome.getBiome() == world.getBiome(pos)) {
+
+                    int centerX = current.x % 9 == 0 ? current.x : current.x % 9 < 5 ? current.x - current.x % 9 : current.x + current.x % 9;
+                    int centerZ = current.z % 9 == 0 ? current.z : current.z % 9 < 5 ? current.z - current.z % 9 : current.z + current.z % 9;
+                    Random random = new Random(new BlockPos(centerX, 0, centerZ).toLong());
+                    int height = undergroundBiome.getHeight() == null ? random.nextInt(45) + 10 : undergroundBiome.getHeight().generateInt(random);
+                    Supplier<Integer> size = () -> undergroundBiome.getSize() == null ? random.nextInt(35) + 48 : undergroundBiome.getSize().generateInt(random);
+                    UndergroundBiomeBounds bounds = new UndergroundBiomeBounds(undergroundBiome, centerX, (byte) (height >> 5), centerZ, centerX + (size.get() >> 4), (byte) (height >> 5), centerZ + (size.get() >> 4));
+
+                    if (random.nextInt(undergroundBiome.getRarity()) == 0 && (undergroundBiome.getCondition() == null || undergroundBiome.getCondition().test(event.getWorld(), pos))
+                            && current.x >= bounds.minX && current.x <= bounds.maxX && current.z >= bounds.minZ && current.z <= bounds.maxZ) {
+                        pos = new BlockPos(pos.getX(), height, pos.getZ());
+                        BlockPos f = pos;
+                        Consumer<ChunkPos> generate = c -> {
+                            if (current.equals(c)) generate(world, f, bounds, undergroundBiome, rand);
+                        };
+                        generate.accept(current);
+                        for (int i = 1; i < size.get() / 16; ++i)
+                            for (int j = 1; j < size.get() / 16; ++j)
+                                generate.accept(new ChunkPos(current.x + i, current.z + j));
                     }
                 }
             }
