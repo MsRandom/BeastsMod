@@ -16,7 +16,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import random.beasts.api.main.BeastsReference;
 
 import java.util.*;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
@@ -47,7 +46,6 @@ public class UndergroundGenerationEvents {
             BlockPos pos = new BlockPos(current.x * 16, 0, current.z * 16);
             for (UndergroundBiome undergroundBiome : UndergroundBiome.getRegistered()) {
                 if (undergroundBiome.getBiome() == null || undergroundBiome.getBiome() == world.getBiome(pos)) {
-
                     int centerX = current.x % 9 == 0 ? current.x : current.x % 9 < 5 ? current.x - current.x % 9 : current.x + current.x % 9;
                     int centerZ = current.z % 9 == 0 ? current.z : current.z % 9 < 5 ? current.z - current.z % 9 : current.z + current.z % 9;
                     Random random = new Random(new BlockPos(centerX, 0, centerZ).toLong());
@@ -57,15 +55,7 @@ public class UndergroundGenerationEvents {
 
                     if (random.nextInt(undergroundBiome.getRarity()) == 0 && (undergroundBiome.getCondition() == null || undergroundBiome.getCondition().test(event.getWorld(), pos))
                             && current.x >= bounds.minX && current.x <= bounds.maxX && current.z >= bounds.minZ && current.z <= bounds.maxZ) {
-                        pos = new BlockPos(pos.getX(), height, pos.getZ());
-                        BlockPos f = pos;
-                        Consumer<ChunkPos> generate = c -> {
-                            if (current.equals(c)) generate(world, f, bounds, undergroundBiome, rand);
-                        };
-                        generate.accept(current);
-                        for (int i = 1; i < size.get() / 16; ++i)
-                            for (int j = 1; j < size.get() / 16; ++j)
-                                generate.accept(new ChunkPos(current.x + i, current.z + j));
+                        generate(world, new BlockPos(pos.getX(), height, pos.getZ()), bounds, undergroundBiome, rand);
                     }
                 }
             }
