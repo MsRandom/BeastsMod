@@ -1,3 +1,39 @@
 {
-  "parent": "beasts:block/brown_shell_piece"
+  "parent": "beasts:block/brown_shell_piece",
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [
+        0,
+        180,
+        0
+      ],
+      "translation": [
+        0,
+        2.5,
+        2
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [
+        0,
+        180,
+        0
+      ],
+      "translation": [
+        0,
+        2.5,
+        2
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    }
+  }
 }

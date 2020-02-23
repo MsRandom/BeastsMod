@@ -46,11 +46,21 @@ public class ClientProxy extends CommonProxy {
     }
 
     @Override
+    public EntityPlayer getPlayer() {
+        return Minecraft.getMinecraft().player;
+    }
+
+    @Override
     public EntityPlayer getPlayer(MessageContext ctx) {
         if (ctx.side == Side.SERVER) {
             return ctx.getServerHandler().player;
         }
         return Minecraft.getMinecraft().player;
+    }
+
+    @Override
+    public boolean isClientSneaking() {
+        return Minecraft.getMinecraft().gameSettings.keyBindSneak.isKeyDown();
     }
 
     @Override
@@ -110,10 +120,11 @@ public class ClientProxy extends CommonProxy {
         ModelLoader.setCustomStateMapper(BeastsBlocks.PALM_GATE, new StateMap.Builder().ignore(BlockFenceGate.POWERED).build());
         ModelLoader.setCustomStateMapper(BeastsBlocks.PALM_LEAVES, new StateMap.Builder().ignore(BlockLeaves.CHECK_DECAY, BlockLeaves.DECAYABLE).build());
         ModelLoader.setCustomStateMapper(BeastsBlocks.JELLY_LEAVES, new StateMap.Builder().ignore(BlockLeaves.CHECK_DECAY, BlockLeaves.DECAYABLE).build());
-		ModelLoader.setCustomStateMapper(BeastsBlocks.ANEMONE_MOUTH, new StateMap.Builder().ignore(BlockAnemoneMouth.FED).build());
-		ModelLoader.setCustomStateMapper(BeastsBlocks.JELLY_WOOD_SLAB.full, new StateMap.Builder().ignore(BlockSlab.HALF, BeastsSlab.VARIANT).build());
-		ModelLoader.setCustomStateMapper(BeastsBlocks.PALM_SLAB.full, new StateMap.Builder().ignore(BlockSlab.HALF, BeastsSlab.VARIANT).build());
-	}
+        ModelLoader.setCustomStateMapper(BeastsBlocks.ANEMONE_MOUTH, new StateMap.Builder().ignore(BlockAnemoneMouth.FED).build());
+        ModelLoader.setCustomStateMapper(BeastsBlocks.JELLY_WOOD_SLAB.full, new StateMap.Builder().ignore(BlockSlab.HALF, BeastsSlab.VARIANT).build());
+        ModelLoader.setCustomStateMapper(BeastsBlocks.PALM_SLAB.full, new StateMap.Builder().ignore(BlockSlab.HALF, BeastsSlab.VARIANT).build());
+        ModelLoader.setCustomStateMapper(BeastsBlocks.SHELL_SLAB.full, new StateMap.Builder().ignore(BlockSlab.HALF, BeastsSlab.VARIANT).build());
+    }
 
 	private void registerTileEntityRenders() {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCoconut.class, new TileEntityCoconutRenderer());

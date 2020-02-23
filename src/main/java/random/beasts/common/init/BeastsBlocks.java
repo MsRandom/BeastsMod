@@ -30,7 +30,7 @@ public class BeastsBlocks {
     public static final Block PALM_LEAVES = new BlockPalmTreeLeaves();
     public static final Block PALM_LOG = new BeastsLog("palm_log");
     public static final Block PALM_PLANKS = new BeastsBlock(Material.WOOD, "palm_planks").setHardness(2.0F).setResistance(5.0F);
-    public static final Block PALM_DOOR = new BeastsDoor("palm");
+    public static final BeastsDoor PALM_DOOR = new BeastsDoor("palm");
     public static final Block PALM_FENCE = new BeastsFence("palm");
     public static final Block PALM_GATE = new BeastsFenceGate("palm");
     public static final Block PALM_TRAPDOOR = new BeastsTrapdoor("palm");
@@ -39,7 +39,7 @@ public class BeastsBlocks {
     public static final Block JELLY_WOOD = new BeastsLog("jellywood").setLightLevel(0.5F);
     public static final Block JELLY_LEAVES = new BlockJellyfishLeaves();
     public static final Block JELLY_WOOD_PLANKS = new BeastsBlock(Material.WOOD, "jellywood_planks").setHardness(2.0F).setResistance(5.0F);
-    public static final Block JELLY_WOOD_DOOR = new BeastsDoor("jellywood");
+    public static final BeastsDoor JELLY_WOOD_DOOR = new BeastsDoor("jellywood");
     public static final Block JELLY_WOOD_FENCE = new BeastsFence("jellywood");
     public static final Block JELLY_WOOD_GATE = new BeastsFenceGate("jellywood");
     public static final Block JELLY_WOOD_TRAPDOOR = new BeastsTrapdoor("jellywood");
