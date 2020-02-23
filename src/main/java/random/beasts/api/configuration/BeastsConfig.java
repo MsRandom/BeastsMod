@@ -39,7 +39,7 @@ public class BeastsConfig {
         });
 
         reefWeight = config.getInt("Reefweight", BIOMES, 10, 0, 128, "The spawn chance of the Dried Reef biome");
-        abyssWeight.set(config.getInt("AbyssWeight", BIOMES, 10, 0, 128, "The spawn chance of The Abyss biome"));
+        abyssWeight.set(config.getInt("AbyssWeight", BIOMES, 4, 0, 128, "The spawn chance of The Abyss biome"));
 
         config.save();
     }

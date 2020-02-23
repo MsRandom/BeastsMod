@@ -47,13 +47,15 @@ public class UndergroundGenerationEvents {
             for (UndergroundBiome undergroundBiome : UndergroundBiome.getRegistered()) {
                 if (undergroundBiome.getBiome() == null || undergroundBiome.getBiome() == world.getBiome(pos)) {
                     int gridMax = undergroundBiome.getSize() == null ? 6 : ((int) undergroundBiome.getSize().getMax() >> 4) + 1;
-                    int centerX = (current.x / gridMax) * gridMax + gridMax / 2;
-                    int centerZ = (current.z / gridMax) * gridMax + gridMax / 2;
+                    int adjusterX = current.x < 0 ? -1 : 1;
+                    int adjusterZ = current.z < 0 ? -1 : 1;
+                    int centerX = (current.x / gridMax) * gridMax + (gridMax / 2 * adjusterX);
+                    int centerZ = (current.z / gridMax) * gridMax + (gridMax / 2 * adjusterZ);
                     Random random = new Random(new BlockPos(centerX, 0, centerZ).toLong());
                     int height = undergroundBiome.getHeight() == null ? random.nextInt(45) + 10 : undergroundBiome.getHeight().generateInt(random);
                     Supplier<Integer> size = () -> undergroundBiome.getSize() == null ? random.nextInt(35) + 48 : undergroundBiome.getSize().generateInt(random);
-                    int sizeX = (size.get() >> 5);
-                    int sizeZ = (size.get() >> 5);
+                    int sizeX = size.get() >> 5;
+                    int sizeZ = size.get() >> 5;
                     UndergroundBiomeBounds bounds = new UndergroundBiomeBounds(undergroundBiome, centerX - sizeX, (byte) (height >> 5), centerZ - sizeZ, centerX + sizeX, (byte) (height >> 5), centerZ + sizeZ);
 
                     if (random.nextInt(undergroundBiome.getRarity()) == 0 && (undergroundBiome.getCondition() == null || undergroundBiome.getCondition().test(event.getWorld(), pos))
