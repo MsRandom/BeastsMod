@@ -46,12 +46,15 @@ public class UndergroundGenerationEvents {
             BlockPos pos = new BlockPos(current.x * 16, 0, current.z * 16);
             for (UndergroundBiome undergroundBiome : UndergroundBiome.getRegistered()) {
                 if (undergroundBiome.getBiome() == null || undergroundBiome.getBiome() == world.getBiome(pos)) {
-                    int centerX = current.x % 9 == 0 ? current.x : current.x % 9 < 5 ? current.x - current.x % 9 : current.x + current.x % 9;
-                    int centerZ = current.z % 9 == 0 ? current.z : current.z % 9 < 5 ? current.z - current.z % 9 : current.z + current.z % 9;
+                    int gridMax = undergroundBiome.getSize() == null ? 6 : ((int) undergroundBiome.getSize().getMax() >> 4) + 1;
+                    int centerX = (current.x / gridMax) * gridMax + gridMax / 2;
+                    int centerZ = (current.z / gridMax) * gridMax + gridMax / 2;
                     Random random = new Random(new BlockPos(centerX, 0, centerZ).toLong());
                     int height = undergroundBiome.getHeight() == null ? random.nextInt(45) + 10 : undergroundBiome.getHeight().generateInt(random);
                     Supplier<Integer> size = () -> undergroundBiome.getSize() == null ? random.nextInt(35) + 48 : undergroundBiome.getSize().generateInt(random);
-                    UndergroundBiomeBounds bounds = new UndergroundBiomeBounds(undergroundBiome, centerX, (byte) (height >> 5), centerZ, centerX + (size.get() >> 4), (byte) (height >> 5), centerZ + (size.get() >> 4));
+                    int sizeX = (size.get() >> 5);
+                    int sizeZ = (size.get() >> 5);
+                    UndergroundBiomeBounds bounds = new UndergroundBiomeBounds(undergroundBiome, centerX - sizeX, (byte) (height >> 5), centerZ - sizeZ, centerX + sizeX, (byte) (height >> 5), centerZ + sizeZ);
 
                     if (random.nextInt(undergroundBiome.getRarity()) == 0 && (undergroundBiome.getCondition() == null || undergroundBiome.getCondition().test(event.getWorld(), pos))
                             && current.x >= bounds.minX && current.x <= bounds.maxX && current.z >= bounds.minZ && current.z <= bounds.maxZ) {

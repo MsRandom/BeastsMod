@@ -18,6 +18,7 @@ public class BeastsBlocks {
     public static final Block ABYSSAL_IRON_ORE = new BlockAbyssalStone("abyssal_iron_ore");
     public static final Block ABYSSAL_LAPIS_ORE = new BlockAbyssalStone("abyssal_lapis_ore");
     public static final Block ABYSSAL_REDSTONE_ORE = new BlockAbyssalStone("abyssal_redstone_ore");
+    public static final Block ABYSSAL_SAND = new BlockAbyssalStone("abyssal_sand");
     public static final Block ABYSSAL_STONE = new BlockAbyssalStone("abyssal_stone");
     public static final Block COCONUT = new BlockCoconut();
     public static final Block GLOW_ROOT_TOP = new BlockGlowRoot(true);
