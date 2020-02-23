@@ -145,3 +145,5 @@ item.icon.name=Beasts Icon
 generator.beasts=Beasts Biomes
 generator.beasts.info=Only Beasts Mod Biomes.
 config.biomes.category=Biomes
+death.attack.pufferpup=%1$s was pricked to death by %2s
+death.attack.pufferpup.player=%1$s was pricked to death by %2s whilst trying to escape %3$s

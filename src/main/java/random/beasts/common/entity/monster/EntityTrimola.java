@@ -151,14 +151,20 @@ public class EntityTrimola extends EntityTameable implements IInventoryChangedLi
     public void updatePassenger(Entity passenger) {
         super.updatePassenger(passenger);
         if (world.isRemote) {
-            if (attackTimeout == 0 && BeastsMod.proxy.isTrimolaAttacking() && rearCoolDown == 0) {
-                attackTimeout = 1;
-                this.rearing = true;
-                this.rearingTime = 0;
-                rearCoolDown = 20;
-                BeastsReference.NETWORK_CHANNEL.sendToServer(new PacketTrimolaAttack(this));
+            if (isPassenger(passenger) && passenger == BeastsMod.proxy.getPlayer()) {
+                if (BeastsMod.proxy.isClientSneaking()) {
+                    removePassenger(passenger);
+                    return;
+                }
+                //There is 2 cool downs??
+                if (attackTimeout == 0 && BeastsMod.proxy.isTrimolaAttacking() && rearCoolDown == 0) {
+                    attackTimeout = 1;
+                    this.rearing = true;
+                    this.rearingTime = 0;
+                    rearCoolDown = 20;
+                    BeastsReference.NETWORK_CHANNEL.sendToServer(new PacketTrimolaAttack(this));
+                }
             }
-
             if (attackTimeout != 0)
                 if (attackTimeout++ >= 100)
                     attackTimeout = 0;

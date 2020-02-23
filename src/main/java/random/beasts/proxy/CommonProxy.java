@@ -9,6 +9,7 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.oredict.OreDictionary;
+import random.beasts.api.block.BeastsDoor;
 import random.beasts.api.main.BeastsReference;
 import random.beasts.api.main.BeastsUtils;
 import random.beasts.client.init.BeastsCreativeTabs;
@@ -24,11 +25,19 @@ import rtg.util.ModCompat;
 
 public class CommonProxy {
 
+    public EntityPlayer getPlayer() {
+        return null;
+    }
+
     public EntityPlayer getPlayer(MessageContext ctx) {
         if (ctx.side == Side.SERVER) {
             return ctx.getServerHandler().player;
         }
         return null;
+    }
+
+    public boolean isClientSneaking() {
+        return false;
     }
 
     public boolean isTrimolaAttacking() {
@@ -76,14 +85,14 @@ public class CommonProxy {
         OreDictionary.registerOre("stairWood", BeastsBlocks.PALM_STAIRS);
         OreDictionary.registerOre("fenceWood", BeastsBlocks.PALM_FENCE);
         OreDictionary.registerOre("fenceGateWood", BeastsBlocks.PALM_GATE);
-        OreDictionary.registerOre("doorWood", BeastsBlocks.PALM_DOOR);
+        OreDictionary.registerOre("doorWood", BeastsDoor.DOOR_ITEMS.get(BeastsBlocks.PALM_DOOR));
         OreDictionary.registerOre("logJelly", BeastsBlocks.JELLY_WOOD);
         OreDictionary.registerOre("plankJelly", BeastsBlocks.JELLY_WOOD_PLANKS);
         OreDictionary.registerOre("slabJelly", BeastsBlocks.JELLY_WOOD_SLAB.half);
         OreDictionary.registerOre("stairJelly", BeastsBlocks.JELLY_WOOD_STAIRS);
         OreDictionary.registerOre("fenceJelly", BeastsBlocks.JELLY_WOOD_FENCE);
         OreDictionary.registerOre("fenceGateJelly", BeastsBlocks.JELLY_WOOD_GATE);
-        OreDictionary.registerOre("doorJelly", BeastsBlocks.JELLY_WOOD_DOOR);
+        OreDictionary.registerOre("doorJelly", BeastsDoor.DOOR_ITEMS.get(BeastsBlocks.JELLY_WOOD_DOOR));
         for (BlockShell shell : BeastsBlocks.SHELL_BLOCKS) OreDictionary.registerOre("blockShell", shell);
         for (BlockShellPiece shell : BeastsBlocks.SHELL_PIECES) OreDictionary.registerOre("pieceShell", shell);
     }

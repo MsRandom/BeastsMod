@@ -6,7 +6,9 @@ import net.minecraft.util.Mirror;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
+import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraft.world.gen.structure.template.PlacementSettings;
 import net.minecraft.world.gen.structure.template.Template;
 import net.minecraft.world.gen.structure.template.TemplateManager;
@@ -34,7 +36,8 @@ public class WorldGenStructure extends BeastsStructure {
             if (template != null) {
                 IBlockState state = world.getBlockState(pos);
                 world.notifyBlockUpdate(pos, state, state, 3);
-                settings = settings.setRotation(Rotation.values()[rand.nextInt(4)]);
+                ChunkPos chunk = new ChunkPos(pos);
+                settings = settings.setRotation(Rotation.values()[rand.nextInt(4)]).setBoundingBox(new StructureBoundingBox(new int[]{(chunk.x * 16) + 1, 0, (chunk.z * 16) + 1, (chunk.x * 16) + 15, 255, (chunk.x * 16) + 1}));
                 template.addBlocksToWorldChunk(world, pos, settings);
                 return true;
             }

@@ -29,7 +29,8 @@ public class ContainerTrimolaInventory extends Container {
     }
 
     public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
-        ItemStack itemstack = ItemStack.EMPTY;
+        //slot.getSlot is causing the game to freeze by never existing this method
+        /*ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.inventorySlots.get(index);
 
         if (slot != null && slot.getHasStack()) {
@@ -43,9 +44,9 @@ public class ContainerTrimolaInventory extends Container {
 
             if (itemstack1.isEmpty()) slot.putStack(ItemStack.EMPTY);
             else slot.onSlotChanged();
-        }
+        }*/
 
-        return itemstack;
+        return ItemStack.EMPTY;
     }
 
     @Override

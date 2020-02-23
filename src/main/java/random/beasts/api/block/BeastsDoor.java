@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.Random;
 
 public class BeastsDoor extends BlockDoor {
-    private static final Map<BeastsDoor, Item> DOOR_ITEMS = new HashMap<>();
+    public static final Map<BeastsDoor, Item> DOOR_ITEMS = new HashMap<>();
 
     public BeastsDoor(String name) {
         super(Material.WOOD);

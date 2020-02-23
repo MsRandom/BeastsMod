@@ -63,15 +63,16 @@ public class WorldGenPalmTrees extends WorldGenAbstractTree {
 
             for (int i = -5; i < 5; i++) {
                 if (i != 0) {
-                    pos = position.add(i, 0, i);
-                    pos = world.getHeight(pos);
-                    if (rand.nextInt(3) == 0) {
-                        if (rand.nextInt(10) < 2) {
-                            EntityCoconutCrab crab = BeastsEntities.COCONUT_CRAB.create(world);
-                            crab.setLocationAndAngles(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0, 0);
-                            crab.onInitialSpawn(world.getDifficultyForLocation(pos), null);
-                            world.spawnEntity(crab);
-                        } else world.setBlockState(pos, BeastsBlocks.COCONUT.getDefaultState());
+                    pos = world.getHeight(position.add(i, 0, i));
+                    if (world.isAirBlock(pos) && world.getBlockState(pos.down()).getBlock() == Blocks.SAND) {
+                        if (rand.nextInt(3) == 0) {
+                            if (rand.nextInt(10) < 2) {
+                                EntityCoconutCrab crab = BeastsEntities.COCONUT_CRAB.create(world);
+                                crab.setLocationAndAngles(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0, 0);
+                                crab.onInitialSpawn(world.getDifficultyForLocation(pos), null);
+                                world.spawnEntity(crab);
+                            } else world.setBlockState(pos, BeastsBlocks.COCONUT.getDefaultState());
+                        }
                     }
                 }
             }

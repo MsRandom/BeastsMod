@@ -4,25 +4,26 @@ import com.google.common.collect.Iterables;
 import net.minecraft.block.BlockStone;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.WeightedRandom;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 import net.minecraft.world.gen.feature.WorldGenerator;
+import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
+import net.minecraftforge.event.terraingen.TerrainGen;
 import random.beasts.api.world.biome.BeastsBiome;
 import random.beasts.common.block.BlockCoral;
 import random.beasts.common.block.CoralColor;
 import random.beasts.common.init.BeastsBlocks;
-import random.beasts.common.init.BeastsStructures;
 import random.beasts.common.world.gen.feature.WorldGenAnemone;
 import random.beasts.common.world.gen.feature.WorldGenJellyfishTrees;
 import random.beasts.common.world.gen.feature.WorldGenPalmTrees;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Random;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.Set;
 
 public class BiomeDriedReef extends BeastsBiome {
     private static final WorldGenRockBlob ROCK_GENERATOR = new WorldGenRockBlob(Blocks.STONE.getDefaultState(), 3);
@@ -35,7 +36,7 @@ public class BiomeDriedReef extends BeastsBiome {
     private static final WorldGenRockCluster ROCK_CLUSTER = new WorldGenRockCluster();
     private static final WorldGenGroundCover GROUND_COVER = new WorldGenGroundCover();
     private static final WorldGenRockBlob[] ROCKS = {ROCK_GENERATOR, ANDESITE_GENERATOR};
-    private static final List<WeightedGenerator> GENERATORS = Stream.concat(Stream.of(new WeightedGenerator(10, CORAL_PLANT_GENERATOR), new WeightedGenerator(30, ROCK_CLUSTER), new WeightedGenerator(50, JELLYFISH_TREE_GENERATOR), new WeightedGenerator(20, PALM_TREE_GENERATOR), new WeightedGenerator(45, ANEMONE_GENERATOR)), Stream.of(BeastsStructures.SHELLS).map(s -> new WeightedGenerator(20, s))).collect(Collectors.toList());
+    private static Set<StructurePosition> COORDS = new HashSet<>();
 
     public BiomeDriedReef() {
         super("dried_reef", new BiomeProperties("Dried Reef").setBaseHeight(0.125F).setHeightVariation(0.05F).setTemperature(2.0F).setRainfall(0.0F).setTemperature(2).setRainDisabled().setWaterColor(0x00FFFF));
@@ -57,22 +58,42 @@ public class BiomeDriedReef extends BeastsBiome {
     @Override
     public void decorate(World worldIn, Random rand, BlockPos pos) {
         super.decorate(worldIn, rand, pos);
-        for (int j5 = 0; j5 < 12; ++j5) {
-            int l9 = rand.nextInt(16) + 8;
-            int k13 = rand.nextInt(16) + 8;
-            int l16 = worldIn.getHeight(pos.add(l9, 0, k13)).getY() * 2;
+        for (int j5 = 0; j5 < 2; ++j5) {
+            int x = rand.nextInt(16) + 8;
+            int y = rand.nextInt(16) + 8;
+            GROUND_COVER.generate(worldIn, rand, worldIn.getHeight(pos.add(x, 0, y)));
+        }
 
-            if (l16 > 0) {
-                int j19 = rand.nextInt(l16);
-                GROUND_COVER.generate(worldIn, rand, pos.add(l9, j19, k13));
+        //I hate this so much but I'm too lazy to make a better system
+        int x = rand.nextInt(16) + 8;
+        int z = rand.nextInt(16) + 8;
+        BlockPos blockPos = worldIn.getHeight(pos.add(x, 0, z));
+        ChunkPos chunk = new ChunkPos(blockPos);
+        if (rand.nextBoolean())
+            generate(CORAL_PLANT_GENERATOR, worldIn, rand, blockPos);
+        else if (rand.nextBoolean() && TerrainGen.decorate(worldIn, rand, chunk, DecorateBiomeEvent.Decorate.EventType.TREE))
+            generate(getRandomTreeFeature(rand), worldIn, rand, blockPos);
+        else if (rand.nextBoolean()) {
+            //Both of these cause cascading worldgen lag
+            if (rand.nextBoolean()) {
+                //if (worldIn.getBlockState(blockPos.down()).getBlock() == Blocks.SAND) BeastsStructures.SHELLS[rand.nextInt(BeastsStructures.SHELLS.length)].generate(worldIn, rand, blockPos.down(2));
+            } else {
+                //generate(ROCK_CLUSTER, worldIn, rand, blockPos);
             }
-        }
+        } else if (rand.nextBoolean())
+            generate(ANEMONE_GENERATOR, worldIn, rand, blockPos);
+    }
 
-        for (int j2 = 0; j2 < 3; ++j2) {
-            int k6 = rand.nextInt(16) + 8;
-            int l = rand.nextInt(16) + 8;
-            getRandomTreeFeature(rand).generate(worldIn, rand, worldIn.getHeight(pos.add(k6, 0, l)));
+    private void generate(WorldGenerator generator, World world, Random rand, BlockPos pos) {
+        StructurePosition structure = new StructurePosition(pos);
+        if (!COORDS.contains(structure)) {
+            generator.generate(world, rand, pos);
+            COORDS.add(structure);
         }
+    }
+
+    private BlockPos center(ChunkPos chunk, BlockPos pos) {
+        return new BlockPos(chunk.getXStart() + 8, pos.getY(), chunk.getZStart() + 8);
     }
 
     private static class WorldGenRockCluster extends WorldGenerator {
@@ -173,13 +194,15 @@ public class BiomeDriedReef extends BeastsBiome {
         public boolean generate(World worldIn, Random rand, BlockPos position) {
             IBlockState state = getBlock(rand);
             position = worldIn.getTopSolidOrLiquidBlock(position).down(rand.nextInt(1 + size));
+            ChunkPos pos = new ChunkPos(position);
             for (int i = 0; i < 6; ++i) {
                 int j = rand.nextInt(2 + size);
                 int k = rand.nextInt(2 + size);
                 int l = rand.nextInt(2 + size);
                 float f = (float) (j + k + l) / 3 + 0.5F;
                 for (BlockPos blockpos : BlockPos.getAllInBox(position.add(-j, -k, -l), position.add(j, k, l)))
-                    if (blockpos.distanceSq(position) <= (double) (f * f)) worldIn.setBlockState(blockpos, state, 4);
+                    if (pos.x == blockpos.getX() >> 4 && pos.z == blockpos.getZ() >> 4 && blockpos.distanceSq(position) <= (double) (f * f))
+                        worldIn.setBlockState(blockpos, state, 4);
                 position = position.add(rand.nextInt(4) - 1, -rand.nextInt(2), rand.nextInt(4) - 1);
             }
 
@@ -192,7 +215,6 @@ public class BiomeDriedReef extends BeastsBiome {
     }
 
     private static class WorldGenCoralBlock extends WorldGenRockBlob {
-
         private IBlockState[] states = new IBlockState[CoralColor.values().length];
 
         WorldGenCoralBlock() {
@@ -222,7 +244,7 @@ public class BiomeDriedReef extends BeastsBiome {
         public boolean generate(World worldIn, Random rand, BlockPos position) {
             for (int i = 0; i < 10; ++i) {
                 BlockPos blockpos = position.add(rand.nextInt(8) - rand.nextInt(8), rand.nextInt(4) - rand.nextInt(4), rand.nextInt(8) - rand.nextInt(8));
-                if (worldIn.isAirBlock(blockpos) && !worldIn.isAirBlock(blockpos.down())) {
+                if (worldIn.isAirBlock(blockpos) && worldIn.getBlockState(blockpos.down()).getBlock() == Blocks.SAND) {
                     worldIn.setBlockState(blockpos, BeastsBlocks.SHELL_PIECES[rand.nextInt(BeastsBlocks.SHELL_BLOCKS.length)].getDefaultState(), 2);
                 }
             }
@@ -231,12 +253,27 @@ public class BiomeDriedReef extends BeastsBiome {
         }
     }
 
-    public static class WeightedGenerator extends WeightedRandom.Item {
-        public final WorldGenerator generator;
+    private static class StructurePosition {
+        private final int x;
+        private final int z;
 
-        public WeightedGenerator(int itemWeightIn, WorldGenerator generator) {
-            super(itemWeightIn);
-            this.generator = generator;
+        public StructurePosition(BlockPos pos) {
+            this.x = pos.getX() >> 2;
+            this.z = pos.getZ() >> 2;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof StructurePosition)) return false;
+            StructurePosition that = (StructurePosition) o;
+            return x == that.x &&
+                    z == that.z;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(x, z);
         }
     }
 }
