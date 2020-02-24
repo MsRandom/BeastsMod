@@ -25,10 +25,6 @@ public class BiomeAbyss extends UndergroundBiome {
 		super("The Abyss", BeastsConfig.abyssWeight, base);
 	}
 
-	public int getRarity() {
-		return 4;
-	}
-
 	@Override
 	public RandomValueRange getSize() {
 		return new RandomValueRange(80, 144);
@@ -122,9 +118,9 @@ public class BiomeAbyss extends UndergroundBiome {
 		int radiusZ = (bounds.maxZ * 16 - bounds.minZ * 16) / 2;
 		BlockPos center = new BlockPos(bounds.minX * 16, minY, bounds.minZ * 16).add(radiusX, radiusY, radiusZ);
 
-		for (int y = -15; y <= 15; ++y) {
-			int x = Math.round((float) cave_noise.getValue(chunk.getXStart(), y));
-			int z = Math.round((float) cave_noise.getValue(chunk.getZStart(), y));
+		for (int y = -16; y <= 16; ++y) {
+			int x = 0;//Math.round((float)cave_noise.getValue(chunk.getXStart(), (double)y)*radiusX);
+			int z = 0;//Math.round((float) cave_noise.getValue(chunk.getZStart(), y) * radiusZ);
 			BlockPos position = center.add(x, y, z);
 			double a = Math.pow(position.getX() - center.getX(), 2) / Math.pow(radiusX, 2) +
 					Math.pow(position.getY() - center.getY(), 2) / Math.pow(radiusY, 2) +
