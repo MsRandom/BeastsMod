@@ -128,6 +128,14 @@ tile.anemone_stalk.name=Anemone Stalk
 tile.anemone_tentacle.name=Anemone Tentacle
 tile.anemone_mouth.name=Anemone Mouth
 tile.hermit_turtle_shell.name=Hermit Turtle Shell
+tile.shell_piece.name=Shell Piece
+tile.tan_shell_piece.name=Tan Shell Piece
+tile.brown_shell_piece.name=Brown Shell Piece
+tile.light_brown_shell_piece.name=Light Brown Shell Piece
+tile.shell_brick.name=Shell Bricks
+tile.shell_stairs.name=Shell Brick Stairs
+tile.shell_slab.name=Shell Brick Slab
+
 
 Config
 
