@@ -1,8 +1,8 @@
 package random.beasts.common.world.gen.structure;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.passive.EntityRabbit;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
@@ -151,7 +151,7 @@ public class StructureRabbitVillagePieces {
                 EntityRabbit entity = new EntityRabbit(worldIn);
                 entity.setLocationAndAngles(getXWithOffset(2 + (i * 3), 2) + 0.5D, getYWithOffset(1), getZWithOffset(2 + (i * 3), 2) + 0.5D, 0.0F, 0.0F);
                 entity.onInitialSpawn(worldIn.getDifficultyForLocation(entity.getPosition()), null);
-                worldIn.spawnEntity(entity);
+                worldIn.addEntity(entity);
             }
             this.fillWithBlocks(worldIn, structureBoundingBoxIn, 1, 0, 1, 7, 0, 7, Blocks.STAINED_HARDENED_CLAY.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.ORANGE), Blocks.STAINED_HARDENED_CLAY.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.ORANGE), false);
 
@@ -196,13 +196,13 @@ public class StructureRabbitVillagePieces {
 
         public boolean addComponentParts(@Nonnull World worldIn, @Nonnull Random randomIn, @Nonnull StructureBoundingBox structureBoundingBoxIn) {
             super.addComponentParts(worldIn, randomIn, structureBoundingBoxIn);
-            IBlockState air = Blocks.AIR.getDefaultState();
-            IBlockState clay = Blocks.STAINED_HARDENED_CLAY.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.ORANGE);
-            IBlockState ladder = Blocks.LADDER.getDefaultState().withProperty(BlockLadder.FACING, Direction.NORTH);
-            IBlockState leaves = Blocks.LEAVES.getDefaultState().withProperty(BlockLeaves.DECAYABLE, false);
-            IBlockState bed = Blocks.BED.getDefaultState();
-            IBlockState torch = Blocks.TORCH.getDefaultState();
-            IBlockState ground = getBlockStateFromPos(worldIn, 3, 4, 3, structureBoundingBoxIn);
+            BlockState air = Blocks.AIR.getDefaultState();
+            BlockState clay = Blocks.STAINED_HARDENED_CLAY.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.ORANGE);
+            BlockState ladder = Blocks.LADDER.getDefaultState().withProperty(BlockLadder.FACING, Direction.NORTH);
+            BlockState leaves = Blocks.LEAVES.getDefaultState().withProperty(BlockLeaves.DECAYABLE, false);
+            BlockState bed = Blocks.BED.getDefaultState();
+            BlockState torch = Blocks.TORCH.getDefaultState();
+            BlockState ground = getBlockStateFromPos(worldIn, 3, 4, 3, structureBoundingBoxIn);
             fillWithBlocks(worldIn, structureBoundingBoxIn, 1, 4, 1, 5, 12, 5, clay, clay, false);
             fillWithBlocks(worldIn, structureBoundingBoxIn, 1, 5, 1, 1, 12, 1, air, air, false);
             fillWithBlocks(worldIn, structureBoundingBoxIn, 5, 5, 1, 5, 12, 1, air, air, false);
@@ -255,7 +255,7 @@ public class StructureRabbitVillagePieces {
         }
 
         private void makeTable(World worldIn, int x, int y, StructureBoundingBox boundingBox) {
-            IBlockState stairs = Blocks.ACACIA_STAIRS.getDefaultState().withProperty(BlockStairs.HALF, BlockStairs.EnumHalf.TOP);
+            BlockState stairs = Blocks.ACACIA_STAIRS.getDefaultState().withProperty(BlockStairs.HALF, BlockStairs.EnumHalf.TOP);
             setBlockState(worldIn, Blocks.WOODEN_SLAB.getDefaultState().withProperty(BlockWoodSlab.VARIANT, BlockPlanks.EnumType.ACACIA).withProperty(BlockSlab.HALF, BlockSlab.EnumBlockHalf.TOP), x, y, 3, boundingBox);
             setBlockState(worldIn, stairs.withProperty(BlockStairs.FACING, Direction.SOUTH), x, y, 2, boundingBox);
             setBlockState(worldIn, stairs.withProperty(BlockStairs.FACING, Direction.NORTH), x, y, 4, boundingBox);
@@ -357,10 +357,10 @@ public class StructureRabbitVillagePieces {
 
         public boolean addComponentParts(@Nonnull World worldIn, @Nonnull Random randomIn, @Nonnull StructureBoundingBox structureBoundingBoxIn) {
             super.addComponentParts(worldIn, randomIn, structureBoundingBoxIn);
-            IBlockState path = Blocks.GRASS_PATH.getDefaultState();
-            IBlockState clay = Blocks.STAINED_HARDENED_CLAY.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.ORANGE);
-            IBlockState gravel = Blocks.GRAVEL.getDefaultState();
-            IBlockState cobble = Blocks.COBBLESTONE.getDefaultState();
+            BlockState path = Blocks.GRASS_PATH.getDefaultState();
+            BlockState clay = Blocks.STAINED_HARDENED_CLAY.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.ORANGE);
+            BlockState gravel = Blocks.GRAVEL.getDefaultState();
+            BlockState cobble = Blocks.COBBLESTONE.getDefaultState();
             for (int i = this.boundingBox.minX; i <= this.boundingBox.maxX; ++i) {
                 for (int j = this.boundingBox.minZ; j <= this.boundingBox.maxZ; ++j) {
                     BlockPos pos = new BlockPos(i, 64, j);
@@ -371,7 +371,7 @@ public class StructureRabbitVillagePieces {
                             pos = new BlockPos(pos.getX(), worldIn.getSeaLevel() - 1, pos.getZ());
 
                         while (pos.getY() >= worldIn.getSeaLevel() - 1) {
-                            IBlockState state = worldIn.getBlockState(pos);
+                            BlockState state = worldIn.getBlockState(pos);
                             if (state.getBlock() == Blocks.GRASS && worldIn.isAirBlock(pos.up())) {
                                 worldIn.setBlockState(pos, path, 2);
                                 break;
@@ -528,7 +528,7 @@ public class StructureRabbitVillagePieces {
                 EntityRabbitman entity = new EntityRabbitman(worldIn);
                 entity.setLocationAndAngles((double) j + 0.5D, k, (double) l + 0.5D, 0.0F, 0.0F);
                 entity.onInitialSpawn(worldIn.getDifficultyForLocation(entity.getPos()), null);
-                worldIn.spawnEntity(entity);
+                worldIn.addEntity(entity);
             }
         }
 
@@ -565,9 +565,9 @@ public class StructureRabbitVillagePieces {
 
         public boolean addComponentParts(@Nonnull World worldIn, @Nonnull Random randomIn, @Nonnull StructureBoundingBox structureBoundingBoxIn) {
             super.addComponentParts(worldIn, randomIn, structureBoundingBoxIn);
-            IBlockState fence = Blocks.ACACIA_FENCE.getDefaultState();
-            IBlockState gate = Blocks.ACACIA_FENCE_GATE.getDefaultState();
-            IBlockState torch = Blocks.TORCH.getDefaultState();
+            BlockState fence = Blocks.ACACIA_FENCE.getDefaultState();
+            BlockState gate = Blocks.ACACIA_FENCE_GATE.getDefaultState();
+            BlockState torch = Blocks.TORCH.getDefaultState();
             this.fillWithBlocks(worldIn, structureBoundingBoxIn, 1, 11, 1, 1, 12, 1, fence, fence, false);
             this.fillWithBlocks(worldIn, structureBoundingBoxIn, 5, 11, 1, 5, 12, 1, fence, fence, false);
             this.fillWithBlocks(worldIn, structureBoundingBoxIn, 1, 11, 5, 1, 12, 5, fence, fence, false);
@@ -602,7 +602,7 @@ public class StructureRabbitVillagePieces {
                         entity.setLocationAndAngles(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, 0.0F, 0.0F);
                         entity.onInitialSpawn(worldIn.getDifficultyForLocation(entity.getPosition()), null);
                         if (worldIn.getBlockState(pos).getMaterial() != Material.WATER) entity.setNoAI(true);
-                        worldIn.spawnEntity(entity);
+                        worldIn.addEntity(entity);
                     }
             return true;
         }

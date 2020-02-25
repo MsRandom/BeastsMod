@@ -25,8 +25,8 @@ public class EntityCoralBranchie extends EntityBranchieBase {
 
     private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityCoralBranchie.class, DataSerializers.VARINT);
 
-    public EntityCoralBranchie(World worldIn) {
-        super(worldIn);
+    public EntityCoralBranchie(EntityType<? extends EntityCoralBranchie> type, World worldIn) {
+        super(type, worldIn);
     }
 
     public static EntityCoralBranchie create(BlockEvent.BreakEvent event) {
@@ -43,8 +43,8 @@ public class EntityCoralBranchie extends EntityBranchieBase {
     }
 
     @Override
-    protected void entityInit() {
-        super.entityInit();
+    protected void registerData() {
+        super.registerData();
         this.dataManager.register(VARIANT, 0);
     }
 
@@ -81,14 +81,14 @@ public class EntityCoralBranchie extends EntityBranchieBase {
     }
 
     @Override
-    public void writeEntityToNBT(CompoundNBT compound) {
-        super.writeEntityToNBT(compound);
+    public void writeAdditional(CompoundNBT compound) {
+        super.writeAdditional(compound);
         compound.putInt("variant", this.getVariant().ordinal());
     }
 
     @Override
-    public void readEntityFromNBT(CompoundNBT compound) {
-        super.readEntityFromNBT(compound);
+    public void readAdditional(CompoundNBT compound) {
+        super.readAdditional(compound);
         this.setVariant(CoralColor.values()[compound.getInt("variant")]);
     }
 }

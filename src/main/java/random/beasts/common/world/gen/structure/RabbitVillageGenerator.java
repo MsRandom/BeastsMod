@@ -1,6 +1,5 @@
-package random.beasts.common.world.gen.structure;
+/*package random.beasts.common.world.gen.structure;
 
-import net.minecraft.init.Biomes;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -132,3 +131,4 @@ public class RabbitVillageGenerator extends BeastsStructure {
         }
     }
 }
+*/

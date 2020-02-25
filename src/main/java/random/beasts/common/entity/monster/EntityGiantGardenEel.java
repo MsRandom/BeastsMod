@@ -9,11 +9,11 @@ import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerEntityMP;
-import net.minecraft.init.SoundEvents;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -31,14 +31,14 @@ public class EntityGiantGardenEel extends MonsterEntity {
     private float slamTimer = 250;
     private int lastSlam = 0;
 
-    public EntityGiantGardenEel(World worldIn) {
-        super(worldIn);
+    public EntityGiantGardenEel(EntityType<? extends EntityGiantGardenEel> type, World worldIn) {
+        super(type, worldIn);
         this.experienceValue = 3;
     }
 
     @Override
-    protected void initEntityAI() {
-        super.initEntityAI();
+    protected void registerGoals() {
+        super.registerGoals();
         this.goalSelector.addGoal(6, new EntityAIWatchClosest(this, PlayerEntity.class, 6.0F));
         this.goalSelector.addGoal(0, new EntityAILookIdle(this));
     }
@@ -52,12 +52,12 @@ public class EntityGiantGardenEel extends MonsterEntity {
     }
 
     @Override
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(2);
-        getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.0);
-        getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10);
-        getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1000);
+    protected void registerAttributes() {
+        super.registerAttributes();
+        getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(2);
+        getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.0);
+        getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10);
+        getAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1000);
     }
 
     @Override
@@ -86,7 +86,7 @@ public class EntityGiantGardenEel extends MonsterEntity {
         if (slamTimer < 250) slamTimer += 10;
         if (lastSlam > 25) {
             Predicate<Entity> predicate = e -> EntitySelectors.NOT_SPECTATING.apply(e) && e instanceof LivingEntity && !(e instanceof EntityGiantGardenEel) && (!(e instanceof PlayerEntity) || !((PlayerEntity) e).capabilities.isCreativeMode);
-            List<Entity> entitiesInRange = world.getEntitiesInAABBexcluding(this, this.getEntityBoundingBox().grow(3), predicate::test);
+            List<Entity> entitiesInRange = world.getEntitiesInAABBexcluding(this, this.getBoundingBox().grow(3), predicate::test);
             entitiesInRange.forEach(e -> {
                 if (targetedEntity == null || (getDistanceSq(targetedEntity) > getDistanceSq(e) && e instanceof LivingEntity))
                     targetedEntity = (LivingEntity) e;
@@ -98,8 +98,8 @@ public class EntityGiantGardenEel extends MonsterEntity {
                 if (slamTimer == 0) {
                     if (!targetedEntity.isDead) {
                         targetedEntity.attackEntityFrom(DamageSource.causeMobDamage(this), 4.0F);
-                        if (targetedEntity instanceof PlayerEntityMP)
-                            BeastsTriggers.HAMMERTIME.trigger((PlayerEntityMP) targetedEntity);
+                        if (targetedEntity instanceof ServerPlayerEntity)
+                            BeastsTriggers.HAMMERTIME.trigger((ServerPlayerEntity) targetedEntity);
                     }
                     slamTimer = 0;
                     lastSlam = 0;

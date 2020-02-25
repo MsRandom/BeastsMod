@@ -1,12 +1,12 @@
 package random.beasts.common.entity.passive;
 
-import net.minecraft.entity.EntityAgeable;
+import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.IMobEntityData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
-import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.ai.SwimGoal;
+import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -17,7 +17,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.HashMap;
 
-public class EntityLegfish extends EntityAnimal {
+public class EntityLegfish extends AnimalEntity {
     public static final HashMap<Integer, Integer> VARIANTS = new HashMap<>();
     private static final DataParameter<Integer> TYPE = EntityDataManager.createKey(EntityLegfish.class, DataSerializers.VARINT);
     private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityLegfish.class, DataSerializers.VARINT);
@@ -28,29 +28,29 @@ public class EntityLegfish extends EntityAnimal {
         VARIANTS.put(2, 4);
     }
 
-    public EntityLegfish(World worldIn) {
-        super(worldIn);
+    public EntityLegfish(EntityType<? extends EntityLegfish> type, World worldIn) {
+        super(type, worldIn);
     }
 
     @Override
-    protected void initEntityAI() {
-        super.initEntityAI();
+    protected void registerGoals() {
+        super.registerGoals();
         this.goalSelector.addGoal(0, new EntityAIWanderAvoidWater(this, 0.2D));
-        this.goalSelector.addGoal(0, new EntityAISwimming(this));
+        this.goalSelector.addGoal(0, new SwimGoal(this));
         this.goalSelector.addGoal(1, new EntityAILookIdle(this));
     }
 
     @Override
-    protected void entityInit() {
-        super.entityInit();
+    protected void registerData() {
+        super.registerData();
         dataManager.register(TYPE, 0);
         dataManager.register(VARIANT, 0);
     }
 
     @Override
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(6.0D);
+    protected void registerAttributes() {
+        super.registerAttributes();
+        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(6.0D);
     }
 
     @Nullable
@@ -80,21 +80,21 @@ public class EntityLegfish extends EntityAnimal {
     }
 
     @Override
-    public void writeEntityToNBT(CompoundNBT compound) {
-        super.writeEntityToNBT(compound);
+    public void writeAdditional(CompoundNBT compound) {
+        super.writeAdditional(compound);
         compound.putInt("type", getType());
         compound.putInt("variant", getVariant());
     }
 
     @Nullable
     @Override
-    public EntityAgeable createChild(EntityAgeable ageable) {
+    public AgeableEntity createChild(AgeableEntity ageable) {
         return null;
     }
 
     @Override
-    public void readEntityFromNBT(CompoundNBT compound) {
-        super.readEntityFromNBT(compound);
+    public void readAdditional(CompoundNBT compound) {
+        super.readAdditional(compound);
         setType(compound.getInt("type"));
         setVariant(compound.getInt("variant"));
     }

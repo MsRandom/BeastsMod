@@ -1,18 +1,16 @@
 package random.beasts.common.item;
 
-import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
-import net.minecraft.init.Enchantments;
 import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
-
-import java.util.List;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class ItemPufferArmor extends BeastsArmor {
     public ItemPufferArmor(String type, EquipmentSlotType armorType) {
@@ -31,30 +29,29 @@ public class ItemPufferArmor extends BeastsArmor {
         if (((NonNullList<ItemStack>) entityIn.getArmorInventoryList()).stream().allMatch(s -> s.getItem() instanceof ItemPufferArmor))
             for (ItemStack s : entityIn.getArmorInventoryList()) {
                 boolean flag = false;
-                if (s.getTagCompound() != null && s.getTagCompound().hasKey("ench", 9)) {
-                    NBTTagList list = s.getTagCompound().getTagList("ench", 10);
+                if (s.getTagCompound() != null && s.getTagCompound().contains("ench", 9)) {
+                    ListNBT list = s.getTagCompound().getTagList("ench", 10);
                     int index = getEnchantmentIndex(list);
                     if (index != -1) flag = true;
                 }
                 if (!flag) s.addEnchantment(Enchantments.THORNS, 2);
             }
         else for (ItemStack s : entityIn.getArmorInventoryList()) {
-            if (s.getTagCompound() != null && s.getTagCompound().hasKey("ench", 9)) {
-                NBTTagList list = s.getTagCompound().getTagList("ench", 10);
+            if (s.getTagCompound() != null && s.getTagCompound().contains("ench", 9)) {
+                ListNBT list = s.getTagCompound().getTagList("ench", 10);
                 int index = getEnchantmentIndex(list);
                 if (index != -1) list.removeTag(index);
             }
         }
     }
 
-    private int getEnchantmentIndex(NBTTagList list) {
-        List<INBT> tagList = ReflectionHelper.getPrivateValue(NBTTagList.class, list, "tagList", "field_74747_a", "a");
+    private int getEnchantmentIndex(ListNBT list) {
         int index = -1;
-        for (int i = 0; i < tagList.size(); i++) {
-            INBT tag = tagList.get(i);
+        for (int i = 0; i < list.size(); i++) {
+            INBT tag = list.get(i);
             if (tag.getId() == 10 && tag instanceof CompoundNBT) {
                 CompoundNBT compound = (CompoundNBT) tag;
-                if (compound.hasKey("id") && compound.hasKey("lvl") && compound.getShort("id") == (short) Enchantment.getEnchantmentID(Enchantments.THORNS) && compound.getShort("lvl") == (short) ((byte) 2)) {
+                if (compound.contains("id") && compound.contains("lvl") && compound.getString("id").equals(ForgeRegistries.ENCHANTMENTS.getKey(Enchantments.THORNS).toString()) && compound.getShort("lvl") == (short) ((byte) 2)) {
                     index = i;
                     break;
                 }

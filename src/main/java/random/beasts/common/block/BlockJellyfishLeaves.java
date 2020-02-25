@@ -1,9 +1,9 @@
 package random.beasts.common.block;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -38,28 +38,28 @@ public class BlockJellyfishLeaves extends BeastsLeaves {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, Direction side) {
-        IBlockState iblockstate = blockAccess.getBlockState(pos.offset(side));
+    public boolean shouldSideBeRendered(BlockState blockState, IBlockAccess blockAccess, BlockPos pos, Direction side) {
+        BlockState iblockstate = blockAccess.getBlockState(pos.offset(side));
         Block block = iblockstate.getBlock();
         if (blockState != iblockstate) return true;
         return block != this && super.shouldSideBeRendered(blockState, blockAccess, pos, side);
     }
 
     @Override
-    protected ItemStack getSilkTouchDrop(IBlockState state) {
+    protected ItemStack getSilkTouchDrop(BlockState state) {
         return new ItemStack(this);
     }
 
     @Override
-    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+    public Item getItemDropped(BlockState state, Random rand, int fortune) {
         return Item.getItemFromBlock(BeastsBlocks.JELLYWOOD_SAPLING);
     }
 
-    public IBlockState getStateFromMeta(int meta) {
+    public BlockState getStateFromMeta(int meta) {
         return this.getDefaultState().withProperty(DECAYABLE, (meta & 4) == 0).withProperty(CHECK_DECAY, (meta & 8) > 0);
     }
 
-    public int getMetaFromState(IBlockState state) {
+    public int getMetaFromState(BlockState state) {
         int i = 0;
         if (!state.getValue(DECAYABLE)) i |= 4;
         if (state.getValue(CHECK_DECAY)) i |= 8;
@@ -70,17 +70,17 @@ public class BlockJellyfishLeaves extends BeastsLeaves {
         return new BlockStateContainer(this, CHECK_DECAY, DECAYABLE);
     }
 
-    public int damageDropped(IBlockState state) {
+    public int damageDropped(BlockState state) {
         return 0;
     }
 
     @Override
-    public boolean isFullCube(IBlockState state) {
+    public boolean isFullCube(BlockState state) {
         return false;
     }
 
     @Override
-    public boolean isOpaqueCube(IBlockState state) {
+    public boolean isOpaqueCube(BlockState state) {
         return false;
     }
 

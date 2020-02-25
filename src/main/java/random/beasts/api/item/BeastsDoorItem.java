@@ -1,16 +1,12 @@
 package random.beasts.api.item;
 
 import net.minecraft.block.Block;
-import net.minecraft.item.ItemDoor;
+import net.minecraft.item.Item;
+import net.minecraft.item.TallBlockItem;
 import random.beasts.api.main.BeastsUtils;
 
-import java.util.Objects;
-
-public class BeastsDoorItem extends ItemDoor {
+public class BeastsDoorItem extends TallBlockItem {
     public BeastsDoorItem(Block block) {
-        super(block);
-        String name = Objects.requireNonNull(block.getRegistryName()).getPath();
-        setUnlocalizedName(name);
-        setCreativeTab(BeastsUtils.getRegistryTab());
+        super(block, new Item.Properties().group(BeastsUtils.getRegistryTab()));
     }
 }

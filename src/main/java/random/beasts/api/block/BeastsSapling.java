@@ -1,13 +1,8 @@
 package random.beasts.api.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockBush;
-import net.minecraft.block.IGrowable;
-import net.minecraft.block.SoundType;
+import net.minecraft.block.*;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -39,23 +34,23 @@ public class BeastsSapling extends BlockBush implements IGrowable {
     }
 
     @Override
-    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+    public AxisAlignedBB getBoundingBox(BlockState state, IBlockAccess source, BlockPos pos) {
         return SAPLING_AABB;
     }
 
     @Override
     public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
-        IBlockState soil = worldIn.getBlockState(pos.down());
+        BlockState soil = worldIn.getBlockState(pos.down());
         return super.canPlaceBlockAt(worldIn, pos) && soil.getBlock() == Blocks.SAND;
     }
 
     @Override
-    protected boolean canSustainBush(IBlockState state) {
+    protected boolean canSustainBush(BlockState state) {
         return state.getBlock() == Blocks.SAND;
     }
 
     @Override
-    public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+    public void updateTick(World worldIn, BlockPos pos, BlockState state, Random rand) {
         if (!worldIn.isRemote) {
             super.updateTick(worldIn, pos, state, rand);
             if (!worldIn.isAreaLoaded(pos, 1)) return;
@@ -66,35 +61,35 @@ public class BeastsSapling extends BlockBush implements IGrowable {
 
     @Override
     @Nullable
-    public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
+    public AxisAlignedBB getCollisionBoundingBox(BlockState blockState, IBlockAccess worldIn, BlockPos pos) {
         return NULL_AABB;
     }
 
     @Override
-    public boolean canGrow(World worldIn, BlockPos pos, IBlockState state, boolean isClient) {
+    public boolean canGrow(World worldIn, BlockPos pos, BlockState state, boolean isClient) {
         return true;
     }
 
     @Override
-    public boolean canUseBonemeal(World worldIn, Random rand, BlockPos pos, IBlockState state) {
+    public boolean canUseBonemeal(World worldIn, Random rand, BlockPos pos, BlockState state) {
         return worldIn.rand.nextFloat() < 0.45;
     }
 
     @Override
-    public void grow(World worldIn, Random rand, BlockPos pos, IBlockState state) {
+    public void grow(World worldIn, Random rand, BlockPos pos, BlockState state) {
         if (state.getValue(STAGE) == 0) worldIn.setBlockState(pos, state.cycleProperty(STAGE), 4);
         else generateTree(worldIn, pos, state, rand);
     }
 
-    protected void generateTree(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+    protected void generateTree(World worldIn, BlockPos pos, BlockState state, Random rand) {
         if (treeGen != null) treeGen.generate(worldIn, rand, pos);
     }
 
-    public IBlockState getStateFromMeta(int meta) {
+    public BlockState getStateFromMeta(int meta) {
         return this.getDefaultState().withProperty(STAGE, (meta & 8) >> 3);
     }
 
-    public int getMetaFromState(IBlockState state) {
+    public int getMetaFromState(BlockState state) {
         return state.getValue(STAGE) << 3;
     }
 

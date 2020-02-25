@@ -1,9 +1,9 @@
 package random.beasts.common.entity.passive;
 
-import net.minecraft.entity.EntityAgeable;
+import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.IMobEntityData;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
@@ -18,17 +18,17 @@ import random.beasts.common.init.BeastsItems;
 
 import javax.annotation.Nullable;
 
-public class EntityAnemoneCrawler extends EntityAnimal {
+public class EntityAnemoneCrawler extends AnimalEntity {
     private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityAnemoneCrawler.class, DataSerializers.VARINT);
 
-    public EntityAnemoneCrawler(World worldIn) {
-        super(worldIn);
+    public EntityAnemoneCrawler(EntityType<? extends EntityAnemoneCrawler> type, World worldIn) {
+        super(type, worldIn);
     }
 
     @Override
-    protected void initEntityAI() {
-        super.initEntityAI();
-        this.goalSelector.addGoal(0, new EntityAISwimming(this));
+    protected void registerGoals() {
+        super.registerGoals();
+        this.goalSelector.addGoal(0, new SwimGoal(this));
         this.goalSelector.addGoal(1, new EntityAIMate(this, 0.3));
         this.goalSelector.addGoal(2, new EntityAIPanic(this, 0.4D));
         this.goalSelector.addGoal(3, new EntityAIWander(this, 0.2));
@@ -39,8 +39,8 @@ public class EntityAnemoneCrawler extends EntityAnimal {
     }
 
     @Override
-    protected void entityInit() {
-        super.entityInit();
+    protected void registerData() {
+        super.registerData();
         dataManager.register(VARIANT, 0);
     }
 
@@ -53,9 +53,9 @@ public class EntityAnemoneCrawler extends EntityAnimal {
     }
 
     @Override
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10);
+    protected void registerAttributes() {
+        super.registerAttributes();
+        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10);
     }
 
     @Override
@@ -72,26 +72,26 @@ public class EntityAnemoneCrawler extends EntityAnimal {
     }
 
     @Override
-    public void writeEntityToNBT(CompoundNBT compound) {
-        super.writeEntityToNBT(compound);
+    public void writeAdditional(CompoundNBT compound) {
+        super.writeAdditional(compound);
         compound.putInt("variant", getVariant());
     }
 
     @Override
-    public void readEntityFromNBT(CompoundNBT compound) {
-        super.readEntityFromNBT(compound);
+    public void readAdditional(CompoundNBT compound) {
+        super.readAdditional(compound);
         setVariant(compound.getInt("variant"));
     }
 
     @Nullable
     @Override
-    public EntityAgeable createChild(EntityAgeable ageable) {
+    public AgeableEntity createChild(AgeableEntity ageable) {
         if (ageable instanceof EntityAnemoneCrawler) {
             EntityAnemoneCrawler child = BeastsEntities.ANEMONE_CRAWLER.create(world);
             EntityAnemoneCrawler dropper = rand.nextBoolean() ? (EntityAnemoneCrawler) ageable : this;
             if (rand.nextBoolean()) dropper.dropItem(BeastsItems.MEAT_SCRAPES, 1);
             child.setVariant(dropper.getVariant());
-            if(this.getRNG().nextInt(10) == 0)
+            if (this.getRNG().nextInt(10) == 0)
                 child.setVariant(3);
             return child;
         }

@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -40,11 +40,11 @@ public class RenderCoconutCrab extends MobRenderer<EntityCoconutCrab> {
     public static class LayerCrabItem implements LayerRenderer<EntityCoconutCrab> {
         private ItemEntity item = new ItemEntity(Minecraft.getInstance().world);
 
-        public void doRenderLayer(EntityCoconutCrab entity, float f, float f1, float f2, float f3, float f4, float f5, float f6) {
-            if (!entity.getHeldItem(EnumHand.MAIN_HAND).isEmpty()) {
-                if (!entity.isInvisible() && entity.getHeldItem(EnumHand.MAIN_HAND) != ItemStack.EMPTY) {
+        public void render(EntityCoconutCrab entity, float f, float f1, float f2, float f3, float f4, float f5, float f6) {
+            if (!entity.getHeldItem(Hand.MAIN_HAND).isEmpty()) {
+                if (!entity.isInvisible() && entity.getHeldItem(Hand.MAIN_HAND) != ItemStack.EMPTY) {
                     item.hoverStart = 0;
-                    item.setItem(entity.getHeldItem(EnumHand.MAIN_HAND));
+                    item.setItem(entity.getHeldItem(Hand.MAIN_HAND));
                     GlStateManager.pushMatrix();
                     GlStateManager.rotate(180, 0, 0, 1);
                     GlStateManager.rotate(90, 0, 1, 0);

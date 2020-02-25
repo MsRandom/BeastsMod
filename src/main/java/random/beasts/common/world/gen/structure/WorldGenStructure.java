@@ -1,6 +1,6 @@
 package random.beasts.common.world.gen.structure;
 
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.ResourceLocation;
@@ -33,7 +33,7 @@ public class WorldGenStructure extends BeastsStructure {
             TemplateManager manager = mcServer.getWorld(0).getStructureTemplateManager();
             Template template = manager.get(mcServer, structureName);
             if (template != null) {
-                IBlockState state = world.getBlockState(pos);
+                BlockState state = world.getBlockState(pos);
                 world.notifyBlockUpdate(pos, state, state, 3);
                 ChunkPos chunk = new ChunkPos(pos);
                 settings = settings.setRotation(Rotation.values()[rand.nextInt(4)]).setBoundingBox(new StructureBoundingBox(new int[]{(chunk.x * 16) + 1, 0, (chunk.z * 16) + 1, (chunk.x * 16) + 15, 255, (chunk.x * 16) + 1}));

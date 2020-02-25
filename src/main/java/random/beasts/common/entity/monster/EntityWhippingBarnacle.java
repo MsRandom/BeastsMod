@@ -1,10 +1,10 @@
 package random.beasts.common.entity.monster;
 
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -12,7 +12,7 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.Direction;
-import net.minecraft.util.EnumHandSide;
+import net.minecraft.util.HandSide;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
@@ -31,8 +31,8 @@ public class EntityWhippingBarnacle extends MonsterEntity implements IDriedAquat
     public boolean ready;
     public int impalingTicks;
 
-    public EntityWhippingBarnacle(World worldIn) {
-        super(worldIn);
+    public EntityWhippingBarnacle(EntityType<? extends EntityWhippingBarnacle> type, World worldIn) {
+        super(type, worldIn);
         setSize(0.5f, 1.5f);
         setNoGravity(true);
     }
@@ -60,15 +60,15 @@ public class EntityWhippingBarnacle extends MonsterEntity implements IDriedAquat
     }
 
     @Override
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4);
-        getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20);
+    protected void registerAttributes() {
+        super.registerAttributes();
+        getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4);
+        getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20);
     }
 
     @Override
-    protected void entityInit() {
-        super.entityInit();
+    protected void registerData() {
+        super.registerData();
         this.dataManager.register(FACING, 0);
         this.dataManager.register(COLOR, 0);
     }
@@ -76,7 +76,7 @@ public class EntityWhippingBarnacle extends MonsterEntity implements IDriedAquat
     @Override
     public void onUpdate() {
         this.world.profiler.startSection("entityBaseTick");
-        LivingEntity[] entities = world.getEntitiesWithinAABB(LivingEntity.class, getEntityBoundingBox().grow(5)).stream().filter(e -> !(e instanceof IDriedAquatic)).toArray(LivingEntity[]::new);
+        LivingEntity[] entities = world.getEntitiesWithinAABB(LivingEntity.class, getBoundingBox().grow(5)).stream().filter(e -> !(e instanceof IDriedAquatic)).toArray(LivingEntity[]::new);
         if (entities.length == 0) {
             ready = false;
             impaling = false;
@@ -179,8 +179,8 @@ public class EntityWhippingBarnacle extends MonsterEntity implements IDriedAquat
     }
 
     @Override
-    public EnumHandSide getPrimaryHand() {
-        return EnumHandDist.LEFT;
+    public HandSide getPrimaryHand() {
+        return HandDist.LEFT;
     }
 
     @Override
@@ -189,15 +189,15 @@ public class EntityWhippingBarnacle extends MonsterEntity implements IDriedAquat
     }
 
     @Override
-    public void readEntityFromNBT(CompoundNBT compound) {
-        super.readEntityFromNBT(compound);
+    public void readAdditional(CompoundNBT compound) {
+        super.readAdditional(compound);
         this.setFacing(Direction.values()[compound.getInt("facing")]);
         this.setColor(compound.getInt("color"));
     }
 
     @Override
-    public void writeEntityToNBT(CompoundNBT compound) {
-        super.writeEntityToNBT(compound);
+    public void writeAdditional(CompoundNBT compound) {
+        super.writeAdditional(compound);
         compound.putInt("facing", this.getFacing().getIndex());
         compound.putInt("color", this.getColor());
     }

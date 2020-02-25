@@ -1,4 +1,4 @@
-package random.beasts.common.command;
+/*package random.beasts.common.command;
 
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
@@ -49,3 +49,4 @@ public class CommandLocateStructure extends CommandBase {
         return args.length == 1 ? getListOfStringsMatchingLastWord(args, "Stronghold", "Monument", "Village", "Mansion", "EndCity", "Fortress", "Temple", "Mineshaft", "RabbitVillage") : Collections.emptyList();
     }
 }
+*/

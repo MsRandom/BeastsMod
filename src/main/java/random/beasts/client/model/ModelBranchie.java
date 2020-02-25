@@ -2,10 +2,10 @@ package random.beasts.client.model;
 
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
-import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
+import random.beasts.api.entity.BeastsBranchie;
 
-public class ModelBranchie extends EntityModel {
+public class ModelBranchie<T extends BeastsBranchie> extends EntityModel<T> {
     public RendererModel body;
     public RendererModel legLeft;
     public RendererModel legRight;
@@ -56,8 +56,8 @@ public class ModelBranchie extends EntityModel {
     }
 
     @Override
-    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
-        super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
+    public void setRotationAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
+        super.setRotationAngles(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
         float speed = 0.55f, degree = 0.75f;
 /*        limbSwing = entityIn.ticksExisted;
         limbSwingAmount = 0.6F;*/
@@ -70,7 +70,7 @@ public class ModelBranchie extends EntityModel {
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+    public void render(T entity, float f, float f1, float f2, float f3, float f4, float f5) {
         this.body.render(f5);
     }
 

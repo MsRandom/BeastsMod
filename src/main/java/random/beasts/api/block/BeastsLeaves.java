@@ -3,7 +3,7 @@ package random.beasts.api.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockPlanks;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -31,7 +31,7 @@ public class BeastsLeaves extends BlockLeaves {
     }
 
     @Override
-    public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+    public void updateTick(World worldIn, BlockPos pos, BlockState state, Random rand) {
         if (!worldIn.isRemote) {
             if (state.getValue(CHECK_DECAY) && state.getValue(DECAYABLE)) {
                 int i = getDecayArea();
@@ -51,7 +51,7 @@ public class BeastsLeaves extends BlockLeaves {
                         for (int i2 = -i; i2 <= i; ++i2) {
                             for (int j2 = -i; j2 <= i; ++j2) {
                                 for (int k2 = -i; k2 <= i; ++k2) {
-                                    IBlockState iblockstate = worldIn.getBlockState(mutablePos.setPos(k + i2, l + j2, i1 + k2));
+                                    BlockState iblockstate = worldIn.getBlockState(mutablePos.setPos(k + i2, l + j2, i1 + k2));
                                     Block block = iblockstate.getBlock();
 
                                     final int i3 = (i2 + l1) * k1 + (j2 + l1) * j1 + k2 + l1;
@@ -108,7 +108,7 @@ public class BeastsLeaves extends BlockLeaves {
 
     private void destroy(World worldIn, BlockPos pos) {
         this.dropBlockAsItem(worldIn, pos, worldIn.getBlockState(pos), 0);
-        worldIn.setBlockToAir(pos);
+        worldIn.removeBlock(pos);
     }
 
     @Override

@@ -2,15 +2,15 @@ package random.beasts.common.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.init.MobEffects;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -37,19 +37,19 @@ public class BlockTentacle extends BlockBush {
     }
 
     @Override
-    public boolean canBlockStay(World worldIn, BlockPos pos, IBlockState state) {
+    public boolean canBlockStay(World worldIn, BlockPos pos, BlockState state) {
         Block block = worldIn.getBlockState(pos.up()).getBlock();
         return block == BeastsBlocks.JELLY_LEAVES || block == this;
     }
 
     @Override
-    public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+    public void updateTick(World worldIn, BlockPos pos, BlockState state, Random rand) {
         super.updateTick(worldIn, pos, state, rand);
 
     }
 
     @Override
-    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+    public AxisAlignedBB getBoundingBox(BlockState state, IBlockAccess source, BlockPos pos) {
         int index = state.getValue(SIZE) - 1;
         if (BOUNDING_BOXES[index] == null)
             BOUNDING_BOXES[index] = new AxisAlignedBB(0.375, 1, 0.375, 0.625, 1 - ((index + 1) * 0.125), 0.625);
@@ -58,15 +58,15 @@ public class BlockTentacle extends BlockBush {
 
     @Override
     @Nullable
-    public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
+    public AxisAlignedBB getCollisionBoundingBox(BlockState blockState, IBlockAccess worldIn, BlockPos pos) {
         return NULL_AABB;
     }
 
-    public boolean isOpaqueCube(IBlockState state) {
+    public boolean isOpaqueCube(BlockState state) {
         return false;
     }
 
-    public boolean isFullCube(IBlockState state) {
+    public boolean isFullCube(BlockState state) {
         return false;
     }
 
@@ -81,30 +81,30 @@ public class BlockTentacle extends BlockBush {
     }
 
     @Override
-    public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
+    public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, BlockState state, Entity entityIn) {
         super.onEntityCollidedWithBlock(worldIn, pos, state, entityIn);
         if (entityIn instanceof LivingEntity) {
             LivingEntity entity = (LivingEntity) entityIn;
-            if (!entity.isPotionActive(MobEffects.POISON)) {
-                PotionEffect effect = new PotionEffect(MobEffects.POISON, 100);
+            if (!entity.isPotionActive(Effects.POISON)) {
+                EffectInstance effect = new EffectInstance(Effects.POISON, 100);
                 if (entity.isPotionApplicable(effect)) entity.addPotionEffect(effect);
             }
         }
     }
 
     @Override
-    public IBlockState getStateFromMeta(int meta) {
+    public BlockState getStateFromMeta(int meta) {
         int i = meta + 1;
         boolean full = i > 8;
         return getDefaultState().withProperty(SIZE, full ? i - 8 : i).withProperty(FULL, full);
     }
 
     @Override
-    public int getMetaFromState(IBlockState state) {
+    public int getMetaFromState(BlockState state) {
         return state.getValue(SIZE) + (state.getValue(FULL) ? 8 : 0) - 1;
     }
 
-    public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, Direction face) {
+    public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, BlockState state, BlockPos pos, Direction face) {
         return BlockFaceShape.UNDEFINED;
     }
 }

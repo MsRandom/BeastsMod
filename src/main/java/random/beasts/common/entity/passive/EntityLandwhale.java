@@ -1,29 +1,28 @@
 package random.beasts.common.entity.passive;
 
 import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityAgeable;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.*;
+import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.passive.EntityTameable;
+import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.IInventoryChangedListener;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -46,24 +45,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class EntityLandwhale extends EntityTameable implements IShearable, IDriedAquatic, IInventoryChangedListener {
+public class EntityLandwhale extends TameableEntity implements IShearable, IDriedAquatic, IInventoryChangedListener {
     private static final DataParameter<Boolean> SHEARED = EntityDataManager.createKey(EntityLandwhale.class, DataSerializers.BOOLEAN);
     private static final DataParameter<Boolean> SADDLE = EntityDataManager.createKey(EntityLandwhale.class, DataSerializers.BOOLEAN);
     private static final DataParameter<Boolean> DATA_ID_CHEST = EntityDataManager.createKey(EntityLandwhale.class, DataSerializers.BOOLEAN);
     private static final DataParameter<Boolean> COCONUT = EntityDataManager.createKey(EntityLandwhale.class, DataSerializers.BOOLEAN);
-    public InventoryBasic inventory;
+    public Inventory inventory;
     public int animationTicks = 0;
     private int ticksSinceSheared = 0;
     private ItemEntity target;
 
-    public EntityLandwhale(World worldIn) {
-        super(worldIn);
+    public EntityLandwhale(EntityType<? extends EntityLandwhale> type, World worldIn) {
+        super(type, worldIn);
         this.initChest();
     }
 
     @Override
-    protected void entityInit() {
-        super.entityInit();
+    protected void registerData() {
+        super.registerData();
         this.dataManager.register(SHEARED, false);
         this.dataManager.register(SADDLE, false);
         this.dataManager.register(DATA_ID_CHEST, false);
@@ -82,8 +81,8 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
         this.dataManager.set(DATA_ID_CHEST, chested);
     }
 
-    protected void initEntityAI() {
-        this.goalSelector.addGoal(0, new EntityAISwimming(this));
+    protected void registerGoals() {
+        this.goalSelector.addGoal(0, new SwimGoal(this));
         this.goalSelector.addGoal(1, new EntityAIPanic(this, 2.0D));
         this.goalSelector.addGoal(2, new EntityAIMate(this, 1.0D));
         this.goalSelector.addGoal(4, new EntityAIFollowParent(this, 1.25D));
@@ -95,6 +94,7 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
     public void onDeath(DamageSource cause) {
         super.onDeath(cause);
 
+
         if (this.hasChest()) {
             if (!this.world.isRemote) {
                 this.dropItem(Item.getItemFromBlock(Blocks.CHEST), 1);
@@ -104,15 +104,15 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
         }
     }
 
-    public void writeEntityToNBT(CompoundNBT compound) {
-        super.writeEntityToNBT(compound);
+    public void writeAdditional(CompoundNBT compound) {
+        super.writeAdditional(compound);
         compound.putBoolean("sheared", getSheared());
         compound.putInt("shearTicks", ticksSinceSheared);
         compound.putBoolean("Chest", this.hasChest());
         compound.putBoolean("Coconut", this.dataManager.get(COCONUT));
 
         if (this.hasChest()) {
-            NBTTagList nbttaglist = new NBTTagList();
+            ListNBT nbttaglist = new ListNBT();
 
             for (int i = 2; i < this.inventory.getSizeInventory(); ++i) {
                 ItemStack itemstack = this.inventory.getStackInSlot(i);
@@ -129,8 +129,8 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
         }
     }
 
-    public void readEntityFromNBT(CompoundNBT compound) {
-        super.readEntityFromNBT(compound);
+    public void readAdditional(CompoundNBT compound) {
+        super.readAdditional(compound);
         setSheared(compound.getBoolean("sheared"));
         this.ticksSinceSheared = compound.getInt("shearTicks");
         this.setChested(compound.getBoolean("Chest"));
@@ -189,18 +189,18 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
         this.dropItem(Objects.requireNonNull(Item.getItemFromBlock(chop)), 1);
     }
 
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        if (isTamed()) this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(60);
-        else this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(40);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.18D);
+    protected void registerAttributes() {
+        super.registerAttributes();
+        if (isTamed()) this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(60);
+        else this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(40);
+        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.18D);
     }
 
     @Override
     public void setTamed(boolean tamed) {
         super.setTamed(tamed);
-        if (tamed) this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(60);
-        else this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(40);
+        if (tamed) this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(60);
+        else this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(40);
     }
 
     @Override
@@ -239,7 +239,7 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
             if (forward <= 0.0F) forward *= 0.25F;
 
             if (this.canPassengerSteer()) {
-                this.setAIMoveSpeed((float) this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getAttributeValue());
+                this.setAIMoveSpeed((float) this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getAttributeValue());
                 super.travel(strafe, vertical, forward);
             } else if (entitylivingbase instanceof PlayerEntity) {
                 this.motionX = 0.0D;
@@ -259,7 +259,7 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
     }
 
     @Override
-    public boolean processInteract(PlayerEntity player, @Nonnull EnumHand hand) {
+    public boolean processInteract(PlayerEntity player, @Nonnull Hand hand) {
         ItemStack stack = player.getHeldItem(hand);
         if (stack.getItem() == Items.SHEARS && !this.getSheared()) return super.processInteract(player, hand);
         if (!this.hasChest() && stack.getItem() == Item.getItemFromBlock(Blocks.CHEST)) {
@@ -278,7 +278,7 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
                 return true;
             }
         } else if (!this.isTamed() && stack.getItem() == BeastsItems.COCONUT_JUICE) {
-            if (!player.capabilities.isCreativeMode) stack.shrink(1);
+            if (!player.abilities.isCreativeMode) stack.shrink(1);
             if (!this.world.isRemote) {
                 if (this.rand.nextInt(3) == 0 && !ForgeEventFactory.onAnimalTame(this, player)) {
                     this.setTamedBy(player);
@@ -297,8 +297,8 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
     }
 
     @Override
-    public void onLivingUpdate() {
-        super.onLivingUpdate();
+    public void livingTick() {
+        super.livingTick();
         if (world.isRemote) {
             if (animationTicks > 0 && animationTicks < 180) animationTicks += 5;
             else animationTicks = 0;
@@ -314,7 +314,7 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
                 else {
                     this.getNavigator().tryMoveToMobEntity(target, 2);
                     if (getDistanceSq(target) < 3) {
-                        this.target.setDead();
+                        this.target.remove();
                         this.dataManager.set(COCONUT, true);
                     }
                 }
@@ -374,7 +374,7 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
         return 0.4F;
     }
 
-    public EntityLandwhale createChild(EntityAgeable ageable) {
+    public EntityLandwhale createChild(AgeableEntity ageable) {
         return BeastsEntities.LANDWHALE.create(this.world);
     }
 

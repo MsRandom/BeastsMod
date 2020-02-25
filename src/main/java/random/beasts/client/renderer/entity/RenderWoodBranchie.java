@@ -2,6 +2,7 @@ package random.beasts.client.renderer.entity;
 
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.util.ResourceLocation;
+import random.beasts.common.BeastsMod;
 import random.beasts.common.entity.monster.EntityWoodBranchie;
 
 import java.util.HashMap;
@@ -15,6 +16,6 @@ public class RenderWoodBranchie extends RenderBranchieBase<EntityWoodBranchie> {
     }
 
     protected ResourceLocation getEntityTexture(EntityWoodBranchie entity) {
-        return TEXTURES.putIfAbsent(entity.getVariant().getName(), new ResourceLocation(BeastsMod.MOD_ID, "textures/entity/branchie/wood/" + entity.getVariant().getName() + ".png"));
+        return TEXTURES.putIfAbsent(entity.getVariant(), new ResourceLocation(BeastsMod.MOD_ID, "textures/entity/branchie/wood/" + entity.getVariant() + ".png"));
     }
 }

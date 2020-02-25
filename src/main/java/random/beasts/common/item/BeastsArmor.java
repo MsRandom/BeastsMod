@@ -6,7 +6,8 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ArmorStandEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ArmorItem;
-import net.minecraft.item.ArmorMaterial;
+import net.minecraft.item.IArmorMaterial;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -17,9 +18,13 @@ import javax.annotation.Nullable;
 
 public class BeastsArmor extends ArmorItem {
 
-    public BeastsArmor(String name, ArmorMaterial material, EquipmentSlotType armorType) {
-        super(material, 0, armorType);
+    public BeastsArmor(Item.Properties properties, String name, IArmorMaterial material, EquipmentSlotType armorType) {
+        super(material, armorType, properties);
         BeastsUtils.addToRegistry(this, name);
+    }
+
+    public BeastsArmor(String name, IArmorMaterial material, EquipmentSlotType armorType) {
+        this(new Item.Properties().group(BeastsUtils.getRegistryTab()), name, material, armorType);
     }
 
     @OnlyIn(Dist.CLIENT)

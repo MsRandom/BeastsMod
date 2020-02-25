@@ -1,8 +1,8 @@
 package random.beasts.common.world.gen.feature;
 
 import net.minecraft.block.BlockLeaves;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
@@ -20,8 +20,8 @@ public class WorldGenPalmTrees extends WorldGenAbstractTree {
     @Override
     public boolean generate(World world, Random rand, BlockPos position) {
         if (world.getBlockState(position.down()).getBlock() == Blocks.SAND) {
-            IBlockState log = BeastsBlocks.PALM_LOG.getDefaultState();
-            IBlockState leaves = BeastsBlocks.PALM_LEAVES.getDefaultState().withProperty(BlockLeaves.CHECK_DECAY, true).withProperty(BlockLeaves.DECAYABLE, true);
+            BlockState log = BeastsBlocks.PALM_LOG.getDefaultState();
+            BlockState leaves = BeastsBlocks.PALM_LEAVES.getDefaultState().withProperty(BlockLeaves.CHECK_DECAY, true).withProperty(BlockLeaves.DECAYABLE, true);
             int height = rand.nextInt(4) + 7;
             int radius = rand.nextInt(2) + 2;
             if (radius % 2 == 0) radius += 1;
@@ -70,7 +70,7 @@ public class WorldGenPalmTrees extends WorldGenAbstractTree {
                                 EntityCoconutCrab crab = BeastsEntities.COCONUT_CRAB.create(world);
                                 crab.setLocationAndAngles(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0, 0);
                                 crab.onInitialSpawn(world.getDifficultyForLocation(pos), null);
-                                world.spawnEntity(crab);
+                                world.addEntity(crab);
                             } else world.setBlockState(pos, BeastsBlocks.COCONUT.getDefaultState());
                         }
                     }

@@ -1,14 +1,13 @@
 package random.beasts.common.entity.passive;
 
-import net.minecraft.entity.EntityAgeable;
+import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIMate;
-import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAITarget;
 import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.ai.SwimGoal;
+import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.datasync.DataParameter;
@@ -16,6 +15,7 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 import random.beasts.api.entity.IShellEntity;
@@ -27,19 +27,19 @@ import random.beasts.common.init.BeastsEntities;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class EntityHermitTurtle extends EntityAnimal implements IShellEntity {
+public class EntityHermitTurtle extends AnimalEntity implements IShellEntity {
     private static final DataParameter<Boolean> OUT = EntityDataManager.createKey(EntityHermitTurtle.class, DataSerializers.BOOLEAN);
     public int exitTicks = 25;
 
-    public EntityHermitTurtle(World worldIn) {
-        super(worldIn);
+    public EntityHermitTurtle(EntityType<? extends EntityHermitTurtle> type, World worldIn) {
+        super(type, worldIn);
         this.goalSelector.addGoal(0, new EntityAIWander(this, 0.2, 200) {
             @Override
             public boolean shouldExecute() {
                 return isOut() && super.shouldExecute();
             }
         });
-        this.goalSelector.addGoal(1, new EntityAISwimming(this));
+        this.goalSelector.addGoal(1, new SwimGoal(this));
         this.goalSelector.addGoal(1, new EntityAIMate(this, 1.0D));
     }
 
@@ -76,17 +76,17 @@ public class EntityHermitTurtle extends EntityAnimal implements IShellEntity {
 
     @Nullable
     @Override
-    public EntityAgeable createChild(EntityAgeable ageable) {
+    public AgeableEntity createChild(AgeableEntity ageable) {
         return BeastsEntities.HERMIT_TURTLE.create(this.world);
     }
 
     @Override
-    protected void entityInit() {
-        super.entityInit();
+    protected void registerData() {
+        super.registerData();
         this.dataManager.register(OUT, false);
     }
 
-    protected void initEntityAI() {
+    protected void registerGoals() {
         this.goalSelector.addGoal(0, new AIHide(this, false));
     }
 
@@ -114,10 +114,10 @@ public class EntityHermitTurtle extends EntityAnimal implements IShellEntity {
     }
 
     @Override
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.1F);
-        getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(12);
+    protected void registerAttributes() {
+        super.registerAttributes();
+        getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.1F);
+        getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(12);
     }
 
     static class AIHide extends EntityAITarget {

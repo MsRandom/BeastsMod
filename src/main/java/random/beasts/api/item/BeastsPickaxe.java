@@ -1,18 +1,20 @@
 package random.beasts.api.item;
 
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemPickaxe;
+import net.minecraft.item.IItemTier;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.PickaxeItem;
 import random.beasts.api.main.BeastsUtils;
 
 import javax.annotation.Nullable;
 
-public class BeastsPickaxe extends ItemPickaxe {
+public class BeastsPickaxe extends PickaxeItem {
 
     private BeastsToolSet kit;
 
-    public BeastsPickaxe(ToolMaterial material, String name, @Nullable BeastsToolSet kit) {
-        super(material);
+    public BeastsPickaxe(IItemTier material, String name, @Nullable BeastsToolSet kit) {
+        super(material, 1, -2.8F, new Item.Properties().group(BeastsUtils.getRegistryTab()));
         this.kit = kit;
         BeastsUtils.addToRegistry(this, name);
     }

@@ -1,30 +1,27 @@
 package random.beasts.common.entity.passive;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityAgeable;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.passive.EntityTameable;
+import net.minecraft.entity.*;
+import net.minecraft.entity.ai.goal.FollowOwnerGoal;
+import net.minecraft.entity.ai.goal.SitGoal;
+import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.item.EnumDyeColor;
+import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -36,7 +33,7 @@ import random.beasts.common.init.BeastsItems;
 import javax.annotation.Nonnull;
 import java.util.UUID;
 
-public class EntityPufferfishDog extends EntityTameable {
+public class EntityPufferfishDog extends TameableEntity {
     private final DamageSource deathSource = new PufferfishDamage(this);
     private static final DataParameter<Integer> COLLAR_COLOR = EntityDataManager.createKey(EntityPufferfishDog.class, DataSerializers.VARINT);
     private static final DataParameter<Float> THREAT_TIME = EntityDataManager.createKey(EntityPufferfishDog.class, DataSerializers.FLOAT);
@@ -44,18 +41,18 @@ public class EntityPufferfishDog extends EntityTameable {
     private BlockPos jukeboxPosition;
     private boolean partyPufferfishDog;
 
-    public EntityPufferfishDog(World worldIn) {
-        super(worldIn);
+    public EntityPufferfishDog(EntityType<? extends EntityPufferfishDog> type, World worldIn) {
+        super(type, worldIn);
     }
 
     @Override
-    protected void initEntityAI() {
-        super.initEntityAI();
-        this.aiSit = new EntityAISit(this);
-        this.goalSelector.addGoal(2, aiSit);
+    protected void registerGoals() {
+        super.registerGoals();
+        this.sitGoal = new SitGoal(this);
+        this.goalSelector.addGoal(2, sitGoal);
         this.goalSelector.addGoal(2, new EntityAIMate(this, 1.0D));
-        this.goalSelector.addGoal(2, new EntityAISwimming(this));
-        this.goalSelector.addGoal(2, new EntityAIFollowOwner(this, 0.5, 2f, 5f) {
+        this.goalSelector.addGoal(2, new SwimGoal(this));
+        this.goalSelector.addGoal(2, new FollowOwnerGoal(this, 0.5, 2f, 5f) {
             @Override
             public boolean shouldExecute() {
                 return !isInflated() && super.shouldExecute();
@@ -74,7 +71,7 @@ public class EntityPufferfishDog extends EntityTameable {
     }
 
     @Override
-    public EntityAgeable createChild(@Nonnull EntityAgeable ageable) {
+    public AgeableEntity createChild(@Nonnull AgeableEntity ageable) {
         EntityPufferfishDog child = BeastsEntities.PUFFERFISH_DOG.create(world);
         UUID uuid = this.getOwnerId();
         if (uuid != null) {
@@ -90,15 +87,15 @@ public class EntityPufferfishDog extends EntityTameable {
     }
 
     @Override
-    public void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(16.0);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.4);
+    protected void registerAttributes() {
+        super.registerAttributes();
+        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(16.0);
+        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.4);
     }
 
     @Override
-    protected void entityInit() {
-        super.entityInit();
+    protected void registerData() {
+        super.registerData();
         this.dataManager.register(COLLAR_COLOR, EnumDyeColor.RED.getDyeDamage());
         this.dataManager.register(THREAT_TIME, 0.0f);
     }
@@ -108,15 +105,15 @@ public class EntityPufferfishDog extends EntityTameable {
     }
 
     @Override
-    public void writeEntityToNBT(CompoundNBT compound) {
-        super.writeEntityToNBT(compound);
+    public void writeAdditional(CompoundNBT compound) {
+        super.writeAdditional(compound);
         compound.putInt("collarColor", this.getCollarColor().getDyeDamage());
         compound.putBoolean("sitting", this.isSitting());
     }
 
     @Override
-    public void readEntityFromNBT(CompoundNBT compound) {
-        super.readEntityFromNBT(compound);
+    public void readAdditional(CompoundNBT compound) {
+        super.readAdditional(compound);
         this.setCollarColor(EnumDyeColor.byDyeDamage(compound.getInt("collarColor")));
         this.setSitting(compound.getBoolean("sitting"));
     }
@@ -138,7 +135,7 @@ public class EntityPufferfishDog extends EntityTameable {
     }
 
     @Override
-    public void onLivingUpdate() {
+    public void livingTick() {
         if (this.jukeboxPosition == null || this.jukeboxPosition.distanceSq(this.posX, this.posY, this.posZ) > 12.0D || this.world.getBlockState(this.jukeboxPosition).getBlock() != Blocks.JUKEBOX) {
             this.partyPufferfishDog = false;
             this.jukeboxPosition = null;
@@ -153,22 +150,22 @@ public class EntityPufferfishDog extends EntityTameable {
                     else motionY += 0.25 / bounces++;
                 } else motionY -= 0.01;
                 if (getThreatTime() > 140) setInflated(false);
-                for (Entity entity : this.world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().grow(1)))
+                for (Entity entity : this.world.getEntitiesWithinAABBExcludingEntity(this, this.getBoundingBox().grow(1)))
                     if (entity != this.getOwner()) entity.attackEntityFrom(deathSource, 1.0F);
             } else bounces = 0;
         }
-        super.onLivingUpdate();
+        super.livingTick();
     }
 
     @Override
-    public boolean processInteract(PlayerEntity player, @Nonnull EnumHand hand) {
+    public boolean processInteract(PlayerEntity player, @Nonnull Hand hand) {
         ItemStack stack = player.getHeldItem(hand);
         if (this.isTamed()) {
             if (!stack.isEmpty() && stack.getItem() == Items.DYE) {
                 EnumDyeColor color = EnumDyeColor.byDyeDamage(stack.getMetadata());
                 if (color != this.getCollarColor()) {
                     this.setCollarColor(color);
-                    if (!player.capabilities.isCreativeMode) stack.shrink(1);
+                    if (!player.abilities.isCreativeMode) stack.shrink(1);
                     return true;
                 }
             }
@@ -179,7 +176,7 @@ public class EntityPufferfishDog extends EntityTameable {
                 return true;
             }
         } else if (stack.getItem() == BeastsItems.LEAFY_BONE) {
-            if (!player.capabilities.isCreativeMode) stack.shrink(1);
+            if (!player.abilities.isCreativeMode) stack.shrink(1);
             if (this.rand.nextInt(3) == 0 && !ForgeEventFactory.onAnimalTame(this, player)) {
                 this.isJumping = false;
                 this.navigator.clearPath();
@@ -209,7 +206,7 @@ public class EntityPufferfishDog extends EntityTameable {
     }
 
     @Override
-    public boolean canMateWith(@Nonnull EntityAnimal animal) {
+    public boolean canMateWith(@Nonnull AnimalEntity animal) {
         if (animal == this || !this.isTamed() || !(animal instanceof EntityPufferfishDog)) {
             return false;
         } else {
@@ -235,12 +232,12 @@ public class EntityPufferfishDog extends EntityTameable {
         return this.partyPufferfishDog;
     }
 
-    public EnumDyeColor getCollarColor() {
-        return EnumDyeColor.byDyeDamage(this.dataManager.get(COLLAR_COLOR) & 15);
+    public DyeColor getCollarColor() {
+        return DyeColor.byId(this.dataManager.get(COLLAR_COLOR) & 15);
     }
 
-    private void setCollarColor(EnumDyeColor color) {
-        this.dataManager.set(COLLAR_COLOR, color.getDyeDamage());
+    private void setCollarColor(DyeColor color) {
+        this.dataManager.set(COLLAR_COLOR, color.getId());
     }
 
     private float getThreatTime() {
@@ -260,7 +257,7 @@ public class EntityPufferfishDog extends EntityTameable {
         setSitting(false);
         setNoGravity(inflated);
         setThreatTime(inflated ? 1 : 0);
-        motionY += inflated ? 0.5 : 0;
+        if (inflated) setMotion(getMotion().add(0, 0.5, 0));
     }
 
     private static class PufferfishDamage extends EntityDamageSource {
@@ -274,7 +271,7 @@ public class EntityPufferfishDog extends EntityTameable {
             String s = "death.attack." + this.damageType;
             String s1 = s + ".player";
             assert damageSourceEntity != null;
-            return entitylivingbase != null && I18n.hasKey(s1) ? new TextComponentTranslation(s1, entityLivingBaseIn.getDisplayName(), damageSourceEntity.getDisplayName(), entitylivingbase.getDisplayName()) : new TextComponentTranslation(s, entityLivingBaseIn.getDisplayName(), damageSourceEntity.getDisplayName());
+            return entitylivingbase != null ? new TranslationTextComponent(s1, entityLivingBaseIn.getDisplayName(), damageSourceEntity.getDisplayName(), entitylivingbase.getDisplayName()) : new TranslationTextComponent(s, entityLivingBaseIn.getDisplayName(), damageSourceEntity.getDisplayName());
         }
     }
 }

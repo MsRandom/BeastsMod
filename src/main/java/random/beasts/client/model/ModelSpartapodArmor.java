@@ -1,11 +1,11 @@
 package random.beasts.client.model;
 
-import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityArmorStand;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.item.ArmorStandEntity;
 
-public class ModelSpartapodArmor extends ModelBiped {
+public class ModelSpartapodArmor extends BipedModel<LivingEntity> {
 
     public RendererModel helmetBase;
     public RendererModel headFin;
@@ -29,9 +29,9 @@ public class ModelSpartapodArmor extends ModelBiped {
         this.bipedHead.addChild(this.helmetBase);
     }
 
-    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
-        if (entityIn instanceof EntityArmorStand) {
-            EntityArmorStand e = (EntityArmorStand) entityIn;
+    public void setRotationAngles(LivingEntity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
+        if (entityIn instanceof ArmorStandEntity) {
+            ArmorStandEntity e = (ArmorStandEntity) entityIn;
             this.bipedHead.rotateAngleX = (float) Math.toRadians(e.getHeadRotation().getX());
             this.bipedHead.rotateAngleY = (float) Math.toRadians(e.getHeadRotation().getY());
             this.bipedHead.rotateAngleZ = (float) Math.toRadians(e.getHeadRotation().getZ());
@@ -55,7 +55,7 @@ public class ModelSpartapodArmor extends ModelBiped {
             this.bipedRightLeg.setRotationPoint(-1.9F, 11.0F, 0.0F);
             copyModelAngles(this.bipedHead, this.bipedHeadwear);
         } else {
-            super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
+            super.setRotationAngles(entityIn, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, limbSwing);
         }
     }
     

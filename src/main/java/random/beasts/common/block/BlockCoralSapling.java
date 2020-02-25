@@ -1,9 +1,9 @@
 package random.beasts.common.block;
 
-import net.minecraft.block.material.MapColor;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
@@ -26,12 +26,12 @@ public class BlockCoralSapling extends BeastsSapling {
     }
 
     @Override
-    public int damageDropped(IBlockState state) {
+    public int damageDropped(BlockState state) {
         return state.getValue(TYPE).ordinal();
     }
 
     @Override
-    protected void generateTree(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+    protected void generateTree(World worldIn, BlockPos pos, BlockState state, Random rand) {
         BeastsBlocks.CORAL_PLANTS.get(state.getValue(TYPE)).generatePlant(worldIn, pos, rand);
     }
 
@@ -41,15 +41,15 @@ public class BlockCoralSapling extends BeastsSapling {
     }
 
     @Override
-    public MapColor getMapColor(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+    public MaterialColor getMaterialColor(BlockState state, IBlockAccess worldIn, BlockPos pos) {
         return state.getValue(TYPE).mapColor;
     }
 
-    public IBlockState getStateFromMeta(int meta) {
+    public BlockState getStateFromMeta(int meta) {
         return this.getDefaultState().withProperty(TYPE, CoralColor.values()[meta & 7]).withProperty(STAGE, (meta & 8) >> 3);
     }
 
-    public int getMetaFromState(IBlockState state) {
+    public int getMetaFromState(BlockState state) {
         int i = 0;
         i = i | state.getValue(TYPE).ordinal();
         i = i | state.getValue(STAGE) << 3;

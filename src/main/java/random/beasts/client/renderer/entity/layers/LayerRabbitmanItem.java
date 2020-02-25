@@ -1,4 +1,4 @@
-package random.beasts.client.renderer.entity.layers;
+/*package random.beasts.client.renderer.entity.layers;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -10,7 +10,7 @@ public class LayerRabbitmanItem implements LayerRenderer<EntityRabbitman> {
 
 
     @Override
-    public void doRenderLayer(EntityRabbitman entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+    public void render(EntityRabbitman entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
         if (entity.getVariant() == 5 && !entity.hasTarget) {
             GlStateManager.pushMatrix();
             if (entity.isSneaking()) GlStateManager.translate(0.0F, 0.2F, 0.0F);
@@ -30,3 +30,4 @@ public class LayerRabbitmanItem implements LayerRenderer<EntityRabbitman> {
         return false;
     }
 }
+*/

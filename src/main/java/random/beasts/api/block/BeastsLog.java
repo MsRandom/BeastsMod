@@ -1,8 +1,8 @@
 package random.beasts.api.block;
 
 import net.minecraft.block.BlockLog;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
 import random.beasts.api.main.BeastsUtils;
 
 public class BeastsLog extends BlockLog {
@@ -12,8 +12,8 @@ public class BeastsLog extends BlockLog {
         BeastsUtils.addToRegistry(this, name);
     }
 
-    public IBlockState getStateFromMeta(int meta) {
-        IBlockState iblockstate = this.getDefaultState();
+    public BlockState getStateFromMeta(int meta) {
+        BlockState iblockstate = this.getDefaultState();
 
         switch (meta & 12) {
             case 0:
@@ -33,7 +33,7 @@ public class BeastsLog extends BlockLog {
     }
 
     @SuppressWarnings("incomplete-switch")
-    public int getMetaFromState(IBlockState state) {
+    public int getMetaFromState(BlockState state) {
         int i = 0;
         switch (state.getValue(LOG_AXIS)) {
             case X:

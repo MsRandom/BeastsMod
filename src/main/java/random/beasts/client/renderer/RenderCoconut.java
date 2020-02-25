@@ -24,16 +24,16 @@ public class RenderCoconut {
         GlStateManager.scale(-1.0F, -1.0F, 1.0F);
         GlStateManager.translate(-0.501F, -1.401F, 0.501F);
         //GlStateManager.enableAlpha();
-        //GlStateManager.setActiveTexture(OpenGlHelper.lightmapTexUnit);
-        //GlStateManager.setActiveTexture(OpenGlHelper.defaultTexUnit);
+        //GlStateManager.setActiveTexture(GLX.GL_TEXTURE1);
+        //GlStateManager.setActiveTexture(GLX.defaultTexUnit);
         MODEL.render(null, 0, 0, -1, 0, 0, 0.0625F);
         if (renderOutlines) {
             GlStateManager.disableOutlineMode();
             if (outline != -1) GlStateManager.disableColorMaterial();
         }
         //GlStateManager.disableRescaleNormal();
-        //GlStateManager.setActiveTexture(OpenGlHelper.lightmapTexUnit);
-        //GlStateManager.setActiveTexture(OpenGlHelper.defaultTexUnit);
+        //GlStateManager.setActiveTexture(GLX.GL_TEXTURE1);
+        //GlStateManager.setActiveTexture(GLX.defaultTexUnit);
         //GlStateManager.enableCull();
         GlStateManager.enableLighting();
         GlStateManager.popMatrix();

@@ -5,11 +5,12 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
 import random.beasts.client.model.ModelFireflySquid;
 import random.beasts.client.renderer.entity.layers.LayerFireflySquidSpots;
+import random.beasts.common.BeastsMod;
 import random.beasts.common.entity.passive.EntityFireflySquid;
 
 import javax.annotation.Nullable;
 
-public class RenderFireflySquid extends MobRenderer<EntityFireflySquid> {
+public class RenderFireflySquid extends MobRenderer<EntityFireflySquid, ModelFireflySquid> {
 
     private static final ResourceLocation[] TEXTURES = new ResourceLocation[4];
 

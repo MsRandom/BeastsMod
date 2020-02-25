@@ -1,21 +1,21 @@
 package random.beasts.common.block;
 
-import net.minecraft.block.material.MapColor;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.util.IStringSerializable;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
 
 public enum CoralColor implements IStringSerializable {
-    BLUE(MapColor.BLUE),
-    PINK(MapColor.PINK),
-    PURPLE(MapColor.PURPLE),
-    RED(MapColor.RED),
-    YELLOW(MapColor.YELLOW);
+    BLUE(MaterialColor.BLUE),
+    PINK(MaterialColor.PINK),
+    PURPLE(MaterialColor.PURPLE),
+    RED(MaterialColor.RED),
+    YELLOW(MaterialColor.YELLOW);
 
-    public MapColor mapColor;
+    public MaterialColor mapColor;
 
-    CoralColor(MapColor color) {
+    CoralColor(MaterialColor color) {
         this.mapColor = color;
     }
 

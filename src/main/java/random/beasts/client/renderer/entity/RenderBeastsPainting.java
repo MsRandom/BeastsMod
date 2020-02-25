@@ -1,11 +1,11 @@
 package random.beasts.client.renderer.entity;
 
 import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.GLX;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
-public class RenderBeastsPainting extends Render<EntityBeastsPainting> {
+public class RenderBeastsPainting extends EntityRenderer<EntityBeastsPainting> {
     private static final Map<EntityBeastsPainting.BeastsPainting, ResourceLocation> TEXTURES = new HashMap<>();
 
     public RenderBeastsPainting(EntityRendererManager renderManagerIn) {
@@ -115,7 +115,7 @@ public class RenderBeastsPainting extends Render<EntityBeastsPainting> {
         int l = this.renderManager.world.getCombinedLight(new BlockPos(i, j, k), 0);
         int i1 = l % 65536;
         int j1 = l / 65536;
-        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) i1, (float) j1);
+        GLX.glMultiTexCoord2f(GLX.GL_TEXTURE1, (float) i1, (float) j1);
         GlStateManager.color(1.0F, 1.0F, 1.0F);
     }
 }

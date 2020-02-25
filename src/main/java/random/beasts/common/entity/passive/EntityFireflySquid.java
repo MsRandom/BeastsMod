@@ -1,12 +1,12 @@
 package random.beasts.common.entity.passive;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.IMobEntityData;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.EntityFlying;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
@@ -21,20 +21,20 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
-public class EntityFireflySquid extends EntityAnimal implements EntityFlying {
+public class EntityFireflySquid extends AnimalEntity implements EntityFlying {
 
     private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityFireflySquid.class, DataSerializers.VARINT);
-	private BlockPos spawnPosition;
-	private int stopped;
+    private BlockPos spawnPosition;
+    private int stopped;
 
-    public EntityFireflySquid(World worldIn) {
-        super(worldIn);
+    public EntityFireflySquid(EntityType<? extends EntityFireflySquid> type, World worldIn) {
+        super(type, worldIn);
         setNoGravity(true);
     }
 
     @Override
-    protected void entityInit() {
-        super.entityInit();
+    protected void registerData() {
+        super.registerData();
         this.dataManager.register(VARIANT, 0);
     }
 
@@ -64,12 +64,12 @@ public class EntityFireflySquid extends EntityAnimal implements EntityFlying {
     }
 
     @Override
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
+    protected void registerAttributes() {
+        super.registerAttributes();
         this.getAttributeMap().registerAttribute(SharedMonsterAttributes.FLYING_SPEED);
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(8d);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3d);
-        this.getEntityAttribute(SharedMonsterAttributes.FLYING_SPEED).setBaseValue(0.04d);
+        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(8d);
+        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3d);
+        this.getAttribute(SharedMonsterAttributes.FLYING_SPEED).setBaseValue(0.04d);
     }
 
 	protected void updateAITasks() {
@@ -97,26 +97,26 @@ public class EntityFireflySquid extends EntityAnimal implements EntityFlying {
 		this.moveForward = 0.5F;
 		this.rotationYaw += f1;
 
-		if (this.world.handleMaterialAcceleration(
-				this.getEntityBoundingBox().grow(0.0D, -4.0D, 0.0D).shrink(0.001D), Material.WATER, this)) {
-			this.motionY = 0.1F;
-		}
-	}
+        if (this.world.handleMaterialAcceleration(
+                this.getBoundingBox().grow(0.0D, -4.0D, 0.0D).shrink(0.001D), Material.WATER, this)) {
+            this.motionY = 0.1F;
+        }
+    }
 
-	protected boolean canTriggerWalking() {
-		return false;
-	}
+    protected boolean canTriggerWalking() {
+        return false;
+    }
 
-	protected void updateFallState(double y, boolean onGroundIn, IBlockState state, BlockPos pos) {
-	}
+    protected void updateFallState(double y, boolean onGroundIn, BlockState state, BlockPos pos) {
+    }
 
-	public boolean doesEntityNotTriggerPressurePlate() {
-		return true;
-	}
-    
-	public boolean canBePushed() {
-		return false;
-	}
+    public boolean doesEntityNotTriggerPressurePlate() {
+        return true;
+    }
+
+    public boolean canBePushed() {
+        return false;
+    }
 
 	protected void collideWithEntity(Entity entityIn) {
 	}
@@ -134,19 +134,19 @@ public class EntityFireflySquid extends EntityAnimal implements EntityFlying {
     }
 
     @Override
-    public void writeEntityToNBT(CompoundNBT compound) {
-        super.writeEntityToNBT(compound);
+    public void writeAdditional(CompoundNBT compound) {
+        super.writeAdditional(compound);
         compound.putInt("variant", this.getVariant());
     }
 
     @Override
-    public void readEntityFromNBT(CompoundNBT compound) {
-        super.readEntityFromNBT(compound);
+    public void readAdditional(CompoundNBT compound) {
+        super.readAdditional(compound);
         this.setVariant(compound.getInt("variant"));
     }
-    
+
     @Override
-    public EntityAgeable createChild(EntityAgeable ageable) {
-    	return new EntityFireflySquid(ageable.world);
+    public AgeableEntity createChild(AgeableEntity ageable) {
+        return new EntityFireflySquid(ageable.world);
     }
 }

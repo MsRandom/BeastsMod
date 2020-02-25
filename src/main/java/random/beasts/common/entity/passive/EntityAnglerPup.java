@@ -1,19 +1,19 @@
 package random.beasts.common.entity.passive;
 
-import net.minecraft.entity.EntityAgeable;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.passive.EntityTameable;
+import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -23,7 +23,7 @@ import random.beasts.common.init.BeastsItems;
 
 import javax.annotation.Nonnull;
 
-public class EntityAnglerPup extends EntityTameable {
+public class EntityAnglerPup extends TameableEntity {
 
     private static final DataParameter<Integer> COLLAR_COLOR = EntityDataManager.createKey(EntityAnglerPup.class, DataSerializers.VARINT);
     private static final DataParameter<Float> THREAT_TIME = EntityDataManager.createKey(EntityAnglerPup.class, DataSerializers.FLOAT);
@@ -32,17 +32,17 @@ public class EntityAnglerPup extends EntityTameable {
     private boolean partyPufferfishDog;
 
     public EntityAnglerPup(World worldIn) {
-		super(worldIn);
-	}
+        super(worldIn);
+    }
 
     @Override
-    protected void initEntityAI() {
-        super.initEntityAI();
-        this.aiSit = new EntityAISit(this);
-        this.goalSelector.addGoal(2, aiSit);
+    protected void registerGoals() {
+        super.registerGoals();
+        this.sitGoal = new SitGoal(this);
+        this.goalSelector.addGoal(2, sitGoal);
         this.goalSelector.addGoal(2, new EntityAIMate(this, 1.0D));
-        this.goalSelector.addGoal(2, new EntityAISwimming(this));
-        this.goalSelector.addGoal(2, new EntityAIFollowOwner(this, 0.5, 2f, 5f));
+        this.goalSelector.addGoal(2, new SwimGoal(this));
+        this.goalSelector.addGoal(2, new FollowOwnerGoal(this, 0.5, 2f, 5f));
         this.goalSelector.addGoal(2, new EntityAIWander(this, 0.5, 50) {
             @Override
             public boolean shouldExecute() {
@@ -51,41 +51,41 @@ public class EntityAnglerPup extends EntityTameable {
         });
     }
 
-	@Override
-	public EntityAgeable createChild(EntityAgeable ageable) {
-		return null;
-	}
-	
-	@Override
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(8d);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.4);
+    @Override
+    public AgeableEntity createChild(AgeableEntity ageable) {
+        return null;
     }
 
     @Override
-    protected void entityInit() {
-        super.entityInit();
+    protected void registerAttributes() {
+        super.registerAttributes();
+        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(8d);
+        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.4);
+    }
+
+    @Override
+    protected void registerData() {
+        super.registerData();
         this.dataManager.register(COLLAR_COLOR, EnumDyeColor.RED.getDyeDamage());
         this.dataManager.register(THREAT_TIME, 0.0f);
     }
 
     @Override
-    public void writeEntityToNBT(CompoundNBT compound) {
-        super.writeEntityToNBT(compound);
+    public void writeAdditional(CompoundNBT compound) {
+        super.writeAdditional(compound);
         compound.putInt("collarColor", this.getCollarColor().getDyeDamage());
         compound.putBoolean("sitting", this.isSitting());
     }
 
     @Override
-    public void readEntityFromNBT(CompoundNBT compound) {
-        super.readEntityFromNBT(compound);
+    public void readAdditional(CompoundNBT compound) {
+        super.readAdditional(compound);
         this.setCollarColor(EnumDyeColor.byDyeDamage(compound.getInt("collarColor")));
         this.setSitting(compound.getBoolean("sitting"));
     }
 
     @Override
-    public void onLivingUpdate() {
+    public void livingTick() {
 
         if (this.jukeboxPosition == null || this.jukeboxPosition.distanceSq(this.posX, this.posY, this.posZ) > 12.0D || this.world.getBlockState(this.jukeboxPosition).getBlock() != Blocks.JUKEBOX) {
             this.partyPufferfishDog = false;
@@ -95,18 +95,18 @@ public class EntityAnglerPup extends EntityTameable {
         if (!world.isRemote) {
             if (isInWater()) this.setAir(300);
         }
-        super.onLivingUpdate();
+        super.livingTick();
     }
 
     @Override
-    public boolean processInteract(PlayerEntity player, @Nonnull EnumHand hand) {
+    public boolean processInteract(PlayerEntity player, @Nonnull Hand hand) {
         ItemStack stack = player.getHeldItem(hand);
         if (this.isTamed()) {
             if (!stack.isEmpty() && stack.getItem() == Items.DYE) {
                 EnumDyeColor color = EnumDyeColor.byDyeDamage(stack.getMetadata());
                 if (color != this.getCollarColor()) {
                     this.setCollarColor(color);
-                    if (!player.capabilities.isCreativeMode) stack.shrink(1);
+                    if (!player.abilities.isCreativeMode) stack.shrink(1);
                     return true;
                 }
             }
@@ -117,7 +117,7 @@ public class EntityAnglerPup extends EntityTameable {
                 return true;
             }
         } else if (stack.getItem() == BeastsItems.LEAFY_BONE) {
-            if (!player.capabilities.isCreativeMode) stack.shrink(1);
+            if (!player.abilities.isCreativeMode) stack.shrink(1);
             if (this.rand.nextInt(3) == 0 && !ForgeEventFactory.onAnimalTame(this, player)) {
                 this.isJumping = false;
                 this.navigator.clearPath();
@@ -136,9 +136,9 @@ public class EntityAnglerPup extends EntityTameable {
         }
         return super.processInteract(player, hand);
     }
-    
+
     @Override
-    public boolean canMateWith(@Nonnull EntityAnimal animal) {
+    public boolean canMateWith(@Nonnull AnimalEntity animal) {
         if (animal == this || !this.isTamed() || !(animal instanceof EntityPufferfishDog)) {
             return false;
         } else {

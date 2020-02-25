@@ -2,15 +2,10 @@ package random.beasts.client.model;
 
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.MathHelper;
+import random.beasts.common.entity.monster.EntityAnglerQueen;
 
-/**
- * ModelAnglerQueen - Coda
- * Created using Tabula 7.1.0
- */
-public class ModelAnglerQueen extends EntityModel {
+public class ModelAnglerQueen extends EntityModel<EntityAnglerQueen> {
     public RendererModel body;
     public RendererModel hips;
     public RendererModel armRight;
@@ -82,7 +77,7 @@ public class ModelAnglerQueen extends EntityModel {
     }
 
     @Override
-    public void setLivingAnimations(LivingEntity entitylivingbaseIn, float f, float f1, float partialTickTime) {
+    public void setLivingAnimations(EntityAnglerQueen entitylivingbaseIn, float f, float f1, float partialTickTime) {
         float speed = 1.0f;
         float degree = 1.0f;
         this.hips.rotateAngleY = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * 0.4F) * f1 * 0.5F;
@@ -99,13 +94,10 @@ public class ModelAnglerQueen extends EntityModel {
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
+    public void render(EntityAnglerQueen entity, float f, float f1, float f2, float f3, float f4, float f5) {
         this.body.render(f5);
     }
 
-    /**
-     * This is a helper function from Tabula to set the rotation of model parts
-     */
     public void setRotateAngle(RendererModel modelRenderer, float x, float y, float z) {
         modelRenderer.rotateAngleX = x;
         modelRenderer.rotateAngleY = y;

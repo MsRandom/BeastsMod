@@ -5,10 +5,11 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import net.minecraft.advancements.ICriterionTrigger;
 import net.minecraft.advancements.PlayerAdvancements;
-import net.minecraft.advancements.critereon.AbstractCriterionInstance;
-import net.minecraft.entity.player.PlayerEntityMP;
+import net.minecraft.advancements.criterion.CriterionInstance;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import random.beasts.api.main.BeastsRegistries;
+import random.beasts.common.BeastsMod;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -60,12 +61,12 @@ public class BeastsTrigger implements ICriterionTrigger<BeastsTrigger.Instance> 
         return new Instance(getId());
     }
 
-    public void trigger(PlayerEntityMP parPlayer) {
+    public void trigger(ServerPlayerEntity parPlayer) {
         Listeners listeners = this.listeners.get(parPlayer.getAdvancements());
         if (listeners != null) listeners.triggerAll(parPlayer);
     }
 
-    public static class Instance extends AbstractCriterionInstance {
+    public static class Instance extends CriterionInstance {
         public Instance(ResourceLocation parRL) {
             super(parRL);
         }
@@ -91,7 +92,7 @@ public class BeastsTrigger implements ICriterionTrigger<BeastsTrigger.Instance> 
             listeners.remove(listener);
         }
 
-        public void triggerAll(PlayerEntityMP player) {
+        public void triggerAll(ServerPlayerEntity player) {
             for (Listener<BeastsTrigger.Instance> listener : listeners) trigger(listener);
         }
 

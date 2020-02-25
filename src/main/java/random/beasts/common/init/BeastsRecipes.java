@@ -1,4 +1,4 @@
-package random.beasts.common.init;
+/*package random.beasts.common.init;
 
 import net.minecraft.item.crafting.IRecipe;
 
@@ -10,3 +10,4 @@ public class BeastsRecipes {
 
     //public static final IRecipe COCONUT_JUICE = new RecipeCoconutJuice();
 }
+*/

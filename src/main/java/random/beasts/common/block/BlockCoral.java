@@ -1,11 +1,11 @@
 package random.beasts.common.block;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
-import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
@@ -32,17 +32,17 @@ public class BlockCoral extends BeastsBlock {
     }
 
     @Override
-    public int getMetaFromState(IBlockState state) {
+    public int getMetaFromState(BlockState state) {
         return state.getValue(COLOR).ordinal();
     }
 
     @Override
-    public IBlockState getStateFromMeta(int meta) {
+    public BlockState getStateFromMeta(int meta) {
         return getDefaultState().withProperty(COLOR, CoralColor.values()[meta]);
     }
 
     @Override
-    public int damageDropped(IBlockState state) {
+    public int damageDropped(BlockState state) {
         return state.getValue(COLOR).ordinal();
     }
 
@@ -52,7 +52,7 @@ public class BlockCoral extends BeastsBlock {
     }
 
     @Override
-    public MapColor getMapColor(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+    public MaterialColor getMaterialColor(BlockState state, IBlockAccess worldIn, BlockPos pos) {
         return state.getValue(COLOR).mapColor;
     }
 }

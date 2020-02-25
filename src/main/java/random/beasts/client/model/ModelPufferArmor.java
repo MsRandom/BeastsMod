@@ -5,7 +5,7 @@ import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ArmorStandEntity;
 
-public class ModelPufferArmor<T extends LivingEntity> extends BipedModel<T> {
+public class ModelPufferArmor extends BipedModel<LivingEntity> {
     public RendererModel right;
     public RendererModel strap;
     public RendererModel spikes;
@@ -254,7 +254,7 @@ public class ModelPufferArmor<T extends LivingEntity> extends BipedModel<T> {
     }*/
 
     @Override
-    public void setRotationAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
+    public void setRotationAngles(LivingEntity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
         if (entityIn instanceof ArmorStandEntity) return;
         super.setRotationAngles(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
     }

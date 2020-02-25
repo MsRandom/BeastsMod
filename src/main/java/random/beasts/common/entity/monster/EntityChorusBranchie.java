@@ -1,7 +1,7 @@
 package random.beasts.common.entity.monster;
 
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -12,8 +12,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class EntityChorusBranchie extends EntityBranchieBase {
-    public EntityChorusBranchie(World worldIn) {
-        super(worldIn);
+    public EntityChorusBranchie(EntityType<? extends EntityChorusBranchie> type, World worldIn) {
+        super(type, worldIn);
     }
 
     public static EntityChorusBranchie create(BlockEvent.BreakEvent event) {

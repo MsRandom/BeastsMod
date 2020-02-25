@@ -18,6 +18,9 @@ public class BeastsMod {
     private static final String PROTOCOL_VERSION = "1";
     public static final SimpleChannel NETWORK_CHANNEL = NetworkRegistry.newSimpleChannel(new ResourceLocation(MOD_ID, "main"), () -> PROTOCOL_VERSION, PROTOCOL_VERSION::equals, PROTOCOL_VERSION::equals);
 
+    public BeastsMod() {
+    }
+
     @EventHandler
     public static void init(FMLInitializationEvent event) {
         proxy.init();

@@ -2,11 +2,11 @@ package random.beasts.common.init;
 
 import com.google.common.base.CaseFormat;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.util.Tuple;
@@ -39,7 +39,7 @@ public class BeastsEntities {
     public static final EntityType<EntityCoconutCrab> COCONUT_CRAB = create(EntityCoconutCrab::new, EntityCoconutCrab.class, EntityClassification.CREATURE, 0.5f, 0.4f, 0x3C1C11, 0xA16745, new SpawnEntry(30, 2, 4, BeastsBiomes.DRIED_REEF));
     public static final EntityType<EntityCoralBranchie> CORAL_BRANCHIE = createBranchie(EntityCoralBranchie::new, EntityCoralBranchie.class, 0xEDEC4C, 0xD6549B, BeastsBlocks.CORAL_PLANTS.values(), new Tuple<>(2, EntityCoralBranchie::create));
     public static final EntityType<EntityChorusBranchie> CHORUS_BRANCHIE = createBranchie(EntityChorusBranchie::new, EntityChorusBranchie.class, 0x401A40, 0xEED6EE, Collections.singletonList(Blocks.CHORUS_PLANT), new Tuple<>(2, EntityChorusBranchie::create));
-    public static final EntityType<EntityWoodBranchie> WOOD_BRANCHIE = createBranchie(EntityWoodBranchie::new, EntityWoodBranchie.class, 0x745A36, 0x57AD3F, Arrays.asList(Blocks.LOG, Blocks.LOG2), new Tuple<>(6, EntityWoodBranchie::create));
+    public static final EntityType<EntityWoodBranchie> WOOD_BRANCHIE = createBranchie(EntityWoodBranchie::new, EntityWoodBranchie.class, 0x745A36, 0x57AD3F, EntityWoodBranchie.BLOCKS, new Tuple<>(6, EntityWoodBranchie::create));
     public static final EntityType<EntityVileEel> VILE_EEL = create(EntityVileEel::new, EntityVileEel.class, EntityClassification.AMBIENT, 1.5F, 1.8F, 0x313337, 0x987CAF, new SpawnEntry(40, 1, 1, BeastsBiomes.DRIED_REEF));
     public static final EntityType<EntityLandwhale> LANDWHALE = create(EntityLandwhale::new, EntityLandwhale.class, EntityClassification.CREATURE, 1.8F, 2.0F, 0x587377, 0xE25AA5, new SpawnEntry(30, 1, 1, BeastsBiomes.DRIED_REEF));
     public static final EntityType<EntityGiantGardenEel> GIANT_GARDEN_EEL = create(EntityGiantGardenEel::new, EntityGiantGardenEel.class, EntityClassification.CREATURE, 0.5f, 2.7f, 0xCECEAF, 0x7A745E, new SpawnEntry(30, 4, 8, BeastsBiomes.DRIED_REEF));

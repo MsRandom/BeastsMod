@@ -1,11 +1,14 @@
 package random.beasts.common.entity.item;
 
-import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityHanging;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.item.HangingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.IPacket;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.play.server.SSpawnObjectPacket;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -13,19 +16,20 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
+import random.beasts.common.init.BeastsEntities;
 import random.beasts.common.init.BeastsItems;
 
 import java.util.ArrayList;
 
-public class EntityBeastsPainting extends EntityHanging implements IEntityAdditionalSpawnData {
+public class EntityBeastsPainting extends HangingEntity implements IEntityAdditionalSpawnData {
     public BeastsPainting art;
 
-    public EntityBeastsPainting(World worldIn) {
-        super(worldIn);
+    public EntityBeastsPainting(EntityType<? extends EntityBeastsPainting> type, World worldIn) {
+        super(type, worldIn);
     }
 
     public EntityBeastsPainting(World worldIn, BlockPos pos, Direction side) {
-        super(worldIn, pos);
+        super(BeastsEntities.BEASTS_PAINTING, worldIn, pos);
         ArrayList<BeastsPainting> arraylist = new ArrayList<>();
         BeastsPainting[] aenumart = BeastsPainting.values();
 
@@ -63,17 +67,18 @@ public class EntityBeastsPainting extends EntityHanging implements IEntityAdditi
         return new ItemStack(BeastsItems.BEASTS_PAINTING, 1);
     }
 
-    public void writeEntityToNBT(CompoundNBT tagCompound) {
-        tagCompound.setString("Motive", this.art.title);
-        super.writeEntityToNBT(tagCompound);
+
+    public void writeAdditional(CompoundNBT tagCompound) {
+        tagCompound.putString("Motive", this.art.title);
+        super.writeAdditional(tagCompound);
     }
 
-    public void readEntityFromNBT(CompoundNBT tagCompund) {
+    public void readAdditional(CompoundNBT tagCompund) {
         String s = tagCompund.getString("Motive");
         BeastsPainting[] aenumart = BeastsPainting.values();
         for (BeastsPainting enumart : aenumart) if (enumart.title.equals(s)) this.art = enumart;
         if (this.art == null) this.art = BeastsPainting.WHALE;
-        super.readEntityFromNBT(tagCompund);
+        super.readAdditional(tagCompund);
     }
 
     public int getWidthPixels() {
@@ -87,7 +92,7 @@ public class EntityBeastsPainting extends EntityHanging implements IEntityAdditi
     public void onBroken(Entity entity) {
         if (entity instanceof PlayerEntity) {
             PlayerEntity entityplayer = (PlayerEntity) entity;
-            if (entityplayer.capabilities.isCreativeMode) return;
+            if (entityplayer.abilities.isCreativeMode) return;
         }
 
         this.entityDropItem(new ItemStack(BeastsItems.BEASTS_PAINTING), 0.0F);
@@ -106,9 +111,13 @@ public class EntityBeastsPainting extends EntityHanging implements IEntityAdditi
     }
 
     @Override
-    public void writeSpawnData(ByteBuf buffer) {
-        buffer.writeInt(this.art.ordinal());
+    public IPacket<?> createSpawnPacket() {
+        return new SSpawnObjectPacket(this);
+    }
 
+    @Override
+    public void writeSpawnData(PacketBuffer buffer) {
+        buffer.writeInt(this.art.ordinal());
         buffer.writeInt(this.hangingPosition.getX());
         buffer.writeInt(this.hangingPosition.getY());
         buffer.writeInt(this.hangingPosition.getZ());
@@ -116,14 +125,14 @@ public class EntityBeastsPainting extends EntityHanging implements IEntityAdditi
     }
 
     @Override
-    public void readSpawnData(ByteBuf buffer) {
+    public void readSpawnData(PacketBuffer buffer) {
         BeastsPainting[] aenumart = BeastsPainting.values();
         this.art = aenumart[buffer.readInt()];
         int x = buffer.readInt();
         int y = buffer.readInt();
         int z = buffer.readInt();
         this.hangingPosition = new BlockPos(x, y, z);
-        this.updateFacingWithBoundingBox(Direction.getFront((buffer.readByte())));
+        this.updateFacingWithBoundingBox(Direction.byIndex((buffer.readByte())));
     }
 
     @Override

@@ -18,9 +18,9 @@ import java.util.Objects;
 
 public class BeastsGuiHandler implements IGuiHandler {
     private static int lastId = 0;
-    private static final List<BeastsGuiScreen> LIST = new ArrayList<>();
-    public static final BeastsGuiScreen GUI_LANDWHALE = new BeastsGuiScreen((player, world, x, y, z) -> new ContainerLandwhaleInventory((EntityLandwhale) Objects.requireNonNull(world.getEntityByID(x)), player), (player, world, x, y, z) -> new GuiLandwhaleInventory((EntityLandwhale) world.getEntityByID(x), player));
-    public static final BeastsGuiScreen GUI_TRIMOLA = new BeastsGuiScreen((player, world, x, y, z) -> new ContainerTrimolaInventory((EntityTrimola) Objects.requireNonNull(world.getEntityByID(x)), player), (player, world, x, y, z) -> new GuiTrimolaInventory((EntityTrimola) world.getEntityByID(x), player));
+    public static final BeastsScreen GUI_LANDWHALE = new BeastsScreen((player, world, x, y, z) -> new ContainerLandwhaleInventory((EntityLandwhale) Objects.requireNonNull(world.getEntityByID(x)), player), (player, world, x, y, z) -> new GuiLandwhaleInventory((EntityLandwhale) world.getEntityByID(x), player));
+    public static final BeastsScreen GUI_TRIMOLA = new BeastsScreen((player, world, x, y, z) -> new ContainerTrimolaInventory((EntityTrimola) Objects.requireNonNull(world.getEntityByID(x)), player), (player, world, x, y, z) -> new GuiTrimolaInventory((EntityTrimola) world.getEntityByID(x), player));
+    private static final List<BeastsScreen> LIST = new ArrayList<>();
 
     public static void init() {
         NetworkRegistry.INSTANCE.registerGuiHandler(BeastsMod.instance, new BeastsGuiHandler());
@@ -28,13 +28,13 @@ public class BeastsGuiHandler implements IGuiHandler {
 
     @Override
     public Object getServerGuiElement(int ID, PlayerEntity player, World world, int x, int y, int z) {
-        BeastsGuiScreen screen = LIST.get(ID);
+        BeastsScreen screen = LIST.get(ID);
         return screen == null ? null : screen.serverGetter.apply(player, world, x, y, z);
     }
 
     @Override
     public Object getClientGuiElement(int ID, PlayerEntity player, World world, int x, int y, int z) {
-        BeastsGuiScreen screen = LIST.get(ID);
+        BeastsScreen screen = LIST.get(ID);
         return screen == null ? null : screen.clientGetter.apply(player, world, x, y, z);
     }
 
@@ -43,16 +43,16 @@ public class BeastsGuiHandler implements IGuiHandler {
         Object apply(PlayerEntity player, World world, int x, int y, int z);
     }
 
-    public static class BeastsGuiScreen {
+    public static class BeastsScreen {
         private final SidedElementGetter serverGetter;
         private final SidedElementGetter clientGetter;
         private final int id;
 
-        BeastsGuiScreen(SidedElementGetter server, SidedElementGetter client) {
+        BeastsScreen(SidedElementGetter server, SidedElementGetter client) {
             this(server, client, lastId++);
         }
 
-        private BeastsGuiScreen(SidedElementGetter server, SidedElementGetter client, int id) {
+        private BeastsScreen(SidedElementGetter server, SidedElementGetter client, int id) {
             this.serverGetter = server;
             this.clientGetter = client;
             this.id = id;

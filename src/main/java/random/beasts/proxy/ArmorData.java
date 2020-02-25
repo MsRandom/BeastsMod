@@ -21,7 +21,7 @@ class ArmorData {
         MODELS.set(EquipmentSlotType.HEAD, BeastsItems.SPARTAPOD_HELMET, new ModelSpartapodArmor());
         MODELS.set(EquipmentSlotType.HEAD, BeastsItems.HERMIT_HELM, new ModelHermitHelm());
 
-        BipedModel<LivingEntity> pufferModel = new ModelPufferArmor<>();
+        BipedModel<LivingEntity> pufferModel = new ModelPufferArmor();
 
         MODELS.set(EquipmentSlotType.FEET, BeastsItems.PUFFER_BOOTS, pufferModel);
         MODELS.set(EquipmentSlotType.LEGS, BeastsItems.PUFFER_LEGS, pufferModel);

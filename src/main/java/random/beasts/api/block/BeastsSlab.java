@@ -1,11 +1,11 @@
 package random.beasts.api.block;
 
 import net.minecraft.block.BlockSlab;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemSlab;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
@@ -47,14 +47,14 @@ public class BeastsSlab {
             this.full = full;
         }
 
-        public IBlockState getStateFromMeta(int meta) {
-            IBlockState iblockstate = this.getDefaultState().withProperty(VARIANT, FakeVariant.DEFAULT);
+        public BlockState getStateFromMeta(int meta) {
+            BlockState iblockstate = this.getDefaultState().withProperty(VARIANT, FakeVariant.DEFAULT);
             if (!this.isDouble())
                 iblockstate = iblockstate.withProperty(HALF, (meta & 8) == 0 ? BlockSlab.EnumBlockHalf.BOTTOM : BlockSlab.EnumBlockHalf.TOP);
             return iblockstate;
         }
 
-        public int getMetaFromState(IBlockState state) {
+        public int getMetaFromState(BlockState state) {
             int i = 0;
             if (!this.isDouble() && state.getValue(HALF) == BlockSlab.EnumBlockHalf.TOP) i |= 8;
             return i;

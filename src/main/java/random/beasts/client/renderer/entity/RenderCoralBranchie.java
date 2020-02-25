@@ -2,6 +2,7 @@ package random.beasts.client.renderer.entity;
 
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.util.ResourceLocation;
+import random.beasts.common.BeastsMod;
 import random.beasts.common.entity.monster.EntityCoralBranchie;
 
 import java.util.HashMap;

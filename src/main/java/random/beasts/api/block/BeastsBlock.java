@@ -1,8 +1,8 @@
 package random.beasts.api.block;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import random.beasts.api.main.BeastsUtils;
@@ -18,15 +18,15 @@ public class BeastsBlock extends Block {
         this(materialIn, name, ItemBlock::new);
     }
 
-    public BeastsBlock(Material materialIn, MapColor color, String name) {
+    public BeastsBlock(Material materialIn, MaterialColor color, String name) {
         this(materialIn, color, name, ItemBlock::new);
     }
 
     public BeastsBlock(Material materialIn, String name, @Nullable Function<Block, Item> item) {
-        this(materialIn, materialIn.getMaterialMapColor(), name, item);
+        this(materialIn, materialIn.getMaterialMaterialColor(), name, item);
     }
 
-    public BeastsBlock(Material materialIn, MapColor color, String name, @Nullable Function<Block, Item> item) {
+    public BeastsBlock(Material materialIn, MaterialColor color, String name, @Nullable Function<Block, Item> item) {
         super(materialIn, color);
         register(name, item);
     }

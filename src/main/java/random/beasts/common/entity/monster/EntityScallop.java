@@ -27,8 +27,8 @@ public class EntityScallop extends MonsterEntity implements EntityFlying {
     private int targetBlocks;
     private double blocksFlew;
 
-    public EntityScallop(World worldIn) {
-        super(worldIn);
+    public EntityScallop(EntityType<? extends EntityScallop> type, World worldIn) {
+        super(type, worldIn);
         setNoGravity(true);
     }
 
@@ -50,9 +50,9 @@ public class EntityScallop extends MonsterEntity implements EntityFlying {
     }
 
     @Override
-    public void onLivingUpdate() {
-        super.onLivingUpdate();
-        int speed = MathHelper.floor(4 / getEntityAttribute(SharedMonsterAttributes.FLYING_SPEED).getAttributeValue());
+    public void livingTick() {
+        super.livingTick();
+        int speed = MathHelper.floor(4 / getAttribute(SharedMonsterAttributes.FLYING_SPEED).getAttributeValue());
         int worldHeight = world.getHeight((int) (posX + 0.5), (int) (posZ + 0.5));
         if (getAttackTarget() == null) {
             Runnable targetSetter = () -> {
@@ -74,7 +74,7 @@ public class EntityScallop extends MonsterEntity implements EntityFlying {
             if (Math.abs(targetBlocks - blocksFlew) < 3) targetSetter.run();
             this.getLookHelper().setLookPosition(posX + (posX - prevPosX), 0, posZ + (posZ - prevPosZ), 0, 0);
 
-            Optional<PlayerEntity> player = world.playerEntities.stream().filter(p -> !p.capabilities.isCreativeMode && !p.isSpectator() && world.getBiome(p.getPosition()) == BeastsBiomes.DRIED_REEF && getDistanceSq(p) <= 1280).reduce((p1, p2) -> {
+            Optional<PlayerEntity> player = world.getPlayers().stream().filter(p -> !p.abilities.isCreativeMode && !p.isSpectator() && world.getBiome(p.getPosition()) == BeastsBiomes.DRIED_REEF && getDistanceSq(p) <= 1280).reduce((p1, p2) -> {
                 if (getDistanceSq(p1) > getDistanceSq(p2)) return p2;
                 return p1;
             });
@@ -84,7 +84,7 @@ public class EntityScallop extends MonsterEntity implements EntityFlying {
             if (getAttackTarget() instanceof PlayerEntity) {
                 PlayerEntity player = (PlayerEntity) getAttackTarget();
                 boolean dead = player.isDead;
-                if (player.capabilities.isCreativeMode || player.isSpectator() || dead) {
+                if (player.abilities.isCreativeMode || player.isSpectator() || dead) {
                     if (dead) {
                         preferredAltitude = -1;
                         preferredRotation = -1;
@@ -111,13 +111,13 @@ public class EntityScallop extends MonsterEntity implements EntityFlying {
     }
 
     @Override
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
+    protected void registerAttributes() {
+        super.registerAttributes();
         this.getAttributeMap().registerAttribute(SharedMonsterAttributes.FLYING_SPEED);
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(8);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3);
-        this.getEntityAttribute(SharedMonsterAttributes.FLYING_SPEED).setBaseValue(0.16);
-        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1);
+        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(8);
+        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3);
+        this.getAttribute(SharedMonsterAttributes.FLYING_SPEED).setBaseValue(0.16);
+        this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1);
     }
 
     @Override

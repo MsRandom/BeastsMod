@@ -1,15 +1,15 @@
 package random.beasts.common.block;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.Direction;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Hand;
 import net.minecraft.util.Tuple;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -31,12 +31,12 @@ public class BlockAnemoneMouth extends BeastsAnemoneBlock {
     }
 
     @Override
-    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+    public Item getItemDropped(BlockState state, Random rand, int fortune) {
         return Items.AIR;
     }
 
     @Override
-    protected ItemStack getSilkTouchDrop(IBlockState state) {
+    protected ItemStack getSilkTouchDrop(BlockState state) {
         return new ItemStack(this);
     }
 
@@ -46,16 +46,16 @@ public class BlockAnemoneMouth extends BeastsAnemoneBlock {
     }
 
     @Override
-    public int getMetaFromState(IBlockState state) {
+    public int getMetaFromState(BlockState state) {
         return 0;
     }
 
     @Override
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, PlayerEntity playerIn, EnumHand hand, Direction facing, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(World worldIn, BlockPos pos, BlockState state, PlayerEntity playerIn, Hand hand, Direction facing, float hitX, float hitY, float hitZ) {
         ItemStack stack = playerIn.getHeldItem(hand);
         if (stack.getItem() == BeastsItems.MEAT_SCRAPES) {
-            if (!playerIn.capabilities.isCreativeMode) stack.shrink(1);
-            IBlockState newState = state.cycleProperty(FED);
+            if (!playerIn.abilities.isCreativeMode) stack.shrink(1);
+            BlockState newState = state.cycleProperty(FED);
             int fed = newState.getValue(FED);
             if (fed == 0 || (fed > 3 && playerIn.getRNG().nextBoolean())) {
                 if (dropTable == null) {

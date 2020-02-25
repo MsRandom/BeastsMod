@@ -1,18 +1,20 @@
 package random.beasts.api.item;
 
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemAxe;
+import net.minecraft.item.AxeItem;
+import net.minecraft.item.IItemTier;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import random.beasts.api.main.BeastsUtils;
 
 import javax.annotation.Nullable;
 
-public class BeastsAxe extends ItemAxe {
+public class BeastsAxe extends AxeItem {
 
     private BeastsToolSet kit;
 
-    public BeastsAxe(ToolMaterial material, String name, @Nullable BeastsToolSet kit) {
-        super(material);
+    public BeastsAxe(IItemTier material, String name, @Nullable BeastsToolSet kit) {
+        super(material, 8.0F, 3.2F, new Item.Properties().group(BeastsUtils.getRegistryTab()));
         this.kit = kit;
         BeastsUtils.addToRegistry(this, name);
     }

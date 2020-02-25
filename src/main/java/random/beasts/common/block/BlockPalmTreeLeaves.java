@@ -1,13 +1,13 @@
 package random.beasts.common.block;
 
 import net.minecraft.block.BlockPlanks;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.stats.StatList;
+import net.minecraft.item.Items;
+import net.minecraft.stats.Stats;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
@@ -29,24 +29,24 @@ public class BlockPalmTreeLeaves extends BeastsLeaves {
     }
 
     @Override
-    public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+    public void updateTick(World worldIn, BlockPos pos, BlockState state, Random rand) {
         super.updateTick(worldIn, pos, state, rand);
-        if (rand.nextInt(200) == 0) worldIn.spawnEntity(new EntityFallingCoconut(worldIn, pos));
+        if (rand.nextInt(200) == 0) worldIn.addEntity(new EntityFallingCoconut(worldIn, pos));
     }
 
-    protected int getSaplingDropChance(IBlockState state) {
+    protected int getSaplingDropChance(BlockState state) {
         return 40;
     }
 
-    protected ItemStack getSilkTouchDrop(IBlockState state) {
+    protected ItemStack getSilkTouchDrop(BlockState state) {
         return new ItemStack(this);
     }
 
-    public IBlockState getStateFromMeta(int meta) {
+    public BlockState getStateFromMeta(int meta) {
         return this.getDefaultState().withProperty(DECAYABLE, (meta & 4) == 0).withProperty(CHECK_DECAY, (meta & 8) > 0);
     }
 
-    public int getMetaFromState(IBlockState state) {
+    public int getMetaFromState(BlockState state) {
         int i = 0;
         if (!state.getValue(DECAYABLE)) i |= 4;
         if (state.getValue(CHECK_DECAY)) i |= 8;
@@ -54,7 +54,7 @@ public class BlockPalmTreeLeaves extends BeastsLeaves {
     }
 
     @Override
-    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+    public Item getItemDropped(BlockState state, Random rand, int fortune) {
         return Item.getItemFromBlock(BeastsBlocks.PALM_SAPLING);
     }
 
@@ -62,12 +62,12 @@ public class BlockPalmTreeLeaves extends BeastsLeaves {
         return new BlockStateContainer(this, CHECK_DECAY, DECAYABLE);
     }
 
-    public int damageDropped(IBlockState state) {
+    public int damageDropped(BlockState state) {
         return 0;
     }
 
-    public void harvestBlock(World worldIn, PlayerEntity player, BlockPos pos, IBlockState state, @Nullable TileEntity te, ItemStack stack) {
-        if (!worldIn.isRemote && stack.getItem() == Items.SHEARS) player.addStat(StatList.getBlockStats(this));
+    public void harvestBlock(World worldIn, PlayerEntity player, BlockPos pos, BlockState state, @Nullable TileEntity te, ItemStack stack) {
+        if (!worldIn.isRemote && stack.getItem() == Items.SHEARS) player.addStat(Stats.getBlockStats(this));
         else super.harvestBlock(worldIn, player, pos, state, te, stack);
     }
 

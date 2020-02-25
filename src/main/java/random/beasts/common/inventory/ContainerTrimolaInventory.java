@@ -1,19 +1,20 @@
 package random.beasts.common.inventory;
 
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.init.Items;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.Slot;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import random.beasts.common.entity.monster.EntityTrimola;
 
 public class ContainerTrimolaInventory extends Container {
     private EntityTrimola trimola;
 
-    public ContainerTrimolaInventory(EntityTrimola trimola, PlayerEntity player) {
+    public ContainerTrimolaInventory(int id, EntityTrimola trimola, PlayerEntity player) {
+        super(null, id);
         this.trimola = trimola;
         trimola.inventory.openInventory(player);
-        this.addSlotToContainer(new Slot(trimola.inventory, 0, 54, 18) {
+        this.addSlot(new Slot(trimola.inventory, 0, 54, 18) {
             public boolean isItemValid(ItemStack stack) {
                 return stack.getItem() == Items.SADDLE && !this.getHasStack() && trimola.getSaddle().isEmpty();
             }
@@ -24,8 +25,8 @@ public class ContainerTrimolaInventory extends Container {
         });
         for (int i1 = 0; i1 < 3; ++i1)
             for (int k1 = 0; k1 < 9; ++k1)
-                this.addSlotToContainer(new Slot(player.inventory, k1 + i1 * 9 + 9, 8 + k1 * 18, 102 + i1 * 18 + -18));
-        for (int j1 = 0; j1 < 9; ++j1) this.addSlotToContainer(new Slot(player.inventory, j1, 8 + j1 * 18, 142));
+                this.addSlot(new Slot(player.inventory, k1 + i1 * 9 + 9, 8 + k1 * 18, 102 + i1 * 18 + -18));
+        for (int j1 = 0; j1 < 9; ++j1) this.addSlot(new Slot(player.inventory, j1, 8 + j1 * 18, 142));
     }
 
     public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {

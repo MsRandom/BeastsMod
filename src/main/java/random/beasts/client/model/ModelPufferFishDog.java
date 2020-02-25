@@ -10,7 +10,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import random.beasts.common.entity.passive.EntityPufferfishDog;
 
-public class ModelPufferFishDog extends EntityModel {
+public class ModelPufferFishDog extends EntityModel<EntityPufferfishDog> {
     public RendererModel body;
     public RendererModel body_1;
     public RendererModel leftArm;

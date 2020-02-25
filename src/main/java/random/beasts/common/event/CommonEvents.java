@@ -1,17 +1,17 @@
 package random.beasts.common.event;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.ai.EntityAITargetNonTamed;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.ai.goal.NonTamedTargetGoal;
 import net.minecraft.entity.passive.OcelotEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.init.Items;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemShield;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
+import net.minecraft.item.Items;
+import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.storage.loot.LootPool;
 import net.minecraftforge.event.ForgeEventFactory;
@@ -39,7 +39,7 @@ public class CommonEvents {
         if (event.getEntity() instanceof OcelotEntity) {
             final OcelotEntity ocelot = (OcelotEntity) event.getEntity();
             if (ocelot != null) {
-                ocelot.goalSelector.addGoal(1, new EntityAITargetNonTamed<>(ocelot, EntityPufferfishDog.class, false, target -> target != null && target.getDistance(ocelot) < 32.0));
+                ocelot.goalSelector.addGoal(1, new NonTamedTargetGoal<>(ocelot, EntityPufferfishDog.class, false, target -> target != null && target.getDistance(ocelot) < 32.0));
                 //ocelot.goalSelector.addGoal(1, new EntityAITargetNonTamed<>(ocelot, EntityRabbitman.class, false, target -> target != null && target.getDistance(ocelot) < 32.0));
             }
         }/* else if (event.getEntity() instanceof WolfEntity) {
@@ -61,11 +61,11 @@ public class CommonEvents {
         Vec3d vec3b = vec3.addVector(vec3a.x * distance, vec3a.y * distance, vec3a.z * distance);
 
         Entity ee = null;
-        List<Entity> list = player.world.getEntitiesWithinAABBExcludingEntity(player, player.getEntityBoundingBox().grow(distance + 1));
+        List<Entity> list = player.world.getEntitiesWithinAABBExcludingEntity(player, player.getBoundingBox().grow(distance + 1));
         double d0 = 0.0D;
         for (Entity entity1 : list) {
             if (entity1 != player) {
-                AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().grow(0.30000001192092896D);
+                AxisAlignedBB axisalignedbb = entity1.getBoundingBox().grow(0.30000001192092896D);
                 RayTraceResult raytraceresult = axisalignedbb.calculateIntercept(vec3, vec3b);
                 if (raytraceresult != null) {
                     double d1 = vec3.squareDistanceTo(raytraceresult.hitVec);
@@ -76,7 +76,7 @@ public class CommonEvents {
                 }
             }
         }
-        if(ee instanceof EntityPufferfishDog) BeastsTriggers.DISCOVER_PUFFERFISH_DOG.trigger((PlayerEntityMP) player);
+        if(ee instanceof EntityPufferfishDog) BeastsTriggers.DISCOVER_PUFFERFISH_DOG.trigger((ServerPlayerEntity) player);
     }*/
 
     @SubscribeEvent
@@ -91,7 +91,7 @@ public class CommonEvents {
     @SubscribeEvent
     public static void breakBlock(BlockEvent.BreakEvent event) {
         Tuple<Integer, Function<BlockEvent.BreakEvent, ? extends BeastsBranchie>> createFunc = null;
-        IBlockState state = event.getState();
+        BlockState state = event.getState();
         Block block = state.getBlock();
         for (Collection<? extends Block> blocks : BeastsBranchie.TYPES.keySet()) {
             if (blocks.contains(block)) {
@@ -104,7 +104,7 @@ public class CommonEvents {
             if (entity != null) {
                 entity.scream();
                 entity.setAttackTarget(event.getPlayer());
-                event.getWorld().spawnEntity(entity);
+                event.getWorld().addEntity(entity);
             }
         }
     }
@@ -121,9 +121,9 @@ public class CommonEvents {
                     stack.damageItem(i, player);
                     if (stack.isEmpty() || stack.getItemDamage() >= stack.getMaxDamage()) {
                         if (stack.isEmpty()) {
-                            EnumHand hand = player.getActiveHand();
+                            Hand hand = player.getActiveHand();
                             ForgeEventFactory.onPlayerDestroyItem(player, stack, hand);
-                            if (hand == EnumHand.MAIN_HAND)
+                            if (hand == Hand.MAIN_HAND)
                                 player.setItemStackToSlot(EquipmentSlotType.MAINHAND, ItemStack.EMPTY);
                             else player.setItemStackToSlot(EquipmentSlotType.OFFHAND, ItemStack.EMPTY);
                         }
@@ -140,7 +140,7 @@ public class CommonEvents {
         /*if (event.crafting.getItem() == BeastsItems.COCONUT_JUICE) {
             for (AtomicInteger i = new AtomicInteger(); i.get() < event.craftMatrix.getSizeInventory(); i.getAndIncrement()) {
                 ItemStack stack = event.craftMatrix.getStackInSlot(i.get());
-                if (stack.getItem() instanceof ItemSword) {
+                if (stack.getItem() instanceof SwordItem) {
                     ItemStack item = stack.copy();
                     item.setItemDamage(stack.getItemDamage() + 1);
                     //yes.. threading for just a simple crafting recipe, and it doesn't even work!

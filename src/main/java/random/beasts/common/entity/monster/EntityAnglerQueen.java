@@ -1,22 +1,26 @@
 package random.beasts.common.entity.monster;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerEntityMP;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.*;
 import net.minecraft.world.BossInfo;
-import net.minecraft.world.BossInfoServer;
 import net.minecraft.world.EnumDifficulty;
+import net.minecraft.world.ServerBossInfo;
 import net.minecraft.world.World;
 import random.beasts.client.init.BeastsSounds;
 import random.beasts.common.entity.passive.EntityAnglerPup;
+
+import java.util.EnumSet;
 
 public class EntityAnglerQueen extends MonsterEntity {
     private static final DataParameter<Boolean> CHARGING_BEAM = EntityDataManager.createKey(EntityAnglerQueen.class, DataSerializers.BOOLEAN);
@@ -26,15 +30,15 @@ public class EntityAnglerQueen extends MonsterEntity {
     private static final DataParameter<Float> PREV_LASER_PITCH = EntityDataManager.createKey(EntityAnglerQueen.class, DataSerializers.FLOAT);
     private static final DataParameter<Float> PREV_LASER_YAW = EntityDataManager.createKey(EntityAnglerQueen.class, DataSerializers.FLOAT);
 
-    private final BossInfoServer bossInfo = (BossInfoServer) new BossInfoServer(getDisplayName(), BossInfo.Color.PURPLE, BossInfo.Overlay.PROGRESS).setCreateFog(true).setDarkenSky(true);
+    private final ServerBossInfo bossInfo = (ServerBossInfo) new ServerBossInfo(getDisplayName(), BossInfo.Color.PURPLE, BossInfo.Overlay.PROGRESS).setCreateFog(true).setDarkenSky(true);
 
-    public EntityAnglerQueen(World worldIn) {
-        super(worldIn);
+    public EntityAnglerQueen(EntityType<? extends EntityAnglerQueen> type, World worldIn) {
+        super(type, worldIn);
         this.experienceValue = 30;
     }
 
-    protected void initEntityAI() {
-        this.goalSelector.addGoal(1, new EntityAISwimming(this));
+    protected void registerGoals() {
+        this.goalSelector.addGoal(1, new SwimGoal(this));
         //this.goalSelector.addGoal(3, new EntityAnglerQueen.AIStompAttack(this));
         this.goalSelector.addGoal(4, new EntityAnglerQueen.AIMinionAttack(this));
         this.goalSelector.addGoal(5, new EntityAnglerQueen.AIBeamAttack(this));
@@ -43,17 +47,17 @@ public class EntityAnglerQueen extends MonsterEntity {
         this.goalSelector.addGoal(9, new EntityAIWander(this, 1.05d));
         this.goalSelector.addGoal(1, new EntityAINearestAttackableTarget<>(this, PlayerEntity.class, true));
     }
-	
-	protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(6.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.5D);
-        this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(16.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(200.0D);
+
+    protected void registerAttributes() {
+        super.registerAttributes();
+        this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(6.0D);
+        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.5D);
+        this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(16.0D);
+        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(200.0D);
     }
 
-    protected void entityInit() {
-        super.entityInit();
+    protected void registerData() {
+        super.registerData();
         this.dataManager.register(CHARGING_BEAM, false);
         this.dataManager.register(USING_BEAM, false);
         this.dataManager.register(LASER_PITCH, (float) 0);
@@ -117,13 +121,13 @@ public class EntityAnglerQueen extends MonsterEntity {
     }
 
     @Override
-    public void addTrackingPlayer(PlayerEntityMP player) {
+    public void addTrackingPlayer(ServerPlayerEntity player) {
         super.addTrackingPlayer(player);
         bossInfo.addPlayer(player);
     }
 
     @Override
-    public void removeTrackingPlayer(PlayerEntityMP player) {
+    public void removeTrackingPlayer(ServerPlayerEntity player) {
         super.removeTrackingPlayer(player);
         bossInfo.removePlayer(player);
     }
@@ -133,7 +137,7 @@ public class EntityAnglerQueen extends MonsterEntity {
         return false;
     }
 
-    static class AIBeamAttack extends EntityAIBase {
+    static class AIBeamAttack extends Goal {
         private final EntityAnglerQueen queen;
         private LivingEntity target;
         private int tickCounter;
@@ -142,14 +146,14 @@ public class EntityAnglerQueen extends MonsterEntity {
 
         public AIBeamAttack(EntityAnglerQueen queen) {
             this.queen = queen;
-            this.setMutexBits(3);
+            this.setMutexFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
         }
 
         public static boolean canSeeEntity(Vec3d observer, Entity subject) {
             if (observer == null || subject == null)
                 return false;
 
-            AxisAlignedBB axisalignedbb = subject.getEntityBoundingBox().grow(0.30000001192092896D);
+            AxisAlignedBB axisalignedbb = subject.getBoundingBox().grow(0.30000001192092896D);
             Vec3d subjectLocation = new Vec3d(subject.posX, subject.posY + subject.getEyeHeight(), subject.posZ);
             RayTraceResult traceToBlocks = subject.world.rayTraceBlocks(observer, subjectLocation, false, true, false);
             if (traceToBlocks != null)
@@ -160,7 +164,7 @@ public class EntityAnglerQueen extends MonsterEntity {
 
         public boolean shouldExecute() {
             target = this.queen.getAttackTarget();
-            return target != null && target.isEntityAlive() && queen.ticksExisted > cooldown;
+            return target != null && target.isAlive() && queen.ticksExisted > cooldown;
         }
 
         public boolean shouldContinueExecuting() {
@@ -224,8 +228,8 @@ public class EntityAnglerQueen extends MonsterEntity {
                     }
 
                     LivingEntity base = null;
-                    for (LivingEntity entity : queen.world.getEntitiesWithinAABB(LivingEntity.class, queen.getEntityBoundingBox().grow(30))) {
-                        AxisAlignedBB axisalignedbb = entity.getEntityBoundingBox().grow(0.30000001192092896D);
+                    for (LivingEntity entity : queen.world.getEntitiesWithinAABB(LivingEntity.class, queen.getBoundingBox().grow(30))) {
+                        AxisAlignedBB axisalignedbb = entity.getBoundingBox().grow(0.30000001192092896D);
                         RayTraceResult traceToEntity = axisalignedbb.calculateIntercept(lureVec, hitVec);
                         if (traceToEntity != null && canSeeEntity(lureVec, entity) && entity != queen && (base == null || queen.getDistance(entity) < queen.getDistance(base)))
                             base = entity;
@@ -233,7 +237,7 @@ public class EntityAnglerQueen extends MonsterEntity {
 
                     if (base != null) {
                         base.attackEntityFrom(DamageSource.causeIndirectMagicDamage(this.queen, this.queen), f);
-                        base.attackEntityFrom(DamageSource.causeMobDamage(this.queen), (float) this.queen.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue());
+                        base.attackEntityFrom(DamageSource.causeMobDamage(this.queen), (float) this.queen.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue());
                     }
 
                     if (this.queen.ticksExisted % 15 == 0)
@@ -260,7 +264,7 @@ public class EntityAnglerQueen extends MonsterEntity {
         }
     }
 
-    static class AIMinionAttack extends EntityAIBase {
+    static class AIMinionAttack extends Goal {
         private final EntityAnglerQueen queen;
         private LivingEntity target;
         private int tickCounter;
@@ -269,12 +273,12 @@ public class EntityAnglerQueen extends MonsterEntity {
 
         public AIMinionAttack(EntityAnglerQueen queen) {
             this.queen = queen;
-            this.setMutexBits(3);
+            this.setMutexFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
         }
 
         public boolean shouldExecute() {
             target = this.queen.getAttackTarget();
-            return target != null && target.isEntityAlive() && queen.ticksExisted > cooldown;
+            return target != null && target.isAlive() && queen.ticksExisted > cooldown;
         }
 
         public boolean shouldContinueExecuting() {
@@ -302,7 +306,7 @@ public class EntityAnglerQueen extends MonsterEntity {
                     EntityAnglerPup entity = new EntityAnglerPup(queen.world);
                     entity.setPosition(blockpos.getX() + 0.5d, blockpos.getY(), blockpos.getZ() + 0.5d);
                     entity.setAttackTarget(queen.getAttackTarget());
-                    if (!queen.world.isRemote) queen.world.spawnEntity(entity);
+                    if (!queen.world.isRemote) queen.world.addEntity(entity);
                 }
             }
         }

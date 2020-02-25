@@ -1,9 +1,10 @@
 package random.beasts.client.model;
 
-import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
+import net.minecraft.entity.LivingEntity;
 
-public class ModelHermitHelm extends ModelBiped {
+public class ModelHermitHelm extends BipedModel<LivingEntity> {
     public RendererModel shell1;
     public RendererModel shell2;
     public RendererModel shell3;

@@ -1,25 +1,25 @@
 package random.beasts.common.entity.monster;
 
-import net.minecraft.entity.EntityAgeable;
+import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.world.World;
 
-public class EntityIsopod extends EntityAnimal {
+public class EntityIsopod extends AnimalEntity {
 
-	public EntityIsopod(World worldIn) {
-		super(worldIn);
-	}
+    public EntityIsopod(World worldIn) {
+        super(worldIn);
+    }
 
-	@Override
-	public EntityAgeable createChild(EntityAgeable ageable) {
-		return null;
-	}
-	
-	@Override
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(8d);
+    @Override
+    public AgeableEntity createChild(AgeableEntity ageable) {
+        return null;
+    }
+
+    @Override
+    protected void registerAttributes() {
+        super.registerAttributes();
+        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(8d);
     }
 
 }

@@ -1,21 +1,21 @@
 package random.beasts.common.item;
 
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.init.MobEffects;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.item.ItemTier;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import random.beasts.api.item.BeastsToolSet;
 
 public class ToolSetJellyWood extends BeastsToolSet {
     public ToolSetJellyWood() {
-        super(Item.ToolMaterial.WOOD, "jelly");
+        super(ItemTier.WOOD, "jelly");
     }
 
     @Override
     protected boolean damageEntity(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        if (!target.isPotionActive(MobEffects.POISON)) {
-            PotionEffect effect = new PotionEffect(MobEffects.POISON, 100);
+        if (!target.isPotionActive(Effects.POISON)) {
+            EffectInstance effect = new EffectInstance(Effects.POISON, 100);
             if (target.isPotionApplicable(effect)) target.addPotionEffect(effect);
             return true;
         }

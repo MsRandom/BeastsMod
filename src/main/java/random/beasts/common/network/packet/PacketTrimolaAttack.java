@@ -30,12 +30,12 @@ public class PacketTrimolaAttack implements IMessage {
     @Nullable
     public static Entity findEntityOnPath(Entity e, float distance, Vec3d start, Vec3d end, Predicate<? super Entity> entityPredicate) {
         Entity entity = null;
-        List<Entity> list = e.world.getEntitiesInAABBexcluding(e, e.getEntityBoundingBox().expand(distance, distance, distance).grow(1.0D), entityPredicate::test);
+        List<Entity> list = e.world.getEntitiesInAABBexcluding(e, e.getBoundingBox().expand(distance, distance, distance).grow(1.0D), entityPredicate::test);
         double d0 = 0.0D;
 
         for (Entity entity1 : list) {
             if (entity1 != e) {
-                AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().grow(1.20000001192092896D);
+                AxisAlignedBB axisalignedbb = entity1.getBoundingBox().grow(1.20000001192092896D);
                 RayTraceResult raytraceresult = axisalignedbb.calculateIntercept(start, end);
 
                 if (raytraceresult != null) {

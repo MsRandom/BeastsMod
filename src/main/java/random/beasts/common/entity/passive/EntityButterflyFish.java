@@ -1,12 +1,12 @@
 package random.beasts.common.entity.passive;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.IMobEntityData;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
@@ -18,7 +18,7 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import random.beasts.common.init.BeastsItems;
 
-public class EntityButterflyFish extends EntityAnimal {
+public class EntityButterflyFish extends AnimalEntity {
 	private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityButterflyFish.class, DataSerializers.VARINT);
 	private BlockPos spawnPosition;
 
@@ -26,14 +26,14 @@ public class EntityButterflyFish extends EntityAnimal {
 		super(worldIn);
 	}
 
-    @Override
-    public IMobEntityData onInitialSpawn(DifficultyInstance difficulty, IMobEntityData livingdata) {
-        this.setVariant(this.getRNG().nextInt(4));
-        return super.onInitialSpawn(difficulty, livingdata);
-    }
+	@Override
+	public IMobEntityData onInitialSpawn(DifficultyInstance difficulty, IMobEntityData livingdata) {
+		this.setVariant(this.getRNG().nextInt(4));
+		return super.onInitialSpawn(difficulty, livingdata);
+	}
 
-	protected void entityInit() {
-		super.entityInit();
+	protected void registerData() {
+		super.registerData();
 		this.dataManager.register(VARIANT, 0);
 	}
 
@@ -47,9 +47,9 @@ public class EntityButterflyFish extends EntityAnimal {
 	protected void collideWithNearbyEntities() {
 	}
 
-	protected void applyEntityAttributes() {
-		super.applyEntityAttributes();
-		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(2.0D);
+	protected void registerAttributes() {
+		super.registerAttributes();
+		this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(2.0D);
 	}
 
 	public int getVariant() {
@@ -96,7 +96,7 @@ public class EntityButterflyFish extends EntityAnimal {
 		this.rotationYaw += f1;
 
 		if (this.world.handleMaterialAcceleration(
-				this.getEntityBoundingBox().grow(0.0D, -4.0D, 0.0D).shrink(0.001D), Material.WATER, this)) {
+				this.getBoundingBox().grow(0.0D, -4.0D, 0.0D).shrink(0.001D), Material.WATER, this)) {
 			this.motionY = 0.1F;
 		}
 	}
@@ -105,32 +105,32 @@ public class EntityButterflyFish extends EntityAnimal {
 		return false;
 	}
 
-    public void fall(float distance, float damageMultiplier) {
-    }
+	public void fall(float distance, float damageMultiplier) {
+	}
 
-    protected void updateFallState(double y, boolean onGroundIn, IBlockState state, BlockPos pos) {
-    }
+	protected void updateFallState(double y, boolean onGroundIn, BlockState state, BlockPos pos) {
+	}
 
-    public boolean doesEntityNotTriggerPressurePlate() {
-        return true;
-    }
+	public boolean doesEntityNotTriggerPressurePlate() {
+		return true;
+	}
 
-    public void readEntityFromNBT(CompoundNBT compound) {
-        super.readEntityFromNBT(compound);
-        this.dataManager.set(VARIANT, compound.getInt("Variant"));
-    }
+	public void readAdditional(CompoundNBT compound) {
+		super.readAdditional(compound);
+		this.dataManager.set(VARIANT, compound.getInt("Variant"));
+	}
 
-    public void writeEntityToNBT(CompoundNBT compound) {
-        super.writeEntityToNBT(compound);
-        compound.putInt("Variant", this.dataManager.get(VARIANT));
-    }
+	public void writeAdditional(CompoundNBT compound) {
+		super.writeAdditional(compound);
+		compound.putInt("Variant", this.dataManager.get(VARIANT));
+	}
 
-    public float getEyeHeight() {
-        return this.height / 2.0F;
-    }
+	public float getEyeHeight() {
+		return this.height / 2.0F;
+	}
 
-    @Override
-    public EntityAgeable createChild(EntityAgeable ageable) {
+	@Override
+	public AgeableEntity createChild(AgeableEntity ageable) {
 		return null;
 	}
 }

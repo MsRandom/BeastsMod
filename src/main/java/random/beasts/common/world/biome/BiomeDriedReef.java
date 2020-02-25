@@ -1,9 +1,9 @@
 package random.beasts.common.world.biome;
 
 import com.google.common.collect.Iterables;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockStone;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.Blocks;
 import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -159,7 +159,7 @@ public class BiomeDriedReef extends BeastsBiome {
     }
 
     private static class WorldGenDisc extends WorldGenerator {
-        public IBlockState block;
+        public BlockState block;
         public int size;
         private int height;
 
@@ -182,21 +182,21 @@ public class BiomeDriedReef extends BeastsBiome {
     }
 
     private static class WorldGenRockBlob extends WorldGenerator {
-        private IBlockState block;
+        private BlockState block;
         private int size;
 
-        WorldGenRockBlob(IBlockState blockIn, int size) {
+        WorldGenRockBlob(BlockState blockIn, int size) {
             super(false);
             this.block = blockIn;
             this.size = size;
         }
 
-        WorldGenRockBlob(IBlockState blockIn) {
+        WorldGenRockBlob(BlockState blockIn) {
             this(blockIn, 0);
         }
 
         public boolean generate(World worldIn, Random rand, BlockPos position) {
-            IBlockState state = getBlock(rand);
+            BlockState state = getBlock(rand);
             position = worldIn.getTopSolidOrLiquidBlock(position).down(rand.nextInt(1 + size));
             ChunkPos pos = new ChunkPos(position);
             for (int i = 0; i < 6; ++i) {
@@ -213,20 +213,20 @@ public class BiomeDriedReef extends BeastsBiome {
             return true;
         }
 
-        protected IBlockState getBlock(Random rand) {
+        protected BlockState getBlock(Random rand) {
             return block;
         }
     }
 
     private static class WorldGenCoralBlock extends WorldGenRockBlob {
-        private IBlockState[] states = new IBlockState[CoralColor.values().length];
+        private BlockState[] states = new BlockState[CoralColor.values().length];
 
         WorldGenCoralBlock() {
             super(null);
         }
 
         @Override
-        protected IBlockState getBlock(Random rand) {
+        protected BlockState getBlock(Random rand) {
             int i = rand.nextInt(states.length);
             if (states[i] == null)
                 states[i] = BeastsBlocks.CORAL_BLOCK.getDefaultState().withProperty(BlockCoral.COLOR, CoralColor.values()[i]);

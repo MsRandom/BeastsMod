@@ -1,23 +1,24 @@
 package random.beasts.common.entity.monster;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemSword;
+import net.minecraft.item.SwordItem;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.Hand;
+import net.minecraft.util.ParticleTypes;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.EnumDifficulty;
@@ -39,14 +40,14 @@ public class EntityCoconutCrab extends MonsterEntity implements IShellEntity {
     private boolean hasTarget = false;
     private int ticksSinceHit = 0;
 
-    public EntityCoconutCrab(World worldIn) {
-        super(worldIn);
+    public EntityCoconutCrab(EntityType<? extends EntityCoconutCrab> type, World worldIn) {
+        super(type, worldIn);
         this.setNoAI(true);
     }
 
     @Override
-    protected void initEntityAI() {
-        super.initEntityAI();
+    protected void registerGoals() {
+        super.registerGoals();
         this.goalSelector.addGoal(0, new EntityAIWander(this, 0.5, 50) {
             @Override
             public boolean shouldExecute() {
@@ -62,16 +63,16 @@ public class EntityCoconutCrab extends MonsterEntity implements IShellEntity {
     }
 
     @Override
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(2);
-        getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.2);
-        getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10);
+    protected void registerAttributes() {
+        super.registerAttributes();
+        getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(2);
+        getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.2);
+        getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10);
     }
 
     @Override
-    protected void entityInit() {
-        super.entityInit();
+    protected void registerData() {
+        super.registerData();
         this.dataManager.register(OUT, false);
     }
 
@@ -129,23 +130,23 @@ public class EntityCoconutCrab extends MonsterEntity implements IShellEntity {
         if (lootingModifier > 0) i += this.rand.nextInt(lootingModifier + 1);
         for (int j = 0; j < i; ++j) this.dropItem(leg, 1);
         this.dropItem(Objects.requireNonNull(coconut), 1);
-        if (!this.getHeldItem(EnumHand.MAIN_HAND).isEmpty())
-            this.entityDropItem(this.getHeldItem(EnumHand.MAIN_HAND), 0);
+        if (!this.getHeldItem(Hand.MAIN_HAND).isEmpty())
+            this.entityDropItem(this.getHeldItem(Hand.MAIN_HAND), 0);
     }
 
     @Override
     public boolean getCanSpawnHere() {
         if (rand.nextInt(4) == 0)
-            return this.getBlockPathWeight(new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ)) >= 0.0F && world.getBlockState(getPosition()).canEntitySpawn(this) && this.world.getDifficulty() != EnumDifficulty.PEACEFUL;
+            return this.getBlockPathWeight(new BlockPos(this.posX, this.getBoundingBox().minY, this.posZ)) >= 0.0F && world.getBlockState(getPosition()).canEntitySpawn(this) && this.world.getDifficulty() != EnumDifficulty.PEACEFUL;
         world.setBlockState(getPosition(), BeastsBlocks.COCONUT.getDefaultState());
         return false;
     }
 
     @Override
-    protected boolean processInteract(PlayerEntity player, EnumHand hand) {
+    protected boolean processInteract(PlayerEntity player, Hand hand) {
         if (!isOut()) {
             setOut(true);
-            if (!player.capabilities.isCreativeMode) {
+            if (!player.abilities.isCreativeMode) {
                 setAttackTarget(player);
                 attackEntityAsMob(player);
             }
@@ -155,14 +156,14 @@ public class EntityCoconutCrab extends MonsterEntity implements IShellEntity {
     }
 
     @Override
-    public void writeEntityToNBT(CompoundNBT compound) {
-        super.writeEntityToNBT(compound);
+    public void writeAdditional(CompoundNBT compound) {
+        super.writeAdditional(compound);
         compound.putBoolean("out", this.isOut());
     }
 
     @Override
-    public void readEntityFromNBT(CompoundNBT compound) {
-        super.readEntityFromNBT(compound);
+    public void readAdditional(CompoundNBT compound) {
+        super.readAdditional(compound);
         this.setOut(compound.getBoolean("out"));
     }
 
@@ -176,18 +177,18 @@ public class EntityCoconutCrab extends MonsterEntity implements IShellEntity {
                     double d0 = this.posX + (this.rand.nextDouble() - this.rand.nextDouble()) * 4.0D;
                     double d1 = this.posY + (this.rand.nextDouble() - this.rand.nextDouble()) * 4.0D;
                     double d2 = this.posZ + (this.rand.nextDouble() - this.rand.nextDouble()) * 4.0D;
-                    this.world.spawnParticle(EnumParticleTypes.BLOCK_DUST, d0, d1, d2, this.rand.nextDouble() * 0.1, this.rand.nextDouble() * 0.1, this.rand.nextDouble() * 0.1, Block.getIdFromBlock(Blocks.SAND));
+                    this.world.addParticle(ParticleTypes.BLOCK_DUST, d0, d1, d2, this.rand.nextDouble() * 0.1, this.rand.nextDouble() * 0.1, this.rand.nextDouble() * 0.1, Block.getIdFromBlock(Blocks.SAND));
                 }
                 return;
             }
 
-            if (this.getHeldItem(EnumHand.MAIN_HAND).isEmpty()) {
-                List<ItemEntity> list = this.world.getEntitiesWithinAABB(ItemEntity.class, this.getEntityBoundingBox().grow(8.0D));
+            if (this.getHeldItem(Hand.MAIN_HAND).isEmpty()) {
+                List<ItemEntity> list = this.world.getEntitiesWithinAABB(ItemEntity.class, this.getBoundingBox().grow(8.0D));
                 double d0 = Double.MAX_VALUE;
                 ItemEntity item = null;
 
                 for (ItemEntity itm : list)
-                    if (itm.getItem().getItem() instanceof ItemSword) {
+                    if (itm.getItem().getItem() instanceof SwordItem) {
                         if (this.getDistanceSq(itm) < d0) {
                             item = itm;
                             d0 = this.getDistanceSq(itm);
@@ -195,8 +196,8 @@ public class EntityCoconutCrab extends MonsterEntity implements IShellEntity {
                     }
 
                 if (item != null && !item.isDead) {
-                    this.setHeldItem(EnumHand.MAIN_HAND, item.getItem());
-                    item.setDead();
+                    this.setHeldItem(Hand.MAIN_HAND, item.getItem());
+                    item.remove();
                 }
             }
 
@@ -209,7 +210,7 @@ public class EntityCoconutCrab extends MonsterEntity implements IShellEntity {
             } else {
                 if (getDistance(getAttackTarget()) < 1.2 && ticksSinceHit == 0) {
                     attackEntityAsMob(getAttackTarget());
-                    if (!getAttackTarget().isEntityAlive()) {
+                    if (!getAttackTarget().isAlive()) {
                         ticksSinceHit = 0;
                         hasTarget = false;
                         setAttackTarget(null);
@@ -222,7 +223,7 @@ public class EntityCoconutCrab extends MonsterEntity implements IShellEntity {
             }
         } else {
             if (this.isBurning()) this.extinguish();
-            if (!this.world.isRemote && this.world.getDifficulty() == EnumDifficulty.PEACEFUL) this.setDead();
+            if (!this.world.isRemote && this.world.getDifficulty() == EnumDifficulty.PEACEFUL) this.remove();
         }
         super.onUpdate();
     }

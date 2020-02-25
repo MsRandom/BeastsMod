@@ -1,13 +1,9 @@
 package random.beasts.common.item;
 
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
-import net.minecraft.stats.StatList;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.SoundCategory;
+import net.minecraft.stats.Stats;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
 import random.beasts.api.item.BeastsItem;
 import random.beasts.common.entity.projectile.EntityCoconutBomb;
@@ -21,16 +17,16 @@ public class ItemCoconade extends BeastsItem {
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, EnumHand handIn) {
+    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
         ItemStack stack = playerIn.getHeldItem(handIn);
-        if (!playerIn.capabilities.isCreativeMode) stack.shrink(1);
-        worldIn.playSound(null, playerIn.getPosition(), SoundEvents.ENTITY_EGG_THROW, SoundCategory.PLAYERS, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+        if (!playerIn.abilities.isCreativeMode) stack.shrink(1);
+        worldIn.playSound(null, playerIn.getPosition(), SoundEvents.ENTITY_EGG_THROW, SoundCategory.PLAYERS, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
         if (!worldIn.isRemote) {
-            EntityCoconutBomb egg = new EntityCoconutBomb(worldIn, playerIn);
+            EntityCoconutBomb egg = new EntityCoconutBomb(stack, worldIn, playerIn);
             egg.shoot(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
-            worldIn.spawnEntity(egg);
+            worldIn.addEntity(egg);
         }
-        playerIn.addStat(Objects.requireNonNull(StatList.getObjectUseStats(this)));
-        return new ActionResult<>(EnumActionResult.SUCCESS, stack);
+        playerIn.addStat(Objects.requireNonNull(Stats.ITEM_USED.get(this)));
+        return new ActionResult<>(ActionResultType.SUCCESS, stack);
     }
 }

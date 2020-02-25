@@ -1,6 +1,6 @@
 package random.beasts.common.world.biome;
 
-import net.minecraft.init.Blocks;
+import net.minecraft.block.Blocks;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.ChunkPrimer;
 import random.beasts.common.init.BeastsBiomes;

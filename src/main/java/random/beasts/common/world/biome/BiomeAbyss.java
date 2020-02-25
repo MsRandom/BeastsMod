@@ -2,7 +2,7 @@ package random.beasts.common.world.biome;
 
 import net.minecraft.block.BlockPrismarine;
 import net.minecraft.block.BlockStone;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
