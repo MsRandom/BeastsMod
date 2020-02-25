@@ -1,0 +1,25 @@
+{
+  "variants": {
+    "ore=coal": {
+      "model": "beasts:abyssal_coal_ore"
+    },
+    "ore=diamond": {
+      "model": "beasts:abyssal_diamond_ore"
+    },
+    "ore=emerald": {
+      "model": "beasts:abyssal_emerald_ore"
+    },
+    "ore=gold": {
+      "model": "beasts:abyssal_gold_ore"
+    },
+    "ore=iron": {
+      "model": "beasts:abyssal_iron_ore"
+    },
+    "ore=lapis": {
+      "model": "beasts:abyssal_lapis_ore"
+    },
+    "ore=redstone": {
+      "model": "beasts:abyssal_redstone_ore"
+    }
+  }
+}

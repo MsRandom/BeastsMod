@@ -3,15 +3,19 @@ package random.beasts.common.world.biome;
 import net.minecraft.block.BlockPrismarine;
 import net.minecraft.block.BlockStone;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.NoiseGeneratorPerlin;
 import net.minecraft.world.storage.loot.RandomValueRange;
+import net.minecraftforge.oredict.OreDictionary;
 import random.beasts.api.configuration.BeastsConfig;
 import random.beasts.api.world.biome.underground.UndergroundBiome;
 import random.beasts.api.world.biome.underground.UndergroundBiomeBounds;
+import random.beasts.common.block.BlockAbyssalOre;
+import random.beasts.common.block.OreType;
 import random.beasts.common.init.BeastsBlocks;
 
 import java.util.Random;
@@ -65,40 +69,32 @@ public class BiomeAbyss extends UndergroundBiome {
 					else
 						world.setBlockState(posit, BeastsBlocks.ABYSSAL_STONE.getDefaultState(), 16);
 				}
-				if (world.getBlockState(posit).getBlock() == Blocks.IRON_ORE) {
-					world.setBlockState(posit, BeastsBlocks.ABYSSAL_IRON_ORE.getDefaultState(), 16);
-				}
-				if (world.getBlockState(posit).getBlock() == Blocks.GOLD_ORE) {
-					world.setBlockState(posit, BeastsBlocks.ABYSSAL_GOLD_ORE.getDefaultState(), 16);
-				}
-				if (world.getBlockState(posit).getBlock() == Blocks.LAPIS_ORE) {
-					world.setBlockState(posit, BeastsBlocks.ABYSSAL_LAPIS_ORE.getDefaultState(), 16);
-				}
-				if (world.getBlockState(posit).getBlock() == Blocks.REDSTONE_ORE) {
-					world.setBlockState(posit, BeastsBlocks.ABYSSAL_REDSTONE_ORE.getDefaultState(), 16);
-				}
-				if (world.getBlockState(posit).getBlock() == Blocks.COAL_ORE) {
-					world.setBlockState(posit, BeastsBlocks.ABYSSAL_COAL_ORE.getDefaultState(), 16);
-				}
-				if (world.getBlockState(posit).getBlock() == Blocks.DIAMOND_ORE) {
-					world.setBlockState(posit, BeastsBlocks.ABYSSAL_DIAMOND_ORE.getDefaultState(), 16);
-				}
 
-				int layer1_height = 8;
-				int layer2_height = 22;
+				if (!(new ItemStack(world.getBlockState(posit).getBlock()).isEmpty()))
+					for (int i : OreDictionary.getOreIDs(new ItemStack(world.getBlockState(posit).getBlock()))) {
+						if (OreDictionary.getOreName(i).contains("ore")) {
+							world.setBlockState(posit, BeastsBlocks.ABYSSAL_ORE.getDefaultState().withProperty(BlockAbyssalOre.ORE, OreType.getByOreDictionary(OreDictionary.getOreName(i))), 16);
+							break;
+						}
+					}
 
-				double d0 = CAVE_NOISE_LAYER_1.getValue((double) posit.getX() * 1.6667f, (double) posit.getZ() * 1.6667f) * 0.09d;
-				if (posit.getY() < Math.round((float) -d0) + minY + layer1_height && posit.getY() > Math.round((float) d0 * 0.333f) + minY + layer1_height) {
-					world.setBlockState(posit, Blocks.AIR.getDefaultState(), 16);
-				} else if (posit.getY() <= Math.round((float) d0 * 0.333f) + minY + layer1_height && posit.getY() > Math.round((float) d0 * 0.5f) + minY + layer1_height) {
-					world.setBlockState(posit, BeastsBlocks.ABYSSAL_SAND.getDefaultState(), 16);
-				}
+				if (a < 0.92d) {
+					int layer1_height = 8;
+					int layer2_height = 22;
 
-				double d1 = CAVE_NOISE_LAYER_2.getValue((double) posit.getX() * 1.6667f, (double) posit.getZ() * 1.6667f) * 0.09d;
-				if (posit.getY() < Math.round((float) -d1) + minY + layer2_height && posit.getY() > Math.round((float) d1 * 0.333f) + minY + layer2_height) {
-					world.setBlockState(posit, Blocks.AIR.getDefaultState(), 16);
-				} else if (posit.getY() <= Math.round((float) d1 * 0.333f) + minY + layer2_height && posit.getY() > Math.round((float) d1 * 0.5f) + minY + layer2_height) {
-					world.setBlockState(posit, BeastsBlocks.ABYSSAL_SAND.getDefaultState(), 16);
+					double d0 = CAVE_NOISE_LAYER_1.getValue((double) posit.getX() * 1.6667f, (double) posit.getZ() * 1.6667f) * 0.09d;
+					if (posit.getY() < Math.round((float) -d0) + minY + layer1_height && posit.getY() > Math.round((float) d0 * 0.333f) + minY + layer1_height) {
+						world.setBlockState(posit, Blocks.AIR.getDefaultState(), 16);
+					} else if (posit.getY() <= Math.round((float) d0 * 0.333f) + minY + layer1_height && posit.getY() > Math.round((float) d0 * 0.5f) + minY + layer1_height) {
+						world.setBlockState(posit, BeastsBlocks.ABYSSAL_SAND.getDefaultState(), 16);
+					}
+
+					double d1 = CAVE_NOISE_LAYER_2.getValue((double) posit.getX() * 1.6667f, (double) posit.getZ() * 1.6667f) * 0.09d;
+					if (posit.getY() < Math.round((float) -d1) + minY + layer2_height && posit.getY() > Math.round((float) d1 * 0.333f) + minY + layer2_height) {
+						world.setBlockState(posit, Blocks.AIR.getDefaultState(), 16);
+					} else if (posit.getY() <= Math.round((float) d1 * 0.333f) + minY + layer2_height && posit.getY() > Math.round((float) d1 * 0.5f) + minY + layer2_height) {
+						world.setBlockState(posit, BeastsBlocks.ABYSSAL_SAND.getDefaultState(), 16);
+					}
 				}
 			}
 		}
