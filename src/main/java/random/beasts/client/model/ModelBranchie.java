@@ -1,49 +1,49 @@
 package random.beasts.client.model;
 
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.entity.model.EntityModel;
+import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 
-public class ModelBranchie extends ModelBase {
-    public ModelRenderer body;
-    public ModelRenderer legLeft;
-    public ModelRenderer legRight;
-    public ModelRenderer armRight;
-    public ModelRenderer armLeft;
-    public ModelRenderer top;
-    public ModelRenderer handRight;
-    public ModelRenderer handLeft;
+public class ModelBranchie extends EntityModel {
+    public RendererModel body;
+    public RendererModel legLeft;
+    public RendererModel legRight;
+    public RendererModel armRight;
+    public RendererModel armLeft;
+    public RendererModel top;
+    public RendererModel handRight;
+    public RendererModel handLeft;
 
     public ModelBranchie() {
         this.textureWidth = 64;
         this.textureHeight = 32;
-        this.armLeft = new ModelRenderer(this, 25, 0);
+        this.armLeft = new RendererModel(this, 25, 0);
         this.armLeft.setRotationPoint(0.5F, -0.5F, 0.0F);
         this.armLeft.addBox(0.0F, -0.5F, -0.5F, 5, 1, 1, 0.0F);
         this.setRotateAngle(armLeft, 0.0F, -0.7853981633974483F, -0.3490658503988659F);
-        this.legRight = new ModelRenderer(this, 26, 4);
+        this.legRight = new RendererModel(this, 26, 4);
         this.legRight.setRotationPoint(-0.2F, 5.0F, 0.0F);
         this.legRight.addBox(-1.0F, 0.0F, -0.5F, 1, 5, 1, 0.0F);
-        this.legLeft = new ModelRenderer(this, 26, 4);
+        this.legLeft = new RendererModel(this, 26, 4);
         this.legLeft.setRotationPoint(0.2F, 5.0F, 0.0F);
         this.legLeft.addBox(0.0F, 0.0F, -0.5F, 1, 5, 1, 0.0F);
-        this.handLeft = new ModelRenderer(this, 7, 7);
+        this.handLeft = new RendererModel(this, 7, 7);
         this.handLeft.setRotationPoint(5.0F, 0.0F, 0.0F);
         this.handLeft.addBox(-0.5F, 0.0F, -1.5F, 3, 0, 3, 0.0F);
         this.setRotateAngle(handLeft, 0.0F, 0.0F, 0.4326671215693943F);
-        this.armRight = new ModelRenderer(this, 25, 0);
+        this.armRight = new RendererModel(this, 25, 0);
         this.armRight.setRotationPoint(-0.5F, -0.5F, 0.0F);
         this.armRight.addBox(-5.0F, -0.5F, -0.5F, 5, 1, 1, 0.0F);
         this.setRotateAngle(armRight, 0.0F, 0.7853981633974483F, 0.3490658503988659F);
-        this.top = new ModelRenderer(this, 10, 0);
+        this.top = new RendererModel(this, 10, 0);
         this.top.setRotationPoint(0.0F, -4.5F, 0.0F);
         this.top.addBox(-3.0F, -3.0F, 0.0F, 6, 5, 0, 0.0F);
-        this.handRight = new ModelRenderer(this, 15, 7);
+        this.handRight = new RendererModel(this, 15, 7);
         this.handRight.setRotationPoint(-5.0F, 0.0F, 0.0F);
         this.handRight.addBox(-2.5F, 0.0F, -1.5F, 3, 0, 3, 0.0F);
         this.setRotateAngle(handRight, 0.0F, 0.0F, -0.48624872960562016F);
-        this.body = new ModelRenderer(this, 0, 0);
+        this.body = new RendererModel(this, 0, 0);
         this.body.setRotationPoint(0.0F, 14.0F, 0.0F);
         this.body.addBox(-1.0F, -4.5F, -1.0F, 2, 10, 2, 0.0F);
         this.body.addChild(this.armLeft);
@@ -74,7 +74,7 @@ public class ModelBranchie extends ModelBase {
         this.body.render(f5);
     }
 
-    public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
+    public void setRotateAngle(RendererModel modelRenderer, float x, float y, float z) {
         modelRenderer.rotateAngleX = x;
         modelRenderer.rotateAngleY = y;
         modelRenderer.rotateAngleZ = z;

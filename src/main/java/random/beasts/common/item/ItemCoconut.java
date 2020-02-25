@@ -1,6 +1,6 @@
 package random.beasts.common.item;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
@@ -20,7 +20,7 @@ public class ItemCoconut extends BeastsFood {
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
+    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, EnumHand handIn) {
         if (playerIn.isSneaking()) {
             ItemStack itemstack = playerIn.getHeldItem(handIn);
             if (!playerIn.capabilities.isCreativeMode) itemstack.shrink(1);

@@ -1,6 +1,6 @@
 package random.beasts.common.network;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
@@ -27,20 +27,20 @@ public class BeastsGuiHandler implements IGuiHandler {
     }
 
     @Override
-    public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
+    public Object getServerGuiElement(int ID, PlayerEntity player, World world, int x, int y, int z) {
         BeastsGuiScreen screen = LIST.get(ID);
         return screen == null ? null : screen.serverGetter.apply(player, world, x, y, z);
     }
 
     @Override
-    public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
+    public Object getClientGuiElement(int ID, PlayerEntity player, World world, int x, int y, int z) {
         BeastsGuiScreen screen = LIST.get(ID);
         return screen == null ? null : screen.clientGetter.apply(player, world, x, y, z);
     }
 
     @FunctionalInterface
     private interface SidedElementGetter {
-        Object apply(EntityPlayer player, World world, int x, int y, int z);
+        Object apply(PlayerEntity player, World world, int x, int y, int z);
     }
 
     public static class BeastsGuiScreen {

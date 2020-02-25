@@ -1,0 +1,15 @@
+modLoader="javafml"
+loaderVersion="[28,)"
+[[mods]]
+modId="beasts"
+version="${file.jarVersion}"
+displayName="Beasts"
+credits="Assets by Coda, Mubbs, HoboJoe, Arobazzz, and MoonlitLamps. Code done by Ms. Random(Open to commissions, Discord: \"Ms. Random#5794\"), SoggyMustache,  D4RSORC, and Coda"
+authors="Coda, Ms. Random"
+description="Adds various mobs that make the game more interesting and fun to play."
+[[dependencies.beasts]]
+    modId="forge"
+    mandatory=true
+    versionRange="[28,)"
+    ordering="NONE"
+    side="BOTH"

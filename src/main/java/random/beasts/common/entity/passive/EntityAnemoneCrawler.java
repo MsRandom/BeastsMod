@@ -1,14 +1,13 @@
 package random.beasts.common.entity.passive;
 
 import net.minecraft.entity.EntityAgeable;
-import net.minecraft.entity.IEntityLivingData;
+import net.minecraft.entity.IMobEntityData;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.*;
 import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
@@ -29,14 +28,14 @@ public class EntityAnemoneCrawler extends EntityAnimal {
     @Override
     protected void initEntityAI() {
         super.initEntityAI();
-        this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityAIMate(this, 0.3));
-        this.tasks.addTask(2, new EntityAIPanic(this, 0.4D));
-        this.tasks.addTask(3, new EntityAIWander(this, 0.2));
-        this.tasks.addTask(4, new EntityAIFollowParent(this, 0.35D));
-        this.tasks.addTask(5, new EntityAIWanderAvoidWater(this, 0.4D));
-        this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
-        this.tasks.addTask(7, new EntityAILookIdle(this));
+        this.goalSelector.addGoal(0, new EntityAISwimming(this));
+        this.goalSelector.addGoal(1, new EntityAIMate(this, 0.3));
+        this.goalSelector.addGoal(2, new EntityAIPanic(this, 0.4D));
+        this.goalSelector.addGoal(3, new EntityAIWander(this, 0.2));
+        this.goalSelector.addGoal(4, new EntityAIFollowParent(this, 0.35D));
+        this.goalSelector.addGoal(5, new EntityAIWanderAvoidWater(this, 0.4D));
+        this.goalSelector.addGoal(6, new EntityAIWatchClosest(this, PlayerEntity.class, 6.0F));
+        this.goalSelector.addGoal(7, new EntityAILookIdle(this));
     }
 
     @Override
@@ -47,7 +46,7 @@ public class EntityAnemoneCrawler extends EntityAnimal {
 
     @Nullable
     @Override
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
+    public IMobEntityData onInitialSpawn(DifficultyInstance difficulty, @Nullable IMobEntityData livingdata) {
         livingdata = super.onInitialSpawn(difficulty, livingdata);
         setVariant(rand.nextInt(3));
         return livingdata;
@@ -73,15 +72,15 @@ public class EntityAnemoneCrawler extends EntityAnimal {
     }
 
     @Override
-    public void writeEntityToNBT(NBTTagCompound compound) {
+    public void writeEntityToNBT(CompoundNBT compound) {
         super.writeEntityToNBT(compound);
-        compound.setInteger("variant", getVariant());
+        compound.putInt("variant", getVariant());
     }
 
     @Override
-    public void readEntityFromNBT(NBTTagCompound compound) {
+    public void readEntityFromNBT(CompoundNBT compound) {
         super.readEntityFromNBT(compound);
-        setVariant(compound.getInteger("variant"));
+        setVariant(compound.getInt("variant"));
     }
 
     @Nullable

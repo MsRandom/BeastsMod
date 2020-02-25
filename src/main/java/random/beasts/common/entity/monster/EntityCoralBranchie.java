@@ -1,10 +1,10 @@
 package random.beasts.common.entity.monster;
 
-import net.minecraft.entity.IEntityLivingData;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.IMobEntityData;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
@@ -33,7 +33,7 @@ public class EntityCoralBranchie extends EntityBranchieBase {
         EntityCoralBranchie entity = BeastsEntities.CORAL_BRANCHIE.create(event.getWorld());
         BlockPos pos = event.getPos();
         CoralColor color = ((BlockCoralPlant) event.getState().getBlock()).color;
-        EntityPlayer player = event.getPlayer();
+        PlayerEntity player = event.getPlayer();
         entity.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
         entity.onInitialSpawn(event.getWorld().getDifficultyForLocation(pos), null);
         entity.setVariant(color);
@@ -50,7 +50,7 @@ public class EntityCoralBranchie extends EntityBranchieBase {
 
     @Nullable
     @Override
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
+    public IMobEntityData onInitialSpawn(DifficultyInstance difficulty, @Nullable IMobEntityData livingdata) {
         livingdata = super.onInitialSpawn(difficulty, livingdata);
         this.setVariant(CoralColor.getRandom(rand));
         return livingdata;
@@ -81,14 +81,14 @@ public class EntityCoralBranchie extends EntityBranchieBase {
     }
 
     @Override
-    public void writeEntityToNBT(NBTTagCompound compound) {
+    public void writeEntityToNBT(CompoundNBT compound) {
         super.writeEntityToNBT(compound);
-        compound.setInteger("variant", this.getVariant().ordinal());
+        compound.putInt("variant", this.getVariant().ordinal());
     }
 
     @Override
-    public void readEntityFromNBT(NBTTagCompound compound) {
+    public void readEntityFromNBT(CompoundNBT compound) {
         super.readEntityFromNBT(compound);
-        this.setVariant(CoralColor.values()[compound.getInteger("variant")]);
+        this.setVariant(CoralColor.values()[compound.getInt("variant")]);
     }
 }

@@ -1,9 +1,9 @@
 package random.beasts.common.item;
 
 import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerEntityMP;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
@@ -32,15 +32,15 @@ public class ItemDaggerfish extends BeastsSword {
     }
 
     @Override
-    public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entityLiving) {
-        if (entityLiving instanceof EntityPlayer) {
-            EntityPlayer entityplayer = (EntityPlayer) entityLiving;
+    public ItemStack onItemUseFinish(ItemStack stack, World worldIn, LivingEntity entityLiving) {
+        if (entityLiving instanceof PlayerEntity) {
+            PlayerEntity entityplayer = (PlayerEntity) entityLiving;
             entityplayer.getFoodStats().addStats(6, 0.8F);
             worldIn.playSound(null, entityplayer.posX, entityplayer.posY, entityplayer.posZ, SoundEvents.ENTITY_PLAYER_BURP, SoundCategory.PLAYERS, 0.5F, worldIn.rand.nextFloat() * 0.1F + 0.9F);
             entityplayer.addStat(StatList.getObjectUseStats(this));
 
-            if (entityplayer instanceof EntityPlayerMP) {
-                CriteriaTriggers.CONSUME_ITEM.trigger((EntityPlayerMP) entityplayer, stack);
+            if (entityplayer instanceof PlayerEntityMP) {
+                CriteriaTriggers.CONSUME_ITEM.trigger((PlayerEntityMP) entityplayer, stack);
             }
         }
 
@@ -49,7 +49,7 @@ public class ItemDaggerfish extends BeastsSword {
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
+    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, EnumHand handIn) {
         ItemStack itemstack = playerIn.getHeldItem(handIn);
 
         if (playerIn.canEat(false)) {

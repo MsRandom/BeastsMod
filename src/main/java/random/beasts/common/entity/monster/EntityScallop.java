@@ -1,11 +1,11 @@
 package random.beasts.common.entity.monster;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.IEntityLivingData;
+import net.minecraft.entity.IMobEntityData;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.passive.EntityFlying;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.pathfinding.PathNavigateFlying;
@@ -20,7 +20,7 @@ import random.beasts.common.init.BeastsItems;
 import javax.annotation.Nullable;
 import java.util.Optional;
 
-public class EntityScallop extends EntityMob implements EntityFlying {
+public class EntityScallop extends MonsterEntity implements EntityFlying {
 
     private double preferredRotation = -1;
     private int preferredAltitude = -1;
@@ -39,7 +39,7 @@ public class EntityScallop extends EntityMob implements EntityFlying {
 
     @Nullable
     @Override
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
+    public IMobEntityData onInitialSpawn(DifficultyInstance difficulty, @Nullable IMobEntityData livingdata) {
         livingdata = super.onInitialSpawn(difficulty, livingdata);
         this.motionY += 0.5;
         return livingdata;
@@ -74,15 +74,15 @@ public class EntityScallop extends EntityMob implements EntityFlying {
             if (Math.abs(targetBlocks - blocksFlew) < 3) targetSetter.run();
             this.getLookHelper().setLookPosition(posX + (posX - prevPosX), 0, posZ + (posZ - prevPosZ), 0, 0);
 
-            Optional<EntityPlayer> player = world.playerEntities.stream().filter(p -> !p.capabilities.isCreativeMode && !p.isSpectator() && world.getBiome(p.getPosition()) == BeastsBiomes.DRIED_REEF && getDistanceSq(p) <= 1280).reduce((p1, p2) -> {
+            Optional<PlayerEntity> player = world.playerEntities.stream().filter(p -> !p.capabilities.isCreativeMode && !p.isSpectator() && world.getBiome(p.getPosition()) == BeastsBiomes.DRIED_REEF && getDistanceSq(p) <= 1280).reduce((p1, p2) -> {
                 if (getDistanceSq(p1) > getDistanceSq(p2)) return p2;
                 return p1;
             });
 
             player.ifPresent(this::setAttackTarget);
         } else {
-            if (getAttackTarget() instanceof EntityPlayer) {
-                EntityPlayer player = (EntityPlayer) getAttackTarget();
+            if (getAttackTarget() instanceof PlayerEntity) {
+                PlayerEntity player = (PlayerEntity) getAttackTarget();
                 boolean dead = player.isDead;
                 if (player.capabilities.isCreativeMode || player.isSpectator() || dead) {
                     if (dead) {

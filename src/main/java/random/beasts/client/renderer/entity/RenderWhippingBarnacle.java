@@ -1,29 +1,28 @@
 package random.beasts.client.renderer.entity;
 
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
-import random.beasts.api.main.BeastsReference;
 import random.beasts.client.model.ModelWhippingBarnacle;
 import random.beasts.common.entity.monster.EntityWhippingBarnacle;
 
 import javax.annotation.Nullable;
 
-public class RenderWhippingBarnacle extends RenderLiving<EntityWhippingBarnacle> {
+public class RenderWhippingBarnacle extends MobRenderer<EntityWhippingBarnacle> {
 
-    private static final ResourceLocation BLUE = new ResourceLocation(BeastsReference.ID, "textures/entity/whipping_barnacle/blue.png");
-    private static final ResourceLocation GREEN = new ResourceLocation(BeastsReference.ID, "textures/entity/whipping_barnacle/green.png");
+    private static final ResourceLocation BLUE = new ResourceLocation(BeastsMod.MOD_ID, "textures/entity/whipping_barnacle/blue.png");
+    private static final ResourceLocation GREEN = new ResourceLocation(BeastsMod.MOD_ID, "textures/entity/whipping_barnacle/green.png");
 
-    public RenderWhippingBarnacle(RenderManager renderManagerIn) {
+    public RenderWhippingBarnacle(EntityRendererManager renderManagerIn) {
         super(renderManagerIn, new ModelWhippingBarnacle(), 0);
     }
 
     @Override
     protected void preRenderCallback(EntityWhippingBarnacle entitylivingbaseIn, float partialTickTime) {
         super.preRenderCallback(entitylivingbaseIn, partialTickTime);
-        EnumFacing facing = entitylivingbaseIn.getFacing();
+        Direction facing = entitylivingbaseIn.getFacing();
         switch (facing.getAxis()) {
             case X:
                 //GlStateManager.rotate(90, 0, 0, facing.getAxisDirection().getOffset());

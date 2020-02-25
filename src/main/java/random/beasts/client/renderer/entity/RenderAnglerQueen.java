@@ -5,41 +5,35 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.culling.ICamera;
-import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityGuardian;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import random.beasts.api.main.BeastsReference;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import random.beasts.client.init.BeastsSounds;
 import random.beasts.client.model.ModelAnglerQueen;
-import random.beasts.client.model.ModelVileEel;
 import random.beasts.client.renderer.entity.layers.LayerAnglerQueenGlow;
-import random.beasts.client.renderer.entity.layers.LayerFireflySquidSpots;
 import random.beasts.common.entity.monster.EntityAnglerQueen;
-import random.beasts.common.entity.monster.EntityVileEel;
 
-@SideOnly(Side.CLIENT)
-public class RenderAnglerQueen extends RenderLiving<EntityAnglerQueen> {
-	
-    private static final ResourceLocation TEXTURE = new ResourceLocation(BeastsReference.ID, "textures/entity/angler_queen/angler_queen.png");
-    private static final ResourceLocation TEXTURE2 = new ResourceLocation(BeastsReference.ID, "textures/entity/angler_queen/angler_queen_2.png");
-    private static final ResourceLocation QUEEN_BEAM_TEXTURE = new ResourceLocation(BeastsReference.ID, "textures/entity/angler_queen/angler_queen_beam.png");
+@OnlyIn(Dist.CLIENT)
+public class RenderAnglerQueen extends MobRenderer<EntityAnglerQueen> {
 
-    public RenderAnglerQueen(RenderManager rm) {
+    private static final ResourceLocation TEXTURE = new ResourceLocation(BeastsMod.MOD_ID, "textures/entity/angler_queen/angler_queen.png");
+    private static final ResourceLocation TEXTURE2 = new ResourceLocation(BeastsMod.MOD_ID, "textures/entity/angler_queen/angler_queen_2.png");
+    private static final ResourceLocation QUEEN_BEAM_TEXTURE = new ResourceLocation(BeastsMod.MOD_ID, "textures/entity/angler_queen/angler_queen_beam.png");
+
+    public RenderAnglerQueen(EntityRendererManager rm) {
         super(rm, new ModelAnglerQueen(), 1.0F);
         this.addLayer(new LayerAnglerQueenGlow(this));
     }
-    
+
     public boolean shouldRender(EntityAnglerQueen livingEntity, ICamera camera, double camX, double camY, double camZ) {
         if (super.shouldRender(livingEntity, camera, camX, camY, camZ)) {
             return true;
@@ -69,11 +63,11 @@ public class RenderAnglerQueen extends RenderLiving<EntityAnglerQueen> {
             return false;
         }
     }
-    
-    private Vec3d getPosition(EntityLivingBase entityLivingBaseIn, double xMod, double yMod, double zMod, float partialTicks) {
-        double d0 = xMod + entityLivingBaseIn.lastTickPosX + (entityLivingBaseIn.posX - entityLivingBaseIn.lastTickPosX) * (double)partialTicks;
-        double d1 = yMod + entityLivingBaseIn.lastTickPosY + (entityLivingBaseIn.posY - entityLivingBaseIn.lastTickPosY) * (double)partialTicks;
-        double d2 = zMod + entityLivingBaseIn.lastTickPosZ + (entityLivingBaseIn.posZ - entityLivingBaseIn.lastTickPosZ) * (double)partialTicks;
+
+    private Vec3d getPosition(LivingEntity entityLivingBaseIn, double xMod, double yMod, double zMod, float partialTicks) {
+        double d0 = xMod + entityLivingBaseIn.lastTickPosX + (entityLivingBaseIn.posX - entityLivingBaseIn.lastTickPosX) * (double) partialTicks;
+        double d1 = yMod + entityLivingBaseIn.lastTickPosY + (entityLivingBaseIn.posY - entityLivingBaseIn.lastTickPosY) * (double) partialTicks;
+        double d2 = zMod + entityLivingBaseIn.lastTickPosZ + (entityLivingBaseIn.posZ - entityLivingBaseIn.lastTickPosZ) * (double) partialTicks;
         return new Vec3d(d0, d1, d2);
     }
     

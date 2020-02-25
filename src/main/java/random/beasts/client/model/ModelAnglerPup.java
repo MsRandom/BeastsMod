@@ -1,75 +1,73 @@
 package random.beasts.client.model;
 
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.entity.model.EntityModel;
+import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import random.beasts.client.model.ModelPufferFishDog.State;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import random.beasts.common.entity.passive.EntityAnglerPup;
-import random.beasts.common.entity.passive.EntityPufferfishDog;
 
 /**
  * ModelAnglerPup - Coda
  * Created using Tabula 7.1.0
  */
-public class ModelAnglerPup extends ModelBase {
-    public ModelRenderer body;
-    public ModelRenderer leftArm;
-    public ModelRenderer rightArm;
-    public ModelRenderer leftLeg;
-    public ModelRenderer rightLeg;
-    public ModelRenderer tail;
-    public ModelRenderer teeth;
-    public ModelRenderer collar;
-    public ModelRenderer light;
-    public ModelRenderer fin;
+public class ModelAnglerPup extends EntityModel {
+    public RendererModel body;
+    public RendererModel leftArm;
+    public RendererModel rightArm;
+    public RendererModel leftLeg;
+    public RendererModel rightLeg;
+    public RendererModel tail;
+    public RendererModel teeth;
+    public RendererModel collar;
+    public RendererModel light;
+    public RendererModel fin;
 
     private State state = State.STANDING;
-    
+
     public ModelAnglerPup() {
         this.textureWidth = 64;
         this.textureHeight = 32;
-        this.rightLeg = new ModelRenderer(this, 41, 0);
+        this.rightLeg = new RendererModel(this, 41, 0);
         this.rightLeg.mirror = true;
         this.rightLeg.setRotationPoint(-1.8F, 2.0F, 2.5F);
         this.rightLeg.addBox(-1.0F, 0.0F, -1.0F, 2, 3, 2, 0.0F);
         this.setRotateAngle(rightLeg, 0.3490658503988659F, 0.0F, 0.2617993877991494F);
-        this.collar = new ModelRenderer(this, 26, 14);
+        this.collar = new RendererModel(this, 26, 14);
         this.collar.setRotationPoint(0.0F, 0.0F, -2.0F);
         this.collar.addBox(-3.0F, -3.0F, -0.5F, 6, 6, 1, 0.0F);
-        this.rightArm = new ModelRenderer(this, 25, 0);
+        this.rightArm = new RendererModel(this, 25, 0);
         this.rightArm.mirror = true;
         this.rightArm.setRotationPoint(-2.0F, 1.0F, -1.0F);
         this.rightArm.addBox(-1.0F, 0.0F, -1.0F, 2, 4, 2, 0.0F);
         this.setRotateAngle(rightArm, -0.2617993877991494F, 0.0F, 0.2617993877991494F);
-        this.light = new ModelRenderer(this, 0, 21);
+        this.light = new RendererModel(this, 0, 21);
         this.light.setRotationPoint(0.0F, -2.0F, -3.5F);
         this.light.addBox(0.0F, -4.0F, -2.0F, 0, 4, 4, 0.0F);
         this.setRotateAngle(light, 0.2617993877991494F, 0.0F, 0.0F);
-        this.body = new ModelRenderer(this, 0, 0);
+        this.body = new RendererModel(this, 0, 0);
         this.body.setRotationPoint(0.0F, 20.0F, 0.0F);
         this.body.addBox(-2.5F, -2.5F, -3.5F, 5, 5, 7, 0.0F);
         this.setRotateAngle(body, -0.08726646259971647F, 0.0F, 0.0F);
-        this.leftArm = new ModelRenderer(this, 17, 0);
+        this.leftArm = new RendererModel(this, 17, 0);
         this.leftArm.setRotationPoint(2.0F, 1.0F, -1.0F);
         this.leftArm.addBox(-1.0F, 0.0F, -1.0F, 2, 4, 2, 0.0F);
         this.setRotateAngle(leftArm, -0.2617993877991494F, 0.0F, -0.2617993877991494F);
-        this.leftLeg = new ModelRenderer(this, 33, 0);
+        this.leftLeg = new RendererModel(this, 33, 0);
         this.leftLeg.setRotationPoint(1.8F, 2.0F, 2.5F);
         this.leftLeg.addBox(-1.0F, 0.0F, -1.0F, 2, 3, 2, 0.0F);
         this.setRotateAngle(leftLeg, 0.3490658503988659F, 0.0F, -0.2617993877991494F);
-        this.tail = new ModelRenderer(this, 0, 12);
+        this.tail = new RendererModel(this, 0, 12);
         this.tail.setRotationPoint(0.0F, 0.0F, 3.1F);
         this.tail.addBox(0.0F, -2.0F, 0.0F, 0, 4, 4, 0.0F);
         this.setRotateAngle(tail, 0.08726646259971647F, 0.0F, 0.0F);
-        this.teeth = new ModelRenderer(this, 13, 17);
+        this.teeth = new RendererModel(this, 13, 17);
         this.teeth.setRotationPoint(0.0F, 1.5F, -3.4F);
         this.teeth.addBox(-1.5F, -2.0F, 0.0F, 3, 2, 0, 0.0F);
         this.setRotateAngle(teeth, 0.2617993877991494F, 0.0F, 0.0F);
-        this.fin = new ModelRenderer(this, 10, 18);
+        this.fin = new RendererModel(this, 10, 18);
         this.fin.setRotationPoint(0.0F, -2.5F, 1.0F);
         this.fin.addBox(0.0F, -2.0F, -2.0F, 0, 2, 4, 0.0F);
         this.body.addChild(this.rightLeg);
@@ -129,7 +127,7 @@ public class ModelAnglerPup extends ModelBase {
 
 
     @Override
-    public void setLivingAnimations(EntityLivingBase entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTickTime) {
+    public void setLivingAnimations(LivingEntity entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTickTime) {
 
         if (((EntityAnglerPup) entitylivingbaseIn).isPartying()) {
             this.state = State.PARTY;
@@ -155,13 +153,13 @@ public class ModelAnglerPup extends ModelBase {
 
     }
 
-    public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
+    public void setRotateAngle(RendererModel modelRenderer, float x, float y, float z) {
         modelRenderer.rotateAngleX = x;
         modelRenderer.rotateAngleY = y;
         modelRenderer.rotateAngleZ = z;
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     enum State {
         WALKING,
         STANDING,

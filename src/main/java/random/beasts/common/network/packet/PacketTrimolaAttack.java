@@ -2,7 +2,7 @@ package random.beasts.common.network.packet;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.RayTraceResult;
@@ -71,10 +71,10 @@ public class PacketTrimolaAttack implements IMessage {
                 Vec3d vec3a = ent.getLook(1.0F);
                 int distance = 12;
                 Vec3d vec3b = vec3.addVector(vec3a.x * distance, vec3a.y * distance, vec3a.z * distance);
-                Entity ee = findEntityOnPath(ent, 14.0F, vec3, vec3b, (o) -> o instanceof EntityLivingBase);
+                Entity ee = findEntityOnPath(ent, 14.0F, vec3, vec3b, (o) -> o instanceof LivingEntity);
 
                 if(ee != null){
-                    ee.attackEntityFrom(DamageSource.causeMobDamage((EntityLivingBase) ent), 2.0F);
+                    ee.attackEntityFrom(DamageSource.causeMobDamage((LivingEntity) ent), 2.0F);
                 }
             }
             return null;

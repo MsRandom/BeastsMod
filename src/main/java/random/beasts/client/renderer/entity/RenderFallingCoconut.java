@@ -1,7 +1,7 @@
 package random.beasts.client.renderer.entity;
 
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 import random.beasts.client.renderer.RenderCoconut;
 import random.beasts.common.entity.item.EntityFallingCoconut;
@@ -11,7 +11,7 @@ import javax.annotation.Nullable;
 
 public class RenderFallingCoconut extends Render<EntityFallingCoconut> {
 
-    public RenderFallingCoconut(RenderManager rendermanagerIn) {
+    public RenderFallingCoconut(EntityRendererManager rendermanagerIn) {
         super(rendermanagerIn);
     }
 

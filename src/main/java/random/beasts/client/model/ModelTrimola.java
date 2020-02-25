@@ -1,48 +1,47 @@
 package random.beasts.client.model;
 
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelHorse;
-import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.entity.model.EntityModel;
+import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 import random.beasts.common.entity.monster.EntityTrimola;
 
-public class ModelTrimola extends ModelBase {
-    public ModelRenderer body;
-    public ModelRenderer head;
-    public ModelRenderer backfin;
-    public ModelRenderer backleg;
-    public ModelRenderer leftfrontleg;
-    public ModelRenderer rightfrontleg;
-    public ModelRenderer tail1;
-    public ModelRenderer tail2;
+public class ModelTrimola extends EntityModel {
+    public RendererModel body;
+    public RendererModel head;
+    public RendererModel backfin;
+    public RendererModel backleg;
+    public RendererModel leftfrontleg;
+    public RendererModel rightfrontleg;
+    public RendererModel tail1;
+    public RendererModel tail2;
 
     public ModelTrimola() {
         this.textureWidth = 96;
         this.textureHeight = 64;
-        this.leftfrontleg = new ModelRenderer(this, 67, 15);
+        this.leftfrontleg = new RendererModel(this, 67, 15);
         this.leftfrontleg.setRotationPoint(2.0F, 6.0F, -5.0F);
         this.leftfrontleg.addBox(-1.5F, 0.0F, -2.0F, 3, 9, 4, 0.0F);
-        this.tail1 = new ModelRenderer(this, 0, 32);
+        this.tail1 = new RendererModel(this, 0, 32);
         this.tail1.setRotationPoint(0.0F, 0.0F, 9.0F);
         this.tail1.addBox(-0.5F, -5.0F, 0.0F, 1, 10, 5, 0.0F);
-        this.head = new ModelRenderer(this, 33, 0);
+        this.head = new RendererModel(this, 33, 0);
         this.head.setRotationPoint(0.0F, 0.0F, -9.0F);
         this.head.addBox(-2.5F, -5.0F, -4.0F, 5, 10, 4, 0.0F);
-        this.rightfrontleg = new ModelRenderer(this, 51, 15);
+        this.rightfrontleg = new RendererModel(this, 51, 15);
         this.rightfrontleg.mirror = true;
         this.rightfrontleg.setRotationPoint(-2.0F, 6.0F, -5.0F);
         this.rightfrontleg.addBox(-1.5F, 0.0F, -2.0F, 3, 9, 4, 0.0F);
-        this.backfin = new ModelRenderer(this, 52, 0);
+        this.backfin = new RendererModel(this, 52, 0);
         this.backfin.setRotationPoint(0.0F, -6.0F, 5.0F);
         this.backfin.addBox(-0.5F, -10.0F, -2.0F, 1, 10, 4, 0.0F);
-        this.body = new ModelRenderer(this, 0, 0);
+        this.body = new RendererModel(this, 0, 0);
         this.body.setRotationPoint(0.0F, 9.0F, 0.0F);
         this.body.addBox(-3.5F, -6.0F, -9.0F, 7, 12, 18, 0.0F);
-        this.backleg = new ModelRenderer(this, 64, 0);
+        this.backleg = new RendererModel(this, 64, 0);
         this.backleg.setRotationPoint(0.0F, 6.0F, 6.0F);
         this.backleg.addBox(-1.5F, 0.0F, -2.0F, 3, 9, 4, 0.0F);
-        this.tail2 = new ModelRenderer(this, 13, 32);
+        this.tail2 = new RendererModel(this, 13, 32);
         this.tail2.setRotationPoint(0.0F, 0.0F, 5.0F);
         this.tail2.addBox(-0.5F, -2.0F, 0.0F, 1, 4, 5, 0.0F);
         this.body.addChild(this.leftfrontleg);
@@ -91,7 +90,7 @@ public class ModelTrimola extends ModelBase {
         }
     }
 
-    public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
+    public void setRotateAngle(RendererModel modelRenderer, float x, float y, float z) {
         modelRenderer.rotateAngleX = x;
         modelRenderer.rotateAngleY = y;
         modelRenderer.rotateAngleZ = z;

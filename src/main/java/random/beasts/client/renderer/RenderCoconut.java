@@ -2,13 +2,12 @@ package random.beasts.client.renderer;
 
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
-import random.beasts.api.main.BeastsReference;
 import random.beasts.client.model.ModelCoconut;
 
 import java.util.function.Consumer;
 
 public class RenderCoconut {
-    public static final ResourceLocation TEXTURE = new ResourceLocation(BeastsReference.ID, "textures/entity/coconut_crab.png");
+    public static final ResourceLocation TEXTURE = new ResourceLocation(BeastsMod.MOD_ID, "textures/entity/coconut_crab.png");
     private static final ModelCoconut MODEL = new ModelCoconut();
 
     public static void render(double x, double y, double z, Consumer<ResourceLocation> bindTexture, boolean renderOutlines, int outline) {

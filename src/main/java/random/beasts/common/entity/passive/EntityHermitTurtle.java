@@ -7,7 +7,7 @@ import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAITarget;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -33,14 +33,14 @@ public class EntityHermitTurtle extends EntityAnimal implements IShellEntity {
 
     public EntityHermitTurtle(World worldIn) {
         super(worldIn);
-        this.tasks.addTask(0, new EntityAIWander(this, 0.2, 200) {
+        this.goalSelector.addGoal(0, new EntityAIWander(this, 0.2, 200) {
             @Override
             public boolean shouldExecute() {
                 return isOut() && super.shouldExecute();
             }
         });
-        this.tasks.addTask(1, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityAIMate(this, 1.0D));
+        this.goalSelector.addGoal(1, new EntityAISwimming(this));
+        this.goalSelector.addGoal(1, new EntityAIMate(this, 1.0D));
     }
 
     @Override
@@ -87,7 +87,7 @@ public class EntityHermitTurtle extends EntityAnimal implements IShellEntity {
     }
 
     protected void initEntityAI() {
-        this.tasks.addTask(0, new AIHide(this, false));
+        this.goalSelector.addGoal(0, new AIHide(this, false));
     }
 
     protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
@@ -128,11 +128,11 @@ public class EntityHermitTurtle extends EntityAnimal implements IShellEntity {
 
         @Override
         public boolean shouldExecute() {
-            List<EntityPlayer> players = this.taskOwner.world.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(this.taskOwner.getPosition()).grow(5));
+            List<PlayerEntity> players = this.taskOwner.world.getEntitiesWithinAABB(PlayerEntity.class, new AxisAlignedBB(this.taskOwner.getPosition()).grow(5));
             List<EntityVileEel> eels = this.taskOwner.world.getEntitiesWithinAABB(EntityVileEel.class, new AxisAlignedBB(this.taskOwner.getPosition()).grow(10));
             boolean plBool = false;
             if (!players.isEmpty()) {
-                for (EntityPlayer player : players) {
+                for (PlayerEntity player : players) {
                     if (!player.isSneaking()) {
                         plBool = true;
                     }

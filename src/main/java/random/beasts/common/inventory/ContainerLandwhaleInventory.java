@@ -1,6 +1,6 @@
 package random.beasts.common.inventory;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
@@ -11,7 +11,7 @@ public class ContainerLandwhaleInventory extends Container {
 
     private EntityLandwhale landwhale;
 
-    public ContainerLandwhaleInventory(EntityLandwhale landwhale, EntityPlayer player) {
+    public ContainerLandwhaleInventory(EntityLandwhale landwhale, PlayerEntity player) {
         this.landwhale = landwhale;
         landwhale.inventory.openInventory(player);
         this.addSlotToContainer(new Slot(landwhale.inventory, 0, 8, 18) {
@@ -32,7 +32,7 @@ public class ContainerLandwhaleInventory extends Container {
                 this.addSlotToContainer(new Slot(landwhale.inventory, 2 + l + k * 5, 80 + l * 18, 18 + k * 18));
     }
 
-    public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
+    public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
         //slot.getSlot is causing the game to freeze by never existing this method
         /*ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.inventorySlots.get(index);
@@ -54,11 +54,11 @@ public class ContainerLandwhaleInventory extends Container {
     }
 
     @Override
-    public boolean canInteractWith(EntityPlayer playerIn) {
+    public boolean canInteractWith(PlayerEntity playerIn) {
         return landwhale.isTamed() && landwhale.isOwner(playerIn);
     }
 
-    public void onContainerClosed(EntityPlayer playerIn) {
+    public void onContainerClosed(PlayerEntity playerIn) {
         super.onContainerClosed(playerIn);
         this.landwhale.inventory.closeInventory(playerIn);
     }

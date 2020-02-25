@@ -4,11 +4,11 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
-import net.minecraft.entity.IEntityLivingData;
+import net.minecraft.entity.IMobEntityData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
@@ -26,11 +26,11 @@ public class EntityButterflyFish extends EntityAnimal {
 		super(worldIn);
 	}
 
-	@Override
-	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, IEntityLivingData livingdata) {
-		this.setVariant(this.getRNG().nextInt(4));
-		return super.onInitialSpawn(difficulty, livingdata);
-	}
+    @Override
+    public IMobEntityData onInitialSpawn(DifficultyInstance difficulty, IMobEntityData livingdata) {
+        this.setVariant(this.getRNG().nextInt(4));
+        return super.onInitialSpawn(difficulty, livingdata);
+    }
 
 	protected void entityInit() {
 		super.entityInit();
@@ -105,32 +105,32 @@ public class EntityButterflyFish extends EntityAnimal {
 		return false;
 	}
 
-	public void fall(float distance, float damageMultiplier) {
-	}
+    public void fall(float distance, float damageMultiplier) {
+    }
 
-	protected void updateFallState(double y, boolean onGroundIn, IBlockState state, BlockPos pos) {
-	}
+    protected void updateFallState(double y, boolean onGroundIn, IBlockState state, BlockPos pos) {
+    }
 
-	public boolean doesEntityNotTriggerPressurePlate() {
-		return true;
-	}
+    public boolean doesEntityNotTriggerPressurePlate() {
+        return true;
+    }
 
-	public void readEntityFromNBT(NBTTagCompound compound) {
-		super.readEntityFromNBT(compound);
-		this.dataManager.set(VARIANT, compound.getInteger("Variant"));
-	}
+    public void readEntityFromNBT(CompoundNBT compound) {
+        super.readEntityFromNBT(compound);
+        this.dataManager.set(VARIANT, compound.getInt("Variant"));
+    }
 
-	public void writeEntityToNBT(NBTTagCompound compound) {
-		super.writeEntityToNBT(compound);
-		compound.setInteger("Variant", this.dataManager.get(VARIANT));
-	}
+    public void writeEntityToNBT(CompoundNBT compound) {
+        super.writeEntityToNBT(compound);
+        compound.putInt("Variant", this.dataManager.get(VARIANT));
+    }
 
-	public float getEyeHeight() {
-		return this.height / 2.0F;
-	}
+    public float getEyeHeight() {
+        return this.height / 2.0F;
+    }
 
-	@Override
-	public EntityAgeable createChild(EntityAgeable ageable) {
+    @Override
+    public EntityAgeable createChild(EntityAgeable ageable) {
 		return null;
 	}
 }

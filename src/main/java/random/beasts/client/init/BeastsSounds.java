@@ -2,7 +2,6 @@ package random.beasts.client.init;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import random.beasts.api.main.BeastsReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +30,7 @@ public class BeastsSounds {
     public static final SoundEvent SCALLOP_CRACK = create("entity.scallop.crack");
 
     private static SoundEvent create(String s) {
-        ResourceLocation name = new ResourceLocation(BeastsReference.ID, s);
+        ResourceLocation name = new ResourceLocation(BeastsMod.MOD_ID, s);
         SoundEvent sound = new SoundEvent(name).setRegistryName(name);
         LIST.add(sound);
         return sound;

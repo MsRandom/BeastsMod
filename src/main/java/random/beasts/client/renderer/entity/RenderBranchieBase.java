@@ -1,16 +1,16 @@
 package random.beasts.client.renderer.entity;
 
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import random.beasts.api.entity.BeastsBranchie;
 import random.beasts.client.model.ModelBranchie;
 
-@SideOnly(Side.CLIENT)
-public abstract class RenderBranchieBase<T extends BeastsBranchie> extends RenderLiving<T> {
-    public RenderBranchieBase(RenderManager rm) {
+@OnlyIn(Dist.CLIENT)
+public abstract class RenderBranchieBase<T extends BeastsBranchie> extends MobRenderer<T> {
+    public RenderBranchieBase(EntityRendererManager rm) {
         super(rm, new ModelBranchie(), 0.1F);
     }
 

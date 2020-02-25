@@ -2,15 +2,15 @@ package random.beasts.client.renderer.entity;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
-import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import random.beasts.client.model.ModelCoconut;
 import random.beasts.client.renderer.RenderCoconut;
 import random.beasts.common.entity.monster.EntityCoconutCrab;
@@ -18,9 +18,9 @@ import random.beasts.common.entity.monster.EntityCoconutCrab;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class RenderCoconutCrab extends RenderLiving<EntityCoconutCrab> {
+public class RenderCoconutCrab extends MobRenderer<EntityCoconutCrab> {
 
-    public RenderCoconutCrab(RenderManager rendermanagerIn) {
+    public RenderCoconutCrab(EntityRendererManager rendermanagerIn) {
         super(rendermanagerIn, new ModelCoconut(), 0.1f);
         this.addLayer(new LayerCrabItem());
     }
@@ -36,9 +36,9 @@ public class RenderCoconutCrab extends RenderLiving<EntityCoconutCrab> {
         return RenderCoconut.TEXTURE;
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public static class LayerCrabItem implements LayerRenderer<EntityCoconutCrab> {
-        private EntityItem item = new EntityItem(Minecraft.getMinecraft().world);
+        private ItemEntity item = new ItemEntity(Minecraft.getInstance().world);
 
         public void doRenderLayer(EntityCoconutCrab entity, float f, float f1, float f2, float f3, float f4, float f5, float f6) {
             if (!entity.getHeldItem(EnumHand.MAIN_HAND).isEmpty()) {
@@ -50,7 +50,7 @@ public class RenderCoconutCrab extends RenderLiving<EntityCoconutCrab> {
                     GlStateManager.rotate(90, 0, 1, 0);
                     GlStateManager.translate(0.6F, -1.5F, 0.25f);
                     GlStateManager.scale(0.7F, 0.7F, 0.7F);
-                    Minecraft.getMinecraft().getRenderManager().renderEntity(item, 0, 0, 0, 0, 0, false);
+                    Minecraft.getInstance().getEntityRendererManager().renderEntity(item, 0, 0, 0, 0, 0, false);
                     GlStateManager.popMatrix();
                 }
             }

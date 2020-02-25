@@ -1,24 +1,23 @@
 package random.beasts.proxy;
 
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.StateMap;
+import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.init.Items;
-import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import net.minecraftforge.fml.relauncher.Side;
 import random.beasts.api.block.BeastsSlab;
 import random.beasts.api.item.IHandleMeta;
-import random.beasts.api.main.BeastsReference;
 import random.beasts.api.main.BeastsRegistries;
 import random.beasts.client.renderer.entity.*;
 import random.beasts.client.renderer.tileentity.TileEntityCoconutRenderer;
@@ -39,28 +38,21 @@ public class ClientProxy extends CommonProxy {
     public static final KeyBinding TRIMOLA_ATTACK = new KeyBinding("trimola.attack", 19, "key.categories.misc");
 
     @Override
-    public void preInit() {
-        super.preInit();
-        ClientRegistry.registerKeyBinding(TRIMOLA_ATTACK);
-        this.registerEntityRenders();
+    public PlayerEntity getPlayer() {
+        return Minecraft.getInstance().player;
     }
 
     @Override
-    public EntityPlayer getPlayer() {
-        return Minecraft.getMinecraft().player;
-    }
-
-    @Override
-    public EntityPlayer getPlayer(MessageContext ctx) {
-        if (ctx.side == Side.SERVER) {
+    public PlayerEntity getPlayer(MessageContext ctx) {
+        if (ctx.side == Dist.SERVER) {
             return ctx.getServerHandler().player;
         }
-        return Minecraft.getMinecraft().player;
+        return Minecraft.getInstance().player;
     }
 
     @Override
     public boolean isClientSneaking() {
-        return Minecraft.getMinecraft().gameSettings.keyBindSneak.isKeyDown();
+        return Minecraft.getInstance().gameSettings.keyBindSneak.isKeyDown();
     }
 
     @Override
@@ -101,11 +93,12 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	public void registerEventRenders() {
+        this.registerEntityRenders();
         for (Item item : BeastsRegistries.ITEMS.get()) {
             if (item instanceof IHandleMeta) {
                 IHandleMeta metaItem = (IHandleMeta) item;
                 for (int i = 0; i < metaItem.getDamage(); i++)
-                    ModelLoader.setCustomModelResourceLocation(item, i, new ModelResourceLocation(new ResourceLocation(BeastsReference.ID, Objects.requireNonNull(item.getRegistryName()).getResourcePath() + "_" + metaItem.handleMeta(i)), "inventory"));
+                    ModelLoader.setCustomModelResourceLocation(item, i, new ModelResourceLocation(new ResourceLocation(BeastsMod.MOD_ID, Objects.requireNonNull(item.getRegistryName()).getPath() + "_" + metaItem.handleMeta(i)), "inventory"));
             } else
                 ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(Objects.requireNonNull(item.getRegistryName()), "inventory"));
         }
@@ -130,16 +123,16 @@ public class ClientProxy extends CommonProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCoconut.class, new TileEntityCoconutRenderer());
 	}
 
-	@Override
-	public ModelBiped getArmorModel(Item armorItem, EntityEquipmentSlot armorSlot) {
-		return ArmorData.MODELS.getFrom(armorItem, armorSlot);
-	}
+    @Override
+    public <A extends BipedModel<?>> A getArmorModel(Item armorItem, EquipmentSlotType armorSlot) {
+        return ArmorData.MODELS.getFrom(armorItem, armorSlot);
+    }
 
-	@Override
-	public String getArmorTexture(Item armorItem, EntityEquipmentSlot armorSlot) {
-		String texture = ArmorData.TEXTURES.getFrom(armorItem, armorSlot);
-		return texture == null ? null : BeastsReference.ID + ":textures/models/armor/" + texture + ".png";
-	}
+    @Override
+    public String getArmorTexture(Item armorItem, EquipmentSlotType armorSlot) {
+        String texture = ArmorData.TEXTURES.getFrom(armorItem, armorSlot);
+        return texture == null ? null : BeastsMod.MOD_ID + ":textures/models/armor/" + texture + ".png";
+    }
 
 	public void setGraphicsLevel(BlockPalmTreeLeaves block, boolean enabled) {
 		block.setGraphicsLevel(enabled);

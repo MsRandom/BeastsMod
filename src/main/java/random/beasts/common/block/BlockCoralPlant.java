@@ -12,14 +12,14 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import random.beasts.api.block.BeastsBlock;
 import random.beasts.api.main.BeastsUtils;
 import random.beasts.common.init.BeastsBlocks;
@@ -53,8 +53,8 @@ public class BlockCoralPlant extends BeastsBlock {
         BeastsUtils.addToRegistry(this, name, null);
     }
 
-    private static boolean areAllNeighborsEmpty(World worldIn, BlockPos pos, @Nullable EnumFacing excludingSide) {
-        for (EnumFacing enumfacing : EnumFacing.Plane.HORIZONTAL)
+    private static boolean areAllNeighborsEmpty(World worldIn, BlockPos pos, @Nullable Direction excludingSide) {
+        for (Direction enumfacing : Direction.Plane.HORIZONTAL)
             if (enumfacing != excludingSide && !worldIn.isAirBlock(pos.offset(enumfacing))) return false;
         return true;
     }
@@ -134,7 +134,7 @@ public class BlockCoralPlant extends BeastsBlock {
     private boolean canSurviveAt(World wordIn, BlockPos pos) {
         boolean flag = wordIn.isAirBlock(pos.up());
         boolean flag1 = wordIn.isAirBlock(pos.down());
-        for (EnumFacing enumfacing : EnumFacing.Plane.HORIZONTAL) {
+        for (Direction enumfacing : Direction.Plane.HORIZONTAL) {
             BlockPos blockpos = pos.offset(enumfacing);
             Block block = wordIn.getBlockState(blockpos).getBlock();
             if (block == this) {
@@ -155,18 +155,18 @@ public class BlockCoralPlant extends BeastsBlock {
         return false;
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public BlockRenderLayer getBlockLayer() {
         return BlockRenderLayer.CUTOUT;
     }
 
-    @SideOnly(Side.CLIENT)
-    public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
+    @OnlyIn(Dist.CLIENT)
+    public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, Direction side) {
         Block block = blockAccess.getBlockState(pos.offset(side)).getBlock();
-        return block != this && !(block instanceof BlockCoral) && (side != EnumFacing.DOWN || block != Blocks.SAND);
+        return block != this && !(block instanceof BlockCoral) && (side != Direction.DOWN || block != Blocks.SAND);
     }
 
-    public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
+    public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, Direction face) {
         return BlockFaceShape.UNDEFINED;
     }
 
@@ -191,7 +191,7 @@ public class BlockCoralPlant extends BeastsBlock {
             int l = rand.nextInt(4);
             if (p_185601_5_ == 0) ++l;
             for (int k = 0; k < l; ++k) {
-                EnumFacing enumfacing = EnumFacing.Plane.HORIZONTAL.random(rand);
+                Direction enumfacing = Direction.Plane.HORIZONTAL.random(rand);
                 BlockPos blockpos1 = p_185601_1_.up(i).offset(enumfacing);
                 if (Math.abs(blockpos1.getX() - p_185601_3_.getX()) < p_185601_4_ && Math.abs(blockpos1.getZ() - p_185601_3_.getZ()) < p_185601_4_ && worldIn.isAirBlock(blockpos1) && worldIn.isAirBlock(blockpos1.down()) && areAllNeighborsEmpty(worldIn, blockpos1, enumfacing.getOpposite())) {
                     worldIn.setBlockState(blockpos1, getDefaultState(), 2);

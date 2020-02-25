@@ -4,7 +4,6 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 import random.beasts.api.main.BeastsRegistries;
 
 public abstract class BeastsStructure extends WorldGenerator {
-
     public final Runnable registerer;
 
     public BeastsStructure(Runnable registerer) {

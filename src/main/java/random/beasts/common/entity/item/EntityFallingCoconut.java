@@ -9,14 +9,14 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import random.beasts.common.init.BeastsBlocks;
 
 import java.util.List;
@@ -106,7 +106,7 @@ public class EntityFallingCoconut extends Entity {
 
                     if (iblockstate.getBlock() != Blocks.PISTON_EXTENSION) {
                         this.setDead();
-                        if (!(this.world.mayPlace(block, blockpos1, true, EnumFacing.UP, null) && !BlockFalling.canFallThrough(this.world.getBlockState(blockpos1.down())) && this.world.setBlockState(blockpos1, this.fallTile, 3)) && (this.shouldDropItem && this.world.getGameRules().getBoolean("doEntityDrops")))
+                        if (!(this.world.mayPlace(block, blockpos1, true, Direction.UP, null) && !BlockFalling.canFallThrough(this.world.getBlockState(blockpos1.down())) && this.world.setBlockState(blockpos1, this.fallTile, 3)) && (this.shouldDropItem && this.world.getGameRules().getBoolean("doEntityDrops")))
                             this.entityDropItem(new ItemStack(block, 1, block.damageDropped(this.fallTile)), 0.0F);
                     }
                 }
@@ -129,13 +129,13 @@ public class EntityFallingCoconut extends Entity {
         }
     }
 
-    protected void writeEntityToNBT(NBTTagCompound compound) {
-        compound.setInteger("Time", this.fallTime);
-        compound.setBoolean("DropItem", this.shouldDropItem);
+    protected void writeEntityToNBT(CompoundNBT compound) {
+        compound.putInt("Time", this.fallTime);
+        compound.putBoolean("DropItem", this.shouldDropItem);
     }
 
-    protected void readEntityFromNBT(NBTTagCompound compound) {
-        this.fallTime = compound.getInteger("Time");
+    protected void readEntityFromNBT(CompoundNBT compound) {
+        this.fallTime = compound.getInt("Time");
         if (compound.hasKey("DropItem", 99)) this.shouldDropItem = compound.getBoolean("DropItem");
     }
 
@@ -148,7 +148,7 @@ public class EntityFallingCoconut extends Entity {
         }
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public boolean canRenderOnFire() {
         return false;
     }

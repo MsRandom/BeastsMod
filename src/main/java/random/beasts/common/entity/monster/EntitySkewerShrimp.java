@@ -2,8 +2,7 @@ package random.beasts.common.entity.monster;
 
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.*;
-import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
@@ -11,15 +10,15 @@ import net.minecraft.world.World;
 import random.beasts.client.init.BeastsSounds;
 import random.beasts.common.init.BeastsItems;
 
-public class EntitySkewerShrimp extends EntityMob {
+public class EntitySkewerShrimp extends MonsterEntity {
 
     public EntitySkewerShrimp(World worldIn) {
         super(worldIn);
-        this.tasks.addTask(0, new EntityAIWander(this, 0.6F));
-        this.targetTasks.addTask(0, new EntityAIHurtByTarget(this, true));
-        this.tasks.addTask(1, new EntityAIAttackMelee(this, 0.6F, true));
-        this.tasks.addTask(2, new EntityAIPanic(this, 0.0D));
-        this.tasks.addTask(3, new EntityAISwimming(this));
+        this.goalSelector.addGoal(0, new EntityAIWander(this, 0.6F));
+        this.goalSelector.addGoal(0, new EntityAIHurtByTarget(this, true));
+        this.goalSelector.addGoal(1, new EntityAIAttackMelee(this, 0.6F, true));
+        this.goalSelector.addGoal(2, new EntityAIPanic(this, 0.0D));
+        this.goalSelector.addGoal(3, new EntityAISwimming(this));
     }
 
     @Override

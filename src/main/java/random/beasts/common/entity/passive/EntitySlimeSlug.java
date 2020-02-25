@@ -1,7 +1,7 @@
 package random.beasts.common.entity.passive;
 
 import net.minecraft.entity.EntityAgeable;
-import net.minecraft.entity.IEntityLivingData;
+import net.minecraft.entity.IMobEntityData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIPanic;
@@ -10,7 +10,7 @@ import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
@@ -29,10 +29,10 @@ public class EntitySlimeSlug extends EntityAnimal {
     @Override
     protected void initEntityAI() {
         super.initEntityAI();
-        this.tasks.addTask(0, new EntityAIWanderAvoidWater(this, 0.2D));
-        this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityAIPanic(this, 0.4D));
-        this.tasks.addTask(2, new EntityAILookIdle(this));
+        this.goalSelector.addGoal(0, new EntityAIWanderAvoidWater(this, 0.2D));
+        this.goalSelector.addGoal(0, new EntityAISwimming(this));
+        this.goalSelector.addGoal(1, new EntityAIPanic(this, 0.4D));
+        this.goalSelector.addGoal(2, new EntityAILookIdle(this));
     }
 
     @Override
@@ -50,7 +50,7 @@ public class EntitySlimeSlug extends EntityAnimal {
 
     @Nullable
     @Override
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
+    public IMobEntityData onInitialSpawn(DifficultyInstance difficulty, @Nullable IMobEntityData livingdata) {
         livingdata = super.onInitialSpawn(difficulty, livingdata);
         this.setVariant(this.getRNG().nextInt(4));
         return livingdata;
@@ -71,9 +71,9 @@ public class EntitySlimeSlug extends EntityAnimal {
     }
 
     @Override
-    public void writeEntityToNBT(NBTTagCompound compound) {
+    public void writeEntityToNBT(CompoundNBT compound) {
         super.writeEntityToNBT(compound);
-        compound.setInteger("variant", getVariant());
+        compound.putInt("variant", getVariant());
     }
 
     @Nullable
@@ -83,8 +83,8 @@ public class EntitySlimeSlug extends EntityAnimal {
     }
 
     @Override
-    public void readEntityFromNBT(NBTTagCompound compound) {
+    public void readEntityFromNBT(CompoundNBT compound) {
         super.readEntityFromNBT(compound);
-        setVariant(compound.getInteger("variant"));
+        setVariant(compound.getInt("variant"));
     }
 }

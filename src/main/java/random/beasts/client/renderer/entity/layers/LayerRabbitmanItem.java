@@ -20,7 +20,7 @@ public class LayerRabbitmanItem implements LayerRenderer<EntityRabbitman> {
             GlStateManager.rotate(-25.0F, 1.0F, 0.0F, 0.0F);
             GlStateManager.rotate(20F, 1.0F, 1.0F, 0.0F);
             GlStateManager.translate(-0.1, 0.15, 0.35);
-            Minecraft.getMinecraft().getItemRenderer().renderItemSide(entity, entity.getHeldItemMainhand(), ItemCameraTransforms.TransformType.THIRD_PERSON_RIGHT_HAND, false);
+            Minecraft.getInstance().getItemRenderer().renderItemSide(entity, entity.getHeldItemMainhand(), ItemCameraTransforms.TransformType.THIRD_PERSON_RIGHT_HAND, false);
             GlStateManager.popMatrix();
         }
     }

@@ -1,37 +1,38 @@
 package random.beasts.common.item;
 
-import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityArmorStand;
-import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.ItemArmor;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.item.ArmorStandEntity;
+import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.ArmorItem;
+import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import random.beasts.api.main.BeastsUtils;
 import random.beasts.common.BeastsMod;
 
 import javax.annotation.Nullable;
 
-public class BeastsArmor extends ItemArmor {
+public class BeastsArmor extends ArmorItem {
 
-    public BeastsArmor(String name, ArmorMaterial material, EntityEquipmentSlot armorType) {
+    public BeastsArmor(String name, ArmorMaterial material, EquipmentSlotType armorType) {
         super(material, 0, armorType);
         BeastsUtils.addToRegistry(this, name);
     }
 
+    @OnlyIn(Dist.CLIENT)
     @Override
-    @SideOnly(Side.CLIENT)
-    public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, EntityEquipmentSlot armorSlot, ModelBiped defaultModel) {
-        ModelBiped armorModel = BeastsMod.proxy.getArmorModel(this, armorSlot);
+    public <A extends BipedModel<?>> A getArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlotType armorSlot, A _default) {
+        A armorModel = BeastsMod.proxy.getArmorModel(this, armorSlot);
         if (armorModel != null) {
-            armorModel.isSneak = defaultModel.isSneak;
-            armorModel.isRiding = defaultModel.isRiding;
-            armorModel.isChild = defaultModel.isChild;
-            armorModel.rightArmPose = defaultModel.rightArmPose;
-            armorModel.leftArmPose = defaultModel.leftArmPose;
-            if (entityLiving instanceof EntityArmorStand) armorModel.boxList.forEach(a -> {
+            armorModel.isSneak = _default.isSneak;
+            //armorModel.isRiding = _default.isRiding;
+            armorModel.isChild = _default.isChild;
+            armorModel.rightArmPose = _default.rightArmPose;
+            armorModel.leftArmPose = _default.leftArmPose;
+            if (entityLiving instanceof ArmorStandEntity) armorModel.boxList.forEach(a -> {
                 a.rotateAngleX = 0;
                 a.rotateAngleY = 0;
                 a.rotateAngleZ = 0;
@@ -43,7 +44,7 @@ public class BeastsArmor extends ItemArmor {
 
     @Nullable
     @Override
-    public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type) {
+    public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlotType slot, String type) {
         return BeastsMod.proxy.getArmorTexture(this, slot);
     }
 }

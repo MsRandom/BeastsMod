@@ -1,17 +1,22 @@
 package random.beasts.api.world.biome.underground;
 
 import com.google.common.collect.ImmutableList;
-import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.entity.EntityClassification;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.gen.ChunkGenerator;
+import net.minecraft.world.gen.GenerationSettings;
+import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.storage.loot.RandomValueRange;
 import net.minecraftforge.common.MinecraftForge;
-import random.beasts.api.main.BeastsReference;
 import random.beasts.api.world.biome.BeastsBiome;
+import random.beasts.common.BeastsMod;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -20,7 +25,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class UndergroundBiome extends BeastsBiome {
-    public static final ResourceLocation KEY = new ResourceLocation(BeastsReference.ID, "underground_biomes");
+    public static final ResourceLocation KEY = new ResourceLocation(BeastsMod.MOD_ID, "underground_biomes");
     public static final Map<ChunkPos, UndergroundBiome[]> GENERATED = new HashMap<>();
     private static final List<UndergroundBiome> REGISTERED = new ArrayList<>();
     private static ImmutableList<UndergroundBiome> biomeCache;
@@ -65,8 +70,8 @@ public class UndergroundBiome extends BeastsBiome {
     }
 
     public UndergroundBiome(String name, AtomicInteger rarity, Biome baseBiome, BiPredicate<World, BlockPos> conditions, RandomValueRange size, RandomValueRange height) {
-        super(name.replace(' ', '_').toLowerCase(), new BiomeProperties(name));
-        this.name = Objects.requireNonNull(getRegistryName()).getResourcePath();
+        super(name.replace(' ', '_').toLowerCase(), new Biome.Builder());
+        this.name = Objects.requireNonNull(getRegistryName()).getPath();
         this.rarity = rarity;
         this.biome = baseBiome;
         this.condition = conditions;
@@ -112,19 +117,19 @@ public class UndergroundBiome extends BeastsBiome {
 
     @Deprecated
     @Override
-    public final void decorate(World worldIn, Random rand, BlockPos pos) {
+    public final void decorate(GenerationStage.Decoration stage, ChunkGenerator<? extends GenerationSettings> chunkGenerator, IWorld worldIn, long seed, SharedSeedRandom random, BlockPos pos) {
     }
 
-    public List<Biome.SpawnListEntry> getSpawnableList() {
-        return getSpawnableList(biome);
+    public List<Biome.SpawnListEntry> getSpawns() {
+        return getSpawns(biome);
     }
 
-    public List<Biome.SpawnListEntry> getSpawnableList(World world, BlockPos pos) {
-        return getSpawnableList(biome == null ? world.getBiome(pos) : biome);
+    public List<Biome.SpawnListEntry> getSpawns(World world, BlockPos pos) {
+        return getSpawns(biome == null ? world.getBiome(pos) : biome);
     }
 
-    public List<Biome.SpawnListEntry> getSpawnableList(Biome biome) {
-        return biome == null ? spawnableCreatureList : Stream.concat(spawnableCreatureList.stream(), biome.getSpawnableList(EnumCreatureType.AMBIENT).stream()).collect(Collectors.toList());
+    public List<Biome.SpawnListEntry> getSpawns(Biome biome) {
+        return biome == null ? spawnableCreatureList : Stream.concat(spawnableCreatureList.stream(), biome.getSpawns(EntityClassification.AMBIENT).stream()).collect(Collectors.toList());
     }
 
     public void addSpawns(Biome.SpawnListEntry... entries) {

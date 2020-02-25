@@ -1,13 +1,13 @@
 package random.beasts.common.entity.passive;
 
 import net.minecraft.entity.EntityAgeable;
-import net.minecraft.entity.IEntityLivingData;
+import net.minecraft.entity.IMobEntityData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
@@ -35,9 +35,9 @@ public class EntityLegfish extends EntityAnimal {
     @Override
     protected void initEntityAI() {
         super.initEntityAI();
-        this.tasks.addTask(0, new EntityAIWanderAvoidWater(this, 0.2D));
-        this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityAILookIdle(this));
+        this.goalSelector.addGoal(0, new EntityAIWanderAvoidWater(this, 0.2D));
+        this.goalSelector.addGoal(0, new EntityAISwimming(this));
+        this.goalSelector.addGoal(1, new EntityAILookIdle(this));
     }
 
     @Override
@@ -55,7 +55,7 @@ public class EntityLegfish extends EntityAnimal {
 
     @Nullable
     @Override
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
+    public IMobEntityData onInitialSpawn(DifficultyInstance difficulty, @Nullable IMobEntityData livingdata) {
         livingdata = super.onInitialSpawn(difficulty, livingdata);
         int type = rand.nextInt(3);
         setType(type);
@@ -80,10 +80,10 @@ public class EntityLegfish extends EntityAnimal {
     }
 
     @Override
-    public void writeEntityToNBT(NBTTagCompound compound) {
+    public void writeEntityToNBT(CompoundNBT compound) {
         super.writeEntityToNBT(compound);
-        compound.setInteger("type", getType());
-        compound.setInteger("variant", getVariant());
+        compound.putInt("type", getType());
+        compound.putInt("variant", getVariant());
     }
 
     @Nullable
@@ -93,9 +93,9 @@ public class EntityLegfish extends EntityAnimal {
     }
 
     @Override
-    public void readEntityFromNBT(NBTTagCompound compound) {
+    public void readEntityFromNBT(CompoundNBT compound) {
         super.readEntityFromNBT(compound);
-        setType(compound.getInteger("type"));
-        setVariant(compound.getInteger("variant"));
+        setType(compound.getInt("type"));
+        setVariant(compound.getInt("variant"));
     }
 }

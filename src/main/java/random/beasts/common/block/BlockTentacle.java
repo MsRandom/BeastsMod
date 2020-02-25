@@ -8,17 +8,17 @@ import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import random.beasts.api.main.BeastsUtils;
 import random.beasts.common.init.BeastsBlocks;
 
@@ -70,7 +70,7 @@ public class BlockTentacle extends BlockBush {
         return false;
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public BlockRenderLayer getBlockLayer() {
         return BlockRenderLayer.CUTOUT;
     }
@@ -83,8 +83,8 @@ public class BlockTentacle extends BlockBush {
     @Override
     public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
         super.onEntityCollidedWithBlock(worldIn, pos, state, entityIn);
-        if (entityIn instanceof EntityLivingBase) {
-            EntityLivingBase entity = (EntityLivingBase) entityIn;
+        if (entityIn instanceof LivingEntity) {
+            LivingEntity entity = (LivingEntity) entityIn;
             if (!entity.isPotionActive(MobEffects.POISON)) {
                 PotionEffect effect = new PotionEffect(MobEffects.POISON, 100);
                 if (entity.isPotionApplicable(effect)) entity.addPotionEffect(effect);
@@ -104,7 +104,7 @@ public class BlockTentacle extends BlockBush {
         return state.getValue(SIZE) + (state.getValue(FULL) ? 8 : 0) - 1;
     }
 
-    public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
+    public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, Direction face) {
         return BlockFaceShape.UNDEFINED;
     }
 }

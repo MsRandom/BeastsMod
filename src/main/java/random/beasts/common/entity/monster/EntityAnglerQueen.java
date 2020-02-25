@@ -1,12 +1,11 @@
 package random.beasts.common.entity.monster;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.*;
-import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.monster.MonsterEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerEntityMP;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
@@ -19,7 +18,7 @@ import net.minecraft.world.World;
 import random.beasts.client.init.BeastsSounds;
 import random.beasts.common.entity.passive.EntityAnglerPup;
 
-public class EntityAnglerQueen extends EntityMob {
+public class EntityAnglerQueen extends MonsterEntity {
     private static final DataParameter<Boolean> CHARGING_BEAM = EntityDataManager.createKey(EntityAnglerQueen.class, DataSerializers.BOOLEAN);
     private static final DataParameter<Boolean> USING_BEAM = EntityDataManager.createKey(EntityAnglerQueen.class, DataSerializers.BOOLEAN);
     private static final DataParameter<Float> LASER_PITCH = EntityDataManager.createKey(EntityAnglerQueen.class, DataSerializers.FLOAT);
@@ -35,14 +34,14 @@ public class EntityAnglerQueen extends EntityMob {
     }
 
     protected void initEntityAI() {
-        this.tasks.addTask(1, new EntityAISwimming(this));
-        //this.tasks.addTask(3, new EntityAnglerQueen.AIStompAttack(this));
-        this.tasks.addTask(4, new EntityAnglerQueen.AIMinionAttack(this));
-        this.tasks.addTask(5, new EntityAnglerQueen.AIBeamAttack(this));
-        this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-        this.tasks.addTask(9, new EntityAILookIdle(this));
-        this.tasks.addTask(9, new EntityAIWander(this, 1.05d));
-        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
+        this.goalSelector.addGoal(1, new EntityAISwimming(this));
+        //this.goalSelector.addGoal(3, new EntityAnglerQueen.AIStompAttack(this));
+        this.goalSelector.addGoal(4, new EntityAnglerQueen.AIMinionAttack(this));
+        this.goalSelector.addGoal(5, new EntityAnglerQueen.AIBeamAttack(this));
+        this.goalSelector.addGoal(8, new EntityAIWatchClosest(this, PlayerEntity.class, 8.0F));
+        this.goalSelector.addGoal(9, new EntityAILookIdle(this));
+        this.goalSelector.addGoal(9, new EntityAIWander(this, 1.05d));
+        this.goalSelector.addGoal(1, new EntityAINearestAttackableTarget<>(this, PlayerEntity.class, true));
     }
 	
 	protected void applyEntityAttributes() {
@@ -118,13 +117,13 @@ public class EntityAnglerQueen extends EntityMob {
     }
 
     @Override
-    public void addTrackingPlayer(EntityPlayerMP player) {
+    public void addTrackingPlayer(PlayerEntityMP player) {
         super.addTrackingPlayer(player);
         bossInfo.addPlayer(player);
     }
 
     @Override
-    public void removeTrackingPlayer(EntityPlayerMP player) {
+    public void removeTrackingPlayer(PlayerEntityMP player) {
         super.removeTrackingPlayer(player);
         bossInfo.removePlayer(player);
     }
@@ -136,7 +135,7 @@ public class EntityAnglerQueen extends EntityMob {
 
     static class AIBeamAttack extends EntityAIBase {
         private final EntityAnglerQueen queen;
-        private EntityLivingBase target;
+        private LivingEntity target;
         private int tickCounter;
         private int cooldown;
         private int attackTick = 300;
@@ -224,8 +223,8 @@ public class EntityAnglerQueen extends EntityMob {
                         f += 2.0F;
                     }
 
-                    EntityLivingBase base = null;
-                    for (EntityLivingBase entity : queen.world.getEntitiesWithinAABB(EntityLivingBase.class, queen.getEntityBoundingBox().grow(30))) {
+                    LivingEntity base = null;
+                    for (LivingEntity entity : queen.world.getEntitiesWithinAABB(LivingEntity.class, queen.getEntityBoundingBox().grow(30))) {
                         AxisAlignedBB axisalignedbb = entity.getEntityBoundingBox().grow(0.30000001192092896D);
                         RayTraceResult traceToEntity = axisalignedbb.calculateIntercept(lureVec, hitVec);
                         if (traceToEntity != null && canSeeEntity(lureVec, entity) && entity != queen && (base == null || queen.getDistance(entity) < queen.getDistance(base)))
@@ -263,7 +262,7 @@ public class EntityAnglerQueen extends EntityMob {
 
     static class AIMinionAttack extends EntityAIBase {
         private final EntityAnglerQueen queen;
-        private EntityLivingBase target;
+        private LivingEntity target;
         private int tickCounter;
         private int cooldown;
         private int attackTick = 60;

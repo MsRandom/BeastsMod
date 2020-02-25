@@ -4,26 +4,25 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import random.beasts.api.main.BeastsReference;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import random.beasts.common.entity.item.EntityBeastsPainting;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class RenderBeastsPainting extends Render<EntityBeastsPainting> {
     private static final Map<EntityBeastsPainting.BeastsPainting, ResourceLocation> TEXTURES = new HashMap<>();
 
-    public RenderBeastsPainting(RenderManager renderManagerIn) {
+    public RenderBeastsPainting(EntityRendererManager renderManagerIn) {
         super(renderManagerIn);
     }
 
@@ -52,7 +51,7 @@ public class RenderBeastsPainting extends Render<EntityBeastsPainting> {
     }
 
     protected ResourceLocation getEntityTexture(EntityBeastsPainting entity) {
-        return TEXTURES.putIfAbsent(entity.art, new ResourceLocation(BeastsReference.ID, "textures/painting/" + entity.art.title.toLowerCase().replace(" ", "_") + ".png"));
+        return TEXTURES.putIfAbsent(entity.art, new ResourceLocation(BeastsMod.MOD_ID, "textures/painting/" + entity.art.title.toLowerCase().replace(" ", "_") + ".png"));
     }
 
     private void renderBeastsPainting(EntityBeastsPainting painting, int width, int height) {
@@ -106,12 +105,12 @@ public class RenderBeastsPainting extends Render<EntityBeastsPainting> {
         int i = MathHelper.floor(BeastsPainting.posX);
         int j = MathHelper.floor(BeastsPainting.posY + (p_77008_3_ / 16.0F));
         int k = MathHelper.floor(BeastsPainting.posZ);
-        EnumFacing enumfacing = BeastsPainting.facingDirection;
+        Direction enumfacing = BeastsPainting.facingDirection;
 
-        if (enumfacing == EnumFacing.NORTH) i = MathHelper.floor(BeastsPainting.posX + (p_77008_2_ / 16.0F));
-        if (enumfacing == EnumFacing.WEST) k = MathHelper.floor(BeastsPainting.posZ - (p_77008_2_ / 16.0F));
-        if (enumfacing == EnumFacing.SOUTH) i = MathHelper.floor(BeastsPainting.posX - (p_77008_2_ / 16.0F));
-        if (enumfacing == EnumFacing.EAST) k = MathHelper.floor(BeastsPainting.posZ + (p_77008_2_ / 16.0F));
+        if (enumfacing == Direction.NORTH) i = MathHelper.floor(BeastsPainting.posX + (p_77008_2_ / 16.0F));
+        if (enumfacing == Direction.WEST) k = MathHelper.floor(BeastsPainting.posZ - (p_77008_2_ / 16.0F));
+        if (enumfacing == Direction.SOUTH) i = MathHelper.floor(BeastsPainting.posX - (p_77008_2_ / 16.0F));
+        if (enumfacing == Direction.EAST) k = MathHelper.floor(BeastsPainting.posZ + (p_77008_2_ / 16.0F));
 
         int l = this.renderManager.world.getCombinedLight(new BlockPos(i, j, k), 0);
         int i1 = l % 65536;

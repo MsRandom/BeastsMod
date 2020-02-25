@@ -3,10 +3,10 @@ package random.beasts.common.item;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Enchantments;
-import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
@@ -15,7 +15,7 @@ import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import java.util.List;
 
 public class ItemPufferArmor extends BeastsArmor {
-    public ItemPufferArmor(String type, EntityEquipmentSlot armorType) {
+    public ItemPufferArmor(String type, EquipmentSlotType armorType) {
         super("puffer_" + type, ArmorMaterial.LEATHER, armorType);
     }
 
@@ -48,12 +48,12 @@ public class ItemPufferArmor extends BeastsArmor {
     }
 
     private int getEnchantmentIndex(NBTTagList list) {
-        List<NBTBase> tagList = ReflectionHelper.getPrivateValue(NBTTagList.class, list, "tagList", "field_74747_a", "a");
+        List<INBT> tagList = ReflectionHelper.getPrivateValue(NBTTagList.class, list, "tagList", "field_74747_a", "a");
         int index = -1;
         for (int i = 0; i < tagList.size(); i++) {
-            NBTBase tag = tagList.get(i);
-            if (tag.getId() == 10 && tag instanceof NBTTagCompound) {
-                NBTTagCompound compound = (NBTTagCompound) tag;
+            INBT tag = tagList.get(i);
+            if (tag.getId() == 10 && tag instanceof CompoundNBT) {
+                CompoundNBT compound = (CompoundNBT) tag;
                 if (compound.hasKey("id") && compound.hasKey("lvl") && compound.getShort("id") == (short) Enchantment.getEnchantmentID(Enchantments.THORNS) && compound.getShort("lvl") == (short) ((byte) 2)) {
                     index = i;
                     break;

@@ -1,14 +1,16 @@
 package random.beasts.api.world.biome.underground;
 
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.ChunkPos;
-import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -20,15 +22,10 @@ public class UndergroundGenerationCapabilities implements ICapabilityProvider {
     @CapabilityInject(UndergroundBiomes.class)
     public static final Capability<UndergroundBiomes> CAPABILITY = null;
 
+    @Nonnull
     @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
-        return capability == CAPABILITY;
-    }
-
-    @Nullable
-    @Override
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-        return hasCapability(capability, facing) ? CAPABILITY.cast(CAPABILITY.getDefaultInstance()) : null;
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing) {
+        return CAPABILITY == capability ? LazyOptional.of(capability::getDefaultInstance) : LazyOptional.empty();
     }
 
     public static class UndergroundBiomes {
@@ -38,30 +35,30 @@ public class UndergroundGenerationCapabilities implements ICapabilityProvider {
     public static class UndergroundBiomeStorage implements Capability.IStorage<UndergroundBiomes> {
         @Nullable
         @Override
-        public NBTBase writeNBT(Capability<UndergroundBiomes> capability, UndergroundBiomes instance, EnumFacing side) {
-            NBTTagList nbt = new NBTTagList();
+        public INBT writeNBT(Capability<UndergroundBiomes> capability, UndergroundBiomes instance, Direction side) {
+            ListNBT nbt = new ListNBT();
             Consumer<UndergroundBiomeBounds> consumer = bounds -> {
-                NBTTagCompound compound = new NBTTagCompound();
-                compound.setByte("biome", (byte) (Biome.getIdForBiome(bounds.biome) & 255));
-                compound.setInteger("minX", bounds.minX);
-                compound.setByte("minY", bounds.minY);
-                compound.setInteger("minZ", bounds.minZ);
-                compound.setInteger("maxX", bounds.maxX);
-                compound.setByte("maxY", bounds.maxY);
-                compound.setInteger("maxZ", bounds.maxZ);
-                nbt.appendTag(compound);
+                CompoundNBT compound = new CompoundNBT();
+                compound.putString("biome", bounds.biome.getRegistryName().toString());
+                compound.putInt("minX", bounds.minX);
+                compound.putByte("minY", bounds.minY);
+                compound.putInt("minZ", bounds.minZ);
+                compound.putInt("maxX", bounds.maxX);
+                compound.putByte("maxY", bounds.maxY);
+                compound.putInt("maxZ", bounds.maxZ);
+                nbt.add(compound);
             };
             instance.biomeList.forEach(consumer);
             return nbt;
         }
 
         @Override
-        public void readNBT(Capability<UndergroundBiomes> capability, UndergroundBiomes instance, EnumFacing side, NBTBase nbt) {
-            NBTTagList list = (NBTTagList) nbt;
-            Consumer<NBTBase> consumer = tag -> {
-                if (tag instanceof NBTTagCompound) {
-                    NBTTagCompound compound = (NBTTagCompound) tag;
-                    UndergroundBiomeBounds bounds = new UndergroundBiomeBounds((UndergroundBiome) Biome.getBiome(compound.getByte("biome") & 255), compound.getInteger("minX"), compound.getByte("minY"), compound.getInteger("minZ"), compound.getInteger("maxX"), compound.getByte("maxY"), compound.getInteger("maxZ"));
+        public void readNBT(Capability<UndergroundBiomes> capability, UndergroundBiomes instance, Direction side, INBT nbt) {
+            ListNBT list = (ListNBT) nbt;
+            Consumer<INBT> consumer = tag -> {
+                if (tag instanceof CompoundNBT) {
+                    CompoundNBT compound = (CompoundNBT) tag;
+                    UndergroundBiomeBounds bounds = new UndergroundBiomeBounds((UndergroundBiome) ForgeRegistries.BIOMES.getValue(new ResourceLocation(compound.getString("biome"))), compound.getInt("minX"), compound.getByte("minY"), compound.getInt("minZ"), compound.getInt("maxX"), compound.getByte("maxY"), compound.getInt("maxZ"));
                     instance.biomeList.add(bounds);
                 }
             };

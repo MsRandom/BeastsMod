@@ -1,7 +1,7 @@
 package random.beasts.common.world.gen.structure;
 
 import net.minecraft.init.Biomes;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
@@ -121,12 +121,12 @@ public class RabbitVillageGenerator extends BeastsStructure {
             return this.hasMoreThanTwoComponents;
         }
 
-        public void writeToNBT(NBTTagCompound tagCompound) {
+        public void writeToNBT(CompoundNBT tagCompound) {
             super.writeToNBT(tagCompound);
             tagCompound.setBoolean("Valid", this.hasMoreThanTwoComponents);
         }
 
-        public void readFromNBT(NBTTagCompound tagCompound) {
+        public void readFromNBT(CompoundNBT tagCompound) {
             super.readFromNBT(tagCompound);
             this.hasMoreThanTwoComponents = tagCompound.getBoolean("Valid");
         }

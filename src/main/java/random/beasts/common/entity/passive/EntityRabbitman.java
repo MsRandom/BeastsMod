@@ -1,4 +1,4 @@
-package random.beasts.common.entity.passive;
+/*package random.beasts.common.entity.passive;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCrops;
@@ -6,17 +6,17 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.*;
-import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.passive.EntityWolf;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.init.*;
 import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -56,7 +56,7 @@ public class EntityRabbitman extends EntityAgeable implements INpc, IMerchant {
     public boolean hasTarget = false;
     private int randomTickDivider;
     private boolean isMating;
-    private EntityPlayer customer;
+    private PlayerEntity customer;
     private MerchantRecipeList buyingList;
     private int timeUntilReset;
     private boolean needsInitialization;
@@ -76,18 +76,18 @@ public class EntityRabbitman extends EntityAgeable implements INpc, IMerchant {
     }
 
     protected void initEntityAI() {
-        this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityAIAvoidEntity<>(this, EntityOcelot.class, 8.0F, 0.6D, 0.6D));
-        this.tasks.addTask(1, new EntityAIAvoidEntity<>(this, EntityWolf.class, 8.0F, 0.8D, 0.8D));
-        this.tasks.addTask(2, new EntityAIMoveIndoors(this));
-        this.tasks.addTask(3, new EntityAIRestrictOpenDoor(this));
-        this.tasks.addTask(4, new EntityAIOpenDoor(this, true));
-        this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 0.6D));
-        this.tasks.addTask(6, new AIMate());
-        this.tasks.addTask(9, new EntityAIWatchClosest2(this, EntityPlayer.class, 3.0F, 1.0F));
-        this.tasks.addTask(9, new AIInteract());
-        this.tasks.addTask(9, new EntityAIWanderAvoidWater(this, 0.6D));
-        this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityLiving.class, 8.0F));
+        this.goalSelector.addGoal(0, new EntityAISwimming(this));
+        this.goalSelector.addGoal(1, new EntityAIAvoidEntity<>(this, EntityOcelot.class, 8.0F, 0.6D, 0.6D));
+        this.goalSelector.addGoal(1, new EntityAIAvoidEntity<>(this, EntityWolf.class, 8.0F, 0.8D, 0.8D));
+        this.goalSelector.addGoal(2, new EntityAIMoveIndoors(this));
+        this.goalSelector.addGoal(3, new EntityAIRestrictOpenDoor(this));
+        this.goalSelector.addGoal(4, new EntityAIOpenDoor(this, true));
+        this.goalSelector.addGoal(5, new EntityAIMoveTowardsRestriction(this, 0.6D));
+        this.goalSelector.addGoal(6, new AIMate());
+        this.goalSelector.addGoal(9, new EntityAIWatchClosest2(this, PlayerEntity.class, 3.0F, 1.0F));
+        this.goalSelector.addGoal(9, new AIInteract());
+        this.goalSelector.addGoal(9, new EntityAIWanderAvoidWater(this, 0.6D));
+        this.goalSelector.addGoal(10, new EntityAIWatchClosest(this, MobEntity.class, 8.0F));
     }
 
     @Override
@@ -98,7 +98,7 @@ public class EntityRabbitman extends EntityAgeable implements INpc, IMerchant {
 
     @Nullable
     @Override
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
+    public IMobEntityData onInitialSpawn(DifficultyInstance difficulty, @Nullable IMobEntityData livingdata) {
         final int variant = rand.nextInt(Math.round(50 / (difficulty.getAdditionalDifficulty() + 1))) == 0 ? 5 : this.rand.nextInt(VARIANTS - 1);
         Trade[] trades = TRADES[variant];
         int currentIndex = 3, randomIndex;
@@ -134,18 +134,18 @@ public class EntityRabbitman extends EntityAgeable implements INpc, IMerchant {
 
     @Nullable
     @Override
-    public EntityPlayer getCustomer() {
+    public PlayerEntity getCustomer() {
         return this.customer;
     }
 
     @Override
-    public void setCustomer(@Nullable EntityPlayer player) {
+    public void setCustomer(@Nullable PlayerEntity player) {
         this.customer = player;
     }
 
     @Nullable
     @Override
-    public MerchantRecipeList getRecipes(@Nonnull EntityPlayer player) {
+    public MerchantRecipeList getRecipes(@Nonnull PlayerEntity player) {
         return this.buyingList;
     }
 
@@ -255,7 +255,7 @@ public class EntityRabbitman extends EntityAgeable implements INpc, IMerchant {
     }
 
     protected void onGrowingAdult() {
-        if (getVariant() == 1) this.tasks.addTask(8, new AIHarvestCarrots());
+        if (getVariant() == 1) this.goalSelector.addGoal(8, new AIHarvestCarrots());
         super.onGrowingAdult();
     }
 
@@ -303,8 +303,8 @@ public class EntityRabbitman extends EntityAgeable implements INpc, IMerchant {
             if (!this.isChild() && this.getAttackTarget() == null && this.getVariant() == 5) {
                 List<EntityRabbitman> list = world.getEntitiesWithinAABB(EntityRabbitman.class, this.getEntityBoundingBox().grow(32), target -> target != null && target.getVariant() != 5);
                 if (list.isEmpty()) {
-                    EntityPlayer player = null;
-                    for (EntityPlayer p : world.getEntitiesWithinAABB(EntityPlayer.class, this.getEntityBoundingBox().grow(26)))
+                    PlayerEntity player = null;
+                    for (PlayerEntity p : world.getEntitiesWithinAABB(PlayerEntity.class, this.getEntityBoundingBox().grow(26)))
                         if (player == null || (p.isEntityInvulnerable(DamageSource.causeMobDamage(this)) && p.getDistance(this) < player.getDistance(this)))
                             player = p;
                     if (player != null) {
@@ -312,7 +312,7 @@ public class EntityRabbitman extends EntityAgeable implements INpc, IMerchant {
                         this.setHeldItem(EnumHand.MAIN_HAND, new ItemStack(BeastsItems.DIAMOND_CARROT));
                         List<EntityRabbitman> innocents = world.getEntitiesWithinAABB(EntityRabbitman.class, this.getEntityBoundingBox().grow(36), target -> target != this);
                         for (EntityRabbitman innocent : innocents)
-                            innocent.tasks.addTask(0, new EntityAIAvoidEntity<>(this, EntityRabbitman.class, input -> input == this, 48, 0.25, 0.5));
+                            innocent.goalSelector.addGoal(0, new EntityAIAvoidEntity<>(this, EntityRabbitman.class, input -> input == this, 48, 0.25, 0.5));
                     }
                 }
             }
@@ -338,7 +338,7 @@ public class EntityRabbitman extends EntityAgeable implements INpc, IMerchant {
         return (this.getVariant() != 5 || this.world.getDifficulty() != EnumDifficulty.PEACEFUL) && super.getCanSpawnHere();
     }
 
-    public boolean processInteract(EntityPlayer player, @Nonnull EnumHand hand) {
+    public boolean processInteract(PlayerEntity player, @Nonnull EnumHand hand) {
         ItemStack itemstack = player.getHeldItem(hand);
         boolean flag = itemstack.getItem() == Items.NAME_TAG;
         if (flag) {
@@ -360,28 +360,28 @@ public class EntityRabbitman extends EntityAgeable implements INpc, IMerchant {
         return BeastsItems.CARROT_COIN;
     }
 
-    public void writeEntityToNBT(NBTTagCompound compound) {
+    public void writeEntityToNBT(CompoundNBT compound) {
         super.writeEntityToNBT(compound);
-        compound.setInteger("variant", this.getVariant());
-        compound.setInteger("Riches", this.wealth);
-        compound.setBoolean("Willing", this.isWillingToMate);
-        if (this.buyingList != null) compound.setTag("Offers", this.buyingList.getRecipiesAsTags());
+        compound.putInt("variant", this.getVariant());
+        compound.putInt("Riches", this.wealth);
+        compound.putBoolean("Willing", this.isWillingToMate);
+        if (this.buyingList != null) compound.putTag("Offers", this.buyingList.getRecipiesAsTags());
         NBTTagList list = new NBTTagList();
         for (int i = 0; i < this.inv.getSizeInventory(); ++i) {
             ItemStack stack = this.inv.getStackInSlot(i);
-            if (!stack.isEmpty()) list.appendTag(stack.writeToNBT(new NBTTagCompound()));
+            if (!stack.isEmpty()) list.appendTag(stack.writeToNBT(new CompoundNBT()));
 
         }
-        compound.setTag("Inventory", list);
+        compound.putTag("Inventory", list);
     }
 
-    public void readEntityFromNBT(NBTTagCompound compound) {
+    public void readEntityFromNBT(CompoundNBT compound) {
         super.readEntityFromNBT(compound);
-        this.setVariant(compound.getInteger("variant"));
-        this.wealth = compound.getInteger("Riches");
+        this.setVariant(compound.getInt("variant"));
+        this.wealth = compound.getInt("Riches");
         this.isWillingToMate = compound.getBoolean("Willing");
         if (compound.hasKey("Offers", 10)) {
-            NBTTagCompound nbttagcompound = compound.getCompoundTag("Offers");
+            CompoundNBT nbttagcompound = compound.getCompoundTag("Offers");
             this.buyingList = new MerchantRecipeList(nbttagcompound);
         }
         NBTTagList list = compound.getTagList("Inventory", 10);
@@ -498,7 +498,7 @@ public class EntityRabbitman extends EntityAgeable implements INpc, IMerchant {
             --this.matingTimeout;
             this.entity.getLookHelper().setLookPositionWithEntity(this.mate, 10.0F, 30.0F);
             if (this.entity.getDistanceSq(this.mate) > 2.25D)
-                this.entity.getNavigator().tryMoveToEntityLiving(this.mate, 0.25D);
+                this.entity.getNavigator().tryMoveToMobEntity(this.mate, 0.25D);
             else if (this.matingTimeout == 0 && this.mate.isMating()) this.giveBirth();
             if (this.entity.getRNG().nextInt(35) == 0) this.world.setEntityState(this.entity, (byte) 12);
         }
@@ -562,7 +562,7 @@ public class EntityRabbitman extends EntityAgeable implements INpc, IMerchant {
                         }
 
                         if (!empty.isEmpty()) {
-                            EntityItem item = new EntityItem(this.rabbitman.world, this.rabbitman.posX, this.rabbitman.posY - 0.3 + (double) this.rabbitman.getEyeHeight(), this.rabbitman.posZ, empty);
+                            ItemEntity item = new ItemEntity(this.rabbitman.world, this.rabbitman.posX, this.rabbitman.posY - 0.3 + (double) this.rabbitman.getEyeHeight(), this.rabbitman.posZ, empty);
                             float head = this.rabbitman.rotationYawHead;
                             float pitch = this.rabbitman.rotationPitch;
                             item.motionX = (Math.sin(-Math.toRadians(head)) * Math.toRadians(pitch) * 0.3F);
@@ -655,3 +655,4 @@ public class EntityRabbitman extends EntityAgeable implements INpc, IMerchant {
         }
     }
 }
+*/

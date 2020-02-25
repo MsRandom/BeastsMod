@@ -3,18 +3,17 @@ package random.beasts.client.gui;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
-import random.beasts.api.main.BeastsReference;
 import random.beasts.common.entity.passive.EntityLandwhale;
 import random.beasts.common.inventory.ContainerLandwhaleInventory;
 
 public class GuiLandwhaleInventory extends GuiContainer {
-    private static final ResourceLocation GUI = new ResourceLocation(BeastsReference.ID, "textures/gui/container/landwhale.png");
-    private static final ResourceLocation CHEST = new ResourceLocation(BeastsReference.ID, "textures/gui/container/landwhale_chest.png");
+    private static final ResourceLocation GUI = new ResourceLocation(BeastsMod.MOD_ID, "textures/gui/container/landwhale.png");
+    private static final ResourceLocation CHEST = new ResourceLocation(BeastsMod.MOD_ID, "textures/gui/container/landwhale_chest.png");
     private final EntityLandwhale landwhale;
 
-    public GuiLandwhaleInventory(EntityLandwhale landwhale, EntityPlayer player) {
+    public GuiLandwhaleInventory(EntityLandwhale landwhale, PlayerEntity player) {
         super(new ContainerLandwhaleInventory(landwhale, player));
         this.landwhale = landwhale;
     }

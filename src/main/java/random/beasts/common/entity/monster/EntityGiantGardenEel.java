@@ -2,31 +2,31 @@ package random.beasts.common.entity.monster;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.monster.MonsterEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerEntityMP;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import random.beasts.client.init.BeastsSounds;
 import random.beasts.common.init.BeastsTriggers;
 
 import java.util.List;
 import java.util.function.Predicate;
 
-public class EntityGiantGardenEel extends EntityMob {
+public class EntityGiantGardenEel extends MonsterEntity {
 
-    private EntityLivingBase targetedEntity;
+    private LivingEntity targetedEntity;
 
     private float slamTimer = 250;
     private int lastSlam = 0;
@@ -39,8 +39,8 @@ public class EntityGiantGardenEel extends EntityMob {
     @Override
     protected void initEntityAI() {
         super.initEntityAI();
-        this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
-        this.tasks.addTask(0, new EntityAILookIdle(this));
+        this.goalSelector.addGoal(6, new EntityAIWatchClosest(this, PlayerEntity.class, 6.0F));
+        this.goalSelector.addGoal(0, new EntityAILookIdle(this));
     }
 
     @Override
@@ -73,7 +73,7 @@ public class EntityGiantGardenEel extends EntityMob {
         return 0.4F;
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public float getSlamTimer() {
         return this.slamTimer;
     }
@@ -85,21 +85,21 @@ public class EntityGiantGardenEel extends EntityMob {
         lastSlam++;
         if (slamTimer < 250) slamTimer += 10;
         if (lastSlam > 25) {
-            Predicate<Entity> predicate = e -> EntitySelectors.NOT_SPECTATING.apply(e) && e instanceof EntityLivingBase && !(e instanceof EntityGiantGardenEel) && (!(e instanceof EntityPlayer) || !((EntityPlayer) e).capabilities.isCreativeMode);
+            Predicate<Entity> predicate = e -> EntitySelectors.NOT_SPECTATING.apply(e) && e instanceof LivingEntity && !(e instanceof EntityGiantGardenEel) && (!(e instanceof PlayerEntity) || !((PlayerEntity) e).capabilities.isCreativeMode);
             List<Entity> entitiesInRange = world.getEntitiesInAABBexcluding(this, this.getEntityBoundingBox().grow(3), predicate::test);
             entitiesInRange.forEach(e -> {
-                if (targetedEntity == null || (getDistanceSq(targetedEntity) > getDistanceSq(e) && e instanceof EntityLivingBase))
-                    targetedEntity = (EntityLivingBase) e;
+                if (targetedEntity == null || (getDistanceSq(targetedEntity) > getDistanceSq(e) && e instanceof LivingEntity))
+                    targetedEntity = (LivingEntity) e;
             });
             if (!entitiesInRange.contains(targetedEntity)) targetedEntity = null;
-            if (targetedEntity != null && (!(targetedEntity instanceof EntityLiving) || !((EntityLiving) targetedEntity).isAIDisabled())) {
+            if (targetedEntity != null && (!(targetedEntity instanceof MobEntity) || !((MobEntity) targetedEntity).isAIDisabled())) {
                 this.getLookHelper().setLookPositionWithEntity(targetedEntity, 10.0F, 10.0F);
                 if ((slamTimer -= 50) < 0) slamTimer = 0;
                 if (slamTimer == 0) {
                     if (!targetedEntity.isDead) {
                         targetedEntity.attackEntityFrom(DamageSource.causeMobDamage(this), 4.0F);
-                        if (targetedEntity instanceof EntityPlayerMP)
-                            BeastsTriggers.HAMMERTIME.trigger((EntityPlayerMP) targetedEntity);
+                        if (targetedEntity instanceof PlayerEntityMP)
+                            BeastsTriggers.HAMMERTIME.trigger((PlayerEntityMP) targetedEntity);
                     }
                     slamTimer = 0;
                     lastSlam = 0;

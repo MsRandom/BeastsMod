@@ -1,10 +1,11 @@
 package random.beasts.common.init;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.*;
+import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.EnumHelper;
@@ -30,7 +31,7 @@ public class BeastsItems {
     public static final Item ICE_CRAB_CHITIN = new BeastsItem("ice_crab_chitin");
     public static final Item WORM_TOOTH = new BeastsItem("worm_tooth");
     public static final Item PUFFER_SCALE = new BeastsItem("puffer_scale");
-    public static final Item HERMIT_HELM = new BeastsArmor("hermit_helm", ItemArmor.ArmorMaterial.IRON, EntityEquipmentSlot.HEAD).setMaxDamage(0);
+    public static final Item HERMIT_HELM = new BeastsArmor("hermit_helm", ItemArmor.ArmorMaterial.IRON, EquipmentSlotType.HEAD).setMaxDamage(0);
     public static final Item MEAT_SCRAPES = new BeastsItem("meat_scrapes");
     public static final ItemShield SHELL_SHIELD = new ItemShellShield();
     public static final ItemFood DAGGERFISH = new BeastsFood("daggerfish", 2, 0.1F);
@@ -49,33 +50,33 @@ public class BeastsItems {
     public static final ItemFood EEL_CHOP = new BeastsFood("eel_chop", 3, 0.3F);
     public static final ItemFood COOKED_EEL_CHOP = new BeastsFood("cooked_eel_chop", 8, 0.5F);
 	public static final ItemFood FAIRY_BREAD = new BeastsFood("fairy_bread", 2, 0.2F){
-		@Override
-		protected void onFoodEaten(ItemStack stack, World worldIn, EntityPlayer player) {
-			super.onFoodEaten(stack, worldIn, player);
-			player.heal(5.0F);
-		}
-	};
-	public static final ItemFood BUTTERFLYFISH_WING = new BeastsFood("butterflyfish_wing", 0, 0.0F){
-		@Override
-		protected void onFoodEaten(ItemStack stack, World worldIn, EntityPlayer player) {
-			super.onFoodEaten(stack, worldIn, player);
-			player.heal(3.0F);
-		}
-	};
-	public static final ItemFood COCONUT_JUICE = new BeastsCoconutBowl("coconut_juice", 4, 0.5F);
-    public static final ItemArmor PUFFER_HELMET = new ItemPufferArmor("helmet", EntityEquipmentSlot.HEAD);
-    public static final ItemArmor PUFFER_CHEST = new ItemPufferArmor("chest", EntityEquipmentSlot.CHEST);
-    public static final ItemArmor PUFFER_LEGS = new ItemPufferArmor("legs", EntityEquipmentSlot.LEGS);
-    public static final ItemArmor PUFFER_BOOTS = new ItemPufferArmor("boots", EntityEquipmentSlot.FEET);
+        @Override
+        protected void onFoodEaten(ItemStack stack, World worldIn, PlayerEntity player) {
+            super.onFoodEaten(stack, worldIn, player);
+            player.heal(5.0F);
+        }
+    };
+    public static final ItemFood BUTTERFLYFISH_WING = new BeastsFood("butterflyfish_wing", 0, 0.0F) {
+        @Override
+        protected void onFoodEaten(ItemStack stack, World worldIn, PlayerEntity player) {
+            super.onFoodEaten(stack, worldIn, player);
+            player.heal(3.0F);
+        }
+    };
+    public static final ItemFood COCONUT_JUICE = new BeastsCoconutBowl("coconut_juice", 4, 0.5F);
+    public static final ItemArmor PUFFER_HELMET = new ItemPufferArmor("helmet", EquipmentSlotType.HEAD);
+    public static final ItemArmor PUFFER_CHEST = new ItemPufferArmor("chest", EquipmentSlotType.CHEST);
+    public static final ItemArmor PUFFER_LEGS = new ItemPufferArmor("legs", EquipmentSlotType.LEGS);
+    public static final ItemArmor PUFFER_BOOTS = new ItemPufferArmor("boots", EquipmentSlotType.FEET);
     public static final ItemSword DIAMOND_CARROT = new BeastsSword(Item.ToolMaterial.DIAMOND, "diamond_carrot");
     public static final BeastsToolSet JELLY_TOOLS = new ToolSetJellyWood();
     private static final Item.ToolMaterial SWORDFISH_MAT = EnumHelper.addToolMaterial("daggerfish", 0, 3, 8.0F, 4.0F, 0);
     public static final ItemSword COOKED_DAGGERFISH = new ItemDaggerfish(SWORDFISH_MAT, "cooked_daggerfish");
     private static final ItemArmor.ArmorMaterial SPARTAPOD = EnumHelper.addArmorMaterial("spartapod", "beasts:spartapod", 15, new int[]{2, 5, 6, 2}, 12, SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 0.0F);
     //todo do armor sets like with the tool set with the jelly tools
-    public static final ItemArmor SPARTAPOD_HELMET = new BeastsArmor("spartapod_helmet", SPARTAPOD, EntityEquipmentSlot.HEAD);
+    public static final ItemArmor SPARTAPOD_HELMET = new BeastsArmor("spartapod_helmet", SPARTAPOD, EquipmentSlotType.HEAD);
     private static final ItemArmor.ArmorMaterial SPARTAPODA = EnumHelper.addArmorMaterial("spartapoda", "beasts:spartapoda", 15, new int[]{2, 5, 6, 2}, 12, SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 0.0F);
-    public static final ItemArmor SPARTAPOD_CHEST = new BeastsArmor("spartapod_chest", SPARTAPODA, EntityEquipmentSlot.CHEST);
-    public static final ItemArmor SPARTAPOD_LEGS = new BeastsArmor("spartapod_legs", SPARTAPODA, EntityEquipmentSlot.LEGS);
-    public static final ItemArmor SPARTAPOD_BOOTS = new BeastsArmor("spartapod_boots", SPARTAPODA, EntityEquipmentSlot.FEET);
+    public static final ItemArmor SPARTAPOD_CHEST = new BeastsArmor("spartapod_chest", SPARTAPODA, EquipmentSlotType.CHEST);
+    public static final ItemArmor SPARTAPOD_LEGS = new BeastsArmor("spartapod_legs", SPARTAPODA, EquipmentSlotType.LEGS);
+    public static final ItemArmor SPARTAPOD_BOOTS = new BeastsArmor("spartapod_boots", SPARTAPODA, EquipmentSlotType.FEET);
 }

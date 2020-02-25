@@ -4,12 +4,19 @@ import com.google.common.collect.Iterables;
 import net.minecraft.block.BlockStone;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.gen.ChunkGenerator;
+import net.minecraft.world.gen.GenerationSettings;
+import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 import net.minecraft.world.gen.feature.WorldGenerator;
+import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
 import net.minecraftforge.event.terraingen.TerrainGen;
 import random.beasts.api.world.biome.BeastsBiome;
@@ -39,20 +46,17 @@ public class BiomeDriedReef extends BeastsBiome {
     private static Set<StructurePosition> COORDS = new HashSet<>();
 
     public BiomeDriedReef() {
-        super("dried_reef", new BiomeProperties("Dried Reef").setBaseHeight(0.125F).setHeightVariation(0.05F).setTemperature(2.0F).setRainfall(0.0F).setTemperature(2).setRainDisabled().setWaterColor(0x00FFFF));
-        this.spawnableCreatureList.clear();
-        this.topBlock = Blocks.SAND.getDefaultState();
-        this.fillerBlock = Blocks.SAND.getDefaultState();
-        this.decorator.treesPerChunk = -999;
-        this.decorator.deadBushPerChunk = 0;
-        this.decorator.reedsPerChunk = 0;
-        this.decorator.cactiPerChunk = 0;
-        this.decorator.generateFalls = false;
+        super("dried_reef", new Biome.Builder().surfaceBuilder(SurfaceBuilder.DEFAULT, SurfaceBuilder.SAND_SAND_GRAVEL_CONFIG).precipitation(Biome.RainType.NONE).category(Biome.Category.DESERT).depth(0.125F).scale(0.05F).temperature(2.0F).downfall(0.0F).waterColor(4159204).waterFogColor(329011));
     }
 
     @Override
     public WorldGenAbstractTree getRandomTreeFeature(Random rand) {
         return rand.nextInt(10) == 0 ? JELLYFISH_TREE_GENERATOR : PALM_TREE_GENERATOR;
+    }
+
+    @Override
+    public void decorate(GenerationStage.Decoration stage, ChunkGenerator<? extends GenerationSettings> chunkGenerator, IWorld worldIn, long seed, SharedSeedRandom random, BlockPos pos) {
+        super.decorate(stage, chunkGenerator, worldIn, seed, random, pos);
     }
 
     @Override

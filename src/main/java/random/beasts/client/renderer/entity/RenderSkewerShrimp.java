@@ -1,20 +1,19 @@
 package random.beasts.client.renderer.entity;
 
-import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
-import random.beasts.api.main.BeastsReference;
 import random.beasts.client.model.ModelSkewerShrimp;
 import random.beasts.common.entity.monster.EntitySkewerShrimp;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class RenderSkewerShrimp extends RenderLiving<EntitySkewerShrimp> {
+public class RenderSkewerShrimp extends MobRenderer<EntitySkewerShrimp> {
 
-    public static final ResourceLocation TEXTURE = new ResourceLocation(BeastsReference.ID, "textures/entity/skewer_shrimp.png");
+    public static final ResourceLocation TEXTURE = new ResourceLocation(BeastsMod.MOD_ID, "textures/entity/skewer_shrimp.png");
 
-    public RenderSkewerShrimp(RenderManager rendermanagerIn) {
+    public RenderSkewerShrimp(EntityRendererManager rendermanagerIn) {
         super(rendermanagerIn, new ModelSkewerShrimp(), 0.2f);
     }
 

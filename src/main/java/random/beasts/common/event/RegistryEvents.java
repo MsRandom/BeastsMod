@@ -10,20 +10,22 @@ import net.minecraft.world.biome.Biome;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.common.BiomeManager;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityEntry;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import random.beasts.api.configuration.BeastsConfig;
-import random.beasts.api.main.BeastsReference;
 import random.beasts.api.main.BeastsRegistries;
 import random.beasts.client.init.BeastsSounds;
 import random.beasts.common.BeastsMod;
 import random.beasts.common.init.*;
 
 import static net.minecraftforge.common.BiomeDictionary.Type.*;
+import static random.beasts.proxy.ClientProxy.TRIMOLA_ATTACK;
 
 @SuppressWarnings("unused")
-@Mod.EventBusSubscriber(modid = BeastsReference.ID)
+@Mod.EventBusSubscriber(modid = BeastsMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class RegistryEvents {
 
     @SubscribeEvent
@@ -63,7 +65,7 @@ public class RegistryEvents {
             for (BeastsEntities.SpawnEntry spawn : spawns) {
                 Biome.SpawnListEntry entry = new Biome.SpawnListEntry(type.getEntityClass(), spawn.weight, spawn.min, spawn.max);
                 for (Biome biome : spawn.biomes) {
-                    biome.getSpawnableList(type.getClassification()).add(entry);
+                    biome.getSpawns(type.getClassification()).add(entry);
                 }
             }
         });
@@ -77,5 +79,10 @@ public class RegistryEvents {
     @SubscribeEvent
     public static void registerRenders(ModelRegistryEvent event) {
         BeastsMod.proxy.registerEventRenders();
+    }
+
+    @SubscribeEvent
+    public static void registerClient(FMLClientSetupEvent event) {
+        ClientRegistry.registerKeyBinding(TRIMOLA_ATTACK);
     }
 }

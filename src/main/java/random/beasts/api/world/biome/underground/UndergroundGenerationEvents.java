@@ -5,21 +5,20 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.terraingen.PopulateChunkEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import random.beasts.api.main.BeastsReference;
 
 import java.util.*;
 import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
-@Mod.EventBusSubscriber(modid = BeastsReference.ID)
+@Mod.EventBusSubscriber(modid = BeastsMod.MOD_ID)
 public class UndergroundGenerationEvents {
     private static final Map<ChunkPos, UndergroundBiomeBounds> QUEUED = new HashMap<>();
     private static final List<Tuple<ChunkPos, UndergroundBiomeBounds>> FINAL = new ArrayList<>();
@@ -28,7 +27,7 @@ public class UndergroundGenerationEvents {
 
     @SubscribeEvent
     public static void register(RegistryEvent.Register<Biome> event) {
-        BeastsReference.NETWORK_CHANNEL.registerMessage(new MessageUpdateBiomes.Handler(), MessageUpdateBiomes.class, 0, Side.CLIENT);
+        BeastsReference.NETWORK_CHANNEL.registerMessage(new MessageUpdateBiomes.Handler(), MessageUpdateBiomes.class, 0, Dist.CLIENT);
         CapabilityManager.INSTANCE.register(UndergroundGenerationCapabilities.UndergroundBiomes.class, new UndergroundGenerationCapabilities.UndergroundBiomeStorage(), UndergroundGenerationCapabilities.UndergroundBiomes::new);
     }
 

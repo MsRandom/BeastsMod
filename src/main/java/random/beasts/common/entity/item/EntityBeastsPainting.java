@@ -3,16 +3,16 @@ package random.beasts.common.entity.item;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityHanging;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import random.beasts.common.init.BeastsItems;
 
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ public class EntityBeastsPainting extends EntityHanging implements IEntityAdditi
         super(worldIn);
     }
 
-    public EntityBeastsPainting(World worldIn, BlockPos pos, EnumFacing side) {
+    public EntityBeastsPainting(World worldIn, BlockPos pos, Direction side) {
         super(worldIn, pos);
         ArrayList<BeastsPainting> arraylist = new ArrayList<>();
         BeastsPainting[] aenumart = BeastsPainting.values();
@@ -39,13 +39,13 @@ public class EntityBeastsPainting extends EntityHanging implements IEntityAdditi
         this.updateFacingWithBoundingBox(side);
     }
 
-    public EntityBeastsPainting(World worldIn, BlockPos pos, EnumFacing side, BeastsPainting art) {
+    public EntityBeastsPainting(World worldIn, BlockPos pos, Direction side, BeastsPainting art) {
         this(worldIn, pos, side);
         this.art = art;
     }
 
-    @SideOnly(Side.CLIENT)
-    public EntityBeastsPainting(World worldIn, BlockPos pos, EnumFacing side, String name) {
+    @OnlyIn(Dist.CLIENT)
+    public EntityBeastsPainting(World worldIn, BlockPos pos, Direction side, String name) {
         this(worldIn, pos, side);
         BeastsPainting[] aenumart = BeastsPainting.values();
         for (BeastsPainting enumart : aenumart) {
@@ -63,12 +63,12 @@ public class EntityBeastsPainting extends EntityHanging implements IEntityAdditi
         return new ItemStack(BeastsItems.BEASTS_PAINTING, 1);
     }
 
-    public void writeEntityToNBT(NBTTagCompound tagCompound) {
+    public void writeEntityToNBT(CompoundNBT tagCompound) {
         tagCompound.setString("Motive", this.art.title);
         super.writeEntityToNBT(tagCompound);
     }
 
-    public void readEntityFromNBT(NBTTagCompound tagCompund) {
+    public void readEntityFromNBT(CompoundNBT tagCompund) {
         String s = tagCompund.getString("Motive");
         BeastsPainting[] aenumart = BeastsPainting.values();
         for (BeastsPainting enumart : aenumart) if (enumart.title.equals(s)) this.art = enumart;
@@ -85,21 +85,21 @@ public class EntityBeastsPainting extends EntityHanging implements IEntityAdditi
     }
 
     public void onBroken(Entity entity) {
-        if (entity instanceof EntityPlayer) {
-            EntityPlayer entityplayer = (EntityPlayer) entity;
+        if (entity instanceof PlayerEntity) {
+            PlayerEntity entityplayer = (PlayerEntity) entity;
             if (entityplayer.capabilities.isCreativeMode) return;
         }
 
         this.entityDropItem(new ItemStack(BeastsItems.BEASTS_PAINTING), 0.0F);
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public void setLocationAndAngles(double x, double y, double z, float yaw, float pitch) {
         BlockPos pos = this.hangingPosition.add(new BlockPos(x - this.posX, y - this.posY, z - this.posZ));
         this.setPosition(pos.getX(), pos.getY(), pos.getZ());
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public void setPositionAndRotationDirect(double x, double y, double z, float yaw, float pitch, int posRotationIncrements, boolean teleport) {
         BlockPos blockpos = this.hangingPosition.add(x - this.posX, y - this.posY, z - this.posZ);
         this.setPosition(blockpos.getX(), blockpos.getY(), blockpos.getZ());
@@ -123,7 +123,7 @@ public class EntityBeastsPainting extends EntityHanging implements IEntityAdditi
         int y = buffer.readInt();
         int z = buffer.readInt();
         this.hangingPosition = new BlockPos(x, y, z);
-        this.updateFacingWithBoundingBox(EnumFacing.getFront((buffer.readByte())));
+        this.updateFacingWithBoundingBox(Direction.getFront((buffer.readByte())));
     }
 
     @Override

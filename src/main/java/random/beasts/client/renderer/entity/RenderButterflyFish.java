@@ -1,26 +1,23 @@
 package random.beasts.client.renderer.entity;
 
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.util.ResourceLocation;
+import random.beasts.client.model.ModelButterflyfish;
+import random.beasts.common.entity.passive.EntityButterflyFish;
+
 import javax.annotation.Nullable;
 
-import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.util.ResourceLocation;
-import random.beasts.api.main.BeastsReference;
-import random.beasts.client.model.ModelButterflyfish;
-import random.beasts.client.model.ModelSlimeSlug;
-import random.beasts.common.entity.passive.EntityButterflyFish;
-import random.beasts.common.entity.passive.EntitySlimeSlug;
-
-public class RenderButterflyFish extends RenderLiving<EntityButterflyFish> {
+public class RenderButterflyFish extends MobRenderer<EntityButterflyFish> {
 
 	private static final ResourceLocation[] TEXTURES = new ResourceLocation[4];
 
 	static {
 		for (int i = 0; i < TEXTURES.length; i++)
-			TEXTURES[i] = new ResourceLocation(BeastsReference.ID, "textures/entity/butterfly_fish/texture_" + (i + 1) + ".png");
+			TEXTURES[i] = new ResourceLocation(BeastsMod.MOD_ID, "textures/entity/butterfly_fish/texture_" + (i + 1) + ".png");
 	}
 
-	public RenderButterflyFish(RenderManager rendermanagerIn) {
+	public RenderButterflyFish(EntityRendererManager rendermanagerIn) {
 		super(rendermanagerIn, new ModelButterflyfish(), 0.4f);
 	}
 

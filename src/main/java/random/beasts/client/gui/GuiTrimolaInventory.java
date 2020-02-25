@@ -3,17 +3,16 @@ package random.beasts.client.gui;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
-import random.beasts.api.main.BeastsReference;
 import random.beasts.common.entity.monster.EntityTrimola;
 import random.beasts.common.inventory.ContainerTrimolaInventory;
 
 public class GuiTrimolaInventory extends GuiContainer {
-    private static final ResourceLocation GUI = new ResourceLocation(BeastsReference.ID, "textures/gui/container/trimola.png");
+    private static final ResourceLocation GUI = new ResourceLocation(BeastsMod.MOD_ID, "textures/gui/container/trimola.png");
     private final EntityTrimola trimola;
 
-    public GuiTrimolaInventory(EntityTrimola trimola, EntityPlayer player) {
+    public GuiTrimolaInventory(EntityTrimola trimola, PlayerEntity player) {
         super(new ContainerTrimolaInventory(trimola, player));
         this.trimola = trimola;
     }

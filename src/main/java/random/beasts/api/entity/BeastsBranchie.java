@@ -3,9 +3,8 @@ package random.beasts.api.entity;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.*;
-import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.monster.MonsterEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
@@ -19,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-public abstract class BeastsBranchie extends EntityMob {
+public abstract class BeastsBranchie extends MonsterEntity {
 
     public static final Map<Collection<? extends Block>, Tuple<Integer, Function<BlockEvent.BreakEvent, ? extends BeastsBranchie>>> TYPES = new HashMap<>();
     private boolean hasScreamed = false;
@@ -29,14 +28,14 @@ public abstract class BeastsBranchie extends EntityMob {
     }
 
     protected void initEntityAI() {
-        this.tasks.addTask(1, new EntityAIAttackMelee(this, 1.0D, true));
-        this.tasks.addTask(2, new EntityAIMoveTowardsTarget(this, 0.9D, 32.0F));
-        this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityAIWanderAvoidWater(this, 0.5D));
-        this.tasks.addTask(2, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
-        this.targetTasks.addTask(3, new EntityAIAvoidEntity<>(this, EntityPlayer.class, entity -> getAttackTarget() == null, 6.0F, 2, 2));
-        this.tasks.addTask(4, new EntityAILookIdle(this));
-        this.tasks.addTask(1, new EntityAIPanic(this, 1.0D));
+        this.goalSelector.addGoal(1, new EntityAIAttackMelee(this, 1.0D, true));
+        this.goalSelector.addGoal(2, new EntityAIMoveTowardsTarget(this, 0.9D, 32.0F));
+        this.goalSelector.addGoal(0, new EntityAISwimming(this));
+        this.goalSelector.addGoal(1, new EntityAIWanderAvoidWater(this, 0.5D));
+        this.goalSelector.addGoal(2, new EntityAIWatchClosest(this, PlayerEntity.class, 6.0F));
+        this.goalSelector.addGoal(3, new EntityAIAvoidEntity<>(this, PlayerEntity.class, entity -> getAttackTarget() == null, 6.0F, 2, 2));
+        this.goalSelector.addGoal(4, new EntityAILookIdle(this));
+        this.goalSelector.addGoal(1, new EntityAIPanic(this, 1.0D));
     }
 
     protected void applyEntityAttributes() {

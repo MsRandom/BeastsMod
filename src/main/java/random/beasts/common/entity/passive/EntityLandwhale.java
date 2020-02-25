@@ -3,12 +3,11 @@ package random.beasts.common.entity.passive;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.*;
-import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.passive.EntityTameable;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
@@ -17,7 +16,7 @@ import net.minecraft.inventory.IInventoryChangedListener;
 import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -55,7 +54,7 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
     public InventoryBasic inventory;
     public int animationTicks = 0;
     private int ticksSinceSheared = 0;
-    private EntityItem target;
+    private ItemEntity target;
 
     public EntityLandwhale(World worldIn) {
         super(worldIn);
@@ -71,7 +70,7 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
         this.dataManager.register(COCONUT, false);
     }
 
-    public void setTarget(EntityItem coconut) {
+    public void setTarget(ItemEntity coconut) {
         this.target = coconut;
     }
 
@@ -84,13 +83,13 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
     }
 
     protected void initEntityAI() {
-        this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityAIPanic(this, 2.0D));
-        this.tasks.addTask(2, new EntityAIMate(this, 1.0D));
-        this.tasks.addTask(4, new EntityAIFollowParent(this, 1.25D));
-        this.tasks.addTask(5, new EntityAIWanderAvoidWater(this, 1.0D));
-        this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
-        this.tasks.addTask(7, new EntityAILookIdle(this));
+        this.goalSelector.addGoal(0, new EntityAISwimming(this));
+        this.goalSelector.addGoal(1, new EntityAIPanic(this, 2.0D));
+        this.goalSelector.addGoal(2, new EntityAIMate(this, 1.0D));
+        this.goalSelector.addGoal(4, new EntityAIFollowParent(this, 1.25D));
+        this.goalSelector.addGoal(5, new EntityAIWanderAvoidWater(this, 1.0D));
+        this.goalSelector.addGoal(6, new EntityAIWatchClosest(this, PlayerEntity.class, 6.0F));
+        this.goalSelector.addGoal(7, new EntityAILookIdle(this));
     }
 
     public void onDeath(DamageSource cause) {
@@ -105,12 +104,12 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
         }
     }
 
-    public void writeEntityToNBT(NBTTagCompound compound) {
+    public void writeEntityToNBT(CompoundNBT compound) {
         super.writeEntityToNBT(compound);
-        compound.setBoolean("sheared", getSheared());
-        compound.setInteger("shearTicks", ticksSinceSheared);
-        compound.setBoolean("Chest", this.hasChest());
-        compound.setBoolean("Coconut", this.dataManager.get(COCONUT));
+        compound.putBoolean("sheared", getSheared());
+        compound.putInt("shearTicks", ticksSinceSheared);
+        compound.putBoolean("Chest", this.hasChest());
+        compound.putBoolean("Coconut", this.dataManager.get(COCONUT));
 
         if (this.hasChest()) {
             NBTTagList nbttaglist = new NBTTagList();
@@ -119,21 +118,21 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
                 ItemStack itemstack = this.inventory.getStackInSlot(i);
 
                 if (!itemstack.isEmpty()) {
-                    NBTTagCompound nbttagcompound = new NBTTagCompound();
-                    nbttagcompound.setByte("Slot", (byte) i);
+                    CompoundNBT nbttagcompound = new CompoundNBT();
+                    nbttagcompound.putByte("Slot", (byte) i);
                     itemstack.writeToNBT(nbttagcompound);
                     nbttaglist.appendTag(nbttagcompound);
                 }
             }
 
-            compound.setTag("Items", nbttaglist);
+            compound.putTag("Items", nbttaglist);
         }
     }
 
-    public void readEntityFromNBT(NBTTagCompound compound) {
+    public void readEntityFromNBT(CompoundNBT compound) {
         super.readEntityFromNBT(compound);
         setSheared(compound.getBoolean("sheared"));
-        this.ticksSinceSheared = compound.getInteger("shearTicks");
+        this.ticksSinceSheared = compound.getInt("shearTicks");
         this.setChested(compound.getBoolean("Chest"));
         this.dataManager.set(COCONUT, compound.getBoolean("Coconut"));
 
@@ -142,7 +141,7 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
             this.initChest();
 
             for (int i = 0; i < nbttaglist.tagCount(); ++i) {
-                NBTTagCompound nbttagcompound = nbttaglist.getCompoundTagAt(i);
+                CompoundNBT nbttagcompound = nbttaglist.getCompoundTagAt(i);
                 int j = nbttagcompound.getByte("Slot") & 255;
 
                 if (j >= 2 && j < this.inventory.getSizeInventory()) {
@@ -227,7 +226,7 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
 
     public void travel(float strafe, float vertical, float forward) {
         if (this.getControllingPassenger() != null && this.canBeSteered() && !inventory.getStackInSlot(0).isEmpty()) {
-            EntityLivingBase entitylivingbase = (EntityLivingBase) this.getControllingPassenger();
+            LivingEntity entitylivingbase = (LivingEntity) this.getControllingPassenger();
             this.rotationYaw = entitylivingbase.rotationYaw;
             this.prevRotationYaw = this.rotationYaw;
             this.rotationPitch = entitylivingbase.rotationPitch * 0.5F;
@@ -242,7 +241,7 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
             if (this.canPassengerSteer()) {
                 this.setAIMoveSpeed((float) this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getAttributeValue());
                 super.travel(strafe, vertical, forward);
-            } else if (entitylivingbase instanceof EntityPlayer) {
+            } else if (entitylivingbase instanceof PlayerEntity) {
                 this.motionX = 0.0D;
                 this.motionY = 0.0D;
                 this.motionZ = 0.0D;
@@ -260,7 +259,7 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
     }
 
     @Override
-    public boolean processInteract(EntityPlayer player, @Nonnull EnumHand hand) {
+    public boolean processInteract(PlayerEntity player, @Nonnull EnumHand hand) {
         ItemStack stack = player.getHeldItem(hand);
         if (stack.getItem() == Items.SHEARS && !this.getSheared()) return super.processInteract(player, hand);
         if (!this.hasChest() && stack.getItem() == Item.getItemFromBlock(Blocks.CHEST)) {
@@ -313,16 +312,16 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
             if (target != null) {
                 if (target.isDead) target = null;
                 else {
-                    this.getNavigator().tryMoveToEntityLiving(target, 2);
+                    this.getNavigator().tryMoveToMobEntity(target, 2);
                     if (getDistanceSq(target) < 3) {
                         this.target.setDead();
                         this.dataManager.set(COCONUT, true);
                     }
                 }
             }
-            EntityLivingBase owner = getOwner();
+            LivingEntity owner = getOwner();
             if (this.dataManager.get(COCONUT) && owner != null) {
-                this.getNavigator().tryMoveToEntityLiving(owner, 2);
+                this.getNavigator().tryMoveToMobEntity(owner, 2);
                 if (getDistanceSq(owner) < 3) {
                     this.dropItem(BeastsItems.COCONUT, 1);
                     this.dataManager.set(COCONUT, false);

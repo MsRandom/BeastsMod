@@ -2,7 +2,6 @@ package random.beasts.common.world.storage.loot;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.LootEntryTable;
-import random.beasts.api.main.BeastsReference;
 import random.beasts.common.init.BeastsLootTables;
 
 import java.util.function.Supplier;
@@ -14,7 +13,7 @@ public class BeastsLootTable {
 
     public BeastsLootTable(String location, String replace, Supplier<LootEntryTable> apply) {
         this.tableSupplier = apply;
-        this.id = new ResourceLocation(BeastsReference.ID, location);
+        this.id = new ResourceLocation(BeastsMod.MOD_ID, location);
         BeastsLootTables.TABLES.put(new ResourceLocation(replace), this);
     }
 }

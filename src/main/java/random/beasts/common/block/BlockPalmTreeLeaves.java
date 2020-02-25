@@ -3,7 +3,7 @@ package random.beasts.common.block;
 import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -66,7 +66,7 @@ public class BlockPalmTreeLeaves extends BeastsLeaves {
         return 0;
     }
 
-    public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, @Nullable TileEntity te, ItemStack stack) {
+    public void harvestBlock(World worldIn, PlayerEntity player, BlockPos pos, IBlockState state, @Nullable TileEntity te, ItemStack stack) {
         if (!worldIn.isRemote && stack.getItem() == Items.SHEARS) player.addStat(StatList.getBlockStats(this));
         else super.harvestBlock(worldIn, player, pos, state, te, stack);
     }

@@ -12,7 +12,6 @@ import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraft.world.gen.structure.template.PlacementSettings;
 import net.minecraft.world.gen.structure.template.Template;
 import net.minecraft.world.gen.structure.template.TemplateManager;
-import random.beasts.api.main.BeastsReference;
 import random.beasts.api.world.gen.structure.BeastsStructure;
 
 import java.util.Random;
@@ -24,7 +23,7 @@ public class WorldGenStructure extends BeastsStructure {
     public WorldGenStructure(String name) {
         super(() -> {
         });
-        this.structureName = new ResourceLocation(BeastsReference.ID, name);
+        this.structureName = new ResourceLocation(BeastsMod.MOD_ID, name);
     }
 
     @Override

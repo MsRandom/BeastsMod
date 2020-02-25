@@ -2,15 +2,12 @@ package random.beasts.common.event;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.ai.EntityAITargetNonTamed;
-import net.minecraft.entity.passive.EntityOcelot;
-import net.minecraft.entity.passive.EntityWolf;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.passive.OcelotEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemShield;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
@@ -19,82 +16,42 @@ import net.minecraft.util.Tuple;
 import net.minecraft.world.storage.loot.LootPool;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.LootTableLoadEvent;
-import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import random.beasts.api.entity.BeastsBranchie;
-import random.beasts.api.main.BeastsReference;
 import random.beasts.common.BeastsMod;
 import random.beasts.common.entity.passive.EntityPufferfishDog;
-import random.beasts.common.entity.passive.EntityRabbitman;
-import random.beasts.common.init.BeastsEntities;
 import random.beasts.common.init.BeastsLootTables;
 import random.beasts.common.world.storage.loot.BeastsLootTable;
 
-import java.lang.reflect.Method;
 import java.util.Collection;
-import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 @SuppressWarnings("unused")
-@Mod.EventBusSubscriber(modid = BeastsReference.ID)
+@Mod.EventBusSubscriber(modid = BeastsMod.MOD_ID)
 public class CommonEvents {
-
-    private static final BiConsumer<Entity, Tuple<Float, Float>> entitySizeSetter;
-    private static final BiConsumer<Entity, Tuple<Float, Float>> ageableSizeSetter;
-
-    static {
-        //since this will be gone in 1.14, there is no error handling
-        final Method method = ObfuscationReflectionHelper.findMethod(Entity.class, "func_70105_a", Void.TYPE, Float.TYPE, Float.TYPE);
-        final Method ageableSize = ObfuscationReflectionHelper.findMethod(EntityAgeable.class, "func_70105_a", Void.TYPE, Float.TYPE, Float.TYPE);
-        final Method ageableScale = ObfuscationReflectionHelper.findMethod(EntityAgeable.class, "func_98055_j", Void.TYPE, Float.TYPE);
-        entitySizeSetter = (entity, size) -> {
-            try {
-                method.invoke(entity, size.getFirst(), size.getSecond());
-            } catch (ReflectiveOperationException ignored) {
-            }
-        };
-        ageableSizeSetter = (entity, size) -> {
-            try {
-                ageableSize.invoke(entity, size.getFirst(), size.getSecond());
-                ageableScale.invoke(entity, 1);
-            } catch (ReflectiveOperationException ignored) {
-            }
-        };
-    }
-
-    @Deprecated
-    @SubscribeEvent
-    public static void constructEntity(EntityEvent.EntityConstructing event) {
-        if (BeastsEntities.SIZES.containsKey(event.getEntity().getClass())) {
-            BiConsumer<Entity, Tuple<Float, Float>> setSize = event.getEntity() instanceof EntityAgeable ? ageableSizeSetter : entitySizeSetter;
-            setSize.accept(event.getEntity(), BeastsEntities.SIZES.get(event.getEntity().getClass()));
-        }
-    }
-
     @SubscribeEvent
     public static void addEntity(EntityJoinWorldEvent event) {
-        if (event.getEntity() instanceof EntityOcelot) {
-            final EntityOcelot ocelot = (EntityOcelot) event.getEntity();
+        if (event.getEntity() instanceof OcelotEntity) {
+            final OcelotEntity ocelot = (OcelotEntity) event.getEntity();
             if (ocelot != null) {
-                ocelot.targetTasks.addTask(1, new EntityAITargetNonTamed<>(ocelot, EntityPufferfishDog.class, false, target -> target != null && target.getDistance(ocelot) < 32.0));
-                ocelot.targetTasks.addTask(1, new EntityAITargetNonTamed<>(ocelot, EntityRabbitman.class, false, target -> target != null && target.getDistance(ocelot) < 32.0));
+                ocelot.goalSelector.addGoal(1, new EntityAITargetNonTamed<>(ocelot, EntityPufferfishDog.class, false, target -> target != null && target.getDistance(ocelot) < 32.0));
+                //ocelot.goalSelector.addGoal(1, new EntityAITargetNonTamed<>(ocelot, EntityRabbitman.class, false, target -> target != null && target.getDistance(ocelot) < 32.0));
             }
-        } else if (event.getEntity() instanceof EntityWolf) {
-            final EntityWolf wolf = (EntityWolf) event.getEntity();
+        }/* else if (event.getEntity() instanceof WolfEntity) {
+            final WolfEntity wolf = (WolfEntity) event.getEntity();
             if (wolf != null)
-                wolf.targetTasks.addTask(1, new EntityAITargetNonTamed<>(wolf, EntityRabbitman.class, false, target -> target != null && target.getDistance(wolf) < 32.0));
-        }
+                wolf.goalSelector.addGoal(1, new NonTamedTargetGoal<>(wolf, EntityRabbitman.class, false, target -> target != null && target.getDistance(wolf) < 32.0));
+        }*/
     }
 
     /*@SubscribeEvent
     public static void playerTick(TickEvent.PlayerTickEvent event) {
-        EntityPlayer player = event.player;
+        PlayerEntity player = event.player;
         if (player.world.isRemote)
             return;
 
@@ -119,20 +76,15 @@ public class CommonEvents {
                 }
             }
         }
-        if(ee instanceof EntityPufferfishDog) BeastsTriggers.DISCOVER_PUFFERFISH_DOG.trigger((EntityPlayerMP) player);
+        if(ee instanceof EntityPufferfishDog) BeastsTriggers.DISCOVER_PUFFERFISH_DOG.trigger((PlayerEntityMP) player);
     }*/
 
     @SubscribeEvent
     public static void loadLootTable(LootTableLoadEvent event) {
-        //TODO fix this crash without wrapping it
-        try {
-            BeastsLootTable table = BeastsLootTables.TABLES.get(event.getName());
-            if (table != null) {
-                LootPool pool = event.getTable().getPool("main");
-                if (pool != null) pool.addEntry(table.tableSupplier.get());
-            }
-        } catch (NullPointerException e) {
-            BeastsMod.getLogger().error("Failed to load loot tables for Beasts", e);
+        BeastsLootTable table = BeastsLootTables.TABLES.get(event.getName());
+        if (table != null) {
+            LootPool pool = event.getTable().getPool("main");
+            if (pool != null) pool.addEntry(table.tableSupplier.get());
         }
     }
 
@@ -159,8 +111,8 @@ public class CommonEvents {
 
     @SubscribeEvent
     public static void attackLiving(LivingAttackEvent event) {
-        if (event.getEntityLiving() instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer) event.getEntityLiving();
+        if (event.getMobEntity() instanceof PlayerEntity) {
+            PlayerEntity player = (PlayerEntity) event.getMobEntity();
             if (!player.getActiveItemStack().isEmpty()) {
                 ItemStack stack = player.getActiveItemStack();
                 float damage = event.getAmount();
@@ -172,8 +124,8 @@ public class CommonEvents {
                             EnumHand hand = player.getActiveHand();
                             ForgeEventFactory.onPlayerDestroyItem(player, stack, hand);
                             if (hand == EnumHand.MAIN_HAND)
-                                player.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, ItemStack.EMPTY);
-                            else player.setItemStackToSlot(EntityEquipmentSlot.OFFHAND, ItemStack.EMPTY);
+                                player.setItemStackToSlot(EquipmentSlotType.MAINHAND, ItemStack.EMPTY);
+                            else player.setItemStackToSlot(EquipmentSlotType.OFFHAND, ItemStack.EMPTY);
                         }
 
                         player.world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ITEM_SHIELD_BREAK, SoundCategory.PLAYERS, 0.9f, 0.8F + player.world.rand.nextFloat() * 0.4F);

@@ -1,6 +1,6 @@
 package random.beasts.common.inventory;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
@@ -10,7 +10,7 @@ import random.beasts.common.entity.monster.EntityTrimola;
 public class ContainerTrimolaInventory extends Container {
     private EntityTrimola trimola;
 
-    public ContainerTrimolaInventory(EntityTrimola trimola, EntityPlayer player) {
+    public ContainerTrimolaInventory(EntityTrimola trimola, PlayerEntity player) {
         this.trimola = trimola;
         trimola.inventory.openInventory(player);
         this.addSlotToContainer(new Slot(trimola.inventory, 0, 54, 18) {
@@ -28,7 +28,7 @@ public class ContainerTrimolaInventory extends Container {
         for (int j1 = 0; j1 < 9; ++j1) this.addSlotToContainer(new Slot(player.inventory, j1, 8 + j1 * 18, 142));
     }
 
-    public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
+    public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
         //slot.getSlot is causing the game to freeze by never existing this method
         /*ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.inventorySlots.get(index);
@@ -50,11 +50,11 @@ public class ContainerTrimolaInventory extends Container {
     }
 
     @Override
-    public boolean canInteractWith(EntityPlayer playerIn) {
+    public boolean canInteractWith(PlayerEntity playerIn) {
         return trimola.isTamed() && trimola.isOwner(playerIn);
     }
 
-    public void onContainerClosed(EntityPlayer playerIn) {
+    public void onContainerClosed(PlayerEntity playerIn) {
         super.onContainerClosed(playerIn);
         this.trimola.inventory.closeInventory(playerIn);
     }

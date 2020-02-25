@@ -1,7 +1,8 @@
 package random.beasts.api.item;
 
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.item.*;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 
 public class BeastsToolSet {
 
@@ -19,7 +20,7 @@ public class BeastsToolSet {
         this.hoe = new BeastsHoe(material, name + "_hoe", this);
     }
 
-    protected boolean damageEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
+    protected boolean damageEntity(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         return false;
     }
 }

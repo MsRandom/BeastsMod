@@ -1,10 +1,10 @@
 package random.beasts.common.item;
 
 import net.minecraft.block.SoundType;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.Direction;
 import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
@@ -19,8 +19,8 @@ public class ItemGlowRoot extends BeastsItem {
     }
 
     @Override
-    public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        if (facing != EnumFacing.DOWN || worldIn.getBlockState(pos).getBlock() == BeastsBlocks.GLOW_ROOT_BOTTOM || worldIn.getBlockState(pos).getBlock() == BeastsBlocks.GLOW_ROOT_TOP)
+    public EnumActionResult onItemUse(PlayerEntity player, World worldIn, BlockPos pos, EnumHand hand, Direction facing, float hitX, float hitY, float hitZ) {
+        if (facing != Direction.DOWN || worldIn.getBlockState(pos).getBlock() == BeastsBlocks.GLOW_ROOT_BOTTOM || worldIn.getBlockState(pos).getBlock() == BeastsBlocks.GLOW_ROOT_TOP)
             return super.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
         BlockPos down = pos.down();
         if (worldIn.getBlockState(down) == Blocks.AIR.getDefaultState() && worldIn.getBlockState(pos.down().down()) == Blocks.AIR.getDefaultState()) {

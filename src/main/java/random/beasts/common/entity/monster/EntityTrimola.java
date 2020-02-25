@@ -1,15 +1,16 @@
 package random.beasts.common.entity.monster;
 
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.*;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.passive.EntityTameable;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.IInventoryChangedListener;
 import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
@@ -19,7 +20,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
-import random.beasts.api.main.BeastsReference;
 import random.beasts.common.BeastsMod;
 import random.beasts.common.init.BeastsBlocks;
 import random.beasts.common.network.BeastsGuiHandler;
@@ -45,15 +45,15 @@ public class EntityTrimola extends EntityTameable implements IInventoryChangedLi
 
     @Override
     protected void initEntityAI() {
-        this.tasks.addTask(0, new EntityAISwimming(this));
-//        this.tasks.addTask(0, new EntityAINearestAttackableTarget<>(this, EntityLivingBase.class, 10, true, false, entity -> entity == getAttackTarget()));
-        this.tasks.addTask(1, new EntityAIMate(this, 1.0D));
-        this.tasks.addTask(1, new EntityAIFollowParent(this, 1.25D));
-        this.tasks.addTask(2, new EntityAIWanderAvoidWater(this, 1.0D));
-        this.tasks.addTask(2, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
-        this.tasks.addTask(2, new EntityAILookIdle(this));
-        this.targetTasks.addTask(2, new EntityAIHurtByTarget(this, false));
-        this.tasks.addTask(1, new EntityAIAttackMelee(this, 1.0, false));
+        this.goalSelector.addGoal(0, new EntityAISwimming(this));
+//        this.goalSelector.addGoal(0, new EntityAINearestAttackableTarget<>(this, LivingEntity.class, 10, true, false, entity -> entity == getAttackTarget()));
+        this.goalSelector.addGoal(1, new EntityAIMate(this, 1.0D));
+        this.goalSelector.addGoal(1, new EntityAIFollowParent(this, 1.25D));
+        this.goalSelector.addGoal(2, new EntityAIWanderAvoidWater(this, 1.0D));
+        this.goalSelector.addGoal(2, new EntityAIWatchClosest(this, PlayerEntity.class, 6.0F));
+        this.goalSelector.addGoal(2, new EntityAILookIdle(this));
+        this.goalSelector.addGoal(2, new EntityAIHurtByTarget(this, false));
+        this.goalSelector.addGoal(1, new EntityAIAttackMelee(this, 1.0, false));
     }
 
     public boolean isRearing(){return rearing;}
@@ -71,7 +71,7 @@ public class EntityTrimola extends EntityTameable implements IInventoryChangedLi
 
     public void travel(float strafe, float vertical, float forward) {
         if (this.getControllingPassenger() != null && this.canBeSteered()) {
-            EntityLivingBase entitylivingbase = (EntityLivingBase) this.getControllingPassenger();
+            LivingEntity entitylivingbase = (LivingEntity) this.getControllingPassenger();
             this.rotationYaw = entitylivingbase.rotationYaw;
             this.prevRotationYaw = this.rotationYaw;
             this.rotationPitch = entitylivingbase.rotationPitch * 0.5F;
@@ -86,7 +86,7 @@ public class EntityTrimola extends EntityTameable implements IInventoryChangedLi
             if (this.canPassengerSteer()) {
                 this.setAIMoveSpeed((float) this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getAttributeValue());
                 super.travel(strafe, vertical, forward);
-            } else if (entitylivingbase instanceof EntityPlayer) {
+            } else if (entitylivingbase instanceof PlayerEntity) {
                 this.motionX = 0.0D;
                 this.motionY = 0.0D;
                 this.motionZ = 0.0D;
@@ -104,9 +104,9 @@ public class EntityTrimola extends EntityTameable implements IInventoryChangedLi
     }
 
     @Override
-    public void setTamedBy(EntityPlayer player) {
+    public void setTamedBy(PlayerEntity player) {
         super.setTamedBy(player);
-        if(this.getRevengeTarget() == player)
+        if (this.getRevengeTarget() == player)
             this.setRevengeTarget(null);
     }
 
@@ -128,7 +128,7 @@ public class EntityTrimola extends EntityTameable implements IInventoryChangedLi
 
     @Nullable
     @Override
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
+    public IMobEntityData onInitialSpawn(DifficultyInstance difficulty, @Nullable IMobEntityData livingdata) {
         this.setVariant(this.rand.nextInt(2));
         return super.onInitialSpawn(difficulty, livingdata);
     }
@@ -195,21 +195,21 @@ public class EntityTrimola extends EntityTameable implements IInventoryChangedLi
     }
 
     @Override
-    public void writeEntityToNBT(NBTTagCompound compound) {
+    public void writeEntityToNBT(CompoundNBT compound) {
         super.writeEntityToNBT(compound);
-        compound.setInteger("Variant", getVariant());
+        compound.putInt("Variant", getVariant());
         if (!getSaddle().isEmpty()) {
-            NBTTagCompound saddle = new NBTTagCompound();
+            CompoundNBT saddle = new CompoundNBT();
             getSaddle().writeToNBT(saddle);
-            compound.setTag("Saddle", saddle);
+            compound.putTag("Saddle", saddle);
         }
     }
 
     @Override
-    public void readEntityFromNBT(NBTTagCompound compound) {
+    public void readEntityFromNBT(CompoundNBT compound) {
         super.readEntityFromNBT(compound);
         initInventory();
-        setVariant(compound.getInteger("Variant"));
+        setVariant(compound.getInt("Variant"));
         if (compound.hasKey("Saddle")) {
             ItemStack saddle = new ItemStack(compound.getCompoundTag("Saddle"));
             setSaddle(saddle);
@@ -218,7 +218,7 @@ public class EntityTrimola extends EntityTameable implements IInventoryChangedLi
     }
 
     @Override
-    public boolean processInteract(EntityPlayer player, @Nonnull EnumHand hand) {
+    public boolean processInteract(PlayerEntity player, @Nonnull EnumHand hand) {
         ItemStack stack = player.getHeldItem(hand);
 
         if (!this.isChild() && this.isTamed() && (this.isOwner(player) || this.getControllingPassenger() != null)) {
@@ -287,8 +287,8 @@ public class EntityTrimola extends EntityTameable implements IInventoryChangedLi
 
     @Override
     public boolean attackEntityFrom(DamageSource source, float amount) {
-        if (source.getTrueSource() instanceof EntityLivingBase)
-            setRevengeTarget((EntityLivingBase) source.getTrueSource());
+        if (source.getTrueSource() instanceof LivingEntity)
+            setRevengeTarget((LivingEntity) source.getTrueSource());
         return super.attackEntityFrom(source, amount);
     }
 

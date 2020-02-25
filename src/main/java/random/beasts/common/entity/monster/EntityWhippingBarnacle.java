@@ -1,15 +1,17 @@
 package random.beasts.common.entity.monster;
 
-import net.minecraft.entity.*;
-import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.init.Blocks;
-import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.EnumHandSide;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
@@ -20,7 +22,7 @@ import random.beasts.common.init.BeastsItems;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 
-public class EntityWhippingBarnacle extends EntityMob implements IDriedAquatic {
+public class EntityWhippingBarnacle extends MonsterEntity implements IDriedAquatic {
 
     private static final DataParameter<Integer> FACING = EntityDataManager.createKey(EntityWhippingBarnacle.class, DataSerializers.VARINT);
     private static final DataParameter<Integer> COLOR = EntityDataManager.createKey(EntityWhippingBarnacle.class, DataSerializers.VARINT);
@@ -37,11 +39,11 @@ public class EntityWhippingBarnacle extends EntityMob implements IDriedAquatic {
 
     @Nullable
     @Override
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
+    public IMobEntityData onInitialSpawn(DifficultyInstance difficulty, @Nullable IMobEntityData livingdata) {
         livingdata = super.onInitialSpawn(difficulty, livingdata);
         setColor(rand.nextInt(2));
-        for (int i = EnumFacing.values().length - 1; i >= 0; --i) {
-            EnumFacing facing = EnumFacing.values()[i];
+        for (int i = Direction.values().length - 1; i >= 0; --i) {
+            Direction facing = Direction.values()[i];
             boolean flag = world.getBlockState(getPosition().offset(facing.getOpposite())).getBlock() == Blocks.STONE;
             for (int j = 1; j <= 3; j++)
                 flag &= world.getBlockState(getPosition().offset(facing, i)).getBlock() == Blocks.AIR;
@@ -74,18 +76,18 @@ public class EntityWhippingBarnacle extends EntityMob implements IDriedAquatic {
     @Override
     public void onUpdate() {
         this.world.profiler.startSection("entityBaseTick");
-        EntityLivingBase[] entities = world.getEntitiesWithinAABB(EntityLivingBase.class, getEntityBoundingBox().grow(5)).stream().filter(e -> !(e instanceof IDriedAquatic)).toArray(EntityLivingBase[]::new);
+        LivingEntity[] entities = world.getEntitiesWithinAABB(LivingEntity.class, getEntityBoundingBox().grow(5)).stream().filter(e -> !(e instanceof IDriedAquatic)).toArray(LivingEntity[]::new);
         if (entities.length == 0) {
             ready = false;
             impaling = false;
             impalingTicks = 0;
-        } else for (EntityLivingBase entity : entities) {
+        } else for (LivingEntity entity : entities) {
             if (!ready) ready = true;
             if (getDistanceSq(entity) < 2) {
-                EnumFacing facing = getFacing();
-                EnumFacing.Axis axis = facing.getAxis();
+                Direction facing = getFacing();
+                Direction.Axis axis = facing.getAxis();
                 double relativePos;
-                if (axis == EnumFacing.Axis.Z) relativePos = entity.posZ - this.posZ;
+                if (axis == Direction.Axis.Z) relativePos = entity.posZ - this.posZ;
                 else relativePos = entity.posX - this.posX;
                 getLookHelper().setLookPositionWithEntity(entity, 0, 0);
                 if (impalingTicks > 0) if (impalingTicks++ == 12) attackEntityAsMob(entity);
@@ -134,7 +136,7 @@ public class EntityWhippingBarnacle extends EntityMob implements IDriedAquatic {
     @Override
     public boolean getCanSpawnHere() {
         boolean flag = false;
-        for (EnumFacing facing : EnumFacing.values())
+        for (Direction facing : Direction.values())
             if (world.getBlockState(getPosition().offset(facing)).getBlock() == Blocks.STONE) {
                 flag = true;
                 break;
@@ -142,11 +144,11 @@ public class EntityWhippingBarnacle extends EntityMob implements IDriedAquatic {
         return flag;
     }
 
-    public EnumFacing getFacing() {
-        return EnumFacing.values()[this.dataManager.get(FACING)];
+    public Direction getFacing() {
+        return Direction.values()[this.dataManager.get(FACING)];
     }
 
-    public void setFacing(EnumFacing facing) {
+    public void setFacing(Direction facing) {
         this.dataManager.set(FACING, facing.getIndex());
     }
 
@@ -168,17 +170,17 @@ public class EntityWhippingBarnacle extends EntityMob implements IDriedAquatic {
     }
 
     @Override
-    public ItemStack getItemStackFromSlot(EntityEquipmentSlot slotIn) {
+    public ItemStack getItemStackFromSlot(EquipmentSlotType slotIn) {
         return ItemStack.EMPTY;
     }
 
     @Override
-    public void setItemStackToSlot(EntityEquipmentSlot slotIn, ItemStack stack) {
+    public void setItemStackToSlot(EquipmentSlotType slotIn, ItemStack stack) {
     }
 
     @Override
     public EnumHandSide getPrimaryHand() {
-        return EnumHandSide.LEFT;
+        return EnumHandDist.LEFT;
     }
 
     @Override
@@ -187,16 +189,16 @@ public class EntityWhippingBarnacle extends EntityMob implements IDriedAquatic {
     }
 
     @Override
-    public void readEntityFromNBT(NBTTagCompound compound) {
+    public void readEntityFromNBT(CompoundNBT compound) {
         super.readEntityFromNBT(compound);
-        this.setFacing(EnumFacing.values()[compound.getInteger("facing")]);
-        this.setColor(compound.getInteger("color"));
+        this.setFacing(Direction.values()[compound.getInt("facing")]);
+        this.setColor(compound.getInt("color"));
     }
 
     @Override
-    public void writeEntityToNBT(NBTTagCompound compound) {
+    public void writeEntityToNBT(CompoundNBT compound) {
         super.writeEntityToNBT(compound);
-        compound.setInteger("facing", this.getFacing().getIndex());
-        compound.setInteger("color", this.getColor());
+        compound.putInt("facing", this.getFacing().getIndex());
+        compound.putInt("color", this.getColor());
     }
 }

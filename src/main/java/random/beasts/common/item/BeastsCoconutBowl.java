@@ -1,6 +1,6 @@
 package random.beasts.common.item;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
@@ -18,7 +18,7 @@ public class BeastsCoconutBowl extends BeastsFood {
     }
 
     @Override
-    protected void onFoodEaten(ItemStack stack, World worldIn, EntityPlayer player) {
+    protected void onFoodEaten(ItemStack stack, World worldIn, PlayerEntity player) {
         for (PotionEffect effect : effects) player.addPotionEffect(effect);
         player.inventory.add(1, new ItemStack(BeastsItems.COCONUT_BOWL));
         super.onFoodEaten(stack, worldIn, player);

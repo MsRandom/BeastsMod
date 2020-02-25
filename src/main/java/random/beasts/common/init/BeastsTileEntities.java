@@ -3,7 +3,6 @@ package random.beasts.common.init;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import random.beasts.api.main.BeastsReference;
 import random.beasts.common.tileentity.TileEntityCoconut;
 
 import java.util.ArrayList;
@@ -16,7 +15,7 @@ public class BeastsTileEntities {
 
     public static void init() {
         for (BeastsTileEntity tile : LIST)
-            GameRegistry.registerTileEntity(tile.cls, new ResourceLocation(BeastsReference.ID, tile.name));
+            GameRegistry.registerTileEntity(tile.cls, new ResourceLocation(BeastsMod.MOD_ID, tile.name));
     }
 
     private static class BeastsTileEntity {

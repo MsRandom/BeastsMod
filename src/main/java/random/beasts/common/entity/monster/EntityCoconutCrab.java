@@ -5,13 +5,13 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.monster.MonsterEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemSword;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
@@ -31,7 +31,7 @@ import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Objects;
 
-public class EntityCoconutCrab extends EntityMob implements IShellEntity {
+public class EntityCoconutCrab extends MonsterEntity implements IShellEntity {
 
     private static final DataParameter<Boolean> OUT = EntityDataManager.createKey(EntityCoconutCrab.class, DataSerializers.BOOLEAN);
     private static final float defaultHeight = 0.4f;
@@ -47,13 +47,13 @@ public class EntityCoconutCrab extends EntityMob implements IShellEntity {
     @Override
     protected void initEntityAI() {
         super.initEntityAI();
-        this.tasks.addTask(0, new EntityAIWander(this, 0.5, 50) {
+        this.goalSelector.addGoal(0, new EntityAIWander(this, 0.5, 50) {
             @Override
             public boolean shouldExecute() {
                 return isOut() && super.shouldExecute();
             }
         });
-        this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<EntityPlayer>(this, EntityPlayer.class, true) {
+        this.goalSelector.addGoal(0, new EntityAINearestAttackableTarget<PlayerEntity>(this, PlayerEntity.class, true) {
             @Override
             public boolean shouldExecute() {
                 return isOut() && super.shouldExecute();
@@ -142,7 +142,7 @@ public class EntityCoconutCrab extends EntityMob implements IShellEntity {
     }
 
     @Override
-    protected boolean processInteract(EntityPlayer player, EnumHand hand) {
+    protected boolean processInteract(PlayerEntity player, EnumHand hand) {
         if (!isOut()) {
             setOut(true);
             if (!player.capabilities.isCreativeMode) {
@@ -155,13 +155,13 @@ public class EntityCoconutCrab extends EntityMob implements IShellEntity {
     }
 
     @Override
-    public void writeEntityToNBT(NBTTagCompound compound) {
+    public void writeEntityToNBT(CompoundNBT compound) {
         super.writeEntityToNBT(compound);
-        compound.setBoolean("out", this.isOut());
+        compound.putBoolean("out", this.isOut());
     }
 
     @Override
-    public void readEntityFromNBT(NBTTagCompound compound) {
+    public void readEntityFromNBT(CompoundNBT compound) {
         super.readEntityFromNBT(compound);
         this.setOut(compound.getBoolean("out"));
     }
@@ -182,11 +182,11 @@ public class EntityCoconutCrab extends EntityMob implements IShellEntity {
             }
 
             if (this.getHeldItem(EnumHand.MAIN_HAND).isEmpty()) {
-                List<EntityItem> list = this.world.getEntitiesWithinAABB(EntityItem.class, this.getEntityBoundingBox().grow(8.0D));
+                List<ItemEntity> list = this.world.getEntitiesWithinAABB(ItemEntity.class, this.getEntityBoundingBox().grow(8.0D));
                 double d0 = Double.MAX_VALUE;
-                EntityItem item = null;
+                ItemEntity item = null;
 
-                for (EntityItem itm : list)
+                for (ItemEntity itm : list)
                     if (itm.getItem().getItem() instanceof ItemSword) {
                         if (this.getDistanceSq(itm) < d0) {
                             item = itm;

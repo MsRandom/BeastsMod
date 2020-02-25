@@ -1,26 +1,21 @@
 package random.beasts.client.renderer.entity;
 
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import random.beasts.api.main.BeastsReference;
-import random.beasts.client.model.ModelAnglerQueen;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import random.beasts.client.model.ModelIsopod;
-import random.beasts.client.model.ModelVileEel;
-import random.beasts.common.entity.monster.EntityAnglerQueen;
+import random.beasts.common.BeastsMod;
 import random.beasts.common.entity.monster.EntityIsopod;
-import random.beasts.common.entity.monster.EntityVileEel;
 
-@SideOnly(Side.CLIENT)
-public class RenderIsopod extends RenderLiving<EntityIsopod> {
-	
-    private static final ResourceLocation SPARTAPOD = new ResourceLocation(BeastsReference.ID, "textures/entity/spartapod.png");
-    private static final ResourceLocation ATHAPOD = new ResourceLocation(BeastsReference.ID, "textures/entity/athapod.png");
+@OnlyIn(Dist.CLIENT)
+public class RenderIsopod extends MobRenderer<EntityIsopod> {
 
-    public RenderIsopod(RenderManager rm) {
+    private static final ResourceLocation SPARTAPOD = new ResourceLocation(BeastsMod.MOD_ID, "textures/entity/spartapod.png");
+    private static final ResourceLocation ATHAPOD = new ResourceLocation(BeastsMod.MOD_ID, "textures/entity/athapod.png");
+
+    public RenderIsopod(EntityRendererManager rm) {
         super(rm, new ModelIsopod(), 0.4f);
     }
 

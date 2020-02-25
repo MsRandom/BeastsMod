@@ -9,7 +9,7 @@ import java.util.Objects;
 public class BeastsDoorItem extends ItemDoor {
     public BeastsDoorItem(Block block) {
         super(block);
-        String name = Objects.requireNonNull(block.getRegistryName()).getResourcePath();
+        String name = Objects.requireNonNull(block.getRegistryName()).getPath();
         setUnlocalizedName(name);
         setCreativeTab(BeastsUtils.getRegistryTab());
     }

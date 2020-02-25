@@ -1,16 +1,13 @@
 package random.beasts.proxy;
 
-import net.minecraft.client.model.ModelBiped;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.client.renderer.entity.model.BipedModel;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
-import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.oredict.OreDictionary;
 import random.beasts.api.block.BeastsDoor;
-import random.beasts.api.main.BeastsReference;
 import random.beasts.api.main.BeastsUtils;
 import random.beasts.client.init.BeastsCreativeTabs;
 import random.beasts.common.block.BlockPalmTreeLeaves;
@@ -19,18 +16,15 @@ import random.beasts.common.block.BlockShellPiece;
 import random.beasts.common.init.*;
 import random.beasts.common.network.BeastsGuiHandler;
 import random.beasts.common.network.BeastsPacketHandler;
-import random.beasts.common.world.biome.RealisticBiomeDriedReef;
-import rtg.api.RTGAPI;
-import rtg.util.ModCompat;
 
 public class CommonProxy {
 
-    public EntityPlayer getPlayer() {
+    public PlayerEntity getPlayer() {
         return null;
     }
 
-    public EntityPlayer getPlayer(MessageContext ctx) {
-        if (ctx.side == Side.SERVER) {
+    public PlayerEntity getPlayer(MessageContext ctx) {
+        if (ctx.side == Dist.SERVER) {
             return ctx.getServerHandler().player;
         }
         return null;
@@ -55,10 +49,6 @@ public class CommonProxy {
     }
 
     public void init() {
-        if (Loader.isModLoaded("rtg")) {
-            EnumHelper.addEnum(ModCompat.Mods.class, BeastsReference.ID, new Class[0]);
-            RTGAPI.RTG_BIOMES.addBiomes(new RealisticBiomeDriedReef());
-        }
         registerOreDict();
         BeastsPacketHandler.initPackets();
     }
@@ -66,11 +56,11 @@ public class CommonProxy {
     public void registerEventRenders() {
     }
 
-    public ModelBiped getArmorModel(Item armorItem, EntityEquipmentSlot armorSlot) {
+    public <A extends BipedModel<?>> A getArmorModel(Item armorItem, EquipmentSlotType armorSlot) {
         return null;
     }
 
-    public String getArmorTexture(Item armorItem, EntityEquipmentSlot armorSlot) {
+    public String getArmorTexture(Item armorItem, EquipmentSlotType armorSlot) {
         return null;
     }
 

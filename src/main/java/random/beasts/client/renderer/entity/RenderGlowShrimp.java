@@ -1,20 +1,19 @@
 package random.beasts.client.renderer.entity;
 
-import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import random.beasts.api.main.BeastsReference;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import random.beasts.client.model.ModelGlowShrimp;
 import random.beasts.common.entity.passive.EntityGlowShrimp;
 
-@SideOnly(Side.CLIENT)
-public class RenderGlowShrimp extends RenderLiving<EntityGlowShrimp> {
-	
-    private static final ResourceLocation SHRIMP = new ResourceLocation(BeastsReference.ID, "textures/entity/glow_shrimp.png");
+@OnlyIn(Dist.CLIENT)
+public class RenderGlowShrimp extends MobRenderer<EntityGlowShrimp> {
 
-    public RenderGlowShrimp(RenderManager rm) {
+    private static final ResourceLocation SHRIMP = new ResourceLocation(BeastsMod.MOD_ID, "textures/entity/glow_shrimp.png");
+
+    public RenderGlowShrimp(EntityRendererManager rm) {
         super(rm, new ModelGlowShrimp(), 0.3f);
     }
 

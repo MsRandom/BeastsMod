@@ -1,22 +1,21 @@
 package random.beasts.client.renderer.entity;
 
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import random.beasts.api.main.BeastsReference;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import random.beasts.client.model.ModelLandwhale;
 import random.beasts.common.entity.passive.EntityLandwhale;
 
-@SideOnly(Side.CLIENT)
-public class RenderLandwhale extends RenderLiving<EntityLandwhale> {
-    private static final ResourceLocation NORMAL = new ResourceLocation(BeastsReference.ID, "textures/entity/landwhale/normal.png");
-    private static final ResourceLocation SHEARED = new ResourceLocation(BeastsReference.ID, "textures/entity/landwhale/sheared.png");
-    private static final ResourceLocation SADDLE = new ResourceLocation(BeastsReference.ID, "textures/entity/landwhale/saddle.png");
+@OnlyIn(Dist.CLIENT)
+public class RenderLandwhale extends MobRenderer<EntityLandwhale> {
+    private static final ResourceLocation NORMAL = new ResourceLocation(BeastsMod.MOD_ID, "textures/entity/landwhale/normal.png");
+    private static final ResourceLocation SHEARED = new ResourceLocation(BeastsMod.MOD_ID, "textures/entity/landwhale/sheared.png");
+    private static final ResourceLocation SADDLE = new ResourceLocation(BeastsMod.MOD_ID, "textures/entity/landwhale/saddle.png");
 
-    public RenderLandwhale(RenderManager rm) {
+    public RenderLandwhale(EntityRendererManager rm) {
         super(rm, new ModelLandwhale(), 1.0F);
 
     }

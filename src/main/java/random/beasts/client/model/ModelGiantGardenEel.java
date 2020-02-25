@@ -1,36 +1,36 @@
 package random.beasts.client.model;
 
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.entity.model.EntityModel;
+import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.MathHelper;
 import random.beasts.common.entity.monster.EntityGiantGardenEel;
 
-public class ModelGiantGardenEel extends ModelBase {
-    public ModelRenderer body;
-    public ModelRenderer body1;
-    public ModelRenderer body2;
-    public ModelRenderer body3;
-    public ModelRenderer head;
-    private ModelRenderer[] parts;
+public class ModelGiantGardenEel extends EntityModel {
+    public RendererModel body;
+    public RendererModel body1;
+    public RendererModel body2;
+    public RendererModel body3;
+    public RendererModel head;
+    private RendererModel[] parts;
 
     public ModelGiantGardenEel() {
         this.textureWidth = 64;
         this.textureHeight = 64;
-        this.body2 = new ModelRenderer(this, 0, 18);
+        this.body2 = new RendererModel(this, 0, 18);
         this.body2.setRotationPoint(0.0F, -12.0F, 0.0F);
         this.body2.addBox(-3.0F, -12.0F, -3.0F, 6, 12, 6, 0.0F);
-        this.body3 = new ModelRenderer(this, 24, 18);
+        this.body3 = new RendererModel(this, 24, 18);
         this.body3.setRotationPoint(0.0F, -12.0F, 0.0F);
         this.body3.addBox(-3.0F, -12.0F, -3.0F, 6, 12, 6, 0.0F);
-        this.head = new ModelRenderer(this, 0, 36);
+        this.head = new RendererModel(this, 0, 36);
         this.head.setRotationPoint(0.0F, -12.0F, 0.0F);
         this.head.addBox(-3.5F, -3.5F, -12.0F, 7, 7, 12, 0.0F);
-        this.body1 = new ModelRenderer(this, 24, 0);
+        this.body1 = new RendererModel(this, 24, 0);
         this.body1.setRotationPoint(0.0F, -12.0F, 0.0F);
         this.body1.addBox(-3.0F, -12.0F, -3.0F, 6, 12, 6, 0.0F);
-        this.body = new ModelRenderer(this, 0, 0);
+        this.body = new RendererModel(this, 0, 0);
         this.body.setRotationPoint(0.0F, 26.0F, 0.0F);
         this.body.addBox(-3.0F, -12.0F, -3.0F, 6, 12, 6, 0.0F);
         this.body1.addChild(this.body2);
@@ -38,7 +38,7 @@ public class ModelGiantGardenEel extends ModelBase {
         this.body3.addChild(this.head);
         this.body.addChild(this.body1);
 
-        parts = new ModelRenderer[]{head, body3, body2, body1};
+        parts = new RendererModel[]{head, body3, body2, body1};
     }
 
     @Override
@@ -47,7 +47,7 @@ public class ModelGiantGardenEel extends ModelBase {
     }
 
     @Override
-    public void setLivingAnimations(EntityLivingBase entityIn, float limbSwing, float limbSwingAmount, float partialTickTime) {
+    public void setLivingAnimations(LivingEntity entityIn, float limbSwing, float limbSwingAmount, float partialTickTime) {
         EntityGiantGardenEel gardenEel = (EntityGiantGardenEel) entityIn;
         float slam = gardenEel.getSlamTimer();
         this.body.rotateAngleX = (250 - slam) / 180f;

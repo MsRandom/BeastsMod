@@ -3,15 +3,14 @@ package random.beasts.client.renderer.entity.layers;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import random.beasts.api.main.BeastsReference;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import random.beasts.client.renderer.entity.RenderPufferfishDog;
 import random.beasts.common.entity.passive.EntityPufferfishDog;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class LayerCollar implements LayerRenderer<EntityPufferfishDog> {
-    private static final ResourceLocation COLLAR = new ResourceLocation(BeastsReference.ID, "textures/entity/pufferfish_dog/collar.png");
+    private static final ResourceLocation COLLAR = new ResourceLocation(BeastsMod.MOD_ID, "textures/entity/pufferfish_dog/collar.png");
     private final RenderPufferfishDog render;
 
     public LayerCollar(RenderPufferfishDog render) {
