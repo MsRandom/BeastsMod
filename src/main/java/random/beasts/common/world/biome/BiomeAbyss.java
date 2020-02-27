@@ -4,19 +4,25 @@ import net.minecraft.block.BlockPrismarine;
 import net.minecraft.block.BlockStone;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.NoiseGeneratorPerlin;
+import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraft.world.storage.loot.RandomValueRange;
 import net.minecraftforge.oredict.OreDictionary;
 import random.beasts.api.configuration.BeastsConfig;
 import random.beasts.api.world.biome.underground.UndergroundBiome;
 import random.beasts.api.world.biome.underground.UndergroundBiomeBounds;
 import random.beasts.common.block.BlockAbyssalOre;
+import random.beasts.common.block.BlockAbyssalTendrils;
+import random.beasts.common.block.BlockGlowCoral;
 import random.beasts.common.block.OreType;
 import random.beasts.common.init.BeastsBlocks;
+import random.beasts.common.world.gen.feature.WorldGenAbyssalCoralCluster;
+import random.beasts.common.world.gen.feature.WorldGenAbyssalVentCluster;
 
 import java.util.Random;
 
@@ -24,9 +30,21 @@ public class BiomeAbyss extends UndergroundBiome {
 
 	protected static final NoiseGeneratorPerlin CAVE_NOISE_LAYER_1 = new NoiseGeneratorPerlin(new Random(2345L), 8);
 	protected static final NoiseGeneratorPerlin CAVE_NOISE_LAYER_2 = new NoiseGeneratorPerlin(new Random(-123589L), 8);
+	private final WorldGenerator VENT_CLUSTER_GENERATOR = new WorldGenAbyssalVentCluster(6, 1, 6, 2, 4, 2);
+	private final WorldGenerator CORAL_CLUSTER_GENERATOR = new WorldGenAbyssalCoralCluster(3, 1, 3);
+	private final int VENT_CLUSTER_CHANCE = 50;
+	private final int CORAL_CLUSTER_CHANCE = 50;
+	private final int ABYSSAL_GRASS_CHANCE = 8;
+	private final int TENTACLE_GRASS_CHANCE = 40;
+	private final int ABYSSAL_TENDRILS_CHANCE = 15;
+	private final int GLOW_CORAL_CHANCE = 15;
+	private final int layerHeight1;
+	private final int layerHeight2;
 
 	public BiomeAbyss(Biome base) {
 		super("The Abyss", BeastsConfig.abyssWeight, base);
+		this.layerHeight1 = 8;
+		this.layerHeight2 = 22;
 	}
 
 	@Override
@@ -79,8 +97,8 @@ public class BiomeAbyss extends UndergroundBiome {
 					}
 
 				if (a < 0.92d) {
-					int layer1_height = 8;
-					int layer2_height = 22;
+					int layer1_height = layerHeight1;
+					int layer2_height = layerHeight2;
 
 					double d0 = CAVE_NOISE_LAYER_1.getValue((double) posit.getX() * 1.6667f, (double) posit.getZ() * 1.6667f) * 0.09d;
 					if (posit.getY() < Math.round((float) -d0) + minY + layer1_height && posit.getY() > Math.round((float) d0 * 0.333f) + minY + layer1_height) {
@@ -98,8 +116,63 @@ public class BiomeAbyss extends UndergroundBiome {
 				}
 			}
 		}
-		Random random = new Random(center.toLong());
-		this.generateCave(world, pos, rand, bounds);
+		//Random random = new Random(center.toLong());
+		//this.generateCave(world, pos, rand, bounds);
+	}
+
+	@Override
+	public void decorate(World world, Random rand, BlockPos pos, UndergroundBiomeBounds bounds) {
+		super.decorate(world, rand, pos, bounds);
+		ChunkPos chunk = new ChunkPos(pos);
+		int minY = (pos.getY() >> 5) * 32;
+		BlockPos chunkStart = new BlockPos(chunk.getXStart(), minY, chunk.getZStart());
+		BlockPos chunkEnd = new BlockPos(chunk.getXEnd(), minY + 32, chunk.getZEnd());
+
+		int radiusX = (bounds.maxX * 16 - bounds.minX * 16) / 2;
+		int radiusY = 16;
+		int radiusZ = (bounds.maxZ * 16 - bounds.minZ * 16) / 2;
+		BlockPos center = new BlockPos(bounds.minX * 16, minY, bounds.minZ * 16).add(radiusX, radiusY, radiusZ);
+		for (BlockPos posit : BlockPos.getAllInBox(chunkStart, chunkEnd)) {
+
+			double a = Math.pow(posit.getX() - center.getX(), 2) / Math.pow(radiusX, 2) +
+					Math.pow(posit.getY() - center.getY(), 2) / Math.pow(radiusY, 2) +
+					Math.pow(posit.getZ() - center.getZ(), 2) / Math.pow(radiusZ, 2);
+
+			if (a < 0.92d) {
+				int layer1_height = layerHeight1;
+				int layer2_height = layerHeight2;
+				double d0 = CAVE_NOISE_LAYER_1.getValue((double) posit.getX() * 1.6667f, (double) posit.getZ() * 1.6667f) * 0.09d;
+				double d1 = CAVE_NOISE_LAYER_2.getValue((double) posit.getX() * 1.6667f, (double) posit.getZ() * 1.6667f) * 0.09d;
+				if ((posit.getY() < Math.round((float) -d0) + minY + layer1_height && posit.getY() > Math.round((float) d0 * 0.333f) + minY + layer1_height) ||
+						(posit.getY() < Math.round((float) -d1) + minY + layer2_height && posit.getY() > Math.round((float) d1 * 0.333f) + minY + layer2_height)) {
+
+					NoiseGeneratorPerlin plantNoise = new NoiseGeneratorPerlin(new Random(-12L), 3);
+					double noise = plantNoise.getValue(posit.getX() * 1.5f, posit.getZ() * 1.5f);
+					if (noise > 1.5d) {
+						if (rand.nextInt(VENT_CLUSTER_CHANCE) == 0 && world.getBlockState(posit.down()).getBlock() == BeastsBlocks.ABYSSAL_SAND)
+							this.VENT_CLUSTER_GENERATOR.generate(world, rand, posit);
+					} else if (noise < 1.25d) {
+						if (rand.nextInt(CORAL_CLUSTER_CHANCE) == 0 && !world.isAirBlock(posit.down()))
+							this.CORAL_CLUSTER_GENERATOR.generate(world, rand, posit.down());
+						if (rand.nextInt(ABYSSAL_GRASS_CHANCE) == 0 && world.getBlockState(posit.down()).getBlock() == BeastsBlocks.ABYSSAL_SAND)
+							world.setBlockState(posit, BeastsBlocks.ABYSSAL_GRASS.getDefaultState(), 16);
+						if (rand.nextInt(TENTACLE_GRASS_CHANCE) == 0 && world.getBlockState(posit.down()).getBlock() == BeastsBlocks.ABYSSAL_SAND)
+							world.setBlockState(posit, BeastsBlocks.TENTACLE_GRASS.getDefaultState(), 16);
+						if (rand.nextInt(ABYSSAL_TENDRILS_CHANCE) == 0 && world.getBlockState(posit.down()).getBlock() == BeastsBlocks.ABYSSAL_SAND && world.isAirBlock(posit.up())) {
+							world.setBlockState(posit, BeastsBlocks.ABYSSAL_TENDRILS.getDefaultState().withProperty(BlockAbyssalTendrils.HALF, BlockAbyssalTendrils.EnumBlockHalf.LOWER), 16);
+							world.setBlockState(posit.up(), BeastsBlocks.ABYSSAL_TENDRILS.getDefaultState().withProperty(BlockAbyssalTendrils.HALF, BlockAbyssalTendrils.EnumBlockHalf.UPPER), 16);
+						}
+						EnumFacing facing = EnumFacing.getFront(rand.nextInt(6));
+						if (rand.nextInt(GLOW_CORAL_CHANCE) == 0 && world.getBlockState(posit.offset(facing)).getBlock() == BeastsBlocks.ABYSSAL_STONE) {
+							if (rand.nextBoolean())
+								world.setBlockState(posit, BeastsBlocks.GLOW_CORAL_BLUE.getDefaultState().withProperty(BlockGlowCoral.FACING, facing.getOpposite()), 16);
+							else
+								world.setBlockState(posit, BeastsBlocks.GLOW_CORAL_PINK.getDefaultState().withProperty(BlockGlowCoral.FACING, facing.getOpposite()), 16);
+						}
+					}
+				}
+			}
+		}
 	}
 
 	public void generateCave(World world, BlockPos pos, Random rand, UndergroundBiomeBounds bounds) {
@@ -115,8 +188,8 @@ public class BiomeAbyss extends UndergroundBiome {
 		BlockPos center = new BlockPos(bounds.minX * 16, minY, bounds.minZ * 16).add(radiusX, radiusY, radiusZ);
 
 		for (int y = -16; y <= 16; ++y) {
-			int x = 0;//Math.round((float)cave_noise.getValue(chunk.getXStart(), (double)y)*radiusX);
-			int z = 0;//Math.round((float) cave_noise.getValue(chunk.getZStart(), y) * radiusZ);
+			int x = Math.round((float) cave_noise.getValue(chunk.getXStart() * 0.5d, (double) y * 0.5d) * radiusX * 0.5f);
+			int z = Math.round((float) cave_noise.getValue(chunk.getZStart() * 0.5d, (double) y * 0.5d) * radiusZ * 0.5f);
 			BlockPos position = center.add(x, y, z);
 			double a = Math.pow(position.getX() - center.getX(), 2) / Math.pow(radiusX, 2) +
 					Math.pow(position.getY() - center.getY(), 2) / Math.pow(radiusY, 2) +
