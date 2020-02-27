@@ -2,12 +2,11 @@ package random.beasts.client.model;
 
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.MathHelper;
 import random.beasts.common.entity.monster.EntityScallop;
 
-public class ModelScallop extends EntityModel {
+public class ModelScallop extends EntityModel<EntityScallop> {
     public RendererModel base;
     public RendererModel mouth;
     public RendererModel jaw;
@@ -34,14 +33,14 @@ public class ModelScallop extends EntityModel {
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+    public void render(EntityScallop entity, float f, float f1, float f2, float f3, float f4, float f5) {
         this.base.render(f5);
     }
 
     @Override
-    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
-        super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
-        LivingEntity target = ((EntityScallop) entityIn).getAttackTarget();
+    public void setRotationAngles(EntityScallop entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
+        super.setRotationAngles(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
+        LivingEntity target = entityIn.getAttackTarget();
         if (target == null) this.base.rotateAngleX = 0;
         else this.base.rotateAngleX = 0.8f;
         this.jaw.rotateAngleX = MathHelper.cos(limbSwing * 0.95f) * limbSwingAmount * 0.8f + 0.3f;

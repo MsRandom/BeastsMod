@@ -6,11 +6,17 @@ import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
+import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
+import random.beasts.common.BeastsMod;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -18,6 +24,7 @@ import java.util.ArrayList;
 import java.util.function.Consumer;
 
 @SuppressWarnings("ConstantConditions")
+@Mod.EventBusSubscriber(modid = BeastsMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class UndergroundGenerationCapabilities implements ICapabilityProvider {
     @CapabilityInject(UndergroundBiomes.class)
     public static final Capability<UndergroundBiomes> CAPABILITY = null;
@@ -26,6 +33,11 @@ public class UndergroundGenerationCapabilities implements ICapabilityProvider {
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing) {
         return CAPABILITY == capability ? LazyOptional.of(capability::getDefaultInstance) : LazyOptional.empty();
+    }
+
+    @SubscribeEvent
+    public static void register(RegistryEvent.Register<Biome> event) {
+        CapabilityManager.INSTANCE.register(UndergroundGenerationCapabilities.UndergroundBiomes.class, new UndergroundGenerationCapabilities.UndergroundBiomeStorage(), UndergroundGenerationCapabilities.UndergroundBiomes::new);
     }
 
     public static class UndergroundBiomes {

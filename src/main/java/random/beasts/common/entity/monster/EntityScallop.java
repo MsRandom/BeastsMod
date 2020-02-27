@@ -1,16 +1,16 @@
 package random.beasts.common.entity.monster;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.IMobEntityData;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.*;
 import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.entity.passive.EntityFlying;
+import net.minecraft.entity.passive.IFlyingAnimal;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
-import net.minecraft.pathfinding.PathNavigate;
-import net.minecraft.pathfinding.PathNavigateFlying;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.pathfinding.FlyingPathNavigator;
+import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import random.beasts.client.init.BeastsSounds;
 import random.beasts.common.init.BeastsBiomes;
@@ -20,7 +20,7 @@ import random.beasts.common.init.BeastsItems;
 import javax.annotation.Nullable;
 import java.util.Optional;
 
-public class EntityScallop extends MonsterEntity implements EntityFlying {
+public class EntityScallop extends MonsterEntity implements IFlyingAnimal {
 
     private double preferredRotation = -1;
     private int preferredAltitude = -1;
@@ -33,16 +33,15 @@ public class EntityScallop extends MonsterEntity implements EntityFlying {
     }
 
     @Override
-    protected PathNavigate createNavigator(World worldIn) {
-        return new PathNavigateFlying(this, worldIn);
+    protected PathNavigator createNavigator(World worldIn) {
+        return new FlyingPathNavigator(this, worldIn);
     }
 
     @Nullable
     @Override
-    public IMobEntityData onInitialSpawn(DifficultyInstance difficulty, @Nullable IMobEntityData livingdata) {
-        livingdata = super.onInitialSpawn(difficulty, livingdata);
-        this.motionY += 0.5;
-        return livingdata;
+    public ILivingEntityData onInitialSpawn(IWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
+        this.setMotion(getMotion().add(0, 0.5, 0));
+        return super.onInitialSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
     }
 
     @Override
@@ -52,7 +51,7 @@ public class EntityScallop extends MonsterEntity implements EntityFlying {
     @Override
     public void livingTick() {
         super.livingTick();
-        int speed = MathHelper.floor(4 / getAttribute(SharedMonsterAttributes.FLYING_SPEED).getAttributeValue());
+        int speed = MathHelper.floor(4 / getAttribute(SharedMonsterAttributes.FLYING_SPEED).getValue());
         int worldHeight = world.getHeight((int) (posX + 0.5), (int) (posZ + 0.5));
         if (getAttackTarget() == null) {
             Runnable targetSetter = () -> {
@@ -68,13 +67,12 @@ public class EntityScallop extends MonsterEntity implements EntityFlying {
             };
             if (needsTarget()) targetSetter.run();
             double angle = Math.toRadians(preferredRotation);
-            this.motionX += Math.cos(angle) / 24;
-            this.motionZ += Math.sin(-angle) / 24;
+            this.setMotion(getMotion().add(Math.cos(angle) / 24, 0, Math.sin(-angle) / 24));
             this.blocksFlew += (posX - prevPosX) + (posZ - prevPosZ);
             if (Math.abs(targetBlocks - blocksFlew) < 3) targetSetter.run();
-            this.getLookHelper().setLookPosition(posX + (posX - prevPosX), 0, posZ + (posZ - prevPosZ), 0, 0);
+            this.getLookController().setLookPosition(posX + (posX - prevPosX), 0, posZ + (posZ - prevPosZ), 0, 0);
 
-            Optional<PlayerEntity> player = world.getPlayers().stream().filter(p -> !p.abilities.isCreativeMode && !p.isSpectator() && world.getBiome(p.getPosition()) == BeastsBiomes.DRIED_REEF && getDistanceSq(p) <= 1280).reduce((p1, p2) -> {
+            Optional<? extends PlayerEntity> player = world.getPlayers().stream().filter(p -> !p.abilities.isCreativeMode && !p.isSpectator() && world.getBiome(p.getPosition()) == BeastsBiomes.DRIED_REEF && getDistanceSq(p) <= 1280).reduce((p1, p2) -> {
                 if (getDistanceSq(p1) > getDistanceSq(p2)) return p2;
                 return p1;
             });
@@ -83,7 +81,7 @@ public class EntityScallop extends MonsterEntity implements EntityFlying {
         } else {
             if (getAttackTarget() instanceof PlayerEntity) {
                 PlayerEntity player = (PlayerEntity) getAttackTarget();
-                boolean dead = player.isDead;
+                boolean dead = !player.isAlive();
                 if (player.abilities.isCreativeMode || player.isSpectator() || dead) {
                     if (dead) {
                         preferredAltitude = -1;
@@ -96,24 +94,21 @@ public class EntityScallop extends MonsterEntity implements EntityFlying {
             this.preferredAltitude = Math.round((float) getAttackTarget().posY + 8);
             if (getDistanceSq(getAttackTarget()) < 2) {
                 attackEntityAsMob(getAttackTarget());
-                getLookHelper().setLookPosition(-posX, -(posY + getEyeHeight()), -posZ, 0, 0);
-                this.motionX = -motionX;
-                this.motionY = Math.abs(motionY) + 0.1;
-                this.motionZ = -motionZ;
+                getLookController().setLookPosition(-posX, -(posY + getEyeHeight()), -posZ, 0, 0);
+                this.setMotion(-this.getMotion().x, Math.abs(this.getMotion().y) + 0.1, -this.getMotion().z);
             } else {
-                getLookHelper().setLookPositionWithEntity(getAttackTarget(), 0, 0);
-                this.motionX += Math.signum(getAttackTarget().posX - posX) / speed;
-                this.motionZ += Math.signum(getAttackTarget().posZ - posZ) / speed;
-                if (stableFlying()) this.motionY += Math.signum(getAttackTarget().posY - posY) / speed;
+                getLookController().setLookPositionWithEntity(getAttackTarget(), 0, 0);
+                this.setMotion(this.getMotion().add(Math.signum(getAttackTarget().posX - posX) / speed, stableFlying() ? Math.signum(getAttackTarget().posY - posY) / speed : 0, Math.signum(getAttackTarget().posZ - posZ) / speed));
             }
         }
-        if (!stableFlying()) this.motionY += Math.signum(preferredAltitude - posY) / (speed * 2);
+        if (!stableFlying())
+            this.setMotion(this.getMotion().add(0, Math.signum(preferredAltitude - posY) / (speed * 2), 0));
     }
 
     @Override
     protected void registerAttributes() {
         super.registerAttributes();
-        this.getAttributeMap().registerAttribute(SharedMonsterAttributes.FLYING_SPEED);
+        this.getAttributes().registerAttribute(SharedMonsterAttributes.FLYING_SPEED);
         this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(8);
         this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3);
         this.getAttribute(SharedMonsterAttributes.FLYING_SPEED).setBaseValue(0.16);

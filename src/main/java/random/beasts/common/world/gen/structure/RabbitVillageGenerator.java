@@ -120,8 +120,8 @@ public class RabbitVillageGenerator extends BeastsStructure {
             return this.hasMoreThanTwoComponents;
         }
 
-        public void writeToNBT(CompoundNBT tagCompound) {
-            super.writeToNBT(tagCompound);
+        public void write(CompoundNBT tagCompound) {
+            super.write(tagCompound);
             tagCompound.setBoolean("Valid", this.hasMoreThanTwoComponents);
         }
 

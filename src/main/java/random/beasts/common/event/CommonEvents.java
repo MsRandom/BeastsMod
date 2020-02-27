@@ -6,9 +6,9 @@ import net.minecraft.entity.ai.goal.NonTamedTargetGoal;
 import net.minecraft.entity.passive.OcelotEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemShield;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.item.ShieldItem;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
@@ -21,11 +21,12 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import random.beasts.api.entity.BeastsBranchie;
 import random.beasts.common.BeastsMod;
 import random.beasts.common.entity.passive.EntityPufferfishDog;
 import random.beasts.common.init.BeastsLootTables;
+import random.beasts.common.network.BeastsPacketHandler;
 import random.beasts.common.world.storage.loot.BeastsLootTable;
 
 import java.util.Collection;
@@ -34,6 +35,11 @@ import java.util.function.Function;
 @SuppressWarnings("unused")
 @Mod.EventBusSubscriber(modid = BeastsMod.MOD_ID)
 public class CommonEvents {
+    @SubscribeEvent
+    public static void serverStarting(FMLServerStartingEvent event) {
+        BeastsPacketHandler.initPackets();
+    }
+
     @SubscribeEvent
     public static void addEntity(EntityJoinWorldEvent event) {
         if (event.getEntity() instanceof OcelotEntity) {
@@ -99,8 +105,8 @@ public class CommonEvents {
                 break;
             }
         }
-        if (createFunc != null && !event.getWorld().isRemote && event.getPlayer().getRNG().nextInt(createFunc.getFirst()) == 0 && event.getWorld().getBlockState(event.getPos().down()).getBlock() != block) {
-            BeastsBranchie entity = createFunc.getSecond().apply(event);
+        if (createFunc != null && !event.getWorld().isRemote() && event.getPlayer().getRNG().nextInt(createFunc.getA()) == 0 && event.getWorld().getBlockState(event.getPos().down()).getBlock() != block) {
+            BeastsBranchie entity = createFunc.getB().apply(event);
             if (entity != null) {
                 entity.scream();
                 entity.setAttackTarget(event.getPlayer());
@@ -116,9 +122,10 @@ public class CommonEvents {
             if (!player.getActiveItemStack().isEmpty()) {
                 ItemStack stack = player.getActiveItemStack();
                 float damage = event.getAmount();
-                if (damage > 5.0F && (stack.getItem() instanceof ItemShield && stack.getItem() != Items.SHIELD)) {
+                if (damage > 5.0F && (stack.getItem() instanceof ShieldItem && stack.getItem() != Items.SHIELD)) {
                     int i = Math.min(1 + (int) damage, stack.getMaxDamage() - stack.getItemDamage());
-                    stack.damageItem(i, player);
+                    stack.damageItem(i, player, p -> {
+                    });
                     if (stack.isEmpty() || stack.getItemDamage() >= stack.getMaxDamage()) {
                         if (stack.isEmpty()) {
                             Hand hand = player.getActiveHand();
@@ -135,9 +142,9 @@ public class CommonEvents {
         }
     }
 
-    @SubscribeEvent
+    /*@SubscribeEvent
     public static void craftItem(PlayerEvent.ItemCraftedEvent event) {
-        /*if (event.crafting.getItem() == BeastsItems.COCONUT_JUICE) {
+        if (event.crafting.getItem() == BeastsItems.COCONUT_JUICE) {
             for (AtomicInteger i = new AtomicInteger(); i.get() < event.craftMatrix.getSizeInventory(); i.getAndIncrement()) {
                 ItemStack stack = event.craftMatrix.getStackInSlot(i.get());
                 if (stack.getItem() instanceof SwordItem) {
@@ -154,6 +161,6 @@ public class CommonEvents {
                     break;
                 }
             }
-        }*/
-    }
+        }
+    }*/
 }

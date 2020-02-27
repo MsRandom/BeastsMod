@@ -10,7 +10,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IWorldReader;
 import random.beasts.api.block.BeastsBlock;
 import random.beasts.common.item.ItemCoralBlock;
 
@@ -52,7 +52,7 @@ public class BlockCoral extends BeastsBlock {
     }
 
     @Override
-    public MaterialColor getMaterialColor(BlockState state, IBlockAccess worldIn, BlockPos pos) {
+    public MaterialColor getMaterialColor(BlockState state, IWorldReader worldIn, BlockPos pos) {
         return state.getValue(COLOR).mapColor;
     }
 }

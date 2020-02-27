@@ -1,27 +1,16 @@
 package random.beasts.proxy;
 
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
-import net.minecraft.item.Items;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import random.beasts.api.block.BeastsSlab;
-import random.beasts.api.item.IHandleMeta;
-import random.beasts.api.main.BeastsRegistries;
 import random.beasts.client.renderer.entity.*;
 import random.beasts.client.renderer.tileentity.TileEntityCoconutRenderer;
-import random.beasts.common.block.BlockAnemoneMouth;
+import random.beasts.common.BeastsMod;
 import random.beasts.common.block.BlockPalmTreeLeaves;
 import random.beasts.common.entity.item.EntityBeastsPainting;
 import random.beasts.common.entity.item.EntityFallingCoconut;
@@ -29,24 +18,13 @@ import random.beasts.common.entity.item.EntityThrownCoconut;
 import random.beasts.common.entity.monster.*;
 import random.beasts.common.entity.passive.*;
 import random.beasts.common.entity.projectile.EntityCoconutBomb;
-import random.beasts.common.init.BeastsBlocks;
 import random.beasts.common.tileentity.TileEntityCoconut;
-
-import java.util.Objects;
 
 public class ClientProxy extends CommonProxy {
     public static final KeyBinding TRIMOLA_ATTACK = new KeyBinding("trimola.attack", 19, "key.categories.misc");
 
     @Override
     public PlayerEntity getPlayer() {
-        return Minecraft.getInstance().player;
-    }
-
-    @Override
-    public PlayerEntity getPlayer(MessageContext ctx) {
-        if (ctx.side == Dist.SERVER) {
-            return ctx.getServerHandler().player;
-        }
         return Minecraft.getInstance().player;
     }
 
@@ -69,22 +47,22 @@ public class ClientProxy extends CommonProxy {
         RenderingRegistry.registerEntityRenderingHandler(EntityVileEel.class, RenderVileEel::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityLandwhale.class, RenderLandwhale::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityCoconutBomb.class, RenderCoconutBomb::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityCoralBranchie.class, RenderCoralBranchie::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityChorusBranchie.class, RenderChorusBranchie::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityWoodBranchie.class, RenderWoodBranchie::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityBeastsPainting.class, RenderBeastsPainting::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityFallingCoconut.class, RenderFallingCoconut::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityWhippingBarnacle.class, RenderWhippingBarnacle::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityHermitTurtle.class, RenderHermitTurtle::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityAnemoneCrawler.class, RenderAnemoneCrawler::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityLegfish.class, RenderLegfish::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityScallop.class, RenderScallop::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityThrownCoconut.class, RenderThrownCoconut::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityTrimola.class, RenderTrimola::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntitySlimeSlug.class, RenderSlimeSlug::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityButterflyFish.class, RenderButterflyFish::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityFireflySquid.class, RenderFireflySquid::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityIsopod.class, RenderIsopod::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityCoralBranchie.class, RenderCoralBranchie::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityChorusBranchie.class, RenderChorusBranchie::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityWoodBranchie.class, RenderWoodBranchie::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityBeastsPainting.class, RenderBeastsPainting::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityFallingCoconut.class, RenderFallingCoconut::new);
+        //RenderingRegistry.registerEntityRenderingHandler(EntityWhippingBarnacle.class, RenderWhippingBarnacle::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityHermitTurtle.class, RenderHermitTurtle::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityAnemoneCrawler.class, RenderAnemoneCrawler::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityLegfish.class, RenderLegfish::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityScallop.class, RenderScallop::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityThrownCoconut.class, RenderThrownCoconut::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityTrimola.class, RenderTrimola::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntitySlimeSlug.class, RenderSlimeSlug::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityButterflyFish.class, RenderButterflyFish::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityFireflySquid.class, RenderFireflySquid::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityIsopod.class, RenderIsopod::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityGlowShrimp.class, RenderGlowShrimp::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityTupala.class, RenderTupala::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityAnglerPup.class, RenderAnglerPup::new);
@@ -94,7 +72,7 @@ public class ClientProxy extends CommonProxy {
 
 	public void registerEventRenders() {
         this.registerEntityRenders();
-        for (Item item : BeastsRegistries.ITEMS.get()) {
+        /*for (Item item : BeastsRegistries.ITEMS.get()) {
             if (item instanceof IHandleMeta) {
                 IHandleMeta metaItem = (IHandleMeta) item;
                 for (int i = 0; i < metaItem.getDamage(); i++)
@@ -116,7 +94,7 @@ public class ClientProxy extends CommonProxy {
         ModelLoader.setCustomStateMapper(BeastsBlocks.ANEMONE_MOUTH, new StateMap.Builder().ignore(BlockAnemoneMouth.FED).build());
         ModelLoader.setCustomStateMapper(BeastsBlocks.JELLY_WOOD_SLAB.full, new StateMap.Builder().ignore(BlockSlab.HALF, BeastsSlab.VARIANT).build());
         ModelLoader.setCustomStateMapper(BeastsBlocks.PALM_SLAB.full, new StateMap.Builder().ignore(BlockSlab.HALF, BeastsSlab.VARIANT).build());
-        ModelLoader.setCustomStateMapper(BeastsBlocks.SHELL_SLAB.full, new StateMap.Builder().ignore(BlockSlab.HALF, BeastsSlab.VARIANT).build());
+        ModelLoader.setCustomStateMapper(BeastsBlocks.SHELL_SLAB.full, new StateMap.Builder().ignore(BlockSlab.HALF, BeastsSlab.VARIANT).build());*/
     }
 
 	private void registerTileEntityRenders() {

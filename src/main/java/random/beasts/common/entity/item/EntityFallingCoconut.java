@@ -64,7 +64,7 @@ public class EntityFallingCoconut extends Entity {
         return this.isAlive();
     }
 
-    public void onUpdate() {
+    public void tick() {
         if (this.fallTile.getMaterial() == Material.AIR) this.remove();
         else {
             this.prevPosX = this.posX;

@@ -1,4 +1,4 @@
-package random.beasts.client.gui;
+/*package random.beasts.client.gui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
@@ -26,3 +26,4 @@ public class BeastsGuiFactory implements IModGuiFactory {
         return null;
     }
 }
+*/

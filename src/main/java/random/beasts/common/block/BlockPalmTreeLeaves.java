@@ -11,7 +11,7 @@ import net.minecraft.stats.Stats;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import random.beasts.api.block.BeastsLeaves;
 import random.beasts.api.main.BeastsUtils;
@@ -77,7 +77,7 @@ public class BlockPalmTreeLeaves extends BeastsLeaves {
     }
 
     @Override
-    public NonNullList<ItemStack> onSheared(ItemStack item, IBlockAccess world, BlockPos pos, int fortune) {
+    public NonNullList<ItemStack> onSheared(ItemStack item, IWorldReader world, BlockPos pos, int fortune) {
         return NonNullList.withSize(1, new ItemStack(this));
     }
 }

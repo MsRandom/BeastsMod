@@ -38,11 +38,12 @@ public class EntityWoodBranchie extends EntityBranchieBase {
         if (event.getWorld() instanceof World) {
             EntityWoodBranchie entity = BeastsEntities.WOOD_BRANCHIE.create((World) event.getWorld());
             BlockPos pos = event.getPos();
+            String variant = ForgeRegistries.BLOCKS.getKey(entity.block).getPath().replace("_log", "");
             entity.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
             entity.onInitialSpawn(event.getWorld(), event.getWorld().getDifficultyForLocation(pos), SpawnReason.TRIGGERED, null, null);
             entity.block = event.getState().getBlock();
-            entity.setVariant(ForgeRegistries.BLOCKS.getKey(entity.block).getPath().replace("_log", ""));
-            List<EntityWoodBranchie> branchies = event.getWorld().getEntitiesWithinAABB(EntityWoodBranchie.class, new AxisAlignedBB(event.getPos()).grow(10), branchie -> branchie != null && branchie != entity && branchie.getVariant() == variant);
+            entity.setVariant(variant);
+            List<EntityWoodBranchie> branchies = event.getWorld().getEntitiesWithinAABB(EntityWoodBranchie.class, new AxisAlignedBB(event.getPos()).grow(10), branchie -> branchie != null && branchie != entity && branchie.getVariant().equals(variant));
             branchies.forEach(branchie -> branchie.setRevengeTarget(event.getPlayer()));
             return entity;
         }

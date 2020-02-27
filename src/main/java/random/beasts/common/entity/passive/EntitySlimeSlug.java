@@ -1,12 +1,13 @@
 package random.beasts.common.entity.passive;
 
 import net.minecraft.entity.AgeableEntity;
-import net.minecraft.entity.IMobEntityData;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAIPanic;
-import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
-import net.minecraft.entity.ai.SwimGoal;
+import net.minecraft.entity.ai.goal.LookRandomlyGoal;
+import net.minecraft.entity.ai.goal.PanicGoal;
+import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -29,10 +30,10 @@ public class EntitySlimeSlug extends AnimalEntity {
     @Override
     protected void registerGoals() {
         super.registerGoals();
-        this.goalSelector.addGoal(0, new EntityAIWanderAvoidWater(this, 0.2D));
+        this.goalSelector.addGoal(0, new WaterAvoidingRandomWalkingGoal(this, 0.2D));
         this.goalSelector.addGoal(0, new SwimGoal(this));
-        this.goalSelector.addGoal(1, new EntityAIPanic(this, 0.4D));
-        this.goalSelector.addGoal(2, new EntityAILookIdle(this));
+        this.goalSelector.addGoal(1, new PanicGoal(this, 0.4D));
+        this.goalSelector.addGoal(2, new LookRandomlyGoal(this));
     }
 
     @Override
@@ -50,7 +51,7 @@ public class EntitySlimeSlug extends AnimalEntity {
 
     @Nullable
     @Override
-    public IMobEntityData onInitialSpawn(DifficultyInstance difficulty, @Nullable IMobEntityData livingdata) {
+    public ILivingEntityData onInitialSpawn(DifficultyInstance difficulty, @Nullable ILivingEntityData livingdata) {
         livingdata = super.onInitialSpawn(difficulty, livingdata);
         this.setVariant(this.getRNG().nextInt(4));
         return livingdata;

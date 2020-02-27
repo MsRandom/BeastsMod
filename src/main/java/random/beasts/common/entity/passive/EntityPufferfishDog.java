@@ -1,24 +1,21 @@
 package random.beasts.common.entity.passive;
 
-import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.*;
-import net.minecraft.entity.ai.goal.FollowOwnerGoal;
-import net.minecraft.entity.ai.goal.SitGoal;
-import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.DyeColor;
+import net.minecraft.item.DyeItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EntityDamageSource;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -50,7 +47,7 @@ public class EntityPufferfishDog extends TameableEntity {
         super.registerGoals();
         this.sitGoal = new SitGoal(this);
         this.goalSelector.addGoal(2, sitGoal);
-        this.goalSelector.addGoal(2, new EntityAIMate(this, 1.0D));
+        this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
         this.goalSelector.addGoal(2, new SwimGoal(this));
         this.goalSelector.addGoal(2, new FollowOwnerGoal(this, 0.5, 2f, 5f) {
             @Override
@@ -58,7 +55,7 @@ public class EntityPufferfishDog extends TameableEntity {
                 return !isInflated() && super.shouldExecute();
             }
         });
-        this.goalSelector.addGoal(2, new EntityAIWander(this, 0.5, 50) {
+        this.goalSelector.addGoal(2, new RandomWalkingGoal(this, 0.5, 50) {
             @Override
             public boolean shouldExecute() {
                 return !isSitting() && super.shouldExecute();
@@ -96,25 +93,25 @@ public class EntityPufferfishDog extends TameableEntity {
     @Override
     protected void registerData() {
         super.registerData();
-        this.dataManager.register(COLLAR_COLOR, EnumDyeColor.RED.getDyeDamage());
+        this.dataManager.register(COLLAR_COLOR, DyeColor.RED.getId());
         this.dataManager.register(THREAT_TIME, 0.0f);
     }
 
-    protected void playStepSound(BlockPos pos, Block blockIn) {
+    protected void playStepSound(BlockPos pos, BlockState blockIn) {
         this.playSound(SoundEvents.ENTITY_WOLF_STEP, 0.15F, 1.0F);
     }
 
     @Override
     public void writeAdditional(CompoundNBT compound) {
         super.writeAdditional(compound);
-        compound.putInt("collarColor", this.getCollarColor().getDyeDamage());
+        compound.putInt("collarColor", this.getCollarColor().getId());
         compound.putBoolean("sitting", this.isSitting());
     }
 
     @Override
     public void readAdditional(CompoundNBT compound) {
         super.readAdditional(compound);
-        this.setCollarColor(EnumDyeColor.byDyeDamage(compound.getInt("collarColor")));
+        this.setCollarColor(DyeColor.byId(compound.getInt("collarColor")));
         this.setSitting(compound.getBoolean("sitting"));
     }
 
@@ -136,7 +133,7 @@ public class EntityPufferfishDog extends TameableEntity {
 
     @Override
     public void livingTick() {
-        if (this.jukeboxPosition == null || this.jukeboxPosition.distanceSq(this.posX, this.posY, this.posZ) > 12.0D || this.world.getBlockState(this.jukeboxPosition).getBlock() != Blocks.JUKEBOX) {
+        if (this.jukeboxPosition == null || this.jukeboxPosition.distanceSq(this.posX, this.posY, this.posZ, false) > 12.0D || this.world.getBlockState(this.jukeboxPosition).getBlock() != Blocks.JUKEBOX) {
             this.partyPufferfishDog = false;
             this.jukeboxPosition = null;
         }
@@ -147,8 +144,9 @@ public class EntityPufferfishDog extends TameableEntity {
                 setThreatTime(getThreatTime() + 1);
                 if (onGround) {
                     if (bounces == 0) bounces = 1;
-                    else motionY += 0.25 / bounces++;
-                } else motionY -= 0.01;
+                    else setMotion(getMotion().add(0, 0.25 / bounces++, 0));
+                } else setMotion(getMotion().add(0, -0.01, 0));
+                ;
                 if (getThreatTime() > 140) setInflated(false);
                 for (Entity entity : this.world.getEntitiesWithinAABBExcludingEntity(this, this.getBoundingBox().grow(1)))
                     if (entity != this.getOwner()) entity.attackEntityFrom(deathSource, 1.0F);
@@ -161,8 +159,8 @@ public class EntityPufferfishDog extends TameableEntity {
     public boolean processInteract(PlayerEntity player, @Nonnull Hand hand) {
         ItemStack stack = player.getHeldItem(hand);
         if (this.isTamed()) {
-            if (!stack.isEmpty() && stack.getItem() == Items.DYE) {
-                EnumDyeColor color = EnumDyeColor.byDyeDamage(stack.getMetadata());
+            if (!stack.isEmpty() && stack.getItem() instanceof DyeItem) {
+                DyeColor color = ((DyeItem) stack.getItem()).getDyeColor();
                 if (color != this.getCollarColor()) {
                     this.setCollarColor(color);
                     if (!player.abilities.isCreativeMode) stack.shrink(1);
@@ -180,8 +178,7 @@ public class EntityPufferfishDog extends TameableEntity {
             if (this.rand.nextInt(3) == 0 && !ForgeEventFactory.onAnimalTame(this, player)) {
                 this.isJumping = false;
                 this.navigator.clearPath();
-                this.motionX = 0;
-                this.motionZ = 0;
+                setMotion(0, getMotion().y, 0);
                 this.setTamedBy(player);
                 this.setHealth(16.0F);
                 this.setSitting(true);
@@ -233,7 +230,7 @@ public class EntityPufferfishDog extends TameableEntity {
     }
 
     public DyeColor getCollarColor() {
-        return DyeColor.byId(this.dataManager.get(COLLAR_COLOR) & 15);
+        return DyeColor.byId(this.dataManager.get(COLLAR_COLOR));
     }
 
     private void setCollarColor(DyeColor color) {

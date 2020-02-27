@@ -2,6 +2,7 @@ package random.beasts.common.entity.monster;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
+import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -24,11 +25,11 @@ public class EntityVileEel extends MonsterEntity implements IDriedAquatic {
 
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new SwimGoal(this));
-        this.goalSelector.addGoal(1, new EntityAINearestAttackableTarget<>(this, LivingEntity.class, 10, true, false, entity -> !(entity instanceof IDriedAquatic) && getRidingEntity() != entity));
-        this.goalSelector.addGoal(2, new EntityAIAttackMelee(this, 1.1D, true));
-        this.goalSelector.addGoal(3, new EntityAIWanderAvoidWater(this, 1.0D));
-        this.goalSelector.addGoal(4, new EntityAIWatchClosest(this, PlayerEntity.class, 6.0F));
-        this.goalSelector.addGoal(4, new EntityAILookIdle(this));
+        this.goalSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10, true, false, entity -> !(entity instanceof IDriedAquatic) && getRidingEntity() != entity));
+        this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.1D, true));
+        this.goalSelector.addGoal(3, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
+        this.goalSelector.addGoal(4, new LookAtGoal(this, PlayerEntity.class, 6.0F));
+        this.goalSelector.addGoal(4, new LookRandomlyGoal(this));
     }
 
     @Override

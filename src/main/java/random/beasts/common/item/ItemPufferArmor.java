@@ -23,8 +23,8 @@ public class ItemPufferArmor extends BeastsArmor {
     }
 
     @Override
-    public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-        super.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
+    public void tick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+        super.tick(stack, worldIn, entityIn, itemSlot, isSelected);
         //todo change this to use EnchantmentHelper and ItemEnchantedBook
         if (((NonNullList<ItemStack>) entityIn.getArmorInventoryList()).stream().allMatch(s -> s.getItem() instanceof ItemPufferArmor))
             for (ItemStack s : entityIn.getArmorInventoryList()) {

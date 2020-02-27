@@ -1,14 +1,15 @@
 package random.beasts.common.entity.monster;
 
 import net.minecraft.entity.AgeableEntity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.world.World;
 
 public class EntityIsopod extends AnimalEntity {
 
-    public EntityIsopod(World worldIn) {
-        super(worldIn);
+    public EntityIsopod(EntityType<? extends EntityIsopod> type, World worldIn) {
+        super(type, worldIn);
     }
 
     @Override

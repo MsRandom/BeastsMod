@@ -1,11 +1,12 @@
 package random.beasts.common.entity.passive;
 
 import net.minecraft.entity.AgeableEntity;
-import net.minecraft.entity.IMobEntityData;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
-import net.minecraft.entity.ai.SwimGoal;
+import net.minecraft.entity.ai.goal.LookRandomlyGoal;
+import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
@@ -35,9 +36,9 @@ public class EntityLegfish extends AnimalEntity {
     @Override
     protected void registerGoals() {
         super.registerGoals();
-        this.goalSelector.addGoal(0, new EntityAIWanderAvoidWater(this, 0.2D));
+        this.goalSelector.addGoal(0, new WaterAvoidingRandomWalkingGoal(this, 0.2D));
         this.goalSelector.addGoal(0, new SwimGoal(this));
-        this.goalSelector.addGoal(1, new EntityAILookIdle(this));
+        this.goalSelector.addGoal(1, new LookRandomlyGoal(this));
     }
 
     @Override
@@ -55,7 +56,7 @@ public class EntityLegfish extends AnimalEntity {
 
     @Nullable
     @Override
-    public IMobEntityData onInitialSpawn(DifficultyInstance difficulty, @Nullable IMobEntityData livingdata) {
+    public ILivingEntityData onInitialSpawn(DifficultyInstance difficulty, @Nullable ILivingEntityData livingdata) {
         livingdata = super.onInitialSpawn(difficulty, livingdata);
         int type = rand.nextInt(3);
         setType(type);
@@ -63,7 +64,7 @@ public class EntityLegfish extends AnimalEntity {
         return livingdata;
     }
 
-    public int getType() {
+    public int getLegfishType() {
         return dataManager.get(TYPE);
     }
 
@@ -82,7 +83,7 @@ public class EntityLegfish extends AnimalEntity {
     @Override
     public void writeAdditional(CompoundNBT compound) {
         super.writeAdditional(compound);
-        compound.putInt("type", getType());
+        compound.putInt("type", getLegfishType());
         compound.putInt("variant", getVariant());
     }
 

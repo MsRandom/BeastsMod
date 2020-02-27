@@ -1,15 +1,13 @@
 package random.beasts.client.model;
 
-import net.minecraft.client.renderer.GlStateManager;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
-import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 import random.beasts.common.entity.monster.EntityCoconutCrab;
 
 @SuppressWarnings("WeakerAccess")
-public class ModelCoconut extends EntityModel {
-
+public class ModelCoconut extends EntityModel<EntityCoconutCrab> {
     public RendererModel body;
     public RendererModel leg7;
     public RendererModel leg8;
@@ -109,15 +107,15 @@ public class ModelCoconut extends EntityModel {
     }
 
     @Override
-    public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-        if (entityIn == null || !((EntityCoconutCrab) entityIn).isOut()) GlStateManager.translate(0, 1.58, 0);
-        GlStateManager.rotate(90, 0, 1, 0);
-        if (entityIn != null && ((EntityCoconutCrab) entityIn).isOut()) this.body.render(scale);
+    public void render(EntityCoconutCrab entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+        if (entityIn == null || !entityIn.isOut()) GlStateManager.translated(0, 1.58, 0);
+        GlStateManager.rotated(90, 0, 1, 0);
+        if (entityIn != null && entityIn.isOut()) this.body.render(scale);
         else this.shell.render(scale);
     }
 
     @Override
-    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
+    public void setRotationAngles(EntityCoconutCrab entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
         this.leg1.rotateAngleZ = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
         this.leg2.rotateAngleZ = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount;
         this.leg3.rotateAngleZ = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount + 0.2f;

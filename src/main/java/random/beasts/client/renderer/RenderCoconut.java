@@ -1,8 +1,9 @@
 package random.beasts.client.renderer;
 
-import net.minecraft.client.renderer.GlStateManager;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import random.beasts.client.model.ModelCoconut;
+import random.beasts.common.BeastsMod;
 
 import java.util.function.Consumer;
 
@@ -16,24 +17,24 @@ public class RenderCoconut {
         GlStateManager.disableLighting();
         if (renderOutlines) {
             GlStateManager.enableColorMaterial();
-            if (outline != -1) GlStateManager.enableOutlineMode(outline);
+            if (outline != -1) GlStateManager.setupSolidRenderingTextureCombine(outline);
         }
         //GlStateManager.disableCull();
-        GlStateManager.translate((float) x, (float) y, (float) z);
+        GlStateManager.translatef((float) x, (float) y, (float) z);
         //GlStateManager.enableRescaleNormal();
-        GlStateManager.scale(-1.0F, -1.0F, 1.0F);
-        GlStateManager.translate(-0.501F, -1.401F, 0.501F);
+        GlStateManager.scalef(-1.0F, -1.0F, 1.0F);
+        GlStateManager.translatef(-0.501F, -1.401F, 0.501F);
         //GlStateManager.enableAlpha();
         //GlStateManager.setActiveTexture(GLX.GL_TEXTURE1);
-        //GlStateManager.setActiveTexture(GLX.defaultTexUnit);
+        //GlStateManager.setActiveTexture(GLX.GL_TEXTURE0);
         MODEL.render(null, 0, 0, -1, 0, 0, 0.0625F);
         if (renderOutlines) {
-            GlStateManager.disableOutlineMode();
+            GlStateManager.tearDownSolidRenderingTextureCombine();
             if (outline != -1) GlStateManager.disableColorMaterial();
         }
         //GlStateManager.disableRescaleNormal();
         //GlStateManager.setActiveTexture(GLX.GL_TEXTURE1);
-        //GlStateManager.setActiveTexture(GLX.defaultTexUnit);
+        //GlStateManager.setActiveTexture(GLX.GL_TEXTURE0);
         //GlStateManager.enableCull();
         GlStateManager.enableLighting();
         GlStateManager.popMatrix();

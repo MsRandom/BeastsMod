@@ -7,7 +7,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import random.beasts.api.main.BeastsUtils;
@@ -34,7 +34,7 @@ public class BeastsSapling extends BlockBush implements IGrowable {
     }
 
     @Override
-    public AxisAlignedBB getBoundingBox(BlockState state, IBlockAccess source, BlockPos pos) {
+    public AxisAlignedBB getBoundingBox(BlockState state, IWorldReader source, BlockPos pos) {
         return SAPLING_AABB;
     }
 
@@ -61,7 +61,7 @@ public class BeastsSapling extends BlockBush implements IGrowable {
 
     @Override
     @Nullable
-    public AxisAlignedBB getCollisionBoundingBox(BlockState blockState, IBlockAccess worldIn, BlockPos pos) {
+    public AxisAlignedBB getCollisionBoundingBox(BlockState blockState, IWorldReader worldIn, BlockPos pos) {
         return NULL_AABB;
     }
 

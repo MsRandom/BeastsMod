@@ -16,7 +16,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -59,7 +59,7 @@ public class BlockCoralPlant extends BeastsBlock {
         return true;
     }
 
-    public BlockState getActualState(BlockState state, IBlockAccess worldIn, BlockPos pos) {
+    public BlockState getActualState(BlockState state, IWorldReader worldIn, BlockPos pos) {
         Block block = worldIn.getBlockState(pos.down()).getBlock();
         Block block1 = worldIn.getBlockState(pos.up()).getBlock();
         Block block2 = worldIn.getBlockState(pos.north()).getBlock();
@@ -69,7 +69,7 @@ public class BlockCoralPlant extends BeastsBlock {
         return state.withProperty(DOWN, block == this || block instanceof BlockCoral || block == Blocks.SAND).withProperty(UP, block1 == this || block1 instanceof BlockCoral).withProperty(NORTH, block2 == this || block2 instanceof BlockCoral).withProperty(EAST, block3 == this || block3 instanceof BlockCoral).withProperty(SOUTH, block4 == this || block4 instanceof BlockCoral).withProperty(WEST, block5 == this || block5 instanceof BlockCoral);
     }
 
-    public AxisAlignedBB getBoundingBox(BlockState state, IBlockAccess source, BlockPos pos) {
+    public AxisAlignedBB getBoundingBox(BlockState state, IWorldReader source, BlockPos pos) {
         state = state.getActualState(source, pos);
         float f = 0.1875F;
         float f1 = state.getValue(WEST) ? 0.0F : f;
@@ -109,7 +109,7 @@ public class BlockCoralPlant extends BeastsBlock {
     }
 
     @Override
-    public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, BlockState state, int fortune) {
+    public void getDrops(NonNullList<ItemStack> drops, IWorldReader world, BlockPos pos, BlockState state, int fortune) {
         Random rand = world instanceof World ? ((World) world).rand : RANDOM;
         if (rand.nextFloat() <= 0.5f) drops.add(new ItemStack(BeastsBlocks.CORAL_BLOCK, 1, color.ordinal()));
         if (rand.nextFloat() <= 0.15f) drops.add(new ItemStack(BeastsItems.CORAL_ESSENCE, 1, color.ordinal()));
@@ -151,7 +151,7 @@ public class BlockCoralPlant extends BeastsBlock {
         return new BlockStateContainer(this, NORTH, EAST, SOUTH, WEST, UP, DOWN);
     }
 
-    public boolean isPassable(IBlockAccess worldIn, BlockPos pos) {
+    public boolean isPassable(IWorldReader worldIn, BlockPos pos) {
         return false;
     }
 
@@ -161,12 +161,12 @@ public class BlockCoralPlant extends BeastsBlock {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public boolean shouldSideBeRendered(BlockState blockState, IBlockAccess blockAccess, BlockPos pos, Direction side) {
+    public boolean shouldSideBeRendered(BlockState blockState, IWorldReader blockAccess, BlockPos pos, Direction side) {
         Block block = blockAccess.getBlockState(pos.offset(side)).getBlock();
         return block != this && !(block instanceof BlockCoral) && (side != Direction.DOWN || block != Blocks.SAND);
     }
 
-    public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, BlockState state, BlockPos pos, Direction face) {
+    public BlockFaceShape getBlockFaceShape(IWorldReader worldIn, BlockState state, BlockPos pos, Direction face) {
         return BlockFaceShape.UNDEFINED;
     }
 

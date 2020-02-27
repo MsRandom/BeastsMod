@@ -2,11 +2,12 @@ package random.beasts.common;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
+import random.beasts.api.configuration.BeastsConfig;
 import random.beasts.proxy.ClientProxy;
 import random.beasts.proxy.CommonProxy;
 
@@ -19,10 +20,6 @@ public class BeastsMod {
     public static final SimpleChannel NETWORK_CHANNEL = NetworkRegistry.newSimpleChannel(new ResourceLocation(MOD_ID, "main"), () -> PROTOCOL_VERSION, PROTOCOL_VERSION::equals, PROTOCOL_VERSION::equals);
 
     public BeastsMod() {
-    }
-
-    @EventHandler
-    public static void init(FMLInitializationEvent event) {
-        proxy.init();
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, BeastsConfig.CONFIG_SPEC);
     }
 }

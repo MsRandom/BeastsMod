@@ -5,14 +5,14 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
-import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.Hand;
-import net.minecraft.util.ParticleTypes;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -26,7 +26,7 @@ import javax.annotation.Nullable;
 import java.util.Random;
 
 @SuppressWarnings("deprecation")
-public class BlockCoconut extends BlockContainer {
+public class BlockCoconut extends ContainerBlock {
 
     private static final AxisAlignedBB AABB = new AxisAlignedBB(0.1, 0, 0.25, 0.6, 0.2, 0.75);
 
@@ -50,13 +50,15 @@ public class BlockCoconut extends BlockContainer {
     private void checkFallable(World worldIn, BlockPos pos) {
         if ((worldIn.isAirBlock(pos.down()) || BlockFalling.canFallThrough(worldIn.getBlockState(pos.down()))) && pos.getY() >= 0) {
             int i = 32;
-            if (!BlockFalling.fallInstantly && worldIn.isAreaLoaded(pos.add(-i, -i, -i), pos.add(i, i, i))) {
+            if (!FallingBlock.fallInstantly && worldIn.isAreaLoaded(pos.add(-i, -i, -i), pos.add(i, i, i))) {
                 if (!worldIn.isRemote) worldIn.addEntity(new EntityFallingCoconut(worldIn, pos));
             } else {
                 BlockState state = worldIn.getBlockState(pos);
-                worldIn.removeBlock(pos);
+                worldIn.removeBlock(pos, false);
                 BlockPos blockpos;
-                for (blockpos = pos.down(); (worldIn.isAirBlock(blockpos) || BlockFalling.canFallThrough(worldIn.getBlockState(blockpos))) && blockpos.getY() > 0; blockpos = blockpos.down()) {
+                blockpos = pos.down();
+                while ((worldIn.isAirBlock(blockpos) || FallingBlock.canFallThrough(worldIn.getBlockState(blockpos))) && blockpos.getY() > 0) {
+                    blockpos = blockpos.down();
                 }
                 if (blockpos.getY() > 0) worldIn.setBlockState(blockpos.up(), state);
             }
@@ -81,18 +83,18 @@ public class BlockCoconut extends BlockContainer {
     }
 
     @Nonnull
-    public EnumBlockRenderType getRenderType(BlockState state) {
-        return EnumBlockRenderType.INVISIBLE;
+    public BlockRenderType getRenderType(BlockState state) {
+        return BlockRenderType.INVISIBLE;
     }
 
     @Nullable
-    public AxisAlignedBB getCollisionBoundingBox(BlockState blockState, IBlockAccess worldIn, BlockPos pos) {
+    public AxisAlignedBB getCollisionBoundingBox(BlockState blockState, IWorldReader worldIn, BlockPos pos) {
         return NULL_AABB;
     }
 
     @Nonnull
     @Override
-    public AxisAlignedBB getBoundingBox(BlockState state, IBlockAccess source, BlockPos pos) {
+    public AxisAlignedBB getBoundingBox(BlockState state, IWorldReader source, BlockPos pos) {
         return AABB;
     }
 
@@ -106,7 +108,7 @@ public class BlockCoconut extends BlockContainer {
 
     @Nullable
     @Override
-    public TileEntity createNewTileEntity(@Nonnull World worldIn, int meta) {
+    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         return new TileEntityCoconut();
     }
 
@@ -126,7 +128,7 @@ public class BlockCoconut extends BlockContainer {
     }
 
     @Nonnull
-    public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, BlockState state, BlockPos pos, Direction face) {
+    public BlockFaceShape getBlockFaceShape(IWorldReader worldIn, BlockState state, BlockPos pos, Direction face) {
         return BlockFaceShape.UNDEFINED;
     }
 }

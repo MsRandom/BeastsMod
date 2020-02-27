@@ -1,7 +1,8 @@
-package random.beasts.common.entity.monster;
+/*package random.beasts.common.entity.monster;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.MonsterEntity;
@@ -39,7 +40,7 @@ public class EntityWhippingBarnacle extends MonsterEntity implements IDriedAquat
 
     @Nullable
     @Override
-    public IMobEntityData onInitialSpawn(DifficultyInstance difficulty, @Nullable IMobEntityData livingdata) {
+    public ILivingEntityData onInitialSpawn(DifficultyInstance difficulty, @Nullable ILivingEntityData livingdata) {
         livingdata = super.onInitialSpawn(difficulty, livingdata);
         setColor(rand.nextInt(2));
         for (int i = Direction.values().length - 1; i >= 0; --i) {
@@ -74,7 +75,7 @@ public class EntityWhippingBarnacle extends MonsterEntity implements IDriedAquat
     }
 
     @Override
-    public void onUpdate() {
+    public void tick() {
         this.world.profiler.startSection("entityBaseTick");
         LivingEntity[] entities = world.getEntitiesWithinAABB(LivingEntity.class, getBoundingBox().grow(5)).stream().filter(e -> !(e instanceof IDriedAquatic)).toArray(LivingEntity[]::new);
         if (entities.length == 0) {
@@ -89,7 +90,7 @@ public class EntityWhippingBarnacle extends MonsterEntity implements IDriedAquat
                 double relativePos;
                 if (axis == Direction.Axis.Z) relativePos = entity.posZ - this.posZ;
                 else relativePos = entity.posX - this.posX;
-                getLookHelper().setLookPositionWithEntity(entity, 0, 0);
+                getLookController().setLookPositionWithEntity(entity, 0, 0);
                 if (impalingTicks > 0) if (impalingTicks++ == 12) attackEntityAsMob(entity);
                 if (Math.abs(relativePos) < 0.5f) {
                     impaling = true;
@@ -118,7 +119,7 @@ public class EntityWhippingBarnacle extends MonsterEntity implements IDriedAquat
         if (this.posY < -64.0D) this.outOfWorld();
         this.firstUpdate = false;
         this.world.profiler.endSection();
-        super.onUpdate();
+        super.tick();
     }
 
     @Override
@@ -160,8 +161,8 @@ public class EntityWhippingBarnacle extends MonsterEntity implements IDriedAquat
         this.dataManager.set(COLOR, color);
     }
 
-    public EnumCreatureAttribute getCreatureAttribute() {
-        return EnumCreatureAttribute.ARTHROPOD;
+    public CreatureAttribute getCreatureAttribute() {
+        return CreatureAttribute.ARTHROPOD;
     }
 
     @Override
@@ -202,3 +203,4 @@ public class EntityWhippingBarnacle extends MonsterEntity implements IDriedAquat
         compound.putInt("color", this.getColor());
     }
 }
+*/

@@ -7,12 +7,12 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.terraingen.PopulateChunkEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
+import random.beasts.common.BeastsMod;
 
 import java.util.*;
 import java.util.function.Supplier;
@@ -26,9 +26,8 @@ public class UndergroundGenerationEvents {
     private static int rem = 0;
 
     @SubscribeEvent
-    public static void register(RegistryEvent.Register<Biome> event) {
-        BeastsReference.NETWORK_CHANNEL.registerMessage(new MessageUpdateBiomes.Handler(), MessageUpdateBiomes.class, 0, Dist.CLIENT);
-        CapabilityManager.INSTANCE.register(UndergroundGenerationCapabilities.UndergroundBiomes.class, new UndergroundGenerationCapabilities.UndergroundBiomeStorage(), UndergroundGenerationCapabilities.UndergroundBiomes::new);
+    public static void serverStarting(FMLServerStartingEvent event) {
+        BeastsMod.NETWORK_CHANNEL.registerMessage(0, new MessageUpdateBiomes.Handler(), MessageUpdateBiomes.class, Dist.CLIENT);
     }
 
     @SubscribeEvent
@@ -69,7 +68,7 @@ public class UndergroundGenerationEvents {
         if (biomes != null) {
             byte biome = (byte) (Biome.getIdForBiome(undergroundBiome) & 255);
             biomes.biomeList.add(bounds);
-            BeastsReference.NETWORK_CHANNEL.sendToAll(new MessageUpdateBiomes(bounds));
+            BeastsMod.NETWORK_CHANNEL.sendToAll(new MessageUpdateBiomes(bounds));
             MinecraftForge.EVENT_BUS.post(new UndergroundBiomeEvent.Generate(world, rand, pos, bounds));
             undergroundBiome.populate(world, rand, pos, bounds);
             undergroundBiome.decorate(world, rand, pos, bounds);

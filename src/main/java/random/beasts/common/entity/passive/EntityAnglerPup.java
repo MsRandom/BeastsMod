@@ -2,11 +2,14 @@ package random.beasts.common.entity.passive;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.AgeableEntity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.EnumDyeColor;
+import net.minecraft.item.DyeColor;
+import net.minecraft.item.DyeItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
@@ -27,12 +30,11 @@ public class EntityAnglerPup extends TameableEntity {
 
     private static final DataParameter<Integer> COLLAR_COLOR = EntityDataManager.createKey(EntityAnglerPup.class, DataSerializers.VARINT);
     private static final DataParameter<Float> THREAT_TIME = EntityDataManager.createKey(EntityAnglerPup.class, DataSerializers.FLOAT);
-    private int bounces = 0;
     private BlockPos jukeboxPosition;
     private boolean partyPufferfishDog;
 
-    public EntityAnglerPup(World worldIn) {
-        super(worldIn);
+    public EntityAnglerPup(EntityType<? extends EntityAnglerPup> type, World worldIn) {
+        super(type, worldIn);
     }
 
     @Override
@@ -40,10 +42,10 @@ public class EntityAnglerPup extends TameableEntity {
         super.registerGoals();
         this.sitGoal = new SitGoal(this);
         this.goalSelector.addGoal(2, sitGoal);
-        this.goalSelector.addGoal(2, new EntityAIMate(this, 1.0D));
+        this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
         this.goalSelector.addGoal(2, new SwimGoal(this));
         this.goalSelector.addGoal(2, new FollowOwnerGoal(this, 0.5, 2f, 5f));
-        this.goalSelector.addGoal(2, new EntityAIWander(this, 0.5, 50) {
+        this.goalSelector.addGoal(2, new RandomWalkingGoal(this, 0.5, 50) {
             @Override
             public boolean shouldExecute() {
                 return !isSitting() && super.shouldExecute();
@@ -66,28 +68,27 @@ public class EntityAnglerPup extends TameableEntity {
     @Override
     protected void registerData() {
         super.registerData();
-        this.dataManager.register(COLLAR_COLOR, EnumDyeColor.RED.getDyeDamage());
+        this.dataManager.register(COLLAR_COLOR, DyeColor.RED.getId());
         this.dataManager.register(THREAT_TIME, 0.0f);
     }
 
     @Override
     public void writeAdditional(CompoundNBT compound) {
         super.writeAdditional(compound);
-        compound.putInt("collarColor", this.getCollarColor().getDyeDamage());
+        compound.putInt("collarColor", this.getCollarColor().getId());
         compound.putBoolean("sitting", this.isSitting());
     }
 
     @Override
     public void readAdditional(CompoundNBT compound) {
         super.readAdditional(compound);
-        this.setCollarColor(EnumDyeColor.byDyeDamage(compound.getInt("collarColor")));
+        this.setCollarColor(DyeColor.byId(compound.getInt("collarColor")));
         this.setSitting(compound.getBoolean("sitting"));
     }
 
     @Override
     public void livingTick() {
-
-        if (this.jukeboxPosition == null || this.jukeboxPosition.distanceSq(this.posX, this.posY, this.posZ) > 12.0D || this.world.getBlockState(this.jukeboxPosition).getBlock() != Blocks.JUKEBOX) {
+        if (this.jukeboxPosition == null || this.jukeboxPosition.distanceSq(this.posX, this.posY, this.posZ, false) > 12.0D || this.world.getBlockState(this.jukeboxPosition).getBlock() != Blocks.JUKEBOX) {
             this.partyPufferfishDog = false;
             this.jukeboxPosition = null;
         }
@@ -102,8 +103,8 @@ public class EntityAnglerPup extends TameableEntity {
     public boolean processInteract(PlayerEntity player, @Nonnull Hand hand) {
         ItemStack stack = player.getHeldItem(hand);
         if (this.isTamed()) {
-            if (!stack.isEmpty() && stack.getItem() == Items.DYE) {
-                EnumDyeColor color = EnumDyeColor.byDyeDamage(stack.getMetadata());
+            if (!stack.isEmpty() && stack.getItem() instanceof DyeItem) {
+                DyeColor color = ((DyeItem) stack.getItem()).getDyeColor();
                 if (color != this.getCollarColor()) {
                     this.setCollarColor(color);
                     if (!player.abilities.isCreativeMode) stack.shrink(1);
@@ -121,8 +122,7 @@ public class EntityAnglerPup extends TameableEntity {
             if (this.rand.nextInt(3) == 0 && !ForgeEventFactory.onAnimalTame(this, player)) {
                 this.isJumping = false;
                 this.navigator.clearPath();
-                this.motionX = 0;
-                this.motionZ = 0;
+                setMotion(0, getMotion().y, 0);
                 this.setTamedBy(player);
                 this.setHealth(16.0F);
                 this.setSitting(true);
@@ -164,20 +164,11 @@ public class EntityAnglerPup extends TameableEntity {
         return this.partyPufferfishDog;
     }
 
-    public EnumDyeColor getCollarColor() {
-        return EnumDyeColor.byDyeDamage(this.dataManager.get(COLLAR_COLOR) & 15);
+    public DyeColor getCollarColor() {
+        return DyeColor.byId(this.dataManager.get(COLLAR_COLOR));
     }
 
-    private void setCollarColor(EnumDyeColor color) {
-        this.dataManager.set(COLLAR_COLOR, color.getDyeDamage());
+    private void setCollarColor(DyeColor color) {
+        this.dataManager.set(COLLAR_COLOR, color.getId());
     }
-
-    private float getThreatTime() {
-        return this.dataManager.get(THREAT_TIME);
-    }
-
-    private void setThreatTime(float time) {
-        this.dataManager.set(THREAT_TIME, time);
-    }
-
 }

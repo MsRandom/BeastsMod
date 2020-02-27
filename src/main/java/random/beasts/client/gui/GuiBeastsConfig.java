@@ -1,4 +1,4 @@
-package random.beasts.client.gui;
+/*package random.beasts.client.gui;
 
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraftforge.common.config.ConfigElement;
@@ -12,3 +12,4 @@ public class GuiBeastsConfig extends GuiConfig {
         super(parent, BeastsConfig.config.getCategoryNames().stream().map(name -> new ConfigElement(BeastsConfig.config.getCategory(name))).collect(Collectors.toList()), BeastsMod.MOD_ID, true, true, "Beasts Config");
     }
 }
+*/

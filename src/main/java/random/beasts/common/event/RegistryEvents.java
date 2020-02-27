@@ -5,6 +5,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -18,10 +19,7 @@ import random.beasts.api.configuration.BeastsConfig;
 import random.beasts.api.main.BeastsRegistries;
 import random.beasts.client.init.BeastsSounds;
 import random.beasts.common.BeastsMod;
-import random.beasts.common.init.BeastsBiomes;
-import random.beasts.common.init.BeastsBlocks;
-import random.beasts.common.init.BeastsEntities;
-import random.beasts.common.init.BeastsItems;
+import random.beasts.common.init.*;
 
 import static net.minecraftforge.common.BiomeDictionary.Type.*;
 import static random.beasts.proxy.ClientProxy.TRIMOLA_ATTACK;
@@ -29,7 +27,6 @@ import static random.beasts.proxy.ClientProxy.TRIMOLA_ATTACK;
 @SuppressWarnings("unused")
 @Mod.EventBusSubscriber(modid = BeastsMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class RegistryEvents {
-
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
         event.getRegistry().registerAll(BeastsRegistries.BLOCKS.get(BeastsBlocks.COCONUT).toArray(new Block[0]));
@@ -37,6 +34,7 @@ public class RegistryEvents {
 
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
+        BeastsEntities.registerEggs();
         event.getRegistry().registerAll(BeastsRegistries.ITEMS.get(BeastsItems.ICON).toArray(new Item[0]));
         FurnaceRecipes.instance().addSmelting(BeastsItems.CRAB_LEG, new ItemStack(BeastsItems.COOKED_CRAB_LEG), 0.35f);
         FurnaceRecipes.instance().addSmelting(BeastsItems.EEL_CHOP, new ItemStack(BeastsItems.COOKED_EEL_CHOP), 0.50f);
@@ -44,14 +42,11 @@ public class RegistryEvents {
         FurnaceRecipes.instance().addSmelting(BeastsItems.SHRIMP, new ItemStack(BeastsItems.COOKED_SHRIMP), 0.35f);
         FurnaceRecipes.instance().addSmelting(BeastsItems.RAW_KEBAB, new ItemStack(BeastsItems.COOKED_KEBAB), 0.35f);
         FurnaceRecipes.instance().addSmelting(BeastsItems.DAGGERFISH, new ItemStack(BeastsItems.COOKED_DAGGERFISH), 0.50f);
-
-        BeastsEntities.registerEggs();
     }
 
     @SubscribeEvent
     public static void registerBiomes(RegistryEvent.Register<Biome> event) {
         event.getRegistry().registerAll(BeastsRegistries.BIOMES.get(BeastsBiomes.DRIED_REEF).toArray(new Biome[0]));
-        BeastsConfig.init();
         BeastsBiomes.addTypes(BeastsBiomes.DRIED_REEF, BiomeManager.BiomeType.WARM, BeastsConfig.reefWeight, BEACH, HOT, DRY, SANDY);
     }
 
@@ -62,7 +57,7 @@ public class RegistryEvents {
 
     @SubscribeEvent
     public static void registerEntities(RegistryEvent.Register<EntityType<?>> event) {
-        event.getRegistry().registerAll(BeastsEntities.LIST.toArray(new EntityType[0]));
+        event.getRegistry().registerAll(BeastsRegistries.ENTITIES.get().toArray(new EntityType[0]));
         BeastsEntities.SPAWNS.forEach((type, spawns) -> {
             for (BeastsEntities.SpawnEntry spawn : spawns) {
                 Biome.SpawnListEntry entry = new Biome.SpawnListEntry(type, spawn.weight, spawn.min, spawn.max);
@@ -71,6 +66,10 @@ public class RegistryEvents {
                 }
             }
         });
+    }
+
+    public static void registerTileEntities(RegistryEvent.Register<TileEntityType<?>> event) {
+        event.getRegistry().registerAll(BeastsRegistries.TILE_ENTITIES.get(BeastsTileEntities.COCONUT).toArray(new TileEntityType[0]));
     }
 
     /*@SubscribeEvent

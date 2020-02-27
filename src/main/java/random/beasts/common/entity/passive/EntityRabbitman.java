@@ -5,7 +5,7 @@ import net.minecraft.block.BlockCrops;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
-import net.minecraft.entity.ai.*;
+import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.passive.EntityOcelot;
@@ -13,7 +13,7 @@ import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.init.*;
-import net.minecraft.inventory.InventoryBasic;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -21,7 +21,7 @@ import net.minecraft.nbt.ListNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.pathfinding.PathNavigateGround;
+import net.minecraft.pathfinding.PathNavigatorGround;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.PotionUtils;
 import net.minecraft.stats.Stats;
@@ -35,7 +35,7 @@ import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipeList;
 import net.minecraft.village.Village;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.EnumDifficulty;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ForgeEventFactory;
@@ -52,7 +52,7 @@ public class EntityRabbitman extends AgeableEntity implements INpc, IMerchant {
     public static final int VARIANTS = 6;
     private static final Trade[][] TRADES = new Trade[][]{{new MoneyTrade(Items.LEATHER_BOOTS, 3, 1), new MoneyTrade(Items.LEATHER_LEGGINGS, 4, 1), new MoneyTrade(Items.LEATHER_CHESTPLATE, 4, 1), new MoneyTrade(Items.LEATHER_HELMET, 3, 1)}, {new Trade(Items.CARROT, BeastsItems.CARROT_COIN, new EntityVillager.PriceInfo(10, 30), new EntityVillager.PriceInfo(3, 6)), new MoneyTrade(Items.CARROT, new EntityVillager.PriceInfo(3, 6), new EntityVillager.PriceInfo(10, 30)), new Trade(Items.WOODEN_HOE, BeastsItems.CARROT_COIN, 1, 2), new MoneyTrade(Items.WOODEN_HOE, 2, 1)}, {new Trade(Items.GOLDEN_CARROT, BeastsItems.CARROT_COIN, new EntityVillager.PriceInfo(2, 4), new EntityVillager.PriceInfo(2, 4)), new MoneyTrade(Items.GOLDEN_CARROT, new EntityVillager.PriceInfo(2, 4), new EntityVillager.PriceInfo(2, 4)), new Trade(Items.BLAZE_ROD, BeastsItems.CARROT_COIN, new EntityVillager.PriceInfo(3, 5), new EntityVillager.PriceInfo(5, 10)), new MoneyTrade(Items.GOLDEN_CARROT, new EntityVillager.PriceInfo(5, 10), new EntityVillager.PriceInfo(3, 5)), new MoneyTrade(PotionUtils.addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.LEAPING), 10, 1)}, {new Trade(Items.PAPER, BeastsItems.CARROT_COIN, new EntityVillager.PriceInfo(10, 30), new EntityVillager.PriceInfo(3, 6)), new MoneyTrade(Items.PAPER, new EntityVillager.PriceInfo(3, 6), new EntityVillager.PriceInfo(10, 30)), new Trade(Items.BOOK, BeastsItems.CARROT_COIN, new EntityVillager.PriceInfo(5, 15), new EntityVillager.PriceInfo(3, 6)), new MoneyTrade(Items.BOOK, new EntityVillager.PriceInfo(3, 6), new EntityVillager.PriceInfo(5, 15))}, {new Trade(Items.RABBIT, BeastsItems.CARROT_COIN, new EntityVillager.PriceInfo(2, 6), new EntityVillager.PriceInfo(1, 2)), new MoneyTrade(Items.RABBIT, new EntityVillager.PriceInfo(1, 2), new EntityVillager.PriceInfo(2, 6)), new Trade(Items.RABBIT_FOOT, BeastsItems.CARROT_COIN, new EntityVillager.PriceInfo(1, 2), new EntityVillager.PriceInfo(5, 10)), new MoneyTrade(Items.RABBIT_FOOT, new EntityVillager.PriceInfo(5, 10), new EntityVillager.PriceInfo(1, 2))}, {new MoneyTrade(BeastsItems.DIAMOND_CARROT, new EntityVillager.PriceInfo(4, 6), new EntityVillager.PriceInfo(1, 1))}};
     private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityRabbitman.class, DataSerializers.VARINT);
-    private final InventoryBasic inv;
+    private final Inventory inv;
     public boolean hasTarget = false;
     private int randomTickDivider;
     private boolean isMating;
@@ -69,9 +69,9 @@ public class EntityRabbitman extends AgeableEntity implements INpc, IMerchant {
     public EntityRabbitman(EntityType<? extends EntityRabbitman> type, World worldIn) {
         super(type, worldIn);
         setRecipes(new MerchantRecipeList());
-        this.inv = new InventoryBasic("Items", false, 8);
+        this.inv = new Inventory("Items", false, 8);
         this.setSize(0.6F, 1.95F);
-        ((PathNavigateGround) this.getNavigator()).setBreakDoors(true);
+        ((PathNavigatorGround) this.getNavigator()).setBreakDoors(true);
         this.experienceValue = 2;
     }
 
@@ -84,10 +84,10 @@ public class EntityRabbitman extends AgeableEntity implements INpc, IMerchant {
         this.goalSelector.addGoal(4, new EntityAIOpenDoor(this, true));
         this.goalSelector.addGoal(5, new EntityAIMoveTowardsRestriction(this, 0.6D));
         this.goalSelector.addGoal(6, new AIMate());
-        this.goalSelector.addGoal(9, new EntityAIWatchClosest2(this, PlayerEntity.class, 3.0F, 1.0F));
+        this.goalSelector.addGoal(9, new LookAtGoal2(this, PlayerEntity.class, 3.0F, 1.0F));
         this.goalSelector.addGoal(9, new AIInteract());
-        this.goalSelector.addGoal(9, new EntityAIWanderAvoidWater(this, 0.6D));
-        this.goalSelector.addGoal(10, new EntityAIWatchClosest(this, MobEntity.class, 8.0F));
+        this.goalSelector.addGoal(9, new WaterAvoidingRandomWalkingGoal(this, 0.6D));
+        this.goalSelector.addGoal(10, new LookAtGoal(this, MobEntity.class, 8.0F));
     }
 
     @Override
@@ -98,7 +98,7 @@ public class EntityRabbitman extends AgeableEntity implements INpc, IMerchant {
 
     @Nullable
     @Override
-    public IMobEntityData onInitialSpawn(DifficultyInstance difficulty, @Nullable IMobEntityData livingdata) {
+    public ILivingEntityData onInitialSpawn(DifficultyInstance difficulty, @Nullable ILivingEntityData livingdata) {
         final int variant = rand.nextInt(Math.round(50 / (difficulty.getAdditionalDifficulty() + 1))) == 0 ? 5 : this.rand.nextInt(VARIANTS - 1);
         Trade[] trades = TRADES[variant];
         int currentIndex = 3, randomIndex;
@@ -290,9 +290,9 @@ public class EntityRabbitman extends AgeableEntity implements INpc, IMerchant {
         super.updateAITasks();
     }
 
-    public void onUpdate() {
-        super.onUpdate();
-        if (!this.world.isRemote && this.getVariant() == 5 && this.world.getDifficulty() == EnumDifficulty.PEACEFUL)
+    public void tick() {
+        super.tick();
+        if (!this.world.isRemote && this.getVariant() == 5 && this.world.getDifficulty() == Difficulty.PEACEFUL)
             this.remove();
     }
 
@@ -335,7 +335,7 @@ public class EntityRabbitman extends AgeableEntity implements INpc, IMerchant {
     }
 
     public boolean getCanSpawnHere() {
-        return (this.getVariant() != 5 || this.world.getDifficulty() != EnumDifficulty.PEACEFUL) && super.getCanSpawnHere();
+        return (this.getVariant() != 5 || this.world.getDifficulty() != Difficulty.PEACEFUL) && super.getCanSpawnHere();
     }
 
     public boolean processInteract(PlayerEntity player, @Nonnull Hand hand) {
@@ -365,14 +365,14 @@ public class EntityRabbitman extends AgeableEntity implements INpc, IMerchant {
         compound.putInt("variant", this.getVariant());
         compound.putInt("Riches", this.wealth);
         compound.putBoolean("Willing", this.isWillingToMate);
-        if (this.buyingList != null) compound.putTag("Offers", this.buyingList.getRecipiesAsTags());
+        if (this.buyingList != null) compound.put("Offers", this.buyingList.getRecipiesAsTags());
         ListNBT list = new ListNBT();
         for (int i = 0; i < this.inv.getSizeInventory(); ++i) {
             ItemStack stack = this.inv.getStackInSlot(i);
-            if (!stack.isEmpty()) list.appendTag(stack.writeToNBT(new CompoundNBT()));
+            if (!stack.isEmpty()) list.add(stack.write(new CompoundNBT()));
 
         }
-        compound.putTag("Inventory", list);
+        compound.put("Inventory", list);
     }
 
     public void readAdditional(CompoundNBT compound) {
@@ -381,7 +381,7 @@ public class EntityRabbitman extends AgeableEntity implements INpc, IMerchant {
         this.wealth = compound.getInt("Riches");
         this.isWillingToMate = compound.getBoolean("Willing");
         if (compound.contains("Offers", 10)) {
-            CompoundNBT nbttagcompound = compound.getCompoundTag("Offers");
+            CompoundNBT nbttagcompound = compound.getCompound("Offers");
             this.buyingList = new MerchantRecipeList(nbttagcompound);
         }
         ListNBT list = compound.getTagList("Inventory", 10);
@@ -494,11 +494,11 @@ public class EntityRabbitman extends AgeableEntity implements INpc, IMerchant {
             return this.matingTimeout >= 0 && this.checkDoors() && this.entity.getGrowingAge() == 0 && this.entity.getIsWillingToMate(false);
         }
 
-        public void updateTask() {
+        public void tick() {
             --this.matingTimeout;
-            this.entity.getLookHelper().setLookPositionWithEntity(this.mate, 10.0F, 30.0F);
+            this.entity.getLookController().setLookPositionWithEntity(this.mate, 10.0F, 30.0F);
             if (this.entity.getDistanceSq(this.mate) > 2.25D)
-                this.entity.getNavigator().tryMoveToMobEntity(this.mate, 0.25D);
+                this.entity.getNavigator().tryMoveToEntityLiving(this.mate, 0.25D);
             else if (this.matingTimeout == 0 && this.mate.isMating()) this.giveBirth();
             if (this.entity.getRNG().nextInt(35) == 0) this.world.setEntityState(this.entity, (byte) 12);
         }
@@ -523,7 +523,7 @@ public class EntityRabbitman extends AgeableEntity implements INpc, IMerchant {
         }
     }
 
-    public class AIInteract extends EntityAIWatchClosest2 {
+    public class AIInteract extends LookAtGoal2 {
         private final EntityRabbitman rabbitman;
         private int interactionDelay;
 
@@ -542,12 +542,12 @@ public class EntityRabbitman extends AgeableEntity implements INpc, IMerchant {
             }
         }
 
-        public void updateTask() {
-            super.updateTask();
+        public void tick() {
+            super.tick();
             if (this.interactionDelay > 0) {
                 --this.interactionDelay;
                 if (this.interactionDelay == 0) {
-                    InventoryBasic inventorybasic = this.rabbitman.inv;
+                    Inventory inventorybasic = this.rabbitman.inv;
                     for (int i = 0; i < inventorybasic.getSizeInventory(); ++i) {
                         ItemStack stack = inventorybasic.getStackInSlot(i);
                         ItemStack empty = ItemStack.EMPTY;
@@ -603,9 +603,9 @@ public class EntityRabbitman extends AgeableEntity implements INpc, IMerchant {
             return this.currentTask >= 0 && super.shouldContinueExecuting();
         }
 
-        public void updateTask() {
-            super.updateTask();
-            this.entity.getLookHelper().setLookPosition((double) this.destinationBlock.getX() + 0.5D, this.destinationBlock.getY() + 1, (double) this.destinationBlock.getZ() + 0.5D, 10.0F, (float) this.entity.getVerticalFaceSpeed());
+        public void tick() {
+            super.tick();
+            this.entity.getLookController().setLookPosition((double) this.destinationBlock.getX() + 0.5D, this.destinationBlock.getY() + 1, (double) this.destinationBlock.getZ() + 0.5D, 10.0F, (float) this.entity.getVerticalFaceSpeed());
 
             if (this.getIsAboveDestination()) {
                 World world = this.entity.world;
@@ -616,7 +616,7 @@ public class EntityRabbitman extends AgeableEntity implements INpc, IMerchant {
                 if (this.currentTask == 0 && block instanceof BlockCrops && ((BlockCrops) block).isMaxAge(state))
                     world.destroyBlock(blockpos, true);
                 else if (this.currentTask == 1 && state.getMaterial() == Material.AIR) {
-                    InventoryBasic inv = this.entity.inv;
+                    Inventory inv = this.entity.inv;
                     for (int i = 0; i < inv.getSizeInventory(); ++i) {
                         ItemStack stack = inv.getStackInSlot(i);
                         if (!stack.isEmpty() && stack.getItem() == Items.CARROT) {

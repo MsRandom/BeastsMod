@@ -55,7 +55,7 @@ public class ModelSpartapodArmor extends BipedModel<LivingEntity> {
             this.bipedRightLeg.setRotationPoint(-1.9F, 11.0F, 0.0F);
             copyModelAngles(this.bipedHead, this.bipedHeadwear);
         } else {
-            super.setRotationAngles(entityIn, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, limbSwing);
+            super.setRotationAngles(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
         }
     }
     

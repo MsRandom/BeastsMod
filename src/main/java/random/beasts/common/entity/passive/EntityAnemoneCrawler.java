@@ -1,11 +1,12 @@
 package random.beasts.common.entity.passive;
 
 import net.minecraft.entity.AgeableEntity;
-import net.minecraft.entity.IMobEntityData;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
@@ -29,13 +30,13 @@ public class EntityAnemoneCrawler extends AnimalEntity {
     protected void registerGoals() {
         super.registerGoals();
         this.goalSelector.addGoal(0, new SwimGoal(this));
-        this.goalSelector.addGoal(1, new EntityAIMate(this, 0.3));
-        this.goalSelector.addGoal(2, new EntityAIPanic(this, 0.4D));
-        this.goalSelector.addGoal(3, new EntityAIWander(this, 0.2));
-        this.goalSelector.addGoal(4, new EntityAIFollowParent(this, 0.35D));
-        this.goalSelector.addGoal(5, new EntityAIWanderAvoidWater(this, 0.4D));
-        this.goalSelector.addGoal(6, new EntityAIWatchClosest(this, PlayerEntity.class, 6.0F));
-        this.goalSelector.addGoal(7, new EntityAILookIdle(this));
+        this.goalSelector.addGoal(1, new BreedGoal(this, 0.3));
+        this.goalSelector.addGoal(2, new PanicGoal(this, 0.4D));
+        this.goalSelector.addGoal(3, new RandomWalkingGoal(this, 0.2));
+        this.goalSelector.addGoal(4, new FollowParentGoal(this, 0.35D));
+        this.goalSelector.addGoal(5, new WaterAvoidingRandomWalkingGoal(this, 0.4D));
+        this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
+        this.goalSelector.addGoal(7, new LookRandomlyGoal(this));
     }
 
     @Override
@@ -46,7 +47,7 @@ public class EntityAnemoneCrawler extends AnimalEntity {
 
     @Nullable
     @Override
-    public IMobEntityData onInitialSpawn(DifficultyInstance difficulty, @Nullable IMobEntityData livingdata) {
+    public ILivingEntityData onInitialSpawn(DifficultyInstance difficulty, @Nullable ILivingEntityData livingdata) {
         livingdata = super.onInitialSpawn(difficulty, livingdata);
         setVariant(rand.nextInt(3));
         return livingdata;
@@ -60,7 +61,7 @@ public class EntityAnemoneCrawler extends AnimalEntity {
 
     @Override
     public boolean isBreedingItem(ItemStack stack) {
-        return stack.getItem() instanceof ItemFood && ((ItemFood) stack.getItem()).isWolfsFavoriteMeat();
+        return stack.isFood() && stack.getItem().getFood().isMeat();
     }
 
     public int getVariant() {

@@ -4,7 +4,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -14,7 +14,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.*;
 import net.minecraft.world.BossInfo;
-import net.minecraft.world.EnumDifficulty;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.ServerBossInfo;
 import net.minecraft.world.World;
 import random.beasts.client.init.BeastsSounds;
@@ -42,10 +42,10 @@ public class EntityAnglerQueen extends MonsterEntity {
         //this.goalSelector.addGoal(3, new EntityAnglerQueen.AIStompAttack(this));
         this.goalSelector.addGoal(4, new EntityAnglerQueen.AIMinionAttack(this));
         this.goalSelector.addGoal(5, new EntityAnglerQueen.AIBeamAttack(this));
-        this.goalSelector.addGoal(8, new EntityAIWatchClosest(this, PlayerEntity.class, 8.0F));
-        this.goalSelector.addGoal(9, new EntityAILookIdle(this));
-        this.goalSelector.addGoal(9, new EntityAIWander(this, 1.05d));
-        this.goalSelector.addGoal(1, new EntityAINearestAttackableTarget<>(this, PlayerEntity.class, true));
+        this.goalSelector.addGoal(8, new LookAtGoal(this, PlayerEntity.class, 8.0F));
+        this.goalSelector.addGoal(9, new LookRandomlyGoal(this));
+        this.goalSelector.addGoal(9, new RandomWalkingGoal(this, 1.05d));
+        this.goalSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
     }
 
     protected void registerAttributes() {
@@ -182,7 +182,7 @@ public class EntityAnglerQueen extends MonsterEntity {
             this.queen.setChargingBeam(true);
             this.queen.playSound(BeastsSounds.ANGLER_QUEEN_BEAM_CHARGE, 1f, 1f);
             this.queen.getNavigator().clearPath();
-            this.queen.getLookHelper().setLookPositionWithEntity(target, 90.0F, 90.0F);
+            this.queen.getLookController().setLookPositionWithEntity(target, 90.0F, 90.0F);
             this.queen.isAirBorne = true;
         }
 
@@ -197,12 +197,12 @@ public class EntityAnglerQueen extends MonsterEntity {
                     queen.setPrevLaserPitch(queen.getLaserPitch());
                     queen.setPrevLaserYaw(queen.getLaserYaw());
                     double targetX = queen.getAttackTarget().posX;
-                    double targetY = queen.getAttackTarget().posY + queen.getAttackTarget().height / 2d;
+                    double targetY = queen.getAttackTarget().posY + queen.getAttackTarget().getHeight() / 2d;
                     double targetZ = queen.getAttackTarget().posZ;
                     double rot = queen.renderYawOffset * 0.01745329238474369D + (Math.PI / 2D);
-                    double lureX = Math.cos(rot) * (double) (queen.width + 1f) + queen.posX;
-                    double lureY = queen.height + 1f + queen.posY;
-                    double lureZ = Math.sin(rot) * (double) (queen.width + 1f) + queen.posZ;
+                    double lureX = Math.cos(rot) * (double) (queen.getWidth() + 1f) + queen.posX;
+                    double lureY = queen.getHeight() + 1f + queen.posY;
+                    double lureZ = Math.sin(rot) * (double) (queen.getWidth() + 1f) + queen.posZ;
                     Vec3d lureVec = new Vec3d(lureX, lureY, lureZ);
 
                     double d0 = targetX - lureX;
@@ -211,8 +211,8 @@ public class EntityAnglerQueen extends MonsterEntity {
                     double d3 = MathHelper.sqrt(d0 * d0 + d2 * d2);
                     float targetYaw = (float) (MathHelper.atan2(d2, d0) * (180D / Math.PI)) - 90.0F;
                     float targetPitch = (float) (-(MathHelper.atan2(d1, d3) * (180D / Math.PI)));
-                    queen.setLaserPitch(this.updateRotation(queen.getLaserPitch(), targetPitch, 35f - this.queen.world.getDifficulty().getDifficultyId() * 2f));
-                    queen.setLaserYaw(this.updateRotation(queen.getLaserYaw(), targetYaw, 20f - this.queen.world.getDifficulty().getDifficultyId() * 2f));
+                    queen.setLaserPitch(this.updateRotation(queen.getLaserPitch(), targetPitch, 35f - this.queen.world.getDifficulty().getId() * 2f));
+                    queen.setLaserYaw(this.updateRotation(queen.getLaserYaw(), targetYaw, 20f - this.queen.world.getDifficulty().getId() * 2f));
 
                     Vec3d laserAngle = Vec3d.fromPitchYaw(queen.getLaserPitch(), queen.getLaserYaw());
                     double range = 30d;
@@ -223,7 +223,7 @@ public class EntityAnglerQueen extends MonsterEntity {
                         hitVec = trace.hitVec;
 
                     float f = 1.0F;
-                    if (this.queen.world.getDifficulty() == EnumDifficulty.HARD) {
+                    if (this.queen.world.getDifficulty() == Difficulty.HARD) {
                         f += 2.0F;
                     }
 
@@ -237,7 +237,7 @@ public class EntityAnglerQueen extends MonsterEntity {
 
                     if (base != null) {
                         base.attackEntityFrom(DamageSource.causeIndirectMagicDamage(this.queen, this.queen), f);
-                        base.attackEntityFrom(DamageSource.causeMobDamage(this.queen), (float) this.queen.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue());
+                        base.attackEntityFrom(DamageSource.causeMobDamage(this.queen), (float) this.queen.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue());
                     }
 
                     if (this.queen.ticksExisted % 15 == 0)
@@ -246,9 +246,9 @@ public class EntityAnglerQueen extends MonsterEntity {
         	}
         }
 
-        public void updateTask() {
+        public void tick() {
             this.queen.getNavigator().clearPath();
-            this.queen.getLookHelper().setLookPositionWithEntity(target, 90.0F, 90.0F);
+            this.queen.getLookController().setLookPositionWithEntity(target, 90.0F, 90.0F);
 
             if (this.tickCounter == 0) {
                 this.queen.setChargingBeam(false);
@@ -258,9 +258,9 @@ public class EntityAnglerQueen extends MonsterEntity {
             } else if (this.tickCounter < attackTick) {
                 this.updateLaser();
             }
-            
+
             ++this.tickCounter;
-            super.updateTask();
+            super.tick();
         }
     }
 
@@ -292,14 +292,14 @@ public class EntityAnglerQueen extends MonsterEntity {
         public void startExecuting() {
             this.tickCounter = 0;
             this.queen.getNavigator().clearPath();
-            this.queen.getLookHelper().setLookPositionWithEntity(target, 90.0F, 90.0F);
+            this.queen.getLookController().setLookPositionWithEntity(target, 90.0F, 90.0F);
             this.queen.isAirBorne = true;
         }
 
-        public void updateTask() {
+        public void tick() {
             ++tickCounter;
-            if(tickCounter == this.attackTick) {
-            	for(int i = 0; i < 3; ++i) {
+            if (tickCounter == this.attackTick) {
+                for (int i = 0; i < 3; ++i) {
                     BlockPos blockpos = (new BlockPos(queen)).add(-2 + queen.getRNG().nextInt(5), 1, -2 + queen.getRNG().nextInt(5));
                     while (!queen.getEntityWorld().isAirBlock(blockpos))
                         blockpos = (new BlockPos(queen)).add(-2 + queen.getRNG().nextInt(5), 1, -2 + queen.getRNG().nextInt(5));

@@ -1,12 +1,12 @@
 package random.beasts.api.block;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.LeavesBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class BeastsLeaves extends BlockLeaves {
+public class BeastsLeaves extends LeavesBlock {
     private final List<ItemStack> drops = Collections.singletonList(new ItemStack(this));
     private int[] surroundings;
 
@@ -118,7 +118,7 @@ public class BeastsLeaves extends BlockLeaves {
 
     @Nonnull
     @Override
-    public List<ItemStack> onSheared(@Nonnull ItemStack item, IBlockAccess world, BlockPos pos, int fortune) {
+    public List<ItemStack> onSheared(@Nonnull ItemStack item, IWorldReader world, BlockPos pos, int fortune) {
         return drops;
     }
 }

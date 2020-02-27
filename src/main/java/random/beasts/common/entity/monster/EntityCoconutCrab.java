@@ -1,12 +1,10 @@
 package random.beasts.common.entity.monster;
 
-import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAIWander;
+import net.minecraft.entity.*;
+import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.ai.goal.RandomWalkingGoal;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -16,12 +14,14 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.particles.BlockParticleData;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
-import net.minecraft.util.ParticleTypes;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.EnumDifficulty;
+import net.minecraft.world.Difficulty;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import random.beasts.api.entity.IShellEntity;
 import random.beasts.client.init.BeastsSounds;
@@ -33,9 +33,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class EntityCoconutCrab extends MonsterEntity implements IShellEntity {
-
     private static final DataParameter<Boolean> OUT = EntityDataManager.createKey(EntityCoconutCrab.class, DataSerializers.BOOLEAN);
-    private static final float defaultHeight = 0.4f;
+    private static final EntitySize outSize = EntitySize.flexible(0.5f, 0.6f);
     private BlockPos newPos;
     private boolean hasTarget = false;
     private int ticksSinceHit = 0;
@@ -48,13 +47,13 @@ public class EntityCoconutCrab extends MonsterEntity implements IShellEntity {
     @Override
     protected void registerGoals() {
         super.registerGoals();
-        this.goalSelector.addGoal(0, new EntityAIWander(this, 0.5, 50) {
+        this.goalSelector.addGoal(0, new RandomWalkingGoal(this, 0.5, 50) {
             @Override
             public boolean shouldExecute() {
                 return isOut() && super.shouldExecute();
             }
         });
-        this.goalSelector.addGoal(0, new EntityAINearestAttackableTarget<PlayerEntity>(this, PlayerEntity.class, true) {
+        this.goalSelector.addGoal(0, new NearestAttackableTargetGoal<PlayerEntity>(this, PlayerEntity.class, true) {
             @Override
             public boolean shouldExecute() {
                 return isOut() && super.shouldExecute();
@@ -82,7 +81,7 @@ public class EntityCoconutCrab extends MonsterEntity implements IShellEntity {
     }
 
     @Override
-    protected void playStepSound(BlockPos pos, Block blockIn) {
+    protected void playStepSound(BlockPos pos, BlockState blockIn) {
         playSound(BeastsSounds.CRAB_STEP, getSoundVolume(), getSoundPitch());
     }
 
@@ -92,8 +91,12 @@ public class EntityCoconutCrab extends MonsterEntity implements IShellEntity {
 
     private void setOut(boolean out) {
         this.dataManager.set(OUT, out);
-        setSize(width, out ? defaultHeight + 0.2f : defaultHeight);
         this.setNoAI(!out);
+    }
+
+    @Override
+    public EntitySize getSize(Pose poseIn) {
+        return isOut() ? outSize : super.getSize(poseIn);
     }
 
     @Override
@@ -135,9 +138,9 @@ public class EntityCoconutCrab extends MonsterEntity implements IShellEntity {
     }
 
     @Override
-    public boolean getCanSpawnHere() {
+    public boolean canSpawn(IWorld worldIn, SpawnReason spawnReasonIn) {
         if (rand.nextInt(4) == 0)
-            return this.getBlockPathWeight(new BlockPos(this.posX, this.getBoundingBox().minY, this.posZ)) >= 0.0F && world.getBlockState(getPosition()).canEntitySpawn(this) && this.world.getDifficulty() != EnumDifficulty.PEACEFUL;
+            return this.getBlockPathWeight(new BlockPos(this.posX, this.getBoundingBox().minY, this.posZ)) >= 0.0F && world.getBlockState(getPosition()).canEntitySpawn(world, getPosition(), getType()) && this.world.getDifficulty() != Difficulty.PEACEFUL;
         world.setBlockState(getPosition(), BeastsBlocks.COCONUT.getDefaultState());
         return false;
     }
@@ -168,7 +171,7 @@ public class EntityCoconutCrab extends MonsterEntity implements IShellEntity {
     }
 
     @Override
-    public void onUpdate() {
+    public void tick() {
         if (isOut()) {
             if (world.getBlockState(getPosition().down()).getBlock() == Blocks.SAND && rand.nextInt(500) == 0) {
                 setOut(false);
@@ -177,7 +180,7 @@ public class EntityCoconutCrab extends MonsterEntity implements IShellEntity {
                     double d0 = this.posX + (this.rand.nextDouble() - this.rand.nextDouble()) * 4.0D;
                     double d1 = this.posY + (this.rand.nextDouble() - this.rand.nextDouble()) * 4.0D;
                     double d2 = this.posZ + (this.rand.nextDouble() - this.rand.nextDouble()) * 4.0D;
-                    this.world.addParticle(ParticleTypes.BLOCK_DUST, d0, d1, d2, this.rand.nextDouble() * 0.1, this.rand.nextDouble() * 0.1, this.rand.nextDouble() * 0.1, Block.getIdFromBlock(Blocks.SAND));
+                    this.world.addParticle(new BlockParticleData(ParticleTypes.BLOCK, Blocks.SAND.getDefaultState()), d0, d1, d2, this.rand.nextDouble() * 0.1, this.rand.nextDouble() * 0.1, this.rand.nextDouble() * 0.1);
                 }
                 return;
             }
@@ -195,7 +198,7 @@ public class EntityCoconutCrab extends MonsterEntity implements IShellEntity {
                         }
                     }
 
-                if (item != null && !item.isDead) {
+                if (item != null && item.isAlive()) {
                     this.setHeldItem(Hand.MAIN_HAND, item.getItem());
                     item.remove();
                 }
@@ -216,15 +219,15 @@ public class EntityCoconutCrab extends MonsterEntity implements IShellEntity {
                         setAttackTarget(null);
                     } else ticksSinceHit = 1;
                 } else if (!hasTarget || getDistance(getAttackTarget()) > 1.3) {
-                    this.getLookHelper().setLookPositionWithEntity(getAttackTarget(), 0, 0);
+                    this.getLookController().setLookPositionWithEntity(getAttackTarget(), 0, 0);
                     this.navigator.tryMoveToXYZ(getAttackTarget().posX, getAttackTarget().posY, getAttackTarget().posZ, 1.2);
                     this.hasTarget = true;
                 }
             }
         } else {
             if (this.isBurning()) this.extinguish();
-            if (!this.world.isRemote && this.world.getDifficulty() == EnumDifficulty.PEACEFUL) this.remove();
+            if (!this.world.isRemote && this.world.getDifficulty() == Difficulty.PEACEFUL) this.remove();
         }
-        super.onUpdate();
+        super.tick();
     }
 }

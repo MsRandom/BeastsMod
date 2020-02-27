@@ -13,6 +13,7 @@ import net.minecraft.util.Tuple;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.event.world.BlockEvent;
 import random.beasts.api.entity.BeastsBranchie;
+import random.beasts.api.main.BeastsRegistries;
 import random.beasts.api.main.BeastsUtils;
 import random.beasts.common.entity.item.EntityBeastsPainting;
 import random.beasts.common.entity.item.EntityFallingCoconut;
@@ -26,15 +27,14 @@ import java.util.function.Function;
 
 @SuppressWarnings("unused")
 public class BeastsEntities {
-    public static final List<EntityType<?>> LIST = new ArrayList<>();
     public static final Map<EntityType<? extends MobEntity>, SpawnEntry[]> SPAWNS = new HashMap<>();
     private static final Map<EntityType<?>, Tuple<Integer, Integer>> EGGS = new HashMap<>();
     private static int entityId = 0;
+    public static final EntityType<EntityPufferfishDog> PUFFERFISH_DOG = create(EntityPufferfishDog::new, EntityPufferfishDog.class, EntityClassification.CREATURE, 0.5f, 0.5f, 0xFBA70C, 0x429BBA, new SpawnEntry(30, 1, 1, BeastsBiomes.DRIED_REEF));
     public static final EntityType<EntityCoconutBomb> COCONADE = create(EntityCoconutBomb::new, EntityCoconutBomb.class, 0.25F, 0.25F);
     public static final EntityType<EntityBeastsPainting> BEASTS_PAINTING = create(EntityBeastsPainting::new, EntityBeastsPainting.class, 0.5F, 0.5F);
     public static final EntityType<EntityFallingCoconut> FALLING_COCONUT = create(EntityFallingCoconut::new, EntityFallingCoconut.class, 0.98F, 0.98F);
     public static final EntityType<EntityThrownCoconut> THROWN_COCONUT = create(EntityThrownCoconut::new, EntityThrownCoconut.class, 0.25F, 0.25F);
-    public static final EntityType<EntityPufferfishDog> PUFFERFISH_DOG = create(EntityPufferfishDog::new, EntityPufferfishDog.class, EntityClassification.CREATURE, 0.5f, 0.5f, 0xFBA70C, 0x429BBA, new SpawnEntry(30, 1, 1, BeastsBiomes.DRIED_REEF));
     //private static final EntityEntry RABBITMAN = create(EntityRabbitman.class, 0x4E362D, 0xE5E5E5);
     public static final EntityType<EntityCoconutCrab> COCONUT_CRAB = create(EntityCoconutCrab::new, EntityCoconutCrab.class, EntityClassification.CREATURE, 0.5f, 0.4f, 0x3C1C11, 0xA16745, new SpawnEntry(30, 2, 4, BeastsBiomes.DRIED_REEF));
     public static final EntityType<EntityCoralBranchie> CORAL_BRANCHIE = createBranchie(EntityCoralBranchie::new, EntityCoralBranchie.class, 0xEDEC4C, 0xD6549B, BeastsBlocks.CORAL_PLANTS.values(), new Tuple<>(2, EntityCoralBranchie::create));
@@ -75,12 +75,11 @@ public class BeastsEntities {
         String entityName = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, cls.getSimpleName().replace("Entity", ""));
         EntityType<T> type = EntityType.Builder.create(factory, classification).size(width, height).build(entityName);
         type.setRegistryName(entityName);
-        LIST.add(type);
+        BeastsRegistries.ENTITIES.add(type);
         return type;
     }
 
     private static <T extends Entity> EntityType<T> create(EntityType.IFactory<T> factory, Class<T> cls, float width, float height) {
-        //this is since in 1.14 we need creature classifications for everything, set as null in 1.12, but replace null with MISC in 1.14
         return create(factory, cls, EntityClassification.MISC, width, height);
     }
 

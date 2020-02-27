@@ -1,5 +1,7 @@
 package random.beasts.common.entity.monster;
 
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -17,13 +19,16 @@ public class EntityChorusBranchie extends EntityBranchieBase {
     }
 
     public static EntityChorusBranchie create(BlockEvent.BreakEvent event) {
-        EntityChorusBranchie entity = BeastsEntities.CHORUS_BRANCHIE.create(event.getWorld());
-        BlockPos pos = event.getPos();
-        entity.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
-        entity.onInitialSpawn(event.getWorld().getDifficultyForLocation(pos), null);
-        List<EntityChorusBranchie> branchies = event.getWorld().getEntitiesWithinAABB(EntityChorusBranchie.class, new AxisAlignedBB(event.getPos()).grow(10), branchie -> branchie != entity);
-        branchies.forEach(branchie -> branchie.setRevengeTarget(event.getPlayer()));
-        return entity;
+        if (event.getWorld() instanceof World) {
+            EntityChorusBranchie entity = BeastsEntities.CHORUS_BRANCHIE.create((World) event.getWorld());
+            BlockPos pos = event.getPos();
+            entity.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
+            entity.onInitialSpawn(event.getWorld(), event.getWorld().getDifficultyForLocation(pos), SpawnReason.TRIGGERED, null, null);
+            List<EntityChorusBranchie> branchies = event.getWorld().getEntitiesWithinAABB(EntityChorusBranchie.class, new AxisAlignedBB(event.getPos()).grow(10), branchie -> branchie != entity);
+            branchies.forEach(branchie -> branchie.setRevengeTarget(event.getPlayer()));
+            return entity;
+        }
+        return null;
     }
 
     @Nullable

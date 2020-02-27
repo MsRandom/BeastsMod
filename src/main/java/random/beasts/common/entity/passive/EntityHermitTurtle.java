@@ -1,11 +1,12 @@
 package random.beasts.common.entity.passive;
 
 import net.minecraft.entity.AgeableEntity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIMate;
-import net.minecraft.entity.ai.EntityAITarget;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.SwimGoal;
+import net.minecraft.entity.ai.goal.BreedGoal;
+import net.minecraft.entity.ai.goal.RandomWalkingGoal;
+import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.ai.goal.TargetGoal;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -33,14 +34,14 @@ public class EntityHermitTurtle extends AnimalEntity implements IShellEntity {
 
     public EntityHermitTurtle(EntityType<? extends EntityHermitTurtle> type, World worldIn) {
         super(type, worldIn);
-        this.goalSelector.addGoal(0, new EntityAIWander(this, 0.2, 200) {
+        this.goalSelector.addGoal(0, new RandomWalkingGoal(this, 0.2, 200) {
             @Override
             public boolean shouldExecute() {
                 return isOut() && super.shouldExecute();
             }
         });
         this.goalSelector.addGoal(1, new SwimGoal(this));
-        this.goalSelector.addGoal(1, new EntityAIMate(this, 1.0D));
+        this.goalSelector.addGoal(1, new BreedGoal(this, 1.0D));
     }
 
     @Override
@@ -104,8 +105,8 @@ public class EntityHermitTurtle extends AnimalEntity implements IShellEntity {
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
+    public void tick() {
+        super.tick();
         if (world.isRemote) {
             boolean out = isOut();
             if (exitTicks != (out ? 0 : 25))
@@ -120,16 +121,15 @@ public class EntityHermitTurtle extends AnimalEntity implements IShellEntity {
         getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(12);
     }
 
-    static class AIHide extends EntityAITarget {
-
+    static class AIHide extends TargetGoal {
         AIHide(EntityHermitTurtle creature, boolean checkSight) {
             super(creature, checkSight, true);
         }
 
         @Override
         public boolean shouldExecute() {
-            List<PlayerEntity> players = this.taskOwner.world.getEntitiesWithinAABB(PlayerEntity.class, new AxisAlignedBB(this.taskOwner.getPosition()).grow(5));
-            List<EntityVileEel> eels = this.taskOwner.world.getEntitiesWithinAABB(EntityVileEel.class, new AxisAlignedBB(this.taskOwner.getPosition()).grow(10));
+            List<PlayerEntity> players = this.goalOwner.world.getEntitiesWithinAABB(PlayerEntity.class, new AxisAlignedBB(this.goalOwner.getPosition()).grow(5));
+            List<EntityVileEel> eels = this.goalOwner.world.getEntitiesWithinAABB(EntityVileEel.class, new AxisAlignedBB(this.goalOwner.getPosition()).grow(10));
             boolean plBool = false;
             if (!players.isEmpty()) {
                 for (PlayerEntity player : players) {
@@ -142,7 +142,7 @@ public class EntityHermitTurtle extends AnimalEntity implements IShellEntity {
         }
 
         public void startExecuting() {
-            if (((EntityHermitTurtle) this.taskOwner).isOut()) ((EntityHermitTurtle) this.taskOwner).setOut(false);
+            if (((EntityHermitTurtle) this.goalOwner).isOut()) ((EntityHermitTurtle) this.goalOwner).setOut(false);
         }
 
         public boolean shouldContinueExecuting() {
@@ -150,7 +150,7 @@ public class EntityHermitTurtle extends AnimalEntity implements IShellEntity {
         }
 
         public void resetTask() {
-            if (!((EntityHermitTurtle) this.taskOwner).isOut()) ((EntityHermitTurtle) this.taskOwner).setOut(true);
+            if (!((EntityHermitTurtle) this.goalOwner).isOut()) ((EntityHermitTurtle) this.goalOwner).setOut(true);
         }
     }
 }

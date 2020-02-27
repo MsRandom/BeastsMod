@@ -1,17 +1,14 @@
 package random.beasts.common.entity.monster;
 
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.*;
+import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.goal.LookRandomlyGoal;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EntitySelectors;
+import net.minecraft.util.EntityPredicates;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
@@ -39,8 +36,8 @@ public class EntityGiantGardenEel extends MonsterEntity {
     @Override
     protected void registerGoals() {
         super.registerGoals();
-        this.goalSelector.addGoal(6, new EntityAIWatchClosest(this, PlayerEntity.class, 6.0F));
-        this.goalSelector.addGoal(0, new EntityAILookIdle(this));
+        this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
+        this.goalSelector.addGoal(0, new LookRandomlyGoal(this));
     }
 
     @Override
@@ -65,7 +62,7 @@ public class EntityGiantGardenEel extends MonsterEntity {
         return BeastsSounds.GARDEN_EEL_HURT;
     }
 
-    protected void playStepSound(BlockPos pos, Block blockIn) {
+    protected void playStepSound(BlockPos pos, BlockState blockIn) {
         this.playSound(SoundEvents.ENTITY_ZOMBIE_STEP, 0.15F, 1.0F);
     }
 
@@ -79,24 +76,24 @@ public class EntityGiantGardenEel extends MonsterEntity {
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
+    public void tick() {
+        super.tick();
 
         lastSlam++;
         if (slamTimer < 250) slamTimer += 10;
         if (lastSlam > 25) {
-            Predicate<Entity> predicate = e -> EntitySelectors.NOT_SPECTATING.apply(e) && e instanceof LivingEntity && !(e instanceof EntityGiantGardenEel) && (!(e instanceof PlayerEntity) || !((PlayerEntity) e).capabilities.isCreativeMode);
-            List<Entity> entitiesInRange = world.getEntitiesInAABBexcluding(this, this.getBoundingBox().grow(3), predicate::test);
+            Predicate<Entity> predicate = e -> EntityPredicates.NOT_SPECTATING.test(e) && e instanceof LivingEntity && !(e instanceof EntityGiantGardenEel) && (!(e instanceof PlayerEntity) || !((PlayerEntity) e).abilities.isCreativeMode);
+            List<Entity> entitiesInRange = world.getEntitiesInAABBexcluding(this, this.getBoundingBox().grow(3), predicate);
             entitiesInRange.forEach(e -> {
                 if (targetedEntity == null || (getDistanceSq(targetedEntity) > getDistanceSq(e) && e instanceof LivingEntity))
                     targetedEntity = (LivingEntity) e;
             });
             if (!entitiesInRange.contains(targetedEntity)) targetedEntity = null;
             if (targetedEntity != null && (!(targetedEntity instanceof MobEntity) || !((MobEntity) targetedEntity).isAIDisabled())) {
-                this.getLookHelper().setLookPositionWithEntity(targetedEntity, 10.0F, 10.0F);
+                this.getLookController().setLookPositionWithEntity(targetedEntity, 10.0F, 10.0F);
                 if ((slamTimer -= 50) < 0) slamTimer = 0;
                 if (slamTimer == 0) {
-                    if (!targetedEntity.isDead) {
+                    if (targetedEntity.isAlive()) {
                         targetedEntity.attackEntityFrom(DamageSource.causeMobDamage(this), 4.0F);
                         if (targetedEntity instanceof ServerPlayerEntity)
                             BeastsTriggers.HAMMERTIME.trigger((ServerPlayerEntity) targetedEntity);

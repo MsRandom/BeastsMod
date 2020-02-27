@@ -23,14 +23,14 @@ public class RenderLegfish extends MobRenderer<EntityLegfish> {
 
     @Override
     public void doRender(EntityLegfish entity, double x, double y, double z, float entityYaw, float partialTicks) {
-        this.mainModel = types[entity.getType()];
+        this.mainModel = types[entity.getLegfishType()];
         super.doRender(entity, x, y, z, entityYaw, partialTicks);
     }
 
     @Nullable
     @Override
     protected ResourceLocation getEntityTexture(EntityLegfish entity) {
-        int type = entity.getType();
+        int type = entity.getLegfishType();
         ResourceLocation[] textures = TEXTURES.computeIfAbsent(type, k -> {
             ResourceLocation[] typeTextures = new ResourceLocation[EntityLegfish.VARIANTS.get(type)];
             for (int i = 0; i < typeTextures.length; i++)

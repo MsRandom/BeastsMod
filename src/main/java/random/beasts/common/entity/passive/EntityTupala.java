@@ -1,14 +1,15 @@
 package random.beasts.common.entity.passive;
 
 import net.minecraft.entity.AgeableEntity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.world.World;
 
 public class EntityTupala extends AnimalEntity {
 
-    public EntityTupala(World worldIn) {
-        super(worldIn);
+    public EntityTupala(EntityType<? extends EntityTupala> type, World worldIn) {
+        super(type, worldIn);
     }
 
     @Override

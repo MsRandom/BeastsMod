@@ -1,7 +1,9 @@
 package random.beasts.common.entity.monster;
 
-import net.minecraft.entity.EnumCreatureAttribute;
+import net.minecraft.entity.CreatureAttribute;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
@@ -14,10 +16,10 @@ public class EntitySkewerShrimp extends MonsterEntity {
 
     public EntitySkewerShrimp(EntityType<? extends EntitySkewerShrimp> type, World worldIn) {
         super(type, worldIn);
-        this.goalSelector.addGoal(0, new EntityAIWander(this, 0.6F));
-        this.goalSelector.addGoal(0, new EntityAIHurtByTarget(this, true));
-        this.goalSelector.addGoal(1, new EntityAIAttackMelee(this, 0.6F, true));
-        this.goalSelector.addGoal(2, new EntityAIPanic(this, 0.0D));
+        this.goalSelector.addGoal(0, new RandomWalkingGoal(this, 0.6F));
+        this.goalSelector.addGoal(0, new HurtByTargetGoal(this).setCallsForHelp(getClass()));
+        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 0.6F, true));
+        this.goalSelector.addGoal(2, new PanicGoal(this, 0.0D));
         this.goalSelector.addGoal(3, new SwimGoal(this));
     }
 
@@ -29,8 +31,8 @@ public class EntitySkewerShrimp extends MonsterEntity {
         getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20);
     }
 
-    public EnumCreatureAttribute getCreatureAttribute() {
-        return EnumCreatureAttribute.ARTHROPOD;
+    public CreatureAttribute getCreatureAttribute() {
+        return CreatureAttribute.ARTHROPOD;
     }
 
     @Override

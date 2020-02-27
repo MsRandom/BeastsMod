@@ -1,6 +1,8 @@
 package random.beasts.common.entity.monster;
 
-import net.minecraft.entity.IMobEntityData;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ILivingEntityData;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -11,6 +13,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.event.world.BlockEvent;
 import random.beasts.common.block.BlockCoralPlant;
@@ -22,7 +25,6 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class EntityCoralBranchie extends EntityBranchieBase {
-
     private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityCoralBranchie.class, DataSerializers.VARINT);
 
     public EntityCoralBranchie(EntityType<? extends EntityCoralBranchie> type, World worldIn) {
@@ -30,16 +32,19 @@ public class EntityCoralBranchie extends EntityBranchieBase {
     }
 
     public static EntityCoralBranchie create(BlockEvent.BreakEvent event) {
-        EntityCoralBranchie entity = BeastsEntities.CORAL_BRANCHIE.create(event.getWorld());
-        BlockPos pos = event.getPos();
-        CoralColor color = ((BlockCoralPlant) event.getState().getBlock()).color;
-        PlayerEntity player = event.getPlayer();
-        entity.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
-        entity.onInitialSpawn(event.getWorld().getDifficultyForLocation(pos), null);
-        entity.setVariant(color);
-        List<EntityCoralBranchie> branchies = event.getWorld().getEntitiesWithinAABB(EntityCoralBranchie.class, new AxisAlignedBB(event.getPos()).grow(10), branchie -> branchie != null && branchie != entity && branchie.getVariant() == color);
-        branchies.forEach(branchie -> branchie.setRevengeTarget(player));
-        return entity;
+        if (event.getWorld() instanceof World) {
+            EntityCoralBranchie entity = BeastsEntities.CORAL_BRANCHIE.create((World) event.getWorld());
+            BlockPos pos = event.getPos();
+            CoralColor color = ((BlockCoralPlant) event.getState().getBlock()).color;
+            PlayerEntity player = event.getPlayer();
+            entity.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), 0, 0);
+            entity.onInitialSpawn(event.getWorld(), event.getWorld().getDifficultyForLocation(pos), SpawnReason.TRIGGERED, null, null);
+            entity.setVariant(color);
+            List<EntityCoralBranchie> branchies = event.getWorld().getEntitiesWithinAABB(EntityCoralBranchie.class, new AxisAlignedBB(event.getPos()).grow(10), branchie -> branchie != null && branchie != entity && branchie.getVariant() == color);
+            branchies.forEach(branchie -> branchie.setRevengeTarget(player));
+            return entity;
+        }
+        return null;
     }
 
     @Override
@@ -50,10 +55,9 @@ public class EntityCoralBranchie extends EntityBranchieBase {
 
     @Nullable
     @Override
-    public IMobEntityData onInitialSpawn(DifficultyInstance difficulty, @Nullable IMobEntityData livingdata) {
-        livingdata = super.onInitialSpawn(difficulty, livingdata);
+    public ILivingEntityData onInitialSpawn(IWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
         this.setVariant(CoralColor.getRandom(rand));
-        return livingdata;
+        return super.onInitialSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
     }
 
     public CoralColor getVariant() {

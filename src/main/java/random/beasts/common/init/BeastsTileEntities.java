@@ -1,31 +1,24 @@
 package random.beasts.common.init;
 
+import com.mojang.datafixers.DataFixUtils;
+import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.SharedConstants;
+import net.minecraft.util.datafix.DataFixesManager;
+import net.minecraft.util.datafix.TypeReferences;
+import random.beasts.api.main.BeastsRegistries;
 import random.beasts.common.tileentity.TileEntityCoconut;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.function.Supplier;
 
 public class BeastsTileEntities {
+    public static final TileEntityType<TileEntityCoconut> COCONUT = create("coconut", TileEntityCoconut::new, BeastsBlocks.COCONUT);
 
-    private static final List<BeastsTileEntity> LIST = new ArrayList<>();
-    private static final BeastsTileEntity COCONUT = new BeastsTileEntity(TileEntityCoconut.class, "coconut");
-
-    public static void init() {
-        for (BeastsTileEntity tile : LIST)
-            GameRegistry.registerTileEntity(tile.cls, new ResourceLocation(BeastsMod.MOD_ID, tile.name));
-    }
-
-    private static class BeastsTileEntity {
-        private Class<? extends TileEntity> cls;
-        private String name;
-
-        private BeastsTileEntity(Class<? extends TileEntity> te, String name) {
-            this.cls = te;
-            this.name = name;
-            LIST.add(this);
-        }
+    private static <T extends TileEntity> TileEntityType<T> create(String name, Supplier<T> factory, Block block) {
+        TileEntityType<T> type = TileEntityType.Builder.create(factory, block).build(DataFixesManager.getDataFixer().getSchema(DataFixUtils.makeKey(SharedConstants.getVersion().getWorldVersion())).getChoiceType(TypeReferences.BLOCK_ENTITY, name));
+        type.setRegistryName(name);
+        BeastsRegistries.TILE_ENTITIES.add(type);
+        return type;
     }
 }

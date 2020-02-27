@@ -32,14 +32,14 @@ public abstract class BeastsBranchie extends MonsterEntity {
     }
 
     protected void registerGoals() {
-        this.goalSelector.addGoal(1, new EntityAIAttackMelee(this, 1.0D, true));
+        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0D, true));
         this.goalSelector.addGoal(2, new EntityAIMoveTowardsTarget(this, 0.9D, 32.0F));
         this.goalSelector.addGoal(0, new SwimGoal(this));
-        this.goalSelector.addGoal(1, new EntityAIWanderAvoidWater(this, 0.5D));
-        this.goalSelector.addGoal(2, new EntityAIWatchClosest(this, PlayerEntity.class, 6.0F));
+        this.goalSelector.addGoal(1, new WaterAvoidingRandomWalkingGoal(this, 0.5D));
+        this.goalSelector.addGoal(2, new LookAtGoal(this, PlayerEntity.class, 6.0F));
         this.goalSelector.addGoal(3, new EntityAIAvoidEntity<>(this, PlayerEntity.class, entity -> getAttackTarget() == null, 6.0F, 2, 2));
-        this.goalSelector.addGoal(4, new EntityAILookIdle(this));
-        this.goalSelector.addGoal(1, new EntityAIPanic(this, 1.0D));
+        this.goalSelector.addGoal(4, new LookRandomlyGoal(this));
+        this.goalSelector.addGoal(1, new PanicGoal(this, 1.0D));
     }
 
     protected void registerAttributes() {
