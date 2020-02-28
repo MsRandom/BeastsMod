@@ -2,15 +2,10 @@ package random.beasts.client.model;
 
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.MathHelper;
+import random.beasts.common.entity.passive.EntityTupala;
 
-/**
- * ModelTupala - mubbs
- * Created using Tabula 7.1.0
- */
-public class ModelTupala extends EntityModel {
+public class ModelTupala extends EntityModel<EntityTupala> {
     public RendererModel body;
     public RendererModel base1;
     public RendererModel base2;
@@ -91,7 +86,12 @@ public class ModelTupala extends EntityModel {
     }
 
     @Override
-    public void setLivingAnimations(LivingEntity entitylivingbaseIn, float f, float f1, float partialTickTime) {
+    public void render(EntityTupala entity, float f, float f1, float f2, float f3, float f4, float f5) {
+        this.body.render(f5);
+    }
+
+    @Override
+    public void setLivingAnimations(EntityTupala entitylivingbaseIn, float f, float f1, float partialTickTime) {
         float speed = 1.0f;
         float degree = 1.0f;
         this.legMiddleLeft.rotateAngleX = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * 0.8F) * f1 * 0.5F;
@@ -102,20 +102,12 @@ public class ModelTupala extends EntityModel {
         this.legBackRight.rotateAngleX = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * 0.8F) * f1 * 0.5F + 0.45F;
         this.base1.rotateAngleX = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * 0.2F) * f1 * 0.5F;
         this.head1.rotateAngleX = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * 0.4F) * f1 * 0.5F;
-    	this.base2.rotateAngleX = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * 0.2F) * f1 * 0.5F;
-    	this.head2.rotateAngleX = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * 0.4F) * f1 * 0.5F;
-    	this.base3.rotateAngleX = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * 0.2F) * f1 * 0.5F;
-    	this.head3.rotateAngleX = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * 0.4F) * f1 * 0.5F;
+        this.base2.rotateAngleX = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * 0.2F) * f1 * 0.5F;
+        this.head2.rotateAngleX = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * 0.4F) * f1 * 0.5F;
+        this.base3.rotateAngleX = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * 0.2F) * f1 * 0.5F;
+        this.head3.rotateAngleX = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * 0.4F) * f1 * 0.5F;
     }
 
-    @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
-        this.body.render(f5);
-    }
-
-    /**
-     * This is a helper function from Tabula to set the rotation of model parts
-     */
     public void setRotateAngle(RendererModel modelRenderer, float x, float y, float z) {
         modelRenderer.rotateAngleX = x;
         modelRenderer.rotateAngleY = y;

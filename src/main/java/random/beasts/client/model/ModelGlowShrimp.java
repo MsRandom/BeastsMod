@@ -2,14 +2,10 @@ package random.beasts.client.model;
 
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
-import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
+import random.beasts.common.entity.passive.EntityGlowShrimp;
 
-/**
- * ModelGlowShrimp - Coda
- * Created using Tabula 7.1.0
- */
-public class ModelGlowShrimp extends EntityModel {
+public class ModelGlowShrimp extends EntityModel<EntityGlowShrimp> {
     public RendererModel body;
     public RendererModel leg;
     public RendererModel leg_1;
@@ -97,8 +93,13 @@ public class ModelGlowShrimp extends EntityModel {
     }
 
     @Override
-    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
-        super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
+    public void render(EntityGlowShrimp entity, float f, float f1, float f2, float f3, float f4, float f5) {
+        this.body.render(f5);
+    }
+
+    @Override
+    public void setRotationAngles(EntityGlowShrimp entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
+        super.setRotationAngles(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
         float speed = 0.75f, degree = 0.75f;
 
         this.leg.rotateAngleX = MathHelper.cos(limbSwing * speed) * degree * limbSwingAmount;
@@ -116,14 +117,6 @@ public class ModelGlowShrimp extends EntityModel {
         this.tailEnd.rotateAngleY = MathHelper.cos(limbSwing * speed * 0.7F) * degree * limbSwingAmount;
     }
 
-    @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
-        this.body.render(f5);
-    }
-
-    /**
-     * This is a helper function from Tabula to set the rotation of model parts
-     */
     public void setRotateAngle(RendererModel modelRenderer, float x, float y, float z) {
         modelRenderer.rotateAngleX = x;
         modelRenderer.rotateAngleY = y;

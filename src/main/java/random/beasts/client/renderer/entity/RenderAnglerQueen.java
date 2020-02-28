@@ -43,18 +43,18 @@ public class RenderAnglerQueen extends MobRenderer<EntityAnglerQueen, ModelAngle
         else {
             if (livingEntity.isUsingBeam()) {
                 double rot = livingEntity.renderYawOffset * 0.01745329238474369D + (Math.PI / 2D);
-                double xMod = Math.cos(rot) * (double)(livingEntity.width+1f);
-                double zMod = Math.sin(rot) * (double)(livingEntity.width+1f);
-                double yMod = livingEntity.height+1f;
+                double xMod = Math.cos(rot) * (double) (livingEntity.getWidth() + 1f);
+                double zMod = Math.sin(rot) * (double) (livingEntity.getWidth() + 1f);
+                double yMod = livingEntity.getHeight() + 1f;
                 Vec3d vec3d1 = this.getPosition(livingEntity, xMod, yMod, zMod, 1.0F);
-                
+
                 Vec3d laserAngle = Vec3d.fromPitchYaw(livingEntity.getLaserPitch(), livingEntity.getLaserYaw());
                 double range = 30d;
-    			Vec3d hitVec = vec3d1.add(laserAngle.scale(range));
-                
-    			RayTraceResult trace = livingEntity.world.rayTraceBlocks(vec3d1, hitVec);
-    			if(trace != null && trace.hitVec != null) 
-    				hitVec = trace.hitVec;
+                Vec3d hitVec = vec3d1.add(laserAngle.scale(range));
+
+                RayTraceResult trace = livingEntity.world.rayTraceBlocks(vec3d1, hitVec);
+                if (trace != null && trace.hitVec != null)
+                    hitVec = trace.hitVec;
                 
                 Vec3d vec3d = hitVec;
 
@@ -99,20 +99,20 @@ public class RenderAnglerQueen extends MobRenderer<EntityAnglerQueen, ModelAngle
             Tessellator tessellator = Tessellator.getInstance();
             BufferBuilder bufferbuilder = tessellator.getBuffer();
             this.bindTexture(QUEEN_BEAM_TEXTURE);
-            GlStateManager.glTexParameteri(3553, 10242, 10497);
-            GlStateManager.glTexParameteri(3553, 10243, 10497);
+            GlStateManager.texParameter(3553, 10242, 10497);
+            GlStateManager.texParameter(3553, 10243, 10497);
             GlStateManager.disableLighting();
             GlStateManager.disableCull();
             GlStateManager.disableBlend();
             GlStateManager.depthMask(true);
             float f1 = 240.0F;
             GLX.glMultiTexCoord2f(GLX.GL_TEXTURE1, 240.0F, 240.0F);
-            GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+            GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
             float f2 = (float) entity.world.getGameTime() + partialTicks;
             float f3 = f2 * 0.5F % 1.0F;
             GlStateManager.pushMatrix();
 
-            GlStateManager.translate((float) x + xMod, (float) y + yMod, (float) z + zMod);
+            GlStateManager.translated(x + xMod, y + yMod, z + zMod);
 
             Vec3d laserAngle = Vec3d.fromPitchYaw(this.interpolateRotation(entity.getPrevLaserPitch(), entity.getLaserPitch(), partialTicks),
                     this.interpolateRotation(entity.getPrevLaserYaw(), entity.getLaserYaw(), partialTicks));
@@ -132,7 +132,7 @@ public class RenderAnglerQueen extends MobRenderer<EntityAnglerQueen, ModelAngle
             Vec3d vec3d = hitVec;
 
             Vec3d vec3d2 = vec3d.subtract(lurePos);
-            double d0 = vec3d2.lengthVector() + 1.0D;
+            double d0 = vec3d2.length() + 1.0D;
             vec3d2 = vec3d2.normalize();
             float f5 = (float) Math.acos(vec3d2.y);
             float f6 = (float) Math.atan2(vec3d2.z, vec3d2.x);

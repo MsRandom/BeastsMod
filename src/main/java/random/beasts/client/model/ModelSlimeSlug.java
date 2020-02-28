@@ -2,14 +2,10 @@ package random.beasts.client.model;
 
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
-import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
+import random.beasts.common.entity.passive.EntitySlimeSlug;
 
-/**
- * ModelSlimeSlug - Coda
- * Created using Tabula 7.1.0
- */
-public class ModelSlimeSlug extends EntityModel {
+public class ModelSlimeSlug extends EntityModel<EntitySlimeSlug> {
     public RendererModel body;
     public RendererModel neck;
     public RendererModel hump;
@@ -63,23 +59,20 @@ public class ModelSlimeSlug extends EntityModel {
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
+    public void render(EntitySlimeSlug entity, float f, float f1, float f2, float f3, float f4, float f5) {
         this.body.render(f5);
     }
 
     @Override
-    public void setRotationAngles(float f, float f1, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
-    	float speed = 8.0f;
-    	float degree = 1.0f;
-    	this.neck.rotateAngleX = MathHelper.cos((f * speed * 0.3F) + (float) Math.PI) * (degree * 0.5F) * f1 * 0.5F + -0.5F;
-    	this.head.rotateAngleX = MathHelper.cos((f * speed * 0.3F) + (float) Math.PI) * (degree * 0.3F) * f1 * 0.5F + -0.7F;
-    	this.hump.rotateAngleX = MathHelper.cos((f * speed * 0.3F) + (float) Math.PI) * (degree * 0.5F) * f1 * 0.5F + -0.3F;
-    	super.setRotationAngles(f, f1, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
+    public void setRotationAngles(EntitySlimeSlug entityIn, float f, float f1, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
+        float speed = 8.0f;
+        float degree = 1.0f;
+        this.neck.rotateAngleX = MathHelper.cos((f * speed * 0.3F) + (float) Math.PI) * (degree * 0.5F) * f1 * 0.5F + -0.5F;
+        this.head.rotateAngleX = MathHelper.cos((f * speed * 0.3F) + (float) Math.PI) * (degree * 0.3F) * f1 * 0.5F + -0.7F;
+        this.hump.rotateAngleX = MathHelper.cos((f * speed * 0.3F) + (float) Math.PI) * (degree * 0.5F) * f1 * 0.5F + -0.3F;
+        super.setRotationAngles(entityIn, f, f1, ageInTicks, netHeadYaw, headPitch, scaleFactor);
     }
 
-    /**
-     * This is a helper function from Tabula to set the rotation of model parts
-     */
     public void setRotateAngle(RendererModel modelRenderer, float x, float y, float z) {
         modelRenderer.rotateAngleX = x;
         modelRenderer.rotateAngleY = y;

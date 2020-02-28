@@ -19,10 +19,11 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import random.beasts.common.init.BeastsEntities;
 
 public class EntityCoconutBomb extends ThrowableEntity implements IRendersAsItem {
-    private ItemStack stack;
+    private final ItemStack stack;
 
     public EntityCoconutBomb(EntityType<? extends EntityCoconutBomb> type, World worldIn) {
         super(type, worldIn);
+        this.stack = ItemStack.EMPTY;
     }
 
     public EntityCoconutBomb(ItemStack stack, World worldIn, LivingEntity throwerIn) {

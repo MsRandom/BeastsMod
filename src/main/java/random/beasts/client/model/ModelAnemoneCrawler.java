@@ -1,13 +1,13 @@
 package random.beasts.client.model;
 
-import net.minecraft.client.renderer.GlStateManager;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.MathHelper;
+import random.beasts.common.entity.passive.EntityAnemoneCrawler;
 
-public class ModelAnemoneCrawler extends EntityModel {
+public class ModelAnemoneCrawler extends EntityModel<EntityAnemoneCrawler> {
     public RendererModel body;
     public RendererModel finDorsal;
     public RendererModel head;
@@ -54,18 +54,18 @@ public class ModelAnemoneCrawler extends EntityModel {
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+    public void render(EntityAnemoneCrawler entity, float f, float f1, float f2, float f3, float f4, float f5) {
         if (((LivingEntity) entity).isChild()) {
-            GlStateManager.scale(0.5F, 0.5F, 0.5F);
-            GlStateManager.translate(0.0F, 24.0F * f5, 0.0F);
+            GlStateManager.scalef(0.5F, 0.5F, 0.5F);
+            GlStateManager.translatef(0.0F, 24.0F * f5, 0.0F);
         }
-        if (entity.isSneaking()) GlStateManager.translate(0.0F, 0.2F, 0.0F);
+        if (entity.isSneaking()) GlStateManager.translatef(0.0F, 0.2F, 0.0F);
         this.body.render(f5);
     }
 
     @Override
-    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
-        super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
+    public void setRotationAngles(EntityAnemoneCrawler entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
+        super.setRotationAngles(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
         float speed = 1.5f, degree = 0.9f;
         this.armLeft.rotateAngleX = MathHelper.cos(limbSwing * speed) * degree * limbSwingAmount;
         this.armRight.rotateAngleX = MathHelper.cos(limbSwing * speed + (float) Math.PI) * degree * limbSwingAmount;

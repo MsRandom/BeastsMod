@@ -3,18 +3,15 @@ package random.beasts.common.event;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.ai.goal.NonTamedTargetGoal;
-import net.minecraft.entity.passive.OcelotEntity;
+import net.minecraft.entity.passive.CatEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.ShieldItem;
-import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.storage.loot.LootPool;
-import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -42,8 +39,8 @@ public class CommonEvents {
 
     @SubscribeEvent
     public static void addEntity(EntityJoinWorldEvent event) {
-        if (event.getEntity() instanceof OcelotEntity) {
-            final OcelotEntity ocelot = (OcelotEntity) event.getEntity();
+        if (event.getEntity() instanceof CatEntity) {
+            final CatEntity ocelot = (CatEntity) event.getEntity();
             if (ocelot != null) {
                 ocelot.goalSelector.addGoal(1, new NonTamedTargetGoal<>(ocelot, EntityPufferfishDog.class, false, target -> target != null && target.getDistance(ocelot) < 32.0));
                 //ocelot.goalSelector.addGoal(1, new EntityAITargetNonTamed<>(ocelot, EntityRabbitman.class, false, target -> target != null && target.getDistance(ocelot) < 32.0));
@@ -117,26 +114,16 @@ public class CommonEvents {
 
     @SubscribeEvent
     public static void attackLiving(LivingAttackEvent event) {
-        if (event.getMobEntity() instanceof PlayerEntity) {
-            PlayerEntity player = (PlayerEntity) event.getMobEntity();
+        if (event.getEntityLiving() instanceof PlayerEntity) {
+            PlayerEntity player = (PlayerEntity) event.getEntityLiving();
             if (!player.getActiveItemStack().isEmpty()) {
                 ItemStack stack = player.getActiveItemStack();
                 float damage = event.getAmount();
                 if (damage > 5.0F && (stack.getItem() instanceof ShieldItem && stack.getItem() != Items.SHIELD)) {
-                    int i = Math.min(1 + (int) damage, stack.getMaxDamage() - stack.getItemDamage());
+                    int i = Math.min(1 + (int) damage, stack.getMaxDamage() - stack.getDamage());
                     stack.damageItem(i, player, p -> {
-                    });
-                    if (stack.isEmpty() || stack.getItemDamage() >= stack.getMaxDamage()) {
-                        if (stack.isEmpty()) {
-                            Hand hand = player.getActiveHand();
-                            ForgeEventFactory.onPlayerDestroyItem(player, stack, hand);
-                            if (hand == Hand.MAIN_HAND)
-                                player.setItemStackToSlot(EquipmentSlotType.MAINHAND, ItemStack.EMPTY);
-                            else player.setItemStackToSlot(EquipmentSlotType.OFFHAND, ItemStack.EMPTY);
-                        }
-
                         player.world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ITEM_SHIELD_BREAK, SoundCategory.PLAYERS, 0.9f, 0.8F + player.world.rand.nextFloat() * 0.4F);
-                    }
+                    });
                 }
             }
         }

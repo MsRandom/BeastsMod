@@ -1,11 +1,10 @@
 package random.beasts.client.model;
 
-import net.minecraft.client.renderer.GlStateManager;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import random.beasts.common.entity.passive.EntityPufferfishDog;
@@ -180,17 +179,17 @@ public class ModelPufferFishDog extends EntityModel<EntityPufferfishDog> {
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+    public void render(EntityPufferfishDog entity, float f, float f1, float f2, float f3, float f4, float f5) {
         if (this.isChild) {
-            GlStateManager.scale(0.5F, 0.5F, 0.5F);
-            GlStateManager.translate(0.0F, 24.0F * f5, 1.65F * f5);
+            GlStateManager.scalef(0.5F, 0.5F, 0.5F);
+            GlStateManager.translatef(0.0F, 24.0F * f5, 1.65F * f5);
         }
         if (entity instanceof EntityPufferfishDog && ((EntityPufferfishDog) entity).isInflated()) this.body.render(f5);
         else this.body_1.render(f5);
     }
 
     @Override
-    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
+    public void setRotationAngles(EntityPufferfishDog entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
         float speed = 0.75f, degree = 1.45f;
 
         if (this.state == State.PARTY) {
@@ -230,15 +229,13 @@ public class ModelPufferFishDog extends EntityModel<EntityPufferfishDog> {
 
 
     @Override
-    public void setLivingAnimations(LivingEntity entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTickTime) {
-
-
-        if (((EntityPufferfishDog) entitylivingbaseIn).isPartying()) {
+    public void setLivingAnimations(EntityPufferfishDog entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTickTime) {
+        if (entitylivingbaseIn.isPartying()) {
             this.state = State.PARTY;
-        } else if (((EntityPufferfishDog) entitylivingbaseIn).isSitting()) {
+        } else if (entitylivingbaseIn.isSitting()) {
             resetRotationPoints();
             this.state = State.SITTING;
-        } else if (entitylivingbaseIn.motionX != 0 || entitylivingbaseIn.motionY != 0 || entitylivingbaseIn.motionZ != 0) {
+        } else if (!entitylivingbaseIn.getMotion().equals(Vec3d.ZERO)) {
             resetRotationPoints();
             this.state = State.WALKING;
         } else {

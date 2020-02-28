@@ -1,6 +1,6 @@
-package random.beasts.client.renderer.entity;
+/*package random.beasts.client.renderer.entity;
 
-import net.minecraft.client.renderer.GlStateManager;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.Direction;
@@ -10,7 +10,7 @@ import random.beasts.common.entity.monster.EntityWhippingBarnacle;
 
 import javax.annotation.Nullable;
 
-public class RenderWhippingBarnacle extends MobRenderer<EntityWhippingBarnacle> {
+public class RenderWhippingBarnacle extends MobRenderer<EntityWhippingBarnacle, ModelWhippingBarnacle> {
 
     private static final ResourceLocation BLUE = new ResourceLocation(BeastsMod.MOD_ID, "textures/entity/whipping_barnacle/blue.png");
     private static final ResourceLocation GREEN = new ResourceLocation(BeastsMod.MOD_ID, "textures/entity/whipping_barnacle/green.png");
@@ -39,3 +39,4 @@ public class RenderWhippingBarnacle extends MobRenderer<EntityWhippingBarnacle> 
         return entity.getColor() == 1 ? GREEN : BLUE;
     }
 }
+*/

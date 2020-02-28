@@ -4,11 +4,12 @@ import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
 import random.beasts.client.model.ModelAnemoneCrawler;
+import random.beasts.common.BeastsMod;
 import random.beasts.common.entity.passive.EntityAnemoneCrawler;
 
 import javax.annotation.Nullable;
 
-public class RenderAnemoneCrawler extends MobRenderer<EntityAnemoneCrawler> {
+public class RenderAnemoneCrawler extends MobRenderer<EntityAnemoneCrawler, ModelAnemoneCrawler> {
 
     private static final ResourceLocation[] TEXTURES = new ResourceLocation[4];
 

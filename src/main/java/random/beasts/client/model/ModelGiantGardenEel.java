@@ -2,12 +2,10 @@ package random.beasts.client.model;
 
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.MathHelper;
 import random.beasts.common.entity.monster.EntityGiantGardenEel;
 
-public class ModelGiantGardenEel extends EntityModel {
+public class ModelGiantGardenEel extends EntityModel<EntityGiantGardenEel> {
     public RendererModel body;
     public RendererModel body1;
     public RendererModel body2;
@@ -42,18 +40,17 @@ public class ModelGiantGardenEel extends EntityModel {
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+    public void render(EntityGiantGardenEel entity, float f, float f1, float f2, float f3, float f4, float f5) {
         this.body.render(f5);
     }
 
     @Override
-    public void setLivingAnimations(LivingEntity entityIn, float limbSwing, float limbSwingAmount, float partialTickTime) {
-        EntityGiantGardenEel gardenEel = (EntityGiantGardenEel) entityIn;
-        float slam = gardenEel.getSlamTimer();
+    public void setLivingAnimations(EntityGiantGardenEel entityIn, float limbSwing, float limbSwingAmount, float partialTickTime) {
+        float slam = entityIn.getSlamTimer();
         this.body.rotateAngleX = (250 - slam) / 180f;
         if (slam == 250) for (int i = 0; i < parts.length; i++) {
             float degree = 0.25f * (i + 1);
-            parts[i].rotateAngleZ = MathHelper.cos(gardenEel.ticksExisted * 0.05f) * degree * 0.1f;
+            parts[i].rotateAngleZ = MathHelper.cos(entityIn.ticksExisted * 0.05f) * degree * 0.1f;
         }
     }
 }

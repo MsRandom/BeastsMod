@@ -1,14 +1,12 @@
 package random.beasts.client.model;
 
-import net.minecraft.client.renderer.GlStateManager;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
-import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 import random.beasts.common.entity.monster.EntityVileEel;
-import random.beasts.common.entity.passive.EntityPufferfishDog;
 
-public class ModelVileEel extends EntityModel {
+public class ModelVileEel extends EntityModel<EntityVileEel> {
     public RendererModel body;
     public RendererModel jaw;
     public RendererModel head;
@@ -83,37 +81,30 @@ public class ModelVileEel extends EntityModel {
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+    public void render(EntityVileEel entity, float f, float f1, float f2, float f3, float f4, float f5) {
         if (this.isChild) {
-            GlStateManager.scale(0.5F, 0.5F, 0.5F);
-            GlStateManager.translate(0.0F, 24.0F * f5, 1.65F * f5);
+            GlStateManager.scalef(0.5F, 0.5F, 0.5F);
+            GlStateManager.translatef(0.0F, 24.0F * f5, 1.65F * f5);
         }
-        if (entity instanceof EntityPufferfishDog && ((EntityPufferfishDog) entity).isInflated()) this.body.render(f5);
-        else this.body.render(f5);
+        this.body.render(f5);
     }
 
     @Override
-    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
-        super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
+    public void setRotationAngles(EntityVileEel entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
+        super.setRotationAngles(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
         float speed = 0.75f, degree = 0.75f;
         this.armLeft.rotateAngleX = MathHelper.cos(limbSwing * speed) * degree * limbSwingAmount;
         this.armRight.rotateAngleX = MathHelper.cos(limbSwing * speed + (float) Math.PI) * degree * limbSwingAmount;
         this.legLeft.rotateAngleX = MathHelper.cos(limbSwing * speed + (float) Math.PI) * degree * limbSwingAmount;
         this.legRight.rotateAngleX = MathHelper.cos(limbSwing * speed) * degree * limbSwingAmount;
         this.tailBase.rotateAngleY = MathHelper.cos(20 + limbSwing * speed * 0.7F) * degree * limbSwingAmount;
-
-        if (entityIn instanceof EntityVileEel) {
-
-            if (!entityIn.getPassengers().isEmpty()) {
-                this.head.rotateAngleX = (float) Math.toRadians(-35);
-                this.jaw.rotateAngleX = (float) Math.toRadians(30);
-            } else {
-                this.jaw.rotateAngleX = 0;
-                this.head.rotateAngleX = 0;
-            }
-
+        if (!entityIn.getPassengers().isEmpty()) {
+            this.head.rotateAngleX = (float) Math.toRadians(-35);
+            this.jaw.rotateAngleX = (float) Math.toRadians(30);
+        } else {
+            this.jaw.rotateAngleX = 0;
+            this.head.rotateAngleX = 0;
         }
-
     }
 
     public void setRotateAngle(RendererModel modelRenderer, float x, float y, float z) {

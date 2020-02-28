@@ -2,15 +2,10 @@ package random.beasts.client.model;
 
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.MathHelper;
+import random.beasts.common.entity.monster.EntityIsopod;
 
-/**
- * ModelIsopod - Coda
- * Created using Tabula 7.1.0
- */
-public class ModelIsopod extends EntityModel {
+public class ModelIsopod extends EntityModel<EntityIsopod> {
     public RendererModel body;
     public RendererModel head;
     public RendererModel crest;
@@ -72,12 +67,12 @@ public class ModelIsopod extends EntityModel {
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
+    public void render(EntityIsopod entity, float f, float f1, float f2, float f3, float f4, float f5) {
         this.body.render(f5);
     }
 
     @Override
-    public void setLivingAnimations(LivingEntity entitylivingbaseIn, float f, float f1, float partialTickTime) {
+    public void setLivingAnimations(EntityIsopod entitylivingbaseIn, float f, float f1, float partialTickTime) {
         float speed = 1.0f;
         float degree = 1.0f;
         this.legLeft1.rotateAngleX = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * 0.7F) * f1 * 0.5F;

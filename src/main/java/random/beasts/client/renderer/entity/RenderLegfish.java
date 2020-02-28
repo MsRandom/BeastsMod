@@ -4,26 +4,26 @@ import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
 import random.beasts.client.model.ModelLegfish;
+import random.beasts.common.BeastsMod;
 import random.beasts.common.entity.passive.EntityLegfish;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RenderLegfish extends MobRenderer<EntityLegfish> {
+public class RenderLegfish extends MobRenderer<EntityLegfish, ModelLegfish> {
 
     private static final Map<Integer, ResourceLocation[]> TEXTURES = new HashMap<>();
     private final ModelLegfish[] types;
 
     public RenderLegfish(EntityRendererManager rendermanagerIn) {
         super(rendermanagerIn, new ModelLegfish.Type1(), 0.1f);
-        ModelLegfish type = (ModelLegfish) mainModel;
-        types = new ModelLegfish[]{type, new ModelLegfish.Type2(), new ModelLegfish.Type3()};
+        types = new ModelLegfish[]{getEntityModel(), new ModelLegfish.Type2(), new ModelLegfish.Type3()};
     }
 
     @Override
     public void doRender(EntityLegfish entity, double x, double y, double z, float entityYaw, float partialTicks) {
-        this.mainModel = types[entity.getLegfishType()];
+        this.entityModel = types[entity.getLegfishType()];
         super.doRender(entity, x, y, z, entityYaw, partialTicks);
     }
 

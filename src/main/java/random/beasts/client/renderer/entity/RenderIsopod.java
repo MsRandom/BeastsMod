@@ -10,7 +10,7 @@ import random.beasts.common.BeastsMod;
 import random.beasts.common.entity.monster.EntityIsopod;
 
 @OnlyIn(Dist.CLIENT)
-public class RenderIsopod extends MobRenderer<EntityIsopod> {
+public class RenderIsopod extends MobRenderer<EntityIsopod, ModelIsopod> {
 
     private static final ResourceLocation SPARTAPOD = new ResourceLocation(BeastsMod.MOD_ID, "textures/entity/spartapod.png");
     private static final ResourceLocation ATHAPOD = new ResourceLocation(BeastsMod.MOD_ID, "textures/entity/athapod.png");

@@ -1,8 +1,8 @@
 package random.beasts.client.renderer.entity;
 
+import com.mojang.blaze3d.platform.GLX;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GLX;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
@@ -13,6 +13,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import random.beasts.common.BeastsMod;
 import random.beasts.common.entity.item.EntityBeastsPainting;
 
 import java.util.HashMap;
@@ -28,20 +29,20 @@ public class RenderBeastsPainting extends EntityRenderer<EntityBeastsPainting> {
 
     public void doRender(EntityBeastsPainting entity, double x, double y, double z, float entityYaw, float partialTicks) {
         GlStateManager.pushMatrix();
-        GlStateManager.translate(x, y, z);
-        GlStateManager.rotate(180.0F - entityYaw, 0.0F, 1.0F, 0.0F);
+        GlStateManager.translated(x, y, z);
+        GlStateManager.rotatef(180.0F - entityYaw, 0.0F, 1.0F, 0.0F);
         GlStateManager.enableRescaleNormal();
         this.bindEntityTexture(entity);
         float f = 0.0625F;
-        GlStateManager.scale(f, f, f);
+        GlStateManager.scalef(f, f, f);
         if (this.renderOutlines) {
             GlStateManager.enableColorMaterial();
-            GlStateManager.enableOutlineMode(this.getTeamColor(entity));
+            GlStateManager.setupSolidRenderingTextureCombine(this.getTeamColor(entity));
         }
         this.renderBeastsPainting(entity, entity.art.sizeX, entity.art.sizeY);
 
         if (this.renderOutlines) {
-            GlStateManager.disableOutlineMode();
+            GlStateManager.tearDownSolidRenderingTextureCombine();
             GlStateManager.disableColorMaterial();
         }
 
@@ -105,7 +106,7 @@ public class RenderBeastsPainting extends EntityRenderer<EntityBeastsPainting> {
         int i = MathHelper.floor(BeastsPainting.posX);
         int j = MathHelper.floor(BeastsPainting.posY + (p_77008_3_ / 16.0F));
         int k = MathHelper.floor(BeastsPainting.posZ);
-        Direction enumfacing = BeastsPainting.facingDirection;
+        Direction enumfacing = BeastsPainting.getHorizontalFacing();
 
         if (enumfacing == Direction.NORTH) i = MathHelper.floor(BeastsPainting.posX + (p_77008_2_ / 16.0F));
         if (enumfacing == Direction.WEST) k = MathHelper.floor(BeastsPainting.posZ - (p_77008_2_ / 16.0F));
@@ -116,6 +117,6 @@ public class RenderBeastsPainting extends EntityRenderer<EntityBeastsPainting> {
         int i1 = l % 65536;
         int j1 = l / 65536;
         GLX.glMultiTexCoord2f(GLX.GL_TEXTURE1, (float) i1, (float) j1);
-        GlStateManager.color(1.0F, 1.0F, 1.0F);
+        GlStateManager.color3f(1.0F, 1.0F, 1.0F);
     }
 }

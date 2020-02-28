@@ -1,14 +1,13 @@
 package random.beasts.client.model;
 
-import net.minecraft.client.renderer.GlStateManager;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.MathHelper;
 import random.beasts.common.entity.passive.EntityLandwhale;
 
-public class ModelLandwhale extends EntityModel {
+public class ModelLandwhale extends EntityModel<EntityLandwhale> {
     public RendererModel body;
     public RendererModel armLeft;
     public RendererModel armRight;
@@ -125,26 +124,25 @@ public class ModelLandwhale extends EntityModel {
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+    public void render(EntityLandwhale entity, float f, float f1, float f2, float f3, float f4, float f5) {
         if (((LivingEntity) entity).isChild()) {
-            GlStateManager.scale(0.5F, 0.5F, 0.5F);
-            GlStateManager.translate(0.0F, 24.0F * f5, 0.0F);
+            GlStateManager.scalef(0.5F, 0.5F, 0.5F);
+            GlStateManager.translatef(0.0F, 24.0F * f5, 0.0F);
         }
-        if (entity.isSneaking()) GlStateManager.translate(0.0F, 0.2F, 0.0F);
+        if (entity.isSneaking()) GlStateManager.translatef(0.0F, 0.2F, 0.0F);
         this.body.render(f5);
     }
 
     @Override
-    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
-        super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
-        EntityLandwhale landwhale = (EntityLandwhale) entityIn;
+    public void setRotationAngles(EntityLandwhale entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
+        super.setRotationAngles(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
         float speed = 0.55f, degree = 0.75f;
         this.armLeft.rotateAngleX = MathHelper.cos(limbSwing * speed) * degree * limbSwingAmount;
         this.armRight.rotateAngleX = MathHelper.cos(limbSwing * speed + (float) Math.PI) * degree * limbSwingAmount;
         this.legLeft.rotateAngleX = MathHelper.cos(limbSwing * speed + (float) Math.PI) * degree * limbSwingAmount;
         this.legRight.rotateAngleX = MathHelper.cos(limbSwing * speed) * degree * limbSwingAmount;
         this.tailBase.rotateAngleY = MathHelper.cos(20 + limbSwing * speed) * degree * limbSwingAmount;
-        this.jaw.rotateAngleX = MathHelper.sin(landwhale.animationTicks * 0.01f) * 0.45f;
+        this.jaw.rotateAngleX = MathHelper.sin(entityIn.animationTicks * 0.01f) * 0.45f;
     }
 
     public void setRotateAngle(RendererModel modelRenderer, float x, float y, float z) {

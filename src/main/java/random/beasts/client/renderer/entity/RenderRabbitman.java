@@ -1,4 +1,4 @@
-package random.beasts.client.renderer.entity;
+/*package random.beasts.client.renderer.entity;
 
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
@@ -9,7 +9,7 @@ import random.beasts.common.entity.passive.EntityRabbitman;
 
 import javax.annotation.Nullable;
 
-public class RenderRabbitman extends MobRenderer<EntityRabbitman> {
+public class RenderRabbitman extends MobRenderer<EntityRabbitman, ModelRabbitman> {
 
     private static final ResourceLocation[] TEXTURES = new ResourceLocation[EntityRabbitman.VARIANTS];
 
@@ -29,3 +29,4 @@ public class RenderRabbitman extends MobRenderer<EntityRabbitman> {
         return TEXTURES[entity.getVariant()];
     }
 }
+*/

@@ -4,11 +4,12 @@ import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
 import random.beasts.client.model.ModelTrimola;
+import random.beasts.common.BeastsMod;
 import random.beasts.common.entity.monster.EntityTrimola;
 
 import javax.annotation.Nullable;
 
-public class RenderTrimola extends MobRenderer<EntityTrimola> {
+public class RenderTrimola extends MobRenderer<EntityTrimola, ModelTrimola> {
     private static final ResourceLocation[] NORMAL_TEXTURES = new ResourceLocation[]{new ResourceLocation(BeastsMod.MOD_ID, "textures/entity/trimola/texture_1.png"), new ResourceLocation(BeastsMod.MOD_ID, "textures/entity/trimola/texture_2.png")};
     private static final ResourceLocation[] SADDLE_TEXTURES = new ResourceLocation[]{new ResourceLocation(BeastsMod.MOD_ID, "textures/entity/trimola/saddle_1.png"), new ResourceLocation(BeastsMod.MOD_ID, "textures/entity/trimola/saddle_2.png")};
 

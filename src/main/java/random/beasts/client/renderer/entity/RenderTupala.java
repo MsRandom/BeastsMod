@@ -6,10 +6,11 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import random.beasts.client.model.ModelTupala;
+import random.beasts.common.BeastsMod;
 import random.beasts.common.entity.passive.EntityTupala;
 
 @OnlyIn(Dist.CLIENT)
-public class RenderTupala extends MobRenderer<EntityTupala> {
+public class RenderTupala extends MobRenderer<EntityTupala, ModelTupala> {
 
     private static final ResourceLocation TUPALA = new ResourceLocation(BeastsMod.MOD_ID, "textures/entity/tupala.png");
 

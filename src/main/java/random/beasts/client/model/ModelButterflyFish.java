@@ -2,14 +2,10 @@ package random.beasts.client.model;
 
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
-import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
+import random.beasts.common.entity.passive.EntityButterflyFish;
 
-/**
- * ModelButterflyfish - Tazz
- * Created using Tabula 7.1.0
- */
-public class ModelButterflyfish extends EntityModel {
+public class ModelButterflyFish extends EntityModel<EntityButterflyFish> {
     public RendererModel Body;
     public RendererModel Tailbase;
     public RendererModel Dorsalfinright;
@@ -21,7 +17,7 @@ public class ModelButterflyfish extends EntityModel {
     public RendererModel Pelvicfinleft;
     public RendererModel Tailfin;
 
-    public ModelButterflyfish() {
+    public ModelButterflyFish() {
         this.textureWidth = 64;
         this.textureHeight = 32;
         this.Pectoralfinleft = new RendererModel(this, 35, -2);
@@ -69,7 +65,7 @@ public class ModelButterflyfish extends EntityModel {
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
+    public void render(EntityButterflyFish entity, float f, float f1, float f2, float f3, float f4, float f5) {
         this.Body.render(f5);
     }
 
@@ -77,8 +73,8 @@ public class ModelButterflyfish extends EntityModel {
     float degree = 1.0f;
 
     @Override
-    public void setRotationAngles(float f, float f1, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
-        super.setRotationAngles(f, f1, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
+    public void setRotationAngles(EntityButterflyFish entityIn, float f, float f1, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
+        super.setRotationAngles(entityIn, f, f1, ageInTicks, netHeadYaw, headPitch, scaleFactor);
         this.Pelvicfinright.rotateAngleZ = MathHelper.cos((f * speed * 1.0F) + (float) Math.PI) * (degree * 1.0F) * f1 * 0.5F + 1.0F;
         this.Pelvicfinleft.rotateAngleZ = MathHelper.cos((f * speed * 1.0F) + (float) Math.PI) * (degree * -1.0F) * f1 * 0.5F + -1.0F;
         this.Pectoralfinleft.rotateAngleZ = MathHelper.cos(3.0F + (f * speed * 1.0F) + (float) Math.PI) * (degree * -1.0F) * f1 * 0.5F + -1.0F;

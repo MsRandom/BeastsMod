@@ -4,11 +4,12 @@ import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
 import random.beasts.client.model.ModelSlimeSlug;
+import random.beasts.common.BeastsMod;
 import random.beasts.common.entity.passive.EntitySlimeSlug;
 
 import javax.annotation.Nullable;
 
-public class RenderSlimeSlug extends MobRenderer<EntitySlimeSlug> {
+public class RenderSlimeSlug extends MobRenderer<EntitySlimeSlug, ModelSlimeSlug> {
 
     private static final ResourceLocation[] TEXTURES = new ResourceLocation[4];
 

@@ -1,6 +1,7 @@
 package random.beasts.common.entity.item;
 
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.IRendersAsItem;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
@@ -11,13 +12,17 @@ import random.beasts.common.entity.passive.EntityLandwhale;
 import random.beasts.common.init.BeastsEntities;
 import random.beasts.common.init.BeastsItems;
 
-public class EntityThrownCoconut extends ThrowableEntity {
+public class EntityThrownCoconut extends ThrowableEntity implements IRendersAsItem {
+    private final ItemStack stack;
+
     public EntityThrownCoconut(EntityType<? extends EntityThrownCoconut> type, World worldIn) {
         super(type, worldIn);
+        this.stack = ItemStack.EMPTY;
     }
 
-    public EntityThrownCoconut(World worldIn, LivingEntity throwerIn) {
+    public EntityThrownCoconut(ItemStack stack, World worldIn, LivingEntity throwerIn) {
         super(BeastsEntities.THROWN_COCONUT, throwerIn, worldIn);
+        this.stack = stack;
     }
 
     @Override
@@ -35,5 +40,10 @@ public class EntityThrownCoconut extends ThrowableEntity {
 
     @Override
     protected void registerData() {
+    }
+
+    @Override
+    public ItemStack getItem() {
+        return stack;
     }
 }

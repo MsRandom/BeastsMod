@@ -1,4 +1,4 @@
-package random.beasts.client.model;
+/*package random.beasts.client.model;
 
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
@@ -6,7 +6,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 import random.beasts.common.entity.monster.EntityWhippingBarnacle;
 
-public class ModelWhippingBarnacle extends EntityModel {
+public class ModelWhippingBarnacle extends EntityModel<EntityWhippingBarnacle> {
     public RendererModel body;
     public RendererModel toung1;
     public RendererModel toung2;
@@ -94,3 +94,4 @@ public class ModelWhippingBarnacle extends EntityModel {
         modelRenderer.rotateAngleZ = z;
     }
 }
+*/

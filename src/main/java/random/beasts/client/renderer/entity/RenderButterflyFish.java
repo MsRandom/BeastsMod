@@ -3,12 +3,13 @@ package random.beasts.client.renderer.entity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
-import random.beasts.client.model.ModelButterflyfish;
+import random.beasts.client.model.ModelButterflyFish;
+import random.beasts.common.BeastsMod;
 import random.beasts.common.entity.passive.EntityButterflyFish;
 
 import javax.annotation.Nullable;
 
-public class RenderButterflyFish extends MobRenderer<EntityButterflyFish> {
+public class RenderButterflyFish extends MobRenderer<EntityButterflyFish, ModelButterflyFish> {
 
 	private static final ResourceLocation[] TEXTURES = new ResourceLocation[4];
 
@@ -18,7 +19,7 @@ public class RenderButterflyFish extends MobRenderer<EntityButterflyFish> {
 	}
 
 	public RenderButterflyFish(EntityRendererManager rendermanagerIn) {
-		super(rendermanagerIn, new ModelButterflyfish(), 0.4f);
+		super(rendermanagerIn, new ModelButterflyFish(), 0.4f);
 	}
 
 	@Nullable

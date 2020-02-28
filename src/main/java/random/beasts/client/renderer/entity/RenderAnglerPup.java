@@ -6,10 +6,11 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import random.beasts.client.model.ModelAnglerPup;
+import random.beasts.common.BeastsMod;
 import random.beasts.common.entity.passive.EntityAnglerPup;
 
 @OnlyIn(Dist.CLIENT)
-public class RenderAnglerPup extends MobRenderer<EntityAnglerPup> {
+public class RenderAnglerPup extends MobRenderer<EntityAnglerPup, ModelAnglerPup> {
 
     private static final ResourceLocation TEXTURE = new ResourceLocation(BeastsMod.MOD_ID, "textures/entity/angler_pup.png");
 

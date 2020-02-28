@@ -1,13 +1,12 @@
 package random.beasts.client.model;
 
-import net.minecraft.client.renderer.GlStateManager;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
-import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 import random.beasts.common.entity.passive.EntityHermitTurtle;
 
-public class ModelHermitTurtle extends EntityModel {
+public class ModelHermitTurtle extends EntityModel<EntityHermitTurtle> {
     public RendererModel shell1;
     public RendererModel shell2;
     public RendererModel head;
@@ -49,22 +48,22 @@ public class ModelHermitTurtle extends EntityModel {
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+    public void render(EntityHermitTurtle entity, float f, float f1, float f2, float f3, float f4, float f5) {
         EntityHermitTurtle turtle = (EntityHermitTurtle) entity;
         this.head.offsetZ = turtle.exitTicks / 50f;
         this.leftArm.rotateAngleY = (turtle.exitTicks / 125f) - 0.2f;
         this.rightArm.rotateAngleY = (turtle.exitTicks / -125f) + 0.2f;
         if (turtle.isChild()) {
-            GlStateManager.scale(0.5F, 0.5F, 0.5F);
-            GlStateManager.translate(0.0F, 24.0F * f5, 0.0F);
+            GlStateManager.scalef(0.5F, 0.5F, 0.5F);
+            GlStateManager.translatef(0.0F, 24.0F * f5, 0.0F);
         }
-        if (turtle.isSneaking()) GlStateManager.translate(0.0F, 0.2F, 0.0F);
+        if (turtle.isSneaking()) GlStateManager.translatef(0.0F, 0.2F, 0.0F);
         this.shell1.render(f5);
     }
 
     @Override
-    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
-        super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
+    public void setRotationAngles(EntityHermitTurtle entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
+        super.setRotationAngles(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
         this.leftArm.rotateAngleX = MathHelper.cos(limbSwing * 0.1f) * 0.2f * limbSwingAmount;
         this.rightArm.rotateAngleX = MathHelper.cos(limbSwing * 0.1f) * -0.2f * limbSwingAmount;
     }

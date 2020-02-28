@@ -1,16 +1,17 @@
 package random.beasts.client.renderer.entity;
 
-import net.minecraft.client.renderer.GlStateManager;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import random.beasts.client.model.ModelVileEel;
+import random.beasts.common.BeastsMod;
 import random.beasts.common.entity.monster.EntityVileEel;
 
 @OnlyIn(Dist.CLIENT)
-public class RenderVileEel extends MobRenderer<EntityVileEel> {
+public class RenderVileEel extends MobRenderer<EntityVileEel, ModelVileEel> {
     private static final ResourceLocation TEXTURE = new ResourceLocation(BeastsMod.MOD_ID, "textures/entity/vile_eel.png");
 
     public RenderVileEel(EntityRendererManager rm) {
@@ -19,8 +20,8 @@ public class RenderVileEel extends MobRenderer<EntityVileEel> {
 
     @Override
     protected void preRenderCallback(EntityVileEel e, float partialTickTime) {
-        GlStateManager.scale(1.5F, 1.5F, 1.5F);
-        GlStateManager.translate(0.0F, 0.0F, 0.0F);
+        GlStateManager.scalef(1.5F, 1.5F, 1.5F);
+        GlStateManager.translatef(0.0F, 0.0F, 0.0F);
         super.preRenderCallback(e, partialTickTime);
     }
 

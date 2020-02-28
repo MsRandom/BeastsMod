@@ -2,11 +2,10 @@ package random.beasts.client.model;
 
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
-import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 import random.beasts.common.entity.monster.EntityTrimola;
 
-public class ModelTrimola extends EntityModel {
+public class ModelTrimola extends EntityModel<EntityTrimola> {
     public RendererModel body;
     public RendererModel head;
     public RendererModel backfin;
@@ -54,22 +53,24 @@ public class ModelTrimola extends EntityModel {
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+    public void render(EntityTrimola entity, float f, float f1, float f2, float f3, float f4, float f5) {
         this.body.render(f5);
     }
-    private float speed = 2.0F, degree = 1.0F;
+
     @Override
-    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
-        super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
+    public void setRotationAngles(EntityTrimola entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
+        super.setRotationAngles(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
         this.body.rotateAngleX = 0.0F;
         this.backleg.rotateAngleX = 0.0F;
         this.body.rotationPointY = 9;
-        if(entityIn instanceof EntityTrimola && ((EntityTrimola)entityIn).isRearing()){
+        if (entityIn.isRearing()) {
             limbSwing = entityIn.ticksExisted;
             limbSwingAmount = 0.23F;
             this.body.rotateAngleX = (float) Math.toRadians(-30.0F);
             this.body.rotationPointY = 7;
             this.backleg.rotateAngleX = (float) Math.toRadians(30.0F);
+            float speed = 2.0F;
+            float degree = 1.0F;
             this.leftfrontleg.rotateAngleX = MathHelper.cos((limbSwing * speed * 0.4F) + (float) Math.PI) * (degree * 1.8F) * limbSwingAmount * 0.5F;
             this.rightfrontleg.rotateAngleX = MathHelper.cos((limbSwing * speed * 0.4F) + (float) Math.PI) * (degree * -1.8F) * limbSwingAmount * 0.5F;
         }

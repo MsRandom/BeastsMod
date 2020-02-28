@@ -1,13 +1,13 @@
-package random.beasts.client.model;
+/*package random.beasts.client.model;
 
-import net.minecraft.client.renderer.GlStateManager;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.MathHelper;
 
-public class ModelRabbitman extends EntityModel {
+public class ModelRabbitman extends EntityModel<EntityRabbitman> {
     public RendererModel body;
     public RendererModel head;
     public RendererModel coatOverlay;
@@ -82,10 +82,10 @@ public class ModelRabbitman extends EntityModel {
     @Override
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         if (((LivingEntity) entity).isChild()) {
-            GlStateManager.scale(0.5F, 0.5F, 0.5F);
-            GlStateManager.translate(0.0F, 24.0F * f5, 0.0F);
+            GlStateManager.scalef(0.5F, 0.5F, 0.5F);
+            GlStateManager.translatef(0.0F, 24.0F * f5, 0.0F);
         }
-        if (entity.isSneaking()) GlStateManager.translate(0.0F, 0.2F, 0.0F);
+        if (entity.isSneaking()) GlStateManager.translatef(0.0F, 0.2F, 0.0F);
         this.body.render(f5);
     }
 
@@ -103,3 +103,4 @@ public class ModelRabbitman extends EntityModel {
         modelRenderer.rotateAngleZ = z;
     }
 }
+*/
