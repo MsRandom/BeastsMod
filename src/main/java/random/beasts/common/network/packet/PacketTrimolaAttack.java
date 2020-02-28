@@ -67,5 +67,6 @@ public class PacketTrimolaAttack {
                 }
             }
         });
+        ctx.setPacketHandled(true);
     }
 }

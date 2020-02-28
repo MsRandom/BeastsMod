@@ -4,14 +4,13 @@ import net.minecraft.util.Tuple;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.terraingen.PopulateChunkEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
+import net.minecraftforge.fml.network.PacketDistributor;
 import random.beasts.common.BeastsMod;
 
 import java.util.*;
@@ -27,7 +26,7 @@ public class UndergroundGenerationEvents {
 
     @SubscribeEvent
     public static void serverStarting(FMLServerStartingEvent event) {
-        BeastsMod.NETWORK_CHANNEL.registerMessage(0, new MessageUpdateBiomes.Handler(), MessageUpdateBiomes.class, Dist.CLIENT);
+        BeastsMod.NETWORK_CHANNEL.registerMessage(0, MessageUpdateBiomes.class, MessageUpdateBiomes::toBytes, MessageUpdateBiomes::fromBytes, MessageUpdateBiomes::onMessage);
     }
 
     @SubscribeEvent
@@ -64,14 +63,12 @@ public class UndergroundGenerationEvents {
     }
 
     private static void generate(World world, BlockPos pos, UndergroundBiomeBounds bounds, UndergroundBiome undergroundBiome, Random rand) {
-        UndergroundGenerationCapabilities.UndergroundBiomes biomes = world.getCapability(UndergroundGenerationCapabilities.CAPABILITY, null);
-        if (biomes != null) {
-            byte biome = (byte) (Biome.getIdForBiome(undergroundBiome) & 255);
+        world.getCapability(UndergroundGenerationCapabilities.CAPABILITY, null).ifPresent(biomes -> {
             biomes.biomeList.add(bounds);
-            BeastsMod.NETWORK_CHANNEL.sendToAll(new MessageUpdateBiomes(bounds));
+            BeastsMod.NETWORK_CHANNEL.send(PacketDistributor.DIMENSION.noArg(), new MessageUpdateBiomes(bounds));
             MinecraftForge.EVENT_BUS.post(new UndergroundBiomeEvent.Generate(world, rand, pos, bounds));
             undergroundBiome.populate(world, rand, pos, bounds);
             undergroundBiome.decorate(world, rand, pos, bounds);
-        }
+        });
     }
 }

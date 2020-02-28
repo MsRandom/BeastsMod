@@ -23,7 +23,6 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
-@SuppressWarnings("ConstantConditions")
 @Mod.EventBusSubscriber(modid = BeastsMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class UndergroundGenerationCapabilities implements ICapabilityProvider {
     @CapabilityInject(UndergroundBiomes.class)
