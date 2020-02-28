@@ -68,7 +68,6 @@ public class UndergroundGenerationEvents {
     private static void generate(World world, BlockPos pos, UndergroundBiomeBounds bounds, UndergroundBiome undergroundBiome, Random rand) {
         UndergroundGenerationCapabilities.UndergroundBiomes biomes = world.getCapability(UndergroundGenerationCapabilities.CAPABILITY, null);
         if (biomes != null) {
-            byte biome = (byte) (Biome.getIdForBiome(undergroundBiome) & 255);
             biomes.biomeList.add(bounds);
             BeastsReference.NETWORK_CHANNEL.sendToAll(new MessageUpdateBiomes(bounds));
             MinecraftForge.EVENT_BUS.post(new UndergroundBiomeEvent.Generate(world, rand, pos, bounds));
