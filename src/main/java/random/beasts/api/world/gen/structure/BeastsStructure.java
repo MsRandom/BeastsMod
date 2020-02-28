@@ -8,6 +8,7 @@ public abstract class BeastsStructure<T extends IFeatureConfig> extends Structur
     public final Runnable registerer;
 
     public BeastsStructure(Runnable registerer) {
+        super();
         this.registerer = registerer;
         BeastsRegistries.STRUCTURES.add(this);
     }

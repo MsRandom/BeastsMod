@@ -77,8 +77,8 @@ public class EntityRabbitman extends AgeableEntity implements INpc, IMerchant {
 
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new SwimGoal(this));
-        this.goalSelector.addGoal(1, new EntityAIAvoidEntity<>(this, EntityOcelot.class, 8.0F, 0.6D, 0.6D));
-        this.goalSelector.addGoal(1, new EntityAIAvoidEntity<>(this, EntityWolf.class, 8.0F, 0.8D, 0.8D));
+        this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, EntityOcelot.class, 8.0F, 0.6D, 0.6D));
+        this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, EntityWolf.class, 8.0F, 0.8D, 0.8D));
         this.goalSelector.addGoal(2, new EntityAIMoveIndoors(this));
         this.goalSelector.addGoal(3, new EntityAIRestrictOpenDoor(this));
         this.goalSelector.addGoal(4, new EntityAIOpenDoor(this, true));
@@ -312,7 +312,7 @@ public class EntityRabbitman extends AgeableEntity implements INpc, IMerchant {
                         this.setHeldItem(Hand.MAIN_HAND, new ItemStack(BeastsItems.DIAMOND_CARROT));
                         List<EntityRabbitman> innocents = world.getEntitiesWithinAABB(EntityRabbitman.class, this.getBoundingBox().grow(36), target -> target != this);
                         for (EntityRabbitman innocent : innocents)
-                            innocent.goalSelector.addGoal(0, new EntityAIAvoidEntity<>(this, EntityRabbitman.class, input -> input == this, 48, 0.25, 0.5));
+                            innocent.goalSelector.addGoal(0, new AvoidEntityGoal<>(this, EntityRabbitman.class, input -> input == this, 48, 0.25, 0.5));
                     }
                 }
             }

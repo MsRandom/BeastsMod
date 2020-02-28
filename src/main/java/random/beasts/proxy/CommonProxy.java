@@ -6,7 +6,6 @@ import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
 import random.beasts.api.main.BeastsUtils;
 import random.beasts.client.init.BeastsCreativeTabs;
-import random.beasts.common.block.BlockPalmTreeLeaves;
 import random.beasts.common.init.BeastsLootTables;
 import random.beasts.common.init.BeastsStructures;
 import random.beasts.common.init.BeastsTriggers;
@@ -45,9 +44,6 @@ public class CommonProxy {
 
     public String getArmorTexture(Item armorItem, EquipmentSlotType armorSlot) {
         return null;
-    }
-
-    public void setGraphicsLevel(BlockPalmTreeLeaves block, boolean enabled) {
     }
 
     /*private void registerOreDict() {

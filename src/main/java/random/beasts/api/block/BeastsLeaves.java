@@ -1,12 +1,12 @@
 package random.beasts.api.block;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LeavesBlock;
+import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorldReader;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
@@ -15,11 +15,9 @@ import java.util.List;
 import java.util.Random;
 
 public class BeastsLeaves extends LeavesBlock {
-    private final List<ItemStack> drops = Collections.singletonList(new ItemStack(this));
-    private int[] surroundings;
-
     public BeastsLeaves() {
-        this.setDefaultState(this.getDefaultState().withProperty(CHECK_DECAY, false).withProperty(DECAYABLE, false));
+        super(Block.Properties.create(Material.LEAVES));
+        this.setDefaultState(this.getDefaultState().with(PERSISTENT, true));
     }
 
     protected int getDecayArea() {
@@ -30,10 +28,11 @@ public class BeastsLeaves extends LeavesBlock {
         return 10;
     }
 
+    //TODO
     @Override
-    public void updateTick(World worldIn, BlockPos pos, BlockState state, Random rand) {
-        if (!worldIn.isRemote) {
-            if (state.getValue(CHECK_DECAY) && state.getValue(DECAYABLE)) {
+    public void tick(BlockState state, World worldIn, BlockPos pos, Random rand) {
+        /*if (!worldIn.isRemote) {
+            if (state.get(CHECK_DECAY) && state.get(DECAYABLE)) {
                 int i = getDecayArea();
                 int j = getCheckArea();
                 int k = pos.getX();
@@ -99,26 +98,21 @@ public class BeastsLeaves extends LeavesBlock {
 
                     int l2 = this.surroundings[16912];
 
-                    if (l2 >= 0) worldIn.setBlockState(pos, state.withProperty(CHECK_DECAY, false), 4);
+                    if (l2 >= 0) worldIn.setBlockState(pos, state.with(CHECK_DECAY, false), 4);
                     else this.destroy(worldIn, pos);
                 }
             }
-        }
+        }*/
     }
 
     private void destroy(World worldIn, BlockPos pos) {
-        this.dropBlockAsItem(worldIn, pos, worldIn.getBlockState(pos), 0);
-        worldIn.removeBlock(pos);
-    }
-
-    @Override
-    public BlockPlanks.EnumType getWoodType(int meta) {
-        return BlockPlanks.EnumType.OAK;
+        //this.dropBlockAsItem(worldIn, pos, worldIn.getBlockState(pos), 0);
+        worldIn.removeBlock(pos, false);
     }
 
     @Nonnull
     @Override
-    public List<ItemStack> onSheared(@Nonnull ItemStack item, IWorldReader world, BlockPos pos, int fortune) {
-        return drops;
+    public List<ItemStack> onSheared(@Nonnull ItemStack item, IWorld world, BlockPos pos, int fortune) {
+        return Collections.singletonList(new ItemStack(this).copy());
     }
 }

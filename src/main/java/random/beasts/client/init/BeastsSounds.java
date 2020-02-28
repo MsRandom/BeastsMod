@@ -2,6 +2,7 @@ package random.beasts.client.init;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import random.beasts.common.BeastsMod;
 
 import java.util.ArrayList;
 import java.util.List;

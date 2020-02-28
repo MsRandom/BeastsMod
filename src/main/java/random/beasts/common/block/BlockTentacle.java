@@ -3,14 +3,13 @@ package random.beasts.common.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockFaceShape;
-import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
+import net.minecraft.state.IntegerProperty;
+import net.minecraft.state.PropertyBool;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -27,12 +26,12 @@ import java.util.Random;
 
 public class BlockTentacle extends BlockBush {
 
-    public static final PropertyInteger SIZE = PropertyInteger.create("size", 1, 8);
+    public static final IntegerProperty SIZE = IntegerProperty.create("size", 1, 8);
     public static final PropertyBool FULL = PropertyBool.create("full");
     private static final AxisAlignedBB[] BOUNDING_BOXES = new AxisAlignedBB[8];
 
     public BlockTentacle() {
-        this.setDefaultState(this.getDefaultState().withProperty(SIZE, 8).withProperty(FULL, false));
+        this.setDefaultState(this.getDefaultState().with(SIZE, 8).with(FULL, false));
         BeastsUtils.addToRegistry(this, "tentacle", null);
     }
 
@@ -43,14 +42,14 @@ public class BlockTentacle extends BlockBush {
     }
 
     @Override
-    public void updateTick(World worldIn, BlockPos pos, BlockState state, Random rand) {
-        super.updateTick(worldIn, pos, state, rand);
+    public void tick(World worldIn, BlockPos pos, BlockState state, Random rand) {
+        super.tick(worldIn, pos, state, rand);
 
     }
 
     @Override
     public AxisAlignedBB getBoundingBox(BlockState state, IWorldReader source, BlockPos pos) {
-        int index = state.getValue(SIZE) - 1;
+        int index = state.get(SIZE) - 1;
         if (BOUNDING_BOXES[index] == null)
             BOUNDING_BOXES[index] = new AxisAlignedBB(0.375, 1, 0.375, 0.625, 1 - ((index + 1) * 0.125), 0.625);
         return BOUNDING_BOXES[index];
@@ -76,11 +75,6 @@ public class BlockTentacle extends BlockBush {
     }
 
     @Override
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, SIZE, FULL);
-    }
-
-    @Override
     public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, BlockState state, Entity entityIn) {
         super.onEntityCollidedWithBlock(worldIn, pos, state, entityIn);
         if (entityIn instanceof LivingEntity) {
@@ -90,18 +84,6 @@ public class BlockTentacle extends BlockBush {
                 if (entity.isPotionApplicable(effect)) entity.addPotionEffect(effect);
             }
         }
-    }
-
-    @Override
-    public BlockState getStateFromMeta(int meta) {
-        int i = meta + 1;
-        boolean full = i > 8;
-        return getDefaultState().withProperty(SIZE, full ? i - 8 : i).withProperty(FULL, full);
-    }
-
-    @Override
-    public int getMetaFromState(BlockState state) {
-        return state.getValue(SIZE) + (state.getValue(FULL) ? 8 : 0) - 1;
     }
 
     public BlockFaceShape getBlockFaceShape(IWorldReader worldIn, BlockState state, BlockPos pos, Direction face) {

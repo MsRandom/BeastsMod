@@ -43,7 +43,7 @@ public class BlockCoconut extends ContainerBlock {
         worldIn.scheduleUpdate(pos, this, this.tickRate(worldIn));
     }
 
-    public void updateTick(World worldIn, BlockPos pos, BlockState state, Random rand) {
+    public void tick(World worldIn, BlockPos pos, BlockState state, Random rand) {
         if (!worldIn.isRemote) this.checkFallable(worldIn, pos);
     }
 

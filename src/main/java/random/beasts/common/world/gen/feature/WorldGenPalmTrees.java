@@ -21,7 +21,7 @@ public class WorldGenPalmTrees extends WorldGenAbstractTree {
     public boolean generate(World world, Random rand, BlockPos position) {
         if (world.getBlockState(position.down()).getBlock() == Blocks.SAND) {
             BlockState log = BeastsBlocks.PALM_LOG.getDefaultState();
-            BlockState leaves = BeastsBlocks.PALM_LEAVES.getDefaultState().withProperty(BlockLeaves.CHECK_DECAY, true).withProperty(BlockLeaves.DECAYABLE, true);
+            BlockState leaves = BeastsBlocks.PALM_LEAVES.getDefaultState().with(BlockLeaves.CHECK_DECAY, true).with(BlockLeaves.DECAYABLE, true);
             int height = rand.nextInt(4) + 7;
             int radius = rand.nextInt(2) + 2;
             if (radius % 2 == 0) radius += 1;

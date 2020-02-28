@@ -37,9 +37,9 @@ public class BeastsItems {
     public static final Item CRAB_LEG = new BeastsFood("crab_leg", 2, 0.1F);
     public static final Item COOKED_CRAB_LEG = new BeastsFood("cooked_crab_leg", 6, 0.6F);
     public static final Item COCONUT = new ItemCoconut();
-    public static final Item SHRIMP = new BeastsFood("shrimp", 2, 0.2F, new EffectInstance(Effects.HUNGER, 600, 0), 0.3f);
+    public static final Item SHRIMP = new BeastsFood("shrimp", new Item.Properties().group(BeastsUtils.getRegistryTab()).food(new Food.Builder().hunger(2).saturation(0.2f).effect(new EffectInstance(Effects.HUNGER, 600, 0), 0.3f).build()));
     public static final Item COOKED_SHRIMP = new BeastsFood("cooked_shrimp", 6, 0.5F);
-    public static final Item RAW_KEBAB = new BeastsFood("raw_kebab", 4, 0.3F, new EffectInstance(Effects.HUNGER, 600, 0), 0.3f);
+    public static final Item RAW_KEBAB = new BeastsFood("raw_kebab", new Item.Properties().group(BeastsUtils.getRegistryTab()).food(new Food.Builder().hunger(4).saturation(0.3f).effect(new EffectInstance(Effects.HUNGER, 600, 0), 0.3f).build()));
     public static final Item SCALLOP_TONGUE = new ItemScallopTongue(false, 2, 0.1F, 200);
     public static final Item COOKED_SCALLOP_TONGUE = new ItemScallopTongue(true, 5, 0.6F, 100);
     public static final Item COOKED_KEBAB = new BeastsFood("cooked_kebab", 8, 0.7F);

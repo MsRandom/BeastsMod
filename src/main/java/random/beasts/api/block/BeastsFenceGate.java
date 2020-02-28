@@ -1,14 +1,13 @@
 package random.beasts.api.block;
 
-import net.minecraft.block.BlockFenceGate;
-import net.minecraft.block.BlockPlanks;
+import net.minecraft.block.Block;
+import net.minecraft.block.FenceGateBlock;
+import net.minecraft.block.material.Material;
 import random.beasts.api.main.BeastsUtils;
 
-public class BeastsFenceGate extends BlockFenceGate {
+public class BeastsFenceGate extends FenceGateBlock {
     public BeastsFenceGate(String name) {
-        super(BlockPlanks.EnumType.ACACIA);
-        setHardness(2.0F);
-        setResistance(5.0F);
+        super(Block.Properties.create(Material.WOOD).hardnessAndResistance(2, 5));
         BeastsUtils.addToRegistry(this, name + "_gate");
     }
 }

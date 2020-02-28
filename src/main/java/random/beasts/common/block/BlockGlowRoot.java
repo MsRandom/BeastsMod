@@ -52,7 +52,7 @@ public class BlockGlowRoot extends BeastsBlock {
         return NULL_AABB;
     }
 
-    public void updateTick(World worldIn, BlockPos pos, BlockState state, Random rand) {
+    public void tick(World worldIn, BlockPos pos, BlockState state, Random rand) {
         this.checkAndDropBlock(worldIn, pos, state);
     }
 

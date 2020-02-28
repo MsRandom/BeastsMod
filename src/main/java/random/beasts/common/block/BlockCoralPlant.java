@@ -5,12 +5,12 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.state.PropertyBool;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.NonNullList;
@@ -45,7 +45,7 @@ public class BlockCoralPlant extends BeastsBlock {
         this.color = color;
         setHardness(2.0F);
         setSoundType(SoundType.PLANT);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(NORTH, false).withProperty(EAST, false).withProperty(SOUTH, false).withProperty(WEST, false).withProperty(UP, false).withProperty(DOWN, false));
+        this.setDefaultState(this.stateContainer.getBaseState().with(NORTH, false).with(EAST, false).with(SOUTH, false).with(WEST, false).with(UP, false).with(DOWN, false));
     }
 
     @Override
@@ -66,18 +66,18 @@ public class BlockCoralPlant extends BeastsBlock {
         Block block3 = worldIn.getBlockState(pos.east()).getBlock();
         Block block4 = worldIn.getBlockState(pos.south()).getBlock();
         Block block5 = worldIn.getBlockState(pos.west()).getBlock();
-        return state.withProperty(DOWN, block == this || block instanceof BlockCoral || block == Blocks.SAND).withProperty(UP, block1 == this || block1 instanceof BlockCoral).withProperty(NORTH, block2 == this || block2 instanceof BlockCoral).withProperty(EAST, block3 == this || block3 instanceof BlockCoral).withProperty(SOUTH, block4 == this || block4 instanceof BlockCoral).withProperty(WEST, block5 == this || block5 instanceof BlockCoral);
+        return state.with(DOWN, block == this || block instanceof BlockCoral || block == Blocks.SAND).with(UP, block1 == this || block1 instanceof BlockCoral).with(NORTH, block2 == this || block2 instanceof BlockCoral).with(EAST, block3 == this || block3 instanceof BlockCoral).with(SOUTH, block4 == this || block4 instanceof BlockCoral).with(WEST, block5 == this || block5 instanceof BlockCoral);
     }
 
     public AxisAlignedBB getBoundingBox(BlockState state, IWorldReader source, BlockPos pos) {
         state = state.getActualState(source, pos);
         float f = 0.1875F;
-        float f1 = state.getValue(WEST) ? 0.0F : f;
-        float f2 = state.getValue(DOWN) ? 0.0F : f;
-        float f3 = state.getValue(NORTH) ? 0.0F : f;
-        float f4 = state.getValue(EAST) ? 1.0F : 0.8125F;
-        float f5 = state.getValue(UP) ? 1.0F : 0.8125F;
-        float f6 = state.getValue(SOUTH) ? 1.0F : 0.8125F;
+        float f1 = state.get(WEST) ? 0.0F : f;
+        float f2 = state.get(DOWN) ? 0.0F : f;
+        float f3 = state.get(NORTH) ? 0.0F : f;
+        float f4 = state.get(EAST) ? 1.0F : 0.8125F;
+        float f5 = state.get(UP) ? 1.0F : 0.8125F;
+        float f6 = state.get(SOUTH) ? 1.0F : 0.8125F;
         return new AxisAlignedBB(f1, f2, f3, f4, f5, f6);
     }
 
@@ -86,17 +86,17 @@ public class BlockCoralPlant extends BeastsBlock {
         float f = 0.1875F;
         float f1 = 0.8125F;
         addCollisionBoxToList(pos, entityBox, collidingBoxes, new AxisAlignedBB(f, f, f, f1, f1, f1));
-        if (state.getValue(WEST))
+        if (state.get(WEST))
             addCollisionBoxToList(pos, entityBox, collidingBoxes, new AxisAlignedBB(0.0D, f, f, f, f1, f1));
-        if (state.getValue(EAST))
+        if (state.get(EAST))
             addCollisionBoxToList(pos, entityBox, collidingBoxes, new AxisAlignedBB(f1, f, f, 1.0D, f1, f1));
-        if (state.getValue(UP))
+        if (state.get(UP))
             addCollisionBoxToList(pos, entityBox, collidingBoxes, new AxisAlignedBB(f, f1, f, f1, 1.0D, f1));
-        if (state.getValue(DOWN))
+        if (state.get(DOWN))
             addCollisionBoxToList(pos, entityBox, collidingBoxes, new AxisAlignedBB(f, 0.0D, f, f1, f, f1));
-        if (state.getValue(NORTH))
+        if (state.get(NORTH))
             addCollisionBoxToList(pos, entityBox, collidingBoxes, new AxisAlignedBB(f, f, 0.0D, f1, f1, f));
-        if (state.getValue(SOUTH))
+        if (state.get(SOUTH))
             addCollisionBoxToList(pos, entityBox, collidingBoxes, new AxisAlignedBB(f, f, f1, f1, f1, 1.0D));
     }
 
@@ -104,7 +104,7 @@ public class BlockCoralPlant extends BeastsBlock {
         return 0;
     }
 
-    public void updateTick(World worldIn, BlockPos pos, BlockState state, Random rand) {
+    public void tick(World worldIn, BlockPos pos, BlockState state, Random rand) {
         if (!this.canSurviveAt(worldIn, pos)) worldIn.destroyBlock(pos, true);
     }
 

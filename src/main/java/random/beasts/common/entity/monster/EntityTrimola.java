@@ -83,7 +83,7 @@ public class EntityTrimola extends TameableEntity implements IInventoryChangedLi
             if (motion.z <= 0.0F) motion = motion.mul(0, 0, 0.25F);
 
             if (this.canPassengerSteer()) {
-                this.setAIMoveSpeed((float) this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue());
+                this.setAIMoveSpeed((float) this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).get());
                 super.travel(motion);
             } else if (entitylivingbase instanceof PlayerEntity) {
                 setMotion(0, 0, 0);

@@ -4,10 +4,9 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
-import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
+import net.minecraft.state.EnumProperty;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorldReader;
@@ -17,11 +16,11 @@ import random.beasts.common.item.ItemCoralBlock;
 @SuppressWarnings("deprecation")
 public class BlockCoral extends BeastsBlock {
 
-    public static final PropertyEnum<CoralColor> COLOR = PropertyEnum.create("color", CoralColor.class);
+    public static final EnumProperty<CoralColor> COLOR = EnumProperty.create("color", CoralColor.class);
 
     public BlockCoral() {
         super(Material.PLANTS, "coral_block", ItemCoralBlock::new);
-        setDefaultState(getDefaultState().withProperty(COLOR, CoralColor.BLUE));
+        setDefaultState(getDefaultState().with(COLOR, CoralColor.BLUE));
         setHardness(0.6F);
         setSoundType(SoundType.PLANT);
     }
@@ -32,27 +31,12 @@ public class BlockCoral extends BeastsBlock {
     }
 
     @Override
-    public int getMetaFromState(BlockState state) {
-        return state.getValue(COLOR).ordinal();
-    }
-
-    @Override
-    public BlockState getStateFromMeta(int meta) {
-        return getDefaultState().withProperty(COLOR, CoralColor.values()[meta]);
-    }
-
-    @Override
     public int damageDropped(BlockState state) {
-        return state.getValue(COLOR).ordinal();
-    }
-
-    @Override
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, COLOR);
+        return state.get(COLOR).ordinal();
     }
 
     @Override
     public MaterialColor getMaterialColor(BlockState state, IWorldReader worldIn, BlockPos pos) {
-        return state.getValue(COLOR).mapColor;
+        return state.get(COLOR).mapColor;
     }
 }

@@ -49,26 +49,26 @@ public class BiomeAbyss extends UndergroundBiome {
 					Math.pow(posit.getZ() - center.getZ(), 2) / Math.pow(radiusZ, 2);
 
 			if (a < 1) {
-				if (world.getBlockState(posit) == Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.GRANITE)) {
-					world.setBlockState(posit, Blocks.PRISMARINE.getDefaultState().withProperty(BlockPrismarine.VARIANT, BlockPrismarine.EnumType.DARK), 16);
-				}
-				if (world.getBlockState(posit) == Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.ANDESITE)) {
-					world.setBlockState(posit, BeastsBlocks.ABYSSAL_STONE.getDefaultState(), 16);
-				}
-				if (world.getBlockState(posit) == Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.DIORITE)) {
-					world.setBlockState(posit, Blocks.PRISMARINE.getDefaultState().withProperty(BlockPrismarine.VARIANT, BlockPrismarine.EnumType.ROUGH), 16);
-				}
-				if (world.getBlockState(posit) == Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.STONE) ||
-						world.getBlockState(posit) == Blocks.GRAVEL.getDefaultState() || world.getBlockState(posit) == Blocks.DIRT.getDefaultState()) {
-					if (rand.nextInt(200) == 0)
-						world.setBlockState(posit, Blocks.SEA_LANTERN.getDefaultState(), 16);
-					else
-						world.setBlockState(posit, BeastsBlocks.ABYSSAL_STONE.getDefaultState(), 16);
-				}
-				if (world.getBlockState(posit).getBlock() == Blocks.IRON_ORE) {
-					world.setBlockState(posit, BeastsBlocks.ABYSSAL_IRON_ORE.getDefaultState(), 16);
-				}
-				if (world.getBlockState(posit).getBlock() == Blocks.GOLD_ORE) {
+                if (world.getBlockState(posit) == Blocks.STONE.getDefaultState().with(BlockStone.VARIANT, BlockStone.EnumType.GRANITE)) {
+                    world.setBlockState(posit, Blocks.PRISMARINE.getDefaultState().with(BlockPrismarine.VARIANT, BlockPrismarine.EnumType.DARK), 16);
+                }
+                if (world.getBlockState(posit) == Blocks.STONE.getDefaultState().with(BlockStone.VARIANT, BlockStone.EnumType.ANDESITE)) {
+                    world.setBlockState(posit, BeastsBlocks.ABYSSAL_STONE.getDefaultState(), 16);
+                }
+                if (world.getBlockState(posit) == Blocks.STONE.getDefaultState().with(BlockStone.VARIANT, BlockStone.EnumType.DIORITE)) {
+                    world.setBlockState(posit, Blocks.PRISMARINE.getDefaultState().with(BlockPrismarine.VARIANT, BlockPrismarine.EnumType.ROUGH), 16);
+                }
+                if (world.getBlockState(posit) == Blocks.STONE.getDefaultState().with(BlockStone.VARIANT, BlockStone.EnumType.STONE) ||
+                        world.getBlockState(posit) == Blocks.GRAVEL.getDefaultState() || world.getBlockState(posit) == Blocks.DIRT.getDefaultState()) {
+                    if (rand.nextInt(200) == 0)
+                        world.setBlockState(posit, Blocks.SEA_LANTERN.getDefaultState(), 16);
+                    else
+                        world.setBlockState(posit, BeastsBlocks.ABYSSAL_STONE.getDefaultState(), 16);
+                }
+                if (world.getBlockState(posit).getBlock() == Blocks.IRON_ORE) {
+                    world.setBlockState(posit, BeastsBlocks.ABYSSAL_IRON_ORE.getDefaultState(), 16);
+                }
+                if (world.getBlockState(posit).getBlock() == Blocks.GOLD_ORE) {
 					world.setBlockState(posit, BeastsBlocks.ABYSSAL_GOLD_ORE.getDefaultState(), 16);
 				}
 				if (world.getBlockState(posit).getBlock() == Blocks.LAPIS_ORE) {
@@ -77,30 +77,30 @@ public class BiomeAbyss extends UndergroundBiome {
 				if (world.getBlockState(posit).getBlock() == Blocks.REDSTONE_ORE) {
 					world.setBlockState(posit, BeastsBlocks.ABYSSAL_REDSTONE_ORE.getDefaultState(), 16);
 				}
-				if (world.getBlockState(posit).getBlock() == Blocks.COAL_ORE) {
-					world.setBlockState(posit, BeastsBlocks.ABYSSAL_COAL_ORE.getDefaultState(), 16);
-				}
-				if (world.getBlockState(posit).getBlock() == Blocks.DIAMOND_ORE) {
-					world.setBlockState(posit, BeastsBlocks.ABYSSAL_DIAMOND_ORE.getDefaultState(), 16);
-				}
+                if (world.getBlockState(posit).getBlock() == Blocks.COAL_ORE) {
+                    world.setBlockState(posit, BeastsBlocks.ABYSSAL_COAL_ORE.getDefaultState(), 16);
+                }
+                if (world.getBlockState(posit).getBlock() == Blocks.DIAMOND_ORE) {
+                    world.setBlockState(posit, BeastsBlocks.ABYSSAL_DIAMOND_ORE.getDefaultState(), 16);
+                }
 
-				int layer1_height = 8;
-				int layer2_height = 22;
+                int layer1_height = 8;
+                int layer2_height = 22;
 
-				double d0 = CAVE_NOISE_LAYER_1.getValue((double) posit.getX() * 1.6667f, (double) posit.getZ() * 1.6667f) * 0.09d;
-				if (posit.getY() < Math.round((float) -d0) + minY + layer1_height && posit.getY() > Math.round((float) d0 * 0.333f) + minY + layer1_height) {
-					world.setBlockState(posit, Blocks.AIR.getDefaultState(), 16);
-				} else if (posit.getY() <= Math.round((float) d0 * 0.333f) + minY + layer1_height && posit.getY() > Math.round((float) d0 * 0.5f) + minY + layer1_height) {
-					world.setBlockState(posit, BeastsBlocks.ABYSSAL_SAND.getDefaultState(), 16);
-				}
+                double d0 = CAVE_NOISE_LAYER_1.get((double) posit.getX() * 1.6667f, (double) posit.getZ() * 1.6667f) * 0.09d;
+                if (posit.getY() < Math.round((float) -d0) + minY + layer1_height && posit.getY() > Math.round((float) d0 * 0.333f) + minY + layer1_height) {
+                    world.setBlockState(posit, Blocks.AIR.getDefaultState(), 16);
+                } else if (posit.getY() <= Math.round((float) d0 * 0.333f) + minY + layer1_height && posit.getY() > Math.round((float) d0 * 0.5f) + minY + layer1_height) {
+                    world.setBlockState(posit, BeastsBlocks.ABYSSAL_SAND.getDefaultState(), 16);
+                }
 
-				double d1 = CAVE_NOISE_LAYER_2.getValue((double) posit.getX() * 1.6667f, (double) posit.getZ() * 1.6667f) * 0.09d;
-				if (posit.getY() < Math.round((float) -d1) + minY + layer2_height && posit.getY() > Math.round((float) d1 * 0.333f) + minY + layer2_height) {
-					world.setBlockState(posit, Blocks.AIR.getDefaultState(), 16);
-				} else if (posit.getY() <= Math.round((float) d1 * 0.333f) + minY + layer2_height && posit.getY() > Math.round((float) d1 * 0.5f) + minY + layer2_height) {
-					world.setBlockState(posit, BeastsBlocks.ABYSSAL_SAND.getDefaultState(), 16);
-				}
-			}
+                double d1 = CAVE_NOISE_LAYER_2.get((double) posit.getX() * 1.6667f, (double) posit.getZ() * 1.6667f) * 0.09d;
+                if (posit.getY() < Math.round((float) -d1) + minY + layer2_height && posit.getY() > Math.round((float) d1 * 0.333f) + minY + layer2_height) {
+                    world.setBlockState(posit, Blocks.AIR.getDefaultState(), 16);
+                } else if (posit.getY() <= Math.round((float) d1 * 0.333f) + minY + layer2_height && posit.getY() > Math.round((float) d1 * 0.5f) + minY + layer2_height) {
+                    world.setBlockState(posit, BeastsBlocks.ABYSSAL_SAND.getDefaultState(), 16);
+                }
+            }
 		}
 		Random random = new Random(center.toLong());
 		this.generateCave(world, pos, rand, bounds);
@@ -119,15 +119,15 @@ public class BiomeAbyss extends UndergroundBiome {
 		BlockPos center = new BlockPos(bounds.minX * 16, minY, bounds.minZ * 16).add(radiusX, radiusY, radiusZ);
 
 		for (int y = -16; y <= 16; ++y) {
-			int x = 0;//Math.round((float)cave_noise.getValue(chunk.getXStart(), (double)y)*radiusX);
-			int z = 0;//Math.round((float) cave_noise.getValue(chunk.getZStart(), y) * radiusZ);
-			BlockPos position = center.add(x, y, z);
-			double a = Math.pow(position.getX() - center.getX(), 2) / Math.pow(radiusX, 2) +
-					Math.pow(position.getY() - center.getY(), 2) / Math.pow(radiusY, 2) +
-					Math.pow(position.getZ() - center.getZ(), 2) / Math.pow(radiusZ, 2);
-			if (a < 1)
-				this.clearSphere(world, (1d - a) * 5, position, chunk);
-		}
+            int x = 0;//Math.round((float)cave_noise.get(chunk.getXStart(), (double)y)*radiusX);
+            int z = 0;//Math.round((float) cave_noise.get(chunk.getZStart(), y) * radiusZ);
+            BlockPos position = center.add(x, y, z);
+            double a = Math.pow(position.getX() - center.getX(), 2) / Math.pow(radiusX, 2) +
+                    Math.pow(position.getY() - center.getY(), 2) / Math.pow(radiusY, 2) +
+                    Math.pow(position.getZ() - center.getZ(), 2) / Math.pow(radiusZ, 2);
+            if (a < 1)
+                this.clearSphere(world, (1d - a) * 5, position, chunk);
+        }
 	}
 
 	public void clearSphere(World world, double radius, BlockPos pos, ChunkPos chunkPos) {

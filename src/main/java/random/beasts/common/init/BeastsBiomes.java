@@ -2,6 +2,9 @@ package random.beasts.common.init;
 
 import net.minecraft.world.WorldType;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.IFeatureConfig;
+import net.minecraft.world.gen.feature.structure.VillageConfig;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeManager;
 import random.beasts.api.world.biome.underground.UndergroundBiome;
@@ -15,15 +18,15 @@ public class BeastsBiomes {
     public static final Biome DRIED_REEF = new BiomeDriedReef();
     public static final UndergroundBiome THE_ABYSS = new BiomeAbyss(DRIED_REEF);
 
-    public static void addTypes(Biome biome, BiomeManager.BiomeType mainType, int weight, boolean stronghold, boolean village, BiomeDictionary.Type... types) {
+    public static void addTypes(Biome biome, BiomeManager.BiomeType mainType, int weight, boolean stronghold, VillageConfig village, BiomeDictionary.Type... types) {
         BiomeManager.addBiome(mainType, new BiomeManager.BiomeEntry(biome, weight));
         BiomeManager.addSpawnBiome(biome);
-        if (stronghold) BiomeManager.addStrongholdBiome(biome);
-        if (village) BiomeManager.addVillageBiome(biome, false);
+        if (stronghold) biome.addStructure(Feature.STRONGHOLD, IFeatureConfig.NO_FEATURE_CONFIG);
+        if (village != null) biome.addStructure(Feature.VILLAGE, village);
         BiomeDictionary.addTypes(biome, types);
     }
 
     public static void addTypes(Biome biome, BiomeManager.BiomeType mainType, int weight, BiomeDictionary.Type... types) {
-        addTypes(biome, mainType, weight, true, false, types);
+        addTypes(biome, mainType, weight, true, null, types);
     }
 }

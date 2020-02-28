@@ -20,7 +20,7 @@ public class WorldGenJellyfishTrees extends WorldGenAbstractTree {
     public boolean generate(World worldIn, Random rand, BlockPos position) {
         if (worldIn.getBlockState(position.down()).getBlock() == Blocks.SAND) {
             BlockState log = BeastsBlocks.JELLY_WOOD.getDefaultState();
-            BlockState leaves = BeastsBlocks.JELLY_LEAVES.getDefaultState().withProperty(BlockLeaves.CHECK_DECAY, true).withProperty(BlockLeaves.DECAYABLE, true);
+            BlockState leaves = BeastsBlocks.JELLY_LEAVES.getDefaultState().with(BlockLeaves.CHECK_DECAY, true).with(BlockLeaves.DECAYABLE, true);
             int height = rand.nextInt(3) + 4;
             int radius = rand.nextInt(5) + 8;
             if (radius % 2 == 0) radius += 1;
@@ -84,10 +84,10 @@ public class WorldGenJellyfishTrees extends WorldGenAbstractTree {
             int size = rand.nextInt(16) + 1;
             boolean full = size > 8;
             BlockState state = BeastsBlocks.TENTACLE.getDefaultState();
-            setBlockAndNotifyAdequately(world, lower, full ? state.withProperty(BlockTentacle.FULL, true) : state.withProperty(BlockTentacle.SIZE, 8));
-            setBlockAndNotifyAdequately(world, lower.down(), full ? state.withProperty(BlockTentacle.FULL, true) : state.withProperty(BlockTentacle.SIZE, size));
+            setBlockAndNotifyAdequately(world, lower, full ? state.with(BlockTentacle.FULL, true) : state.with(BlockTentacle.SIZE, 8));
+            setBlockAndNotifyAdequately(world, lower.down(), full ? state.with(BlockTentacle.FULL, true) : state.with(BlockTentacle.SIZE, size));
             if (full)
-                setBlockAndNotifyAdequately(world, lower.down().down(), state.withProperty(BlockTentacle.SIZE, size - 8));
+                setBlockAndNotifyAdequately(world, lower.down().down(), state.with(BlockTentacle.SIZE, size - 8));
         }
     }
 

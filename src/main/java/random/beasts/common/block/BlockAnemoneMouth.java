@@ -1,13 +1,12 @@
 package random.beasts.common.block;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.block.properties.PropertyInteger;
-import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.state.IntegerProperty;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Tuple;
@@ -21,13 +20,13 @@ import java.util.Map;
 import java.util.Random;
 
 public class BlockAnemoneMouth extends BeastsAnemoneBlock {
-    public static final PropertyInteger FED = PropertyInteger.create("fed", 0, 6);
+    public static final IntegerProperty FED = IntegerProperty.create("fed", 0, 6);
     private static Map<ItemStack, Tuple<Integer, Integer>> dropTable;
     private static ItemStack[] items;
 
     public BlockAnemoneMouth() {
         super("mouth");
-        this.setDefaultState(getDefaultState().withProperty(FED, 0));
+        this.setDefaultState(getDefaultState().with(FED, 0));
     }
 
     @Override
@@ -41,22 +40,12 @@ public class BlockAnemoneMouth extends BeastsAnemoneBlock {
     }
 
     @Override
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, FED);
-    }
-
-    @Override
-    public int getMetaFromState(BlockState state) {
-        return 0;
-    }
-
-    @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, BlockState state, PlayerEntity playerIn, Hand hand, Direction facing, float hitX, float hitY, float hitZ) {
         ItemStack stack = playerIn.getHeldItem(hand);
         if (stack.getItem() == BeastsItems.MEAT_SCRAPES) {
             if (!playerIn.abilities.isCreativeMode) stack.shrink(1);
-            BlockState newState = state.cycleProperty(FED);
-            int fed = newState.getValue(FED);
+            BlockState newState = state.cycle(FED);
+            int fed = newState.get(FED);
             if (fed == 0 || (fed > 3 && playerIn.getRNG().nextBoolean())) {
                 if (dropTable == null) {
                     dropTable = new HashMap<>();
@@ -71,7 +60,7 @@ public class BlockAnemoneMouth extends BeastsAnemoneBlock {
                 Tuple<Integer, Integer> chance = dropTable.get(item);
                 for (int i = 0; i < playerIn.getRNG().nextInt(chance.getSecond()) + chance.getFirst(); i++)
                     spawnAsEntity(worldIn, pos, item.copy());
-                if (fed != 0) newState = state.withProperty(FED, 0);
+                if (fed != 0) newState = state.with(FED, 0);
             }
             worldIn.setBlockState(pos, newState);
             return true;

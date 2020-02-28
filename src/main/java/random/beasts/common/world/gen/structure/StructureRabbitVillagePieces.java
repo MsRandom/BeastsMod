@@ -1,4 +1,4 @@
-package random.beasts.common.world.gen.structure;
+/*package random.beasts.common.world.gen.structure;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -153,7 +153,7 @@ public class StructureRabbitVillagePieces {
                 entity.onInitialSpawn(worldIn.getDifficultyForLocation(entity.getPosition()), null);
                 worldIn.addEntity(entity);
             }
-            this.fillWithBlocks(worldIn, structureBoundingBoxIn, 1, 0, 1, 7, 0, 7, Blocks.STAINED_HARDENED_CLAY.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.ORANGE), Blocks.STAINED_HARDENED_CLAY.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.ORANGE), false);
+            this.fillWithBlocks(worldIn, structureBoundingBoxIn, 1, 0, 1, 7, 0, 7, Blocks.STAINED_HARDENED_CLAY.getDefaultState().with(BlockColored.COLOR, EnumDyeColor.ORANGE), Blocks.STAINED_HARDENED_CLAY.getDefaultState().with(BlockColored.COLOR, EnumDyeColor.ORANGE), false);
 
             for (int i = 2; i <= 6; ++i)
                 for (int n = 2; n <= 6; ++n)
@@ -161,7 +161,7 @@ public class StructureRabbitVillagePieces {
                         int j = this.crop.getMaxAge();
                         int k = j / 3;
                         int r = MathHelper.getInt(randomIn, k, j);
-                        this.setBlockState(worldIn, Blocks.FARMLAND.getDefaultState().withProperty(BlockFarmland.MOISTURE, r), n, 0, i, structureBoundingBoxIn);
+                        this.setBlockState(worldIn, Blocks.FARMLAND.getDefaultState().with(BlockFarmland.MOISTURE, r), n, 0, i, structureBoundingBoxIn);
                         this.setBlockState(worldIn, this.crop.getStateFromMeta(r), n, 1, i, structureBoundingBoxIn);
                     }
 
@@ -197,9 +197,9 @@ public class StructureRabbitVillagePieces {
         public boolean addComponentParts(@Nonnull World worldIn, @Nonnull Random randomIn, @Nonnull StructureBoundingBox structureBoundingBoxIn) {
             super.addComponentParts(worldIn, randomIn, structureBoundingBoxIn);
             BlockState air = Blocks.AIR.getDefaultState();
-            BlockState clay = Blocks.STAINED_HARDENED_CLAY.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.ORANGE);
-            BlockState ladder = Blocks.LADDER.getDefaultState().withProperty(BlockLadder.FACING, Direction.NORTH);
-            BlockState leaves = Blocks.LEAVES.getDefaultState().withProperty(BlockLeaves.DECAYABLE, false);
+            BlockState clay = Blocks.STAINED_HARDENED_CLAY.getDefaultState().with(BlockColored.COLOR, EnumDyeColor.ORANGE);
+            BlockState ladder = Blocks.LADDER.getDefaultState().with(BlockLadder.FACING, Direction.NORTH);
+            BlockState leaves = Blocks.LEAVES.getDefaultState().with(BlockLeaves.DECAYABLE, false);
             BlockState bed = Blocks.BED.getDefaultState();
             BlockState torch = Blocks.TORCH.getDefaultState();
             BlockState ground = getBlockStateFromPos(worldIn, 3, 4, 3, structureBoundingBoxIn);
@@ -226,15 +226,15 @@ public class StructureRabbitVillagePieces {
             makeTable(worldIn, 4, 5, structureBoundingBoxIn);
             makeTable(worldIn, 5, 9, structureBoundingBoxIn);
             setBlockState(worldIn, bed, 3, 9, 4, structureBoundingBoxIn);
-            setBlockState(worldIn, bed.withProperty(BlockBed.PART, BlockBed.EnumPartType.HEAD), 3, 9, 5, structureBoundingBoxIn);
+            setBlockState(worldIn, bed.with(BlockBed.PART, BlockBed.EnumPartType.HEAD), 3, 9, 5, structureBoundingBoxIn);
             for (int i = 0; i < 2; i++) {
                 TileEntity tile = worldIn.getTileEntity(new BlockPos(this.getXWithOffset(3, 4 + i), this.getYWithOffset(9), this.getZWithOffset(3, 4 + i)));
                 if (tile instanceof TileEntityBed) ((TileEntityBed) tile).setColor(EnumDyeColor.ORANGE);
             }
-            setBlockState(worldIn, torch.withProperty(BlockTorch.FACING, Direction.SOUTH), 3, 10, 5, structureBoundingBoxIn);
-            setBlockState(worldIn, torch.withProperty(BlockTorch.FACING, Direction.NORTH), 3, 10, 1, structureBoundingBoxIn);
-            setBlockState(worldIn, torch.withProperty(BlockTorch.FACING, Direction.WEST), 5, 10, 3, structureBoundingBoxIn);
-            setBlockState(worldIn, torch.withProperty(BlockTorch.FACING, Direction.EAST), 1, 10, 3, structureBoundingBoxIn);
+            setBlockState(worldIn, torch.with(BlockTorch.FACING, Direction.SOUTH), 3, 10, 5, structureBoundingBoxIn);
+            setBlockState(worldIn, torch.with(BlockTorch.FACING, Direction.NORTH), 3, 10, 1, structureBoundingBoxIn);
+            setBlockState(worldIn, torch.with(BlockTorch.FACING, Direction.WEST), 5, 10, 3, structureBoundingBoxIn);
+            setBlockState(worldIn, torch.with(BlockTorch.FACING, Direction.EAST), 1, 10, 3, structureBoundingBoxIn);
             fillWithBlocks(worldIn, structureBoundingBoxIn, 3, 5, 2, 3, 8, 2, ladder, ladder, false);
             fillWithBlocks(worldIn, structureBoundingBoxIn, 3, 13, 2, 3, 13, 4, leaves, leaves, false);
             fillWithBlocks(worldIn, structureBoundingBoxIn, 2, 13, 3, 4, 13, 3, leaves, leaves, false);
@@ -255,11 +255,11 @@ public class StructureRabbitVillagePieces {
         }
 
         private void makeTable(World worldIn, int x, int y, StructureBoundingBox boundingBox) {
-            BlockState stairs = Blocks.ACACIA_STAIRS.getDefaultState().withProperty(BlockStairs.HALF, BlockStairs.EnumHalf.TOP);
-            setBlockState(worldIn, Blocks.WOODEN_SLAB.getDefaultState().withProperty(BlockWoodSlab.VARIANT, BlockPlanks.EnumType.ACACIA).withProperty(BlockSlab.HALF, BlockSlab.EnumBlockHalf.TOP), x, y, 3, boundingBox);
-            setBlockState(worldIn, stairs.withProperty(BlockStairs.FACING, Direction.SOUTH), x, y, 2, boundingBox);
-            setBlockState(worldIn, stairs.withProperty(BlockStairs.FACING, Direction.NORTH), x, y, 4, boundingBox);
-            setBlockState(worldIn, Blocks.FLOWER_POT.getDefaultState().withProperty(BlockFlowerPot.CONTENTS, BlockFlowerPot.EnumFlowerType.ORANGE_TULIP), x, y + 1, 4, boundingBox);
+            BlockState stairs = Blocks.ACACIA_STAIRS.getDefaultState().with(BlockStairs.HALF, BlockStairs.EnumHalf.TOP);
+            setBlockState(worldIn, Blocks.WOODEN_SLAB.getDefaultState().with(BlockWoodSlab.VARIANT, BlockPlanks.EnumType.ACACIA).with(BlockSlab.HALF, BlockSlab.EnumBlockHalf.TOP), x, y, 3, boundingBox);
+            setBlockState(worldIn, stairs.with(BlockStairs.FACING, Direction.SOUTH), x, y, 2, boundingBox);
+            setBlockState(worldIn, stairs.with(BlockStairs.FACING, Direction.NORTH), x, y, 4, boundingBox);
+            setBlockState(worldIn, Blocks.FLOWER_POT.getDefaultState().with(BlockFlowerPot.CONTENTS, BlockFlowerPot.EnumFlowerType.ORANGE_TULIP), x, y + 1, 4, boundingBox);
             TileEntity tile = worldIn.getTileEntity(new BlockPos(this.getXWithOffset(x, 4), this.getYWithOffset(y + 1), this.getZWithOffset(x, 4)));
             if (tile instanceof TileEntityFlowerPot)
                 ((TileEntityFlowerPot) tile).setItemStack(new ItemStack(Blocks.RED_FLOWER, 1, 5));
@@ -358,7 +358,7 @@ public class StructureRabbitVillagePieces {
         public boolean addComponentParts(@Nonnull World worldIn, @Nonnull Random randomIn, @Nonnull StructureBoundingBox structureBoundingBoxIn) {
             super.addComponentParts(worldIn, randomIn, structureBoundingBoxIn);
             BlockState path = Blocks.GRASS_PATH.getDefaultState();
-            BlockState clay = Blocks.STAINED_HARDENED_CLAY.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.ORANGE);
+            BlockState clay = Blocks.STAINED_HARDENED_CLAY.getDefaultState().with(BlockColored.COLOR, EnumDyeColor.ORANGE);
             BlockState gravel = Blocks.GRAVEL.getDefaultState();
             BlockState cobble = Blocks.COBBLESTONE.getDefaultState();
             for (int i = this.boundingBox.minX; i <= this.boundingBox.maxX; ++i) {
@@ -572,10 +572,10 @@ public class StructureRabbitVillagePieces {
             this.fillWithBlocks(worldIn, structureBoundingBoxIn, 5, 11, 1, 5, 12, 1, fence, fence, false);
             this.fillWithBlocks(worldIn, structureBoundingBoxIn, 1, 11, 5, 1, 12, 5, fence, fence, false);
             this.fillWithBlocks(worldIn, structureBoundingBoxIn, 5, 11, 5, 5, 12, 5, fence, fence, false);
-            this.setBlockState(worldIn, gate.withProperty(BlockFenceGate.FACING, Direction.NORTH), 3, 11, 1, structureBoundingBoxIn);
-            this.setBlockState(worldIn, gate.withProperty(BlockFenceGate.FACING, Direction.EAST), 1, 11, 3, structureBoundingBoxIn);
-            this.setBlockState(worldIn, gate.withProperty(BlockFenceGate.FACING, Direction.SOUTH), 3, 11, 5, structureBoundingBoxIn);
-            this.setBlockState(worldIn, gate.withProperty(BlockFenceGate.FACING, Direction.WEST), 5, 11, 3, structureBoundingBoxIn);
+            this.setBlockState(worldIn, gate.with(BlockFenceGate.FACING, Direction.NORTH), 3, 11, 1, structureBoundingBoxIn);
+            this.setBlockState(worldIn, gate.with(BlockFenceGate.FACING, Direction.EAST), 1, 11, 3, structureBoundingBoxIn);
+            this.setBlockState(worldIn, gate.with(BlockFenceGate.FACING, Direction.SOUTH), 3, 11, 5, structureBoundingBoxIn);
+            this.setBlockState(worldIn, gate.with(BlockFenceGate.FACING, Direction.WEST), 5, 11, 3, structureBoundingBoxIn);
             this.setBlockState(worldIn, fence, 1, 11, 2, structureBoundingBoxIn);
             this.setBlockState(worldIn, fence, 1, 11, 4, structureBoundingBoxIn);
             this.setBlockState(worldIn, fence, 2, 11, 1, structureBoundingBoxIn);
@@ -608,3 +608,4 @@ public class StructureRabbitVillagePieces {
         }
     }
 }
+*/

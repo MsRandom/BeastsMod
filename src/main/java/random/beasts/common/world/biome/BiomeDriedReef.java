@@ -34,7 +34,7 @@ import java.util.Set;
 
 public class BiomeDriedReef extends BeastsBiome {
     private static final WorldGenRockBlob ROCK_GENERATOR = new WorldGenRockBlob(Blocks.STONE.getDefaultState(), 3);
-    private static final WorldGenRockBlob ANDESITE_GENERATOR = new WorldGenRockBlob(Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.ANDESITE), 3);
+    private static final WorldGenRockBlob ANDESITE_GENERATOR = new WorldGenRockBlob(Blocks.STONE.getDefaultState().with(BlockStone.VARIANT, BlockStone.EnumType.ANDESITE), 3);
     private static final WorldGenRockBlob CORAL_BLOCK_GENERATOR = new WorldGenCoralBlock();
     private static final WorldGenAnemone ANEMONE_GENERATOR = new WorldGenAnemone();
     private static final WorldGenCoralPlant CORAL_PLANT_GENERATOR = new WorldGenCoralPlant();
@@ -148,7 +148,7 @@ public class BiomeDriedReef extends BeastsBiome {
 
         private void generateDisc(World worldIn, Random rand, int size, int height, BlockPos pos) {
             WorldGenDisc disc = discs[height - 1];
-            disc.block = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, getRandomStone(rand));
+            disc.block = Blocks.STONE.getDefaultState().with(BlockStone.VARIANT, getRandomStone(rand));
             disc.size = size;
             disc.generate(worldIn, rand, pos);
         }
@@ -229,7 +229,7 @@ public class BiomeDriedReef extends BeastsBiome {
         protected BlockState getBlock(Random rand) {
             int i = rand.nextInt(states.length);
             if (states[i] == null)
-                states[i] = BeastsBlocks.CORAL_BLOCK.getDefaultState().withProperty(BlockCoral.COLOR, CoralColor.values()[i]);
+                states[i] = BeastsBlocks.CORAL_BLOCK.getDefaultState().with(BlockCoral.COLOR, CoralColor.values()[i]);
             return states[i];
         }
     }

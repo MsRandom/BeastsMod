@@ -9,7 +9,7 @@ import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.GenerationStage;
@@ -96,9 +96,9 @@ public class UndergroundBiome extends BeastsBiome {
 
     @SuppressWarnings("unused")
     public static Biome getBiome(BlockPos pos, Object object) {
-        if (!(object instanceof Chunk))
+        if (!(object instanceof IChunk))
             throw new IllegalArgumentException("Illegal argument for parameter object in UndergroundBiome::getBiome");
-        ChunkPos chunk = ((Chunk) object).getPos();
+        ChunkPos chunk = ((IChunk) object).getPos();
         if (GENERATED.containsKey(chunk)) return GENERATED.get(chunk)[Math.max(Math.min(pos.getY(), 255), 0) >> 5];
         return null;
     }

@@ -237,7 +237,7 @@ public class EntityAnglerQueen extends MonsterEntity {
 
                     if (base != null) {
                         base.attackEntityFrom(DamageSource.causeIndirectMagicDamage(this.queen, this.queen), f);
-                        base.attackEntityFrom(DamageSource.causeMobDamage(this.queen), (float) this.queen.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue());
+                        base.attackEntityFrom(DamageSource.causeMobDamage(this.queen), (float) this.queen.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).get());
                     }
 
                     if (this.queen.ticksExisted % 15 == 0)
