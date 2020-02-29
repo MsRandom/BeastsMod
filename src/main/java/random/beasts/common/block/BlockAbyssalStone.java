@@ -8,7 +8,7 @@ import net.minecraftforge.common.ToolType;
 import random.beasts.api.block.BeastsBlock;
 
 public class BlockAbyssalStone extends BeastsBlock {
-    public BlockAbyssalStone(String name) {
-        super(Block.Properties.create(Material.ROCK).hardnessAndResistance(1.5f, 10).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(1), name, BlockItem::new);
+    public BlockAbyssalStone() {
+        super(Block.Properties.create(Material.ROCK).hardnessAndResistance(1.5f, 10).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(1), "abyssal_stone", BlockItem::new);
     }
 }

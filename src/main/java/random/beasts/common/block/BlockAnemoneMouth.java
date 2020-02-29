@@ -2,7 +2,6 @@ package random.beasts.common.block;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -50,7 +49,7 @@ public class BlockAnemoneMouth extends BeastsAnemoneBlock {
                 if (dropTable == null) {
                     dropTable = new HashMap<>();
                     dropTable.put(new ItemStack(Items.BONE), new Tuple<>(1, 2));
-                    dropTable.put(new ItemStack(Items.DYE, 1, EnumDyeColor.WHITE.getDyeDamage()), new Tuple<>(2, 3));
+                    dropTable.put(new ItemStack(Items.BONE_MEAL), new Tuple<>(2, 3));
                     dropTable.put(new ItemStack(Items.FLINT), new Tuple<>(1, 2));
                     dropTable.put(new ItemStack(Items.GOLD_NUGGET), new Tuple<>(2, 3));
                     dropTable.put(new ItemStack(Items.IRON_NUGGET), new Tuple<>(3, 4));

@@ -2,6 +2,7 @@ package random.beasts.common.event;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
+import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
@@ -68,8 +69,14 @@ public class RegistryEvents {
         });
     }
 
+    @SubscribeEvent
     public static void registerTileEntities(RegistryEvent.Register<TileEntityType<?>> event) {
         event.getRegistry().registerAll(BeastsRegistries.TILE_ENTITIES.get(BeastsTileEntities.COCONUT).toArray(new TileEntityType[0]));
+    }
+
+    @SubscribeEvent
+    public static void registerContainers(RegistryEvent.Register<ContainerType<?>> event) {
+        event.getRegistry().registerAll(BeastsRegistries.CONTAINERS.get(BeastsContainers.LANDWHALE).toArray(new ContainerType[0]));
     }
 
     /*@SubscribeEvent

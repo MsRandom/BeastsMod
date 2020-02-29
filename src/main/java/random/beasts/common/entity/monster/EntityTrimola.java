@@ -4,9 +4,12 @@ import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.IInventoryChangedListener;
 import net.minecraft.inventory.Inventory;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -22,14 +25,14 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
 import random.beasts.common.BeastsMod;
 import random.beasts.common.init.BeastsBlocks;
-import random.beasts.common.network.BeastsGuiHandler;
+import random.beasts.common.inventory.ContainerTrimolaInventory;
 import random.beasts.common.network.packet.PacketTrimolaAttack;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class EntityTrimola extends TameableEntity implements IInventoryChangedListener {
+public class EntityTrimola extends TameableEntity implements IInventoryChangedListener, INamedContainerProvider {
     private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityTrimola.class, DataSerializers.VARINT);
     private static final DataParameter<ItemStack> SADDLE = EntityDataManager.createKey(EntityTrimola.class, DataSerializers.ITEMSTACK);
     public Inventory inventory;
@@ -220,7 +223,7 @@ public class EntityTrimola extends TameableEntity implements IInventoryChangedLi
 
         if (!this.isChild() && this.isTamed() && (this.isOwner(player) || this.getControllingPassenger() != null)) {
             if (player.isSneaking()) {
-                player.openGui(BeastsMod.instance, BeastsGuiHandler.GUI_TRIMOLA.getId(), world, this.getEntityId(), 0, 0);
+                player.openContainer(this);
                 return true;
             }
             if (!this.getSaddle().isEmpty() && !player.isPassenger(this) && this.getPassengers().size() < 2) {
@@ -284,5 +287,11 @@ public class EntityTrimola extends TameableEntity implements IInventoryChangedLi
     @Override
     public void onInventoryChanged(IInventory inv) {
         setSaddle(inv.getStackInSlot(0));
+    }
+
+    @Nullable
+    @Override
+    public Container createMenu(int p_createMenu_1_, PlayerInventory p_createMenu_2_, PlayerEntity p_createMenu_3_) {
+        return new ContainerTrimolaInventory(p_createMenu_1_, this, p_createMenu_3_);
     }
 }

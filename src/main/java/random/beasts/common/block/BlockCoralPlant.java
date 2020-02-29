@@ -10,7 +10,7 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.state.PropertyBool;
+import net.minecraft.state.BoolProperty;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.NonNullList;
@@ -32,12 +32,12 @@ import java.util.function.Function;
 
 @SuppressWarnings("deprecation")
 public class BlockCoralPlant extends BeastsBlock {
-    private static final PropertyBool NORTH = PropertyBool.create("north");
-    private static final PropertyBool EAST = PropertyBool.create("east");
-    private static final PropertyBool SOUTH = PropertyBool.create("south");
-    private static final PropertyBool WEST = PropertyBool.create("west");
-    private static final PropertyBool UP = PropertyBool.create("up");
-    private static final PropertyBool DOWN = PropertyBool.create("down");
+    private static final BoolProperty NORTH = BoolProperty.create("north");
+    private static final BoolProperty EAST = BoolProperty.create("east");
+    private static final BoolProperty SOUTH = BoolProperty.create("south");
+    private static final BoolProperty WEST = BoolProperty.create("west");
+    private static final BoolProperty UP = BoolProperty.create("up");
+    private static final BoolProperty DOWN = BoolProperty.create("down");
     public CoralColor color;
 
     public BlockCoralPlant(CoralColor color) {

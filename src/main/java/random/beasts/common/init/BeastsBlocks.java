@@ -12,14 +12,8 @@ import java.util.Map;
 
 public class BeastsBlocks {
 
-    public static final Block ABYSSAL_COAL_ORE = new BlockAbyssalStone("abyssal_coal_ore");
-    public static final Block ABYSSAL_DIAMOND_ORE = new BlockAbyssalStone("abyssal_diamond_ore");
-    public static final Block ABYSSAL_GOLD_ORE = new BlockAbyssalStone("abyssal_gold_ore");
-    public static final Block ABYSSAL_IRON_ORE = new BlockAbyssalStone("abyssal_iron_ore");
-    public static final Block ABYSSAL_LAPIS_ORE = new BlockAbyssalStone("abyssal_lapis_ore");
-    public static final Block ABYSSAL_REDSTONE_ORE = new BlockAbyssalStone("abyssal_redstone_ore");
-    public static final Block ABYSSAL_SAND = new BlockAbyssalStone("abyssal_sand");
-    public static final Block ABYSSAL_STONE = new BlockAbyssalStone("abyssal_stone");
+    public static final Block ABYSSAL_ORE = new BlockAbyssalOre();
+    public static final Block ABYSSAL_STONE = new BlockAbyssalStone();
     public static final Block COCONUT = new BlockCoconut();
     public static final Block GLOW_ROOT_TOP = new BlockGlowRoot(true);
     public static final Block GLOW_ROOT_BOTTOM = new BlockGlowRoot(false);

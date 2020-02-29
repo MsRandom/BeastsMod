@@ -40,7 +40,7 @@ public class BeastsConfig {
                 spawn.max = builder.comment("Maximum group spawns").translation("config." + category + ".max" + s).defineInRange(category + "Max" + s, spawn.max, 1, 32).get();
                 if (spawn.min > spawn.max)
                     throw new IllegalArgumentException("Entity " + I18n.format("entity." + category + ".name") + " has invalid group spawns, as the minimum is higher than the maximum");
-                spawn.biomes = Stream.of(builder.comment("Biomes to spawn in").translation("config." + category + ".biomes" + s).define(category + "Biomes" + s, StreamSupport.stream(spawn.biomes.spliterator(), false).map(biome -> Objects.requireNonNull(biome.getRegistryName()).toString()).toArray(String[]::new)).get()).map(name -> ForgeRegistries.BIOMES.get(new ResourceLocation(name))).collect(Collectors.toList());
+                spawn.biomes = Stream.of(builder.comment("Biomes to spawn in").translation("config." + category + ".biomes" + s).define(category + "Biomes" + s, StreamSupport.stream(spawn.biomes.spliterator(), false).map(biome -> Objects.requireNonNull(biome.getRegistryName()).toString()).toArray(String[]::new)).get()).map(name -> ForgeRegistries.BIOMES.getValue(new ResourceLocation(name))).collect(Collectors.toList());
             }
             builder.pop();
         });

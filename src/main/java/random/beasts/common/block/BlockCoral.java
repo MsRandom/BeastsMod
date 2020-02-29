@@ -6,20 +6,17 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
-import net.minecraft.state.EnumProperty;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorldReader;
 import random.beasts.api.block.BeastsBlock;
-import random.beasts.common.item.ItemCoralBlock;
+import random.beasts.api.block.IColoredCoral;
 
 @SuppressWarnings("deprecation")
-public class BlockCoral extends BeastsBlock {
-
-    public static final EnumProperty<CoralColor> COLOR = EnumProperty.create("color", CoralColor.class);
+public class BlockCoral extends BeastsBlock implements IColoredCoral {
 
     public BlockCoral() {
-        super(Material.PLANTS, "coral_block", ItemCoralBlock::new);
+        super(Material.PLANTS, "coral_block", null);
         setDefaultState(getDefaultState().with(COLOR, CoralColor.BLUE));
         setHardness(0.6F);
         setSoundType(SoundType.PLANT);

@@ -1,15 +1,15 @@
 package random.beasts.common.block;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockBush;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.BushBlock;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
+import net.minecraft.state.BoolProperty;
 import net.minecraft.state.IntegerProperty;
-import net.minecraft.state.PropertyBool;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -24,10 +24,10 @@ import random.beasts.common.init.BeastsBlocks;
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public class BlockTentacle extends BlockBush {
+public class BlockTentacle extends BushBlock {
 
     public static final IntegerProperty SIZE = IntegerProperty.create("size", 1, 8);
-    public static final PropertyBool FULL = PropertyBool.create("full");
+    public static final BoolProperty FULL = BoolProperty.create("full");
     private static final AxisAlignedBB[] BOUNDING_BOXES = new AxisAlignedBB[8];
 
     public BlockTentacle() {

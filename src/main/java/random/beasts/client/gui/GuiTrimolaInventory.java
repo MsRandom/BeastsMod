@@ -3,8 +3,9 @@ package random.beasts.client.gui;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.screen.inventory.InventoryScreen;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
 import random.beasts.common.BeastsMod;
 import random.beasts.common.entity.monster.EntityTrimola;
 import random.beasts.common.inventory.ContainerTrimolaInventory;
@@ -13,9 +14,9 @@ public class GuiTrimolaInventory extends ContainerScreen<ContainerTrimolaInvento
     private static final ResourceLocation GUI = new ResourceLocation(BeastsMod.MOD_ID, "textures/gui/container/trimola.png");
     private final EntityTrimola trimola;
 
-    public GuiTrimolaInventory(int id, EntityTrimola trimola, PlayerEntity player) {
-        super(new ContainerTrimolaInventory(id, trimola, player), player.inventory, trimola.getDisplayName());
-        this.trimola = trimola;
+    public GuiTrimolaInventory(ContainerTrimolaInventory screenContainer, PlayerInventory inv, ITextComponent titleIn) {
+        super(screenContainer, inv, titleIn);
+        this.trimola = screenContainer.trimola;
     }
 
     @Override

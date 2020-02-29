@@ -1,17 +1,23 @@
 package random.beasts.common.inventory;
 
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import random.beasts.common.entity.passive.EntityLandwhale;
+import random.beasts.common.init.BeastsContainers;
 
 public class ContainerLandwhaleInventory extends Container {
-    private EntityLandwhale landwhale;
+    public EntityLandwhale landwhale;
+
+    public ContainerLandwhaleInventory(int id, PlayerInventory inventory) {
+        super(BeastsContainers.LANDWHALE, id);
+    }
 
     public ContainerLandwhaleInventory(int id, EntityLandwhale landwhale, PlayerEntity player) {
-        super(null, id);
+        this(id, player.inventory);
         this.landwhale = landwhale;
         landwhale.inventory.openInventory(player);
         this.addSlot(new Slot(landwhale.inventory, 0, 8, 18) {

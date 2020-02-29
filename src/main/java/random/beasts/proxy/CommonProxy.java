@@ -10,7 +10,6 @@ import random.beasts.common.init.BeastsLootTables;
 import random.beasts.common.init.BeastsStructures;
 import random.beasts.common.init.BeastsTriggers;
 import random.beasts.common.init.BeastsWorldGenerators;
-import random.beasts.common.network.BeastsGuiHandler;
 
 public class CommonProxy {
 

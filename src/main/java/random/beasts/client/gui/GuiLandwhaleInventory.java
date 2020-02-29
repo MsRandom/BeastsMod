@@ -3,8 +3,9 @@ package random.beasts.client.gui;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.screen.inventory.InventoryScreen;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
 import random.beasts.common.BeastsMod;
 import random.beasts.common.entity.passive.EntityLandwhale;
 import random.beasts.common.inventory.ContainerLandwhaleInventory;
@@ -14,9 +15,9 @@ public class GuiLandwhaleInventory extends ContainerScreen<ContainerLandwhaleInv
     private static final ResourceLocation CHEST = new ResourceLocation(BeastsMod.MOD_ID, "textures/gui/container/landwhale_chest.png");
     private final EntityLandwhale landwhale;
 
-    public GuiLandwhaleInventory(int id, EntityLandwhale landwhale, PlayerEntity player) {
-        super(new ContainerLandwhaleInventory(id, landwhale, player), player.inventory, landwhale.getDisplayName());
-        this.landwhale = landwhale;
+    public GuiLandwhaleInventory(ContainerLandwhaleInventory screenContainer, PlayerInventory inv, ITextComponent titleIn) {
+        super(screenContainer, inv, titleIn);
+        this.landwhale = screenContainer.landwhale;
     }
 
     @Override

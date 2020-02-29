@@ -1,6 +1,7 @@
 package random.beasts.proxy;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.PlayerEntity;
@@ -8,6 +9,8 @@ import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import random.beasts.client.gui.GuiLandwhaleInventory;
+import random.beasts.client.gui.GuiTrimolaInventory;
 import random.beasts.client.renderer.entity.*;
 import random.beasts.client.renderer.tileentity.TileEntityCoconutRenderer;
 import random.beasts.common.BeastsMod;
@@ -17,6 +20,7 @@ import random.beasts.common.entity.item.EntityThrownCoconut;
 import random.beasts.common.entity.monster.*;
 import random.beasts.common.entity.passive.*;
 import random.beasts.common.entity.projectile.EntityCoconutBomb;
+import random.beasts.common.init.BeastsContainers;
 import random.beasts.common.tileentity.TileEntityCoconut;
 
 public class ClientProxy extends CommonProxy {
@@ -35,6 +39,11 @@ public class ClientProxy extends CommonProxy {
     @Override
     public boolean isTrimolaAttacking() {
         return TRIMOLA_ATTACK.isKeyDown();
+    }
+
+    private void registerGuis() {
+        ScreenManager.registerFactory(BeastsContainers.LANDWHALE, GuiLandwhaleInventory::new);
+        ScreenManager.registerFactory(BeastsContainers.TRIMOLA, GuiTrimolaInventory::new);
     }
 
     private void registerEntityRenders() {
@@ -70,6 +79,7 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	public void registerEventRenders() {
+        this.registerGuis();
         this.registerEntityRenders();
         /*for (Item item : BeastsRegistries.ITEMS.get()) {
             if (item instanceof IHandleMeta) {
@@ -96,9 +106,9 @@ public class ClientProxy extends CommonProxy {
         ModelLoader.setCustomStateMapper(BeastsBlocks.SHELL_SLAB.full, new StateMap.Builder().ignore(BlockSlab.HALF, BeastsSlab.VARIANT).build());*/
     }
 
-	private void registerTileEntityRenders() {
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCoconut.class, new TileEntityCoconutRenderer());
-	}
+    private void registerTileEntityRenders() {
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCoconut.class, new TileEntityCoconutRenderer());
+    }
 
     @Override
     public <A extends BipedModel<?>> A getArmorModel(Item armorItem, EquipmentSlotType armorSlot) {

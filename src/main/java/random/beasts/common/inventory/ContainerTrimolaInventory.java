@@ -1,17 +1,23 @@
 package random.beasts.common.inventory;
 
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import random.beasts.common.entity.monster.EntityTrimola;
+import random.beasts.common.init.BeastsContainers;
 
 public class ContainerTrimolaInventory extends Container {
-    private EntityTrimola trimola;
+    public EntityTrimola trimola;
+
+    public ContainerTrimolaInventory(int id, PlayerInventory inventory) {
+        super(BeastsContainers.TRIMOLA, id);
+    }
 
     public ContainerTrimolaInventory(int id, EntityTrimola trimola, PlayerEntity player) {
-        super(null, id);
+        this(id, player.inventory);
         this.trimola = trimola;
         trimola.inventory.openInventory(player);
         this.addSlot(new Slot(trimola.inventory, 0, 54, 18) {

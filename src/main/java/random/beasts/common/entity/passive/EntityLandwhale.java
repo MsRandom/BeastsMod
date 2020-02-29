@@ -8,9 +8,12 @@ import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.IInventoryChangedListener;
 import net.minecraft.inventory.Inventory;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -38,7 +41,7 @@ import random.beasts.common.block.CoralColor;
 import random.beasts.common.init.BeastsBlocks;
 import random.beasts.common.init.BeastsEntities;
 import random.beasts.common.init.BeastsItems;
-import random.beasts.common.network.BeastsGuiHandler;
+import random.beasts.common.inventory.ContainerLandwhaleInventory;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -46,7 +49,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class EntityLandwhale extends TameableEntity implements IShearable, IDriedAquatic, IInventoryChangedListener {
+public class EntityLandwhale extends TameableEntity implements IShearable, IDriedAquatic, IInventoryChangedListener, INamedContainerProvider {
     private static final DataParameter<Boolean> SHEARED = EntityDataManager.createKey(EntityLandwhale.class, DataSerializers.BOOLEAN);
     private static final DataParameter<Boolean> SADDLE = EntityDataManager.createKey(EntityLandwhale.class, DataSerializers.BOOLEAN);
     private static final DataParameter<Boolean> DATA_ID_CHEST = EntityDataManager.createKey(EntityLandwhale.class, DataSerializers.BOOLEAN);
@@ -265,7 +268,7 @@ public class EntityLandwhale extends TameableEntity implements IShearable, IDrie
         }
         if (!this.isChild() && this.isTamed() && (this.isOwner(player) || this.getControllingPassenger() != null)) {
             if (player.isSneaking() && this.getSheared()) {
-                player.openGui(BeastsMod.instance, BeastsGuiHandler.GUI_LANDWHALE.getId(), world, this.getEntityId(), 0, 0);
+                player.openContainer(this);
                 return true;
             }
             if (!this.inventory.getStackInSlot(0).isEmpty() && !player.isPassenger(this) && this.getPassengers().size() < 2) {
@@ -408,5 +411,11 @@ public class EntityLandwhale extends TameableEntity implements IShearable, IDrie
         if (!this.world.isRemote) this.dataManager.set(SADDLE, !this.inventory.getStackInSlot(0).isEmpty());
         if (this.ticksExisted > 20 && !flag && this.dataManager.get(SADDLE))
             this.playSound(SoundEvents.ENTITY_HORSE_SADDLE, 0.5F, 1.0F);
+    }
+
+    @Nullable
+    @Override
+    public Container createMenu(int p_createMenu_1_, PlayerInventory p_createMenu_2_, PlayerEntity p_createMenu_3_) {
+        return new ContainerLandwhaleInventory(p_createMenu_1_, this, p_createMenu_3_);
     }
 }
