@@ -1,34 +1,35 @@
 package random.beasts.common.block;
 
 import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.ResourceLocation;
 
 public enum OreType implements IStringSerializable {
 
-    COAL("oreCoal"),
-    DIAMOND("oreDiamond"),
-    EMERALD("oreEmerald"),
-    GOLD("oreGold"),
-    IRON("oreIron"),
-    LAPIS("oreLapis"),
-    REDSTONE("oreRedstone");
+    COAL("ores/coal"),
+    DIAMOND("ores/diamond"),
+    EMERALD("ores/emerald"),
+    GOLD("ores/gold"),
+    IRON("ores/iron"),
+    LAPIS("ores/lapis"),
+    REDSTONE("ores/redstone");
 
-    private final String oreDictionary;
+    private final ResourceLocation oreTag;
 
-    OreType(String oreDictionary) {
-        this.oreDictionary = oreDictionary;
+    OreType(String tag) {
+        this.oreTag = new ResourceLocation(tag);
     }
 
-    public static OreType getByOreDictionary(String oreDictionaryIn) {
+    public static OreType getByTag(ResourceLocation tag) {
         for (OreType value : values()) {
-            if (value.getOreDictionary().equals(oreDictionaryIn)) {
+            if (value.getOreDictionary().equals(tag)) {
                 return value;
             }
         }
         return COAL;
     }
 
-    public String getOreDictionary() {
-        return oreDictionary;
+    public ResourceLocation getOreDictionary() {
+        return oreTag;
     }
 
     public String getName() {

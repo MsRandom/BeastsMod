@@ -2,6 +2,7 @@ package random.beasts.common.world.biome;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
@@ -80,9 +81,9 @@ public class BiomeAbyss extends UndergroundBiome {
 
 				ItemStack stack = new ItemStack(world.getBlockState(posit).getBlock());
 				if (!stack.isEmpty())
-					for (int i : OreDictionary.getOreIDs(stack)) {
-						if (OreDictionary.getOreName(i).contains("ore")) {
-							world.setBlockState(posit, BeastsBlocks.ABYSSAL_ORE.getDefaultState().with(BlockAbyssalOre.ORE, OreType.getByOreDictionary(OreDictionary.getOreName(i))), 16);
+					for (OreType type : OreType.values()) {
+						if (ItemTags.getCollection().getOrCreate(type.getOreDictionary()).contains(stack.getItem())) {
+							world.setBlockState(posit, BeastsBlocks.ABYSSAL_ORE.getDefaultState().with(BlockAbyssalOre.ORE, type), 16);
 							break;
 						}
 					}
