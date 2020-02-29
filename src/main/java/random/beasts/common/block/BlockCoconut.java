@@ -9,8 +9,10 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
@@ -28,7 +30,7 @@ import java.util.Random;
 @SuppressWarnings("deprecation")
 public class BlockCoconut extends ContainerBlock {
 
-    private static final AxisAlignedBB AABB = new AxisAlignedBB(0.1, 0, 0.25, 0.6, 0.2, 0.75);
+    private static final VoxelShape AABB = VoxelShapes.create(0.1, 0, 0.25, 0.6, 0.2, 0.75);
 
     public BlockCoconut() {
         super(Material.WOOD);
@@ -88,13 +90,13 @@ public class BlockCoconut extends ContainerBlock {
     }
 
     @Nullable
-    public AxisAlignedBB getCollisionBoundingBox(BlockState blockState, IWorldReader worldIn, BlockPos pos) {
-        return NULL_AABB;
+    public VoxelShape getCollisionShape(BlockState blockState, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+        return VoxelShapes.empty();
     }
 
     @Nonnull
     @Override
-    public AxisAlignedBB getBoundingBox(BlockState state, IWorldReader source, BlockPos pos) {
+    public VoxelShape getShape(BlockState state, IBlockReader source, BlockPos pos, ISelectionContext context) {
         return AABB;
     }
 

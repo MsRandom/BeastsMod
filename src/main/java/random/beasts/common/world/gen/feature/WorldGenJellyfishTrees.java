@@ -1,26 +1,32 @@
 package random.beasts.common.world.gen.feature;
 
-import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.LeavesBlock;
+import net.minecraft.block.trees.Tree;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.WorldGenAbstractTree;
+import net.minecraft.world.gen.feature.AbstractTreeFeature;
+import net.minecraft.world.gen.feature.NoFeatureConfig;
 import random.beasts.common.block.BlockTentacle;
 import random.beasts.common.init.BeastsBlocks;
 
+import javax.annotation.Nullable;
 import java.util.Random;
 
-public class WorldGenJellyfishTrees extends WorldGenAbstractTree {
-    public WorldGenJellyfishTrees(boolean notify) {
-        super(notify);
+public class WorldGenJellyfishTrees extends Tree {
+    @Nullable
+    @Override
+    protected AbstractTreeFeature<NoFeatureConfig> getTreeFeature(Random random) {
+        return null;
     }
 
     @Override
-    public boolean generate(World worldIn, Random rand, BlockPos position) {
-        if (worldIn.getBlockState(position.down()).getBlock() == Blocks.SAND) {
+    public boolean spawn(IWorld worldIn, BlockPos position, BlockState under, Random rand) {
+        if (under.getBlock() == Blocks.SAND) {
             BlockState log = BeastsBlocks.JELLY_WOOD.getDefaultState();
-            BlockState leaves = BeastsBlocks.JELLY_LEAVES.getDefaultState().with(BlockLeaves.CHECK_DECAY, true).with(BlockLeaves.DECAYABLE, true);
+            BlockState leaves = BeastsBlocks.JELLY_LEAVES.getDefaultState().with(LeavesBlock.PERSISTENT, false);
             int height = rand.nextInt(3) + 4;
             int radius = rand.nextInt(5) + 8;
             if (radius % 2 == 0) radius += 1;
@@ -78,7 +84,7 @@ public class WorldGenJellyfishTrees extends WorldGenAbstractTree {
         return false;
     }
 
-    private void generateTentacles(BlockPos pos, World world, Random rand) {
+    private void generateTentacles(BlockPos pos, IWorld world, Random rand) {
         BlockPos lower = pos.down();
         if (world.getBlockState(lower).getBlock() == Blocks.AIR && rand.nextInt(3) == 0) {
             int size = rand.nextInt(16) + 1;
@@ -91,17 +97,16 @@ public class WorldGenJellyfishTrees extends WorldGenAbstractTree {
         }
     }
 
-    @Override
-    protected void setBlockAndNotifyAdequately(World worldIn, BlockPos pos, BlockState state) {
+    protected void setBlockAndNotifyAdequately(IWorld worldIn, BlockPos pos, BlockState state) {
         this.setBlockWithTentacle(worldIn, pos, state, state.getBlock() == BeastsBlocks.JELLY_LEAVES);
     }
 
-    private void setBlockWithTentacle(World worldIn, BlockPos pos, BlockState state) {
+    private void setBlockWithTentacle(IWorld worldIn, BlockPos pos, BlockState state) {
         this.setBlockWithTentacle(worldIn, pos, state, false);
     }
 
-    private void setBlockWithTentacle(World worldIn, BlockPos pos, BlockState state, boolean tentacle) {
-        super.setBlockAndNotifyAdequately(worldIn, pos, state);
-        if (tentacle) generateTentacles(pos, worldIn, worldIn.rand);
+    private void setBlockWithTentacle(IWorld worldIn, BlockPos pos, BlockState state, boolean tentacle) {
+        worldIn.setBlockState(pos, state, 3);
+        if (tentacle && worldIn instanceof World) generateTentacles(pos, worldIn, ((World) worldIn).rand);
     }
 }

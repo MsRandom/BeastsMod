@@ -3,8 +3,9 @@ package random.beasts.common.world.gen.feature;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.WorldGenerator;
+import random.beasts.api.world.IBeastsGenerator;
 import random.beasts.common.entity.passive.EntityAnemoneCrawler;
 import random.beasts.common.init.BeastsBlocks;
 import random.beasts.common.init.BeastsEntities;
@@ -12,19 +13,19 @@ import random.beasts.common.init.BeastsEntities;
 import java.util.Random;
 import java.util.function.Function;
 
-public class WorldGenAnemone extends WorldGenerator {
+public class WorldGenAnemone implements IBeastsGenerator {
     @Override
-    public boolean generate(World worldIn, Random rand, BlockPos position) {
+    public boolean generate(IWorld worldIn, Random rand, BlockPos position) {
         if (worldIn.getBlockState(position.down()).getBlock() == Blocks.SAND) {
             BlockPos[] vertical = new BlockPos[9];
             for (int i = 0; i < vertical.length; i++) vertical[i] = position.up(i + 1);
             Function<Integer, BlockPos> getUp = i -> i == 0 ? position : vertical[i - 1];
             BlockState stalk = BeastsBlocks.ANEMONE_STALK.getDefaultState();
             BlockState tentacle = BeastsBlocks.ANEMONE_TENTACLE.getDefaultState();
-            for (BlockPos pos : BlockPos.getAllInBox(position.add(-2, 0, -2), position.add(2, 5, 2)))
-                setBlockAndNotifyAdequately(worldIn, pos, stalk);
-            for (BlockPos pos : BlockPos.getAllInBox(position.add(0, 0, 0), position.add(0, 3, 0)))
+            BlockPos.getAllInBox(position.add(-2, 0, -2), position.add(2, 5, 2)).forEach(pos -> setBlockAndNotifyAdequately(worldIn, pos, stalk));
+            BlockPos.getAllInBox(position.add(0, 0, 0), position.add(0, 3, 0)).forEach(pos -> {
                 for (int i = -1; i <= 1; i++) setInAllDirections(worldIn, i, 1, pos, stalk);
+            });
             for (int i = -1; i <= 1; i++) setInAllDirections(worldIn, i, vertical[5], stalk);
             for (int i = -2; i <= 2; i++)
                 for (int j = 0; j < 6; j++) setInAllDirections(worldIn, i, getUp.apply(j), stalk);
@@ -53,11 +54,13 @@ public class WorldGenAnemone extends WorldGenerator {
             setInAllDirections(worldIn, 2, 2, vertical[5], tentacle);
             setInAllDirections(worldIn, 4, 1, vertical[5], tentacle);
             setBlockAndNotifyAdequately(worldIn, vertical[5], BeastsBlocks.ANEMONE_MOUTH.getDefaultState());
-            for (int i = 0; i < rand.nextInt(2) + 1; i++) {
-                EntityAnemoneCrawler crawler = BeastsEntities.ANEMONE_CRAWLER.create(worldIn);
-                crawler.setLocationAndAngles(position.getX() + i, vertical[6].getY(), position.getZ() + i, 0, 0);
-                crawler.onInitialSpawn(worldIn.getDifficultyForLocation(crawler.getPosition()), null);
-                worldIn.addEntity(crawler);
+            if (worldIn instanceof World) {
+                for (int i = 0; i < rand.nextInt(2) + 1; i++) {
+                    EntityAnemoneCrawler crawler = BeastsEntities.ANEMONE_CRAWLER.create((World) worldIn);
+                    crawler.setLocationAndAngles(position.getX() + i, vertical[6].getY(), position.getZ() + i, 0, 0);
+                    crawler.onInitialSpawn(worldIn.getDifficultyForLocation(crawler.getPosition()), null);
+                    worldIn.addEntity(crawler);
+                }
             }
             return true;
         }
@@ -65,7 +68,7 @@ public class WorldGenAnemone extends WorldGenerator {
     }
 
     //set block using a blockpos on center x and z to all directions
-    private void setInAllDirections(World world, int x, int z, BlockPos pos, BlockState state) {
+    private void setInAllDirections(IWorld world, int x, int z, BlockPos pos, BlockState state) {
         z--;
         setBlockAndNotifyAdequately(world, pos.add(-4 - z, 0, x), state);
         setBlockAndNotifyAdequately(world, pos.add(4 + z, 0, -x), state);
@@ -73,7 +76,11 @@ public class WorldGenAnemone extends WorldGenerator {
         setBlockAndNotifyAdequately(world, pos.add(x, 0, 4 + z), state);
     }
 
-    private void setInAllDirections(World world, int x, BlockPos pos, BlockState state) {
+    private void setInAllDirections(IWorld world, int x, BlockPos pos, BlockState state) {
         setInAllDirections(world, x, 0, pos, state);
+    }
+
+    protected void setBlockAndNotifyAdequately(IWorld worldIn, BlockPos pos, BlockState state) {
+        worldIn.setBlockState(pos, state, 3);
     }
 }

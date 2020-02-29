@@ -6,10 +6,11 @@ import net.minecraft.block.trees.Tree;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.state.IntegerProperty;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import random.beasts.api.main.BeastsUtils;
 
@@ -21,7 +22,7 @@ import java.util.function.Supplier;
 @SuppressWarnings("deprecation")
 public class BeastsSapling extends BushBlock implements IGrowable {
     public static final IntegerProperty STAGE = IntegerProperty.create("stage", 0, 1);
-    static final AxisAlignedBB SAPLING_AABB = new AxisAlignedBB(0.30000001192092896D, 0.0D, 0.30000001192092896D, 0.699999988079071D, 0.6000000238418579D, 0.699999988079071D);
+    static final VoxelShape SAPLING_AABB = VoxelShapes.create(0.30000001192092896D, 0.0D, 0.30000001192092896D, 0.699999988079071D, 0.6000000238418579D, 0.699999988079071D);
     private Tree treeGen;
 
     public BeastsSapling(String name, @Nullable Supplier<Tree> generator, BiFunction<Block, Item.Properties, Item> item) {
@@ -36,7 +37,7 @@ public class BeastsSapling extends BushBlock implements IGrowable {
     }
 
     @Override
-    public AxisAlignedBB getBoundingBox(BlockState state, IWorldReader source, BlockPos pos) {
+    public VoxelShape getShape(BlockState state, IBlockReader source, BlockPos pos, ISelectionContext context) {
         return SAPLING_AABB;
     }
 
@@ -63,8 +64,8 @@ public class BeastsSapling extends BushBlock implements IGrowable {
 
     @Override
     @Nullable
-    public AxisAlignedBB getCollisionBoundingBox(BlockState blockState, IWorldReader worldIn, BlockPos pos) {
-        return NULL_AABB;
+    public VoxelShape getCollisionShape(BlockState blockState, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+        return VoxelShapes.empty();
     }
 
     @Override

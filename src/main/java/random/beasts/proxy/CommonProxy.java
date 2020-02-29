@@ -6,7 +6,6 @@ import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
 import random.beasts.api.main.BeastsUtils;
 import random.beasts.client.init.BeastsCreativeTabs;
-import random.beasts.common.init.BeastsLootTables;
 import random.beasts.common.init.BeastsStructures;
 import random.beasts.common.init.BeastsTriggers;
 import random.beasts.common.init.BeastsWorldGenerators;
@@ -29,8 +28,6 @@ public class CommonProxy {
         BeastsUtils.setRegistryTab(BeastsCreativeTabs.MAIN);
         BeastsStructures.init();
         BeastsTriggers.init();
-        BeastsLootTables.init();
-        BeastsGuiHandler.init();
         BeastsWorldGenerators.init();
     }
 

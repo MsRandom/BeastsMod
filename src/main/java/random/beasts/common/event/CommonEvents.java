@@ -11,10 +11,9 @@ import net.minecraft.item.ShieldItem;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.Tuple;
-import net.minecraft.world.storage.loot.LootPool;
-import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -22,11 +21,11 @@ import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import random.beasts.api.entity.BeastsBranchie;
 import random.beasts.common.BeastsMod;
 import random.beasts.common.entity.passive.EntityPufferfishDog;
-import random.beasts.common.init.BeastsLootTables;
+import random.beasts.common.init.BeastsItems;
 import random.beasts.common.network.BeastsPacketHandler;
-import random.beasts.common.world.storage.loot.BeastsLootTable;
 
 import java.util.Collection;
+import java.util.Random;
 import java.util.function.Function;
 
 @SuppressWarnings("unused")
@@ -83,11 +82,10 @@ public class CommonEvents {
     }*/
 
     @SubscribeEvent
-    public static void loadLootTable(LootTableLoadEvent event) {
-        BeastsLootTable table = BeastsLootTables.TABLES.get(event.getName());
-        if (table != null) {
-            LootPool pool = event.getTable().getPool("main");
-            if (pool != null) pool.addEntry(table.tableSupplier.get());
+    public static void fishItem(ItemFishedEvent event) {
+        Random rand = event.getHookEntity().world.rand;
+        if (rand.nextInt(5) == 0) {
+            event.getDrops().add(new ItemStack(rand.nextBoolean() ? BeastsItems.DAGGERFISH : BeastsItems.FISHSTAR));
         }
     }
 
@@ -121,9 +119,7 @@ public class CommonEvents {
                 float damage = event.getAmount();
                 if (damage > 5.0F && (stack.getItem() instanceof ShieldItem && stack.getItem() != Items.SHIELD)) {
                     int i = Math.min(1 + (int) damage, stack.getMaxDamage() - stack.getDamage());
-                    stack.damageItem(i, player, p -> {
-                        player.world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ITEM_SHIELD_BREAK, SoundCategory.PLAYERS, 0.9f, 0.8F + player.world.rand.nextFloat() * 0.4F);
-                    });
+                    stack.damageItem(i, player, p -> player.world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ITEM_SHIELD_BREAK, SoundCategory.PLAYERS, 0.9f, 0.8F + player.world.rand.nextFloat() * 0.4F));
                 }
             }
         }

@@ -7,21 +7,24 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.Direction;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 
 import java.util.Random;
 
 public class BlockShellPiece extends BlockShell {
-    private static final AxisAlignedBB AABB = new AxisAlignedBB(0.4, 0, 0.4, 0.6, 0.3, 0.6);
+    private static final VoxelShape AABB = VoxelShapes.create(0.4, 0, 0.4, 0.6, 0.3, 0.6);
 
     public BlockShellPiece(String name) {
         super(name);
     }
 
     @Override
-    public AxisAlignedBB getBoundingBox(BlockState state, IWorldReader source, BlockPos pos) {
+    public VoxelShape getShape(BlockState state, IBlockReader source, BlockPos pos, ISelectionContext context) {
         return AABB;
     }
 

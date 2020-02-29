@@ -10,12 +10,17 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.state.BoolProperty;
+import net.minecraft.state.BooleanProperty;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -32,12 +37,12 @@ import java.util.function.Function;
 
 @SuppressWarnings("deprecation")
 public class BlockCoralPlant extends BeastsBlock {
-    private static final BoolProperty NORTH = BoolProperty.create("north");
-    private static final BoolProperty EAST = BoolProperty.create("east");
-    private static final BoolProperty SOUTH = BoolProperty.create("south");
-    private static final BoolProperty WEST = BoolProperty.create("west");
-    private static final BoolProperty UP = BoolProperty.create("up");
-    private static final BoolProperty DOWN = BoolProperty.create("down");
+    private static final BooleanProperty NORTH = BooleanProperty.create("north");
+    private static final BooleanProperty EAST = BooleanProperty.create("east");
+    private static final BooleanProperty SOUTH = BooleanProperty.create("south");
+    private static final BooleanProperty WEST = BooleanProperty.create("west");
+    private static final BooleanProperty UP = BooleanProperty.create("up");
+    private static final BooleanProperty DOWN = BooleanProperty.create("down");
     public CoralColor color;
 
     public BlockCoralPlant(CoralColor color) {
@@ -53,7 +58,7 @@ public class BlockCoralPlant extends BeastsBlock {
         BeastsUtils.addToRegistry(this, name, null);
     }
 
-    private static boolean areAllNeighborsEmpty(World worldIn, BlockPos pos, @Nullable Direction excludingSide) {
+    private static boolean areAllNeighborsEmpty(IWorld worldIn, BlockPos pos, @Nullable Direction excludingSide) {
         for (Direction enumfacing : Direction.Plane.HORIZONTAL)
             if (enumfacing != excludingSide && !worldIn.isAirBlock(pos.offset(enumfacing))) return false;
         return true;
@@ -69,7 +74,7 @@ public class BlockCoralPlant extends BeastsBlock {
         return state.with(DOWN, block == this || block instanceof BlockCoral || block == Blocks.SAND).with(UP, block1 == this || block1 instanceof BlockCoral).with(NORTH, block2 == this || block2 instanceof BlockCoral).with(EAST, block3 == this || block3 instanceof BlockCoral).with(SOUTH, block4 == this || block4 instanceof BlockCoral).with(WEST, block5 == this || block5 instanceof BlockCoral);
     }
 
-    public AxisAlignedBB getBoundingBox(BlockState state, IWorldReader source, BlockPos pos) {
+    public VoxelShape getShape(BlockState state, IBlockReader source, BlockPos pos, ISelectionContext context) {
         state = state.getActualState(source, pos);
         float f = 0.1875F;
         float f1 = state.get(WEST) ? 0.0F : f;
@@ -78,7 +83,7 @@ public class BlockCoralPlant extends BeastsBlock {
         float f4 = state.get(EAST) ? 1.0F : 0.8125F;
         float f5 = state.get(UP) ? 1.0F : 0.8125F;
         float f6 = state.get(SOUTH) ? 1.0F : 0.8125F;
-        return new AxisAlignedBB(f1, f2, f3, f4, f5, f6);
+        return VoxelShapes.create(f1, f2, f3, f4, f5, f6);
     }
 
     public void addCollisionBoxToList(BlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean isActualState) {
@@ -170,7 +175,7 @@ public class BlockCoralPlant extends BeastsBlock {
         return BlockFaceShape.UNDEFINED;
     }
 
-    public boolean generatePlant(World worldIn, BlockPos pos, Random rand) {
+    public boolean generatePlant(IWorld worldIn, BlockPos pos, Random rand) {
         if (worldIn.getBlockState(pos.down()).getBlock() == Blocks.SAND) {
             worldIn.setBlockState(pos, getDefaultState(), 2);
             growTreeRecursive(worldIn, pos, rand, pos, 8, 0);
@@ -179,7 +184,7 @@ public class BlockCoralPlant extends BeastsBlock {
         return false;
     }
 
-    private void growTreeRecursive(World worldIn, BlockPos p_185601_1_, Random rand, BlockPos p_185601_3_, int p_185601_4_, int p_185601_5_) {
+    private void growTreeRecursive(IWorld worldIn, BlockPos p_185601_1_, Random rand, BlockPos p_185601_3_, int p_185601_4_, int p_185601_5_) {
         int i = rand.nextInt(4) + 1;
         if (p_185601_5_ == 0) ++i;
         for (int j = 0; j < i; ++j) {
