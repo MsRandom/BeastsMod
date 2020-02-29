@@ -98,10 +98,6 @@ public class UndergroundBiome extends BeastsBiome {
         return null;
     }
 
-    @Override
-    protected final void register() {
-    }
-
     public void populate(World world, Random rand, BlockPos pos, UndergroundBiomeBounds bounds) {
         MinecraftForge.EVENT_BUS.post(new UndergroundBiomeEvent.Populate(world, rand, pos, bounds));
     }

@@ -7,10 +7,6 @@ public class BeastsBiome extends Biome {
     public BeastsBiome(String name, BiomeProperties properties) {
         super(properties);
         setRegistryName(name);
-        register();
-    }
-
-    protected void register() {
         BeastsRegistries.BIOMES.add(this);
     }
 }

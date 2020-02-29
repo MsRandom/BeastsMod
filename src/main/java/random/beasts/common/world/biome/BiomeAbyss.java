@@ -4,45 +4,38 @@ import net.minecraft.block.BlockPrismarine;
 import net.minecraft.block.BlockStone;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.NoiseGeneratorPerlin;
-import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraft.world.storage.loot.RandomValueRange;
 import net.minecraftforge.oredict.OreDictionary;
 import random.beasts.api.configuration.BeastsConfig;
 import random.beasts.api.world.biome.underground.UndergroundBiome;
 import random.beasts.api.world.biome.underground.UndergroundBiomeBounds;
 import random.beasts.common.block.BlockAbyssalOre;
-import random.beasts.common.block.BlockAbyssalTendrils;
-import random.beasts.common.block.BlockGlowCoral;
 import random.beasts.common.block.OreType;
 import random.beasts.common.init.BeastsBlocks;
-import random.beasts.common.world.gen.feature.WorldGenAbyssalCoralCluster;
-import random.beasts.common.world.gen.feature.WorldGenAbyssalVentCluster;
 
 import java.util.Random;
 
 public class BiomeAbyss extends UndergroundBiome {
-
 	protected static final NoiseGeneratorPerlin CAVE_NOISE_LAYER_1 = new NoiseGeneratorPerlin(new Random(2345L), 8);
 	protected static final NoiseGeneratorPerlin CAVE_NOISE_LAYER_2 = new NoiseGeneratorPerlin(new Random(-123589L), 8);
-	private final WorldGenerator VENT_CLUSTER_GENERATOR = new WorldGenAbyssalVentCluster(6, 1, 6, 2, 4, 2);
-	private final WorldGenerator CORAL_CLUSTER_GENERATOR = new WorldGenAbyssalCoralCluster(3, 1, 3);
-	private final int VENT_CLUSTER_CHANCE = 50;
-	private final int CORAL_CLUSTER_CHANCE = 50;
-	private final int ABYSSAL_GRASS_CHANCE = 8;
-	private final int TENTACLE_GRASS_CHANCE = 40;
-	private final int ABYSSAL_TENDRILS_CHANCE = 15;
-	private final int GLOW_CORAL_CHANCE = 15;
+	//private static final WorldGenerator VENT_CLUSTER_GENERATOR = new WorldGenAbyssalVentCluster(6, 1, 6, 2, 4, 2);
+	//private static final WorldGenerator CORAL_CLUSTER_GENERATOR = new WorldGenAbyssalCoralCluster(3, 1, 3);
+	private static final int VENT_CLUSTER_CHANCE = 50;
+	private static final int CORAL_CLUSTER_CHANCE = 50;
+	private static final int ABYSSAL_GRASS_CHANCE = 8;
+	private static final int TENTACLE_GRASS_CHANCE = 40;
+	private static final int ABYSSAL_TENDRILS_CHANCE = 15;
+	private static final int GLOW_CORAL_CHANCE = 15;
 	private final int layerHeight1;
 	private final int layerHeight2;
 
 	public BiomeAbyss(Biome base) {
-		super("The Abyss", BeastsConfig.abyssWeight, base);
+		super("The Abyss", BeastsConfig.abyssWeight, base, new RandomValueRange(80, 144), null);
 		this.layerHeight1 = 8;
 		this.layerHeight2 = 22;
 	}
@@ -104,14 +97,14 @@ public class BiomeAbyss extends UndergroundBiome {
 					if (posit.getY() < Math.round((float) -d0) + minY + layer1_height && posit.getY() > Math.round((float) d0 * 0.333f) + minY + layer1_height) {
 						world.setBlockState(posit, Blocks.AIR.getDefaultState(), 16);
 					} else if (posit.getY() <= Math.round((float) d0 * 0.333f) + minY + layer1_height && posit.getY() > Math.round((float) d0 * 0.5f) + minY + layer1_height) {
-						world.setBlockState(posit, BeastsBlocks.ABYSSAL_SAND.getDefaultState(), 16);
+						//world.setBlockState(posit, BeastsBlocks.ABYSSAL_SAND.getDefaultState(), 16);
 					}
 
 					double d1 = CAVE_NOISE_LAYER_2.getValue((double) posit.getX() * 1.6667f, (double) posit.getZ() * 1.6667f) * 0.09d;
 					if (posit.getY() < Math.round((float) -d1) + minY + layer2_height && posit.getY() > Math.round((float) d1 * 0.333f) + minY + layer2_height) {
 						world.setBlockState(posit, Blocks.AIR.getDefaultState(), 16);
 					} else if (posit.getY() <= Math.round((float) d1 * 0.333f) + minY + layer2_height && posit.getY() > Math.round((float) d1 * 0.5f) + minY + layer2_height) {
-						world.setBlockState(posit, BeastsBlocks.ABYSSAL_SAND.getDefaultState(), 16);
+						//world.setBlockState(posit, BeastsBlocks.ABYSSAL_SAND.getDefaultState(), 16);
 					}
 				}
 			}
@@ -149,11 +142,13 @@ public class BiomeAbyss extends UndergroundBiome {
 					NoiseGeneratorPerlin plantNoise = new NoiseGeneratorPerlin(new Random(-12L), 3);
 					double noise = plantNoise.getValue(posit.getX() * 1.5f, posit.getZ() * 1.5f);
 					if (noise > 1.5d) {
+						/*
 						if (rand.nextInt(VENT_CLUSTER_CHANCE) == 0 && world.getBlockState(posit.down()).getBlock() == BeastsBlocks.ABYSSAL_SAND)
-							this.VENT_CLUSTER_GENERATOR.generate(world, rand, posit);
-					} else if (noise < 1.25d) {
+							VENT_CLUSTER_GENERATOR.generate(world, rand, posit);
+					*/
+					} /*else if (noise < 1.25d) {
 						if (rand.nextInt(CORAL_CLUSTER_CHANCE) == 0 && !world.isAirBlock(posit.down()))
-							this.CORAL_CLUSTER_GENERATOR.generate(world, rand, posit.down());
+							CORAL_CLUSTER_GENERATOR.generate(world, rand, posit.down());
 						if (rand.nextInt(ABYSSAL_GRASS_CHANCE) == 0 && world.getBlockState(posit.down()).getBlock() == BeastsBlocks.ABYSSAL_SAND)
 							world.setBlockState(posit, BeastsBlocks.ABYSSAL_GRASS.getDefaultState(), 16);
 						if (rand.nextInt(TENTACLE_GRASS_CHANCE) == 0 && world.getBlockState(posit.down()).getBlock() == BeastsBlocks.ABYSSAL_SAND)
@@ -169,13 +164,13 @@ public class BiomeAbyss extends UndergroundBiome {
 							else
 								world.setBlockState(posit, BeastsBlocks.GLOW_CORAL_PINK.getDefaultState().withProperty(BlockGlowCoral.FACING, facing.getOpposite()), 16);
 						}
-					}
+					}*/
 				}
 			}
 		}
 	}
 
-	public void generateCave(World world, BlockPos pos, Random rand, UndergroundBiomeBounds bounds) {
+	/*public void generateCave(World world, BlockPos pos, Random rand, UndergroundBiomeBounds bounds) {
 		ChunkPos chunk = new ChunkPos(pos);
 		int minY = (pos.getY() >> 5) * 32;
 		BlockPos chunkStart = new BlockPos(chunk.getXStart(), minY, chunk.getZStart());
@@ -208,5 +203,5 @@ public class BiomeAbyss extends UndergroundBiome {
 			if (chunkPos.equals(new ChunkPos(posit)) && a < 1)
 				world.setBlockState(posit, Blocks.AIR.getDefaultState(), 16);
 		}
-	}
+	}*/
 }
