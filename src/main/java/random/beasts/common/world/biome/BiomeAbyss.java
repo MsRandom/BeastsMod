@@ -81,8 +81,9 @@ public class BiomeAbyss extends UndergroundBiome {
 						world.setBlockState(posit, BeastsBlocks.ABYSSAL_STONE.getDefaultState(), 16);
 				}
 
-				if (!(new ItemStack(world.getBlockState(posit).getBlock()).isEmpty()))
-					for (int i : OreDictionary.getOreIDs(new ItemStack(world.getBlockState(posit).getBlock()))) {
+				ItemStack stack = new ItemStack(world.getBlockState(posit).getBlock());
+				if (!stack.isEmpty())
+					for (int i : OreDictionary.getOreIDs(stack)) {
 						if (OreDictionary.getOreName(i).contains("ore")) {
 							world.setBlockState(posit, BeastsBlocks.ABYSSAL_ORE.getDefaultState().withProperty(BlockAbyssalOre.ORE, OreType.getByOreDictionary(OreDictionary.getOreName(i))), 16);
 							break;
