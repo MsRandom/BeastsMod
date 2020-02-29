@@ -164,12 +164,13 @@ public class BiomeDriedReef extends BeastsBiome {
             this.height = height;
         }
 
-        public boolean generate(IWorld worldIn, Random rand, final BlockPos position) {
-            position = worldIn.getTopSolidOrLiquidBlock(position).down(rand.nextInt(1 + height));
+        public boolean generate(IWorld worldIn, Random rand, BlockPos position) {
+            position = worldIn.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, position).down(rand.nextInt(1 + height));
+            final BlockPos p = position;
             BlockPos.getAllInBox(position.add(-size - 3, -height - 3, -size - 3), position.add(size + 3, height + 3, size + 3)).forEach(pos -> {
-                int x = pos.getX() - position.getX();
-                int y = pos.getY() - position.getY();
-                int z = pos.getZ() - position.getZ();
+                int x = pos.getX() - p.getX();
+                int y = pos.getY() - p.getY();
+                int z = pos.getZ() - p.getZ();
                 int distance = (x * x + z * z) / (size * size) + (y * y) / (height * height);
                 if (distance <= 1) worldIn.setBlockState(pos, block, 4);
             });
@@ -192,7 +193,7 @@ public class BiomeDriedReef extends BeastsBiome {
 
         public boolean generate(IWorld worldIn, Random rand, BlockPos position) {
             BlockState state = getBlock(rand);
-            position = worldIn.getTopSolidOrLiquidBlock(position).down(rand.nextInt(1 + size));
+            position = worldIn.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, position).down(rand.nextInt(1 + size));
             ChunkPos pos = new ChunkPos(position);
             for (int i = 0; i < 6; ++i) {
                 int j = rand.nextInt(2 + size);
