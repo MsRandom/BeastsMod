@@ -57,7 +57,7 @@ public class BlockAnemoneMouth extends BeastsAnemoneBlock {
                 }
                 ItemStack item = items[playerIn.getRNG().nextInt(items.length)];
                 Tuple<Integer, Integer> chance = dropTable.get(item);
-                for (int i = 0; i < playerIn.getRNG().nextInt(chance.getSecond()) + chance.getFirst(); i++)
+                for (int i = 0; i < playerIn.getRNG().nextInt(chance.getB()) + chance.getA(); i++)
                     spawnAsEntity(worldIn, pos, item.copy());
                 if (fed != 0) newState = state.with(FED, 0);
             }

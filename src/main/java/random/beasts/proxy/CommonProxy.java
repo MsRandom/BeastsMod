@@ -4,14 +4,8 @@ import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
-import random.beasts.api.main.BeastsUtils;
-import random.beasts.client.init.BeastsCreativeTabs;
-import random.beasts.common.init.BeastsStructures;
-import random.beasts.common.init.BeastsTriggers;
-import random.beasts.common.init.BeastsWorldGenerators;
 
 public class CommonProxy {
-
     public PlayerEntity getPlayer() {
         return null;
     }
@@ -22,13 +16,6 @@ public class CommonProxy {
 
     public boolean isTrimolaAttacking() {
         return false;
-    }
-
-    public void preInit() {
-        BeastsUtils.setRegistryTab(BeastsCreativeTabs.MAIN);
-        BeastsStructures.init();
-        BeastsTriggers.init();
-        BeastsWorldGenerators.init();
     }
 
     public void registerEventRenders() {

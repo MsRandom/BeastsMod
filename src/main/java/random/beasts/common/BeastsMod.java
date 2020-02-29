@@ -8,6 +8,8 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 import random.beasts.api.configuration.BeastsConfig;
+import random.beasts.api.main.BeastsUtils;
+import random.beasts.client.init.BeastsCreativeTabs;
 import random.beasts.proxy.ClientProxy;
 import random.beasts.proxy.CommonProxy;
 
@@ -20,6 +22,7 @@ public class BeastsMod {
     public static final SimpleChannel NETWORK_CHANNEL = NetworkRegistry.newSimpleChannel(new ResourceLocation(MOD_ID, "main"), () -> PROTOCOL_VERSION, PROTOCOL_VERSION::equals, PROTOCOL_VERSION::equals);
 
     public BeastsMod() {
+        BeastsUtils.setRegistryTab(BeastsCreativeTabs.MAIN);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, BeastsConfig.CONFIG_SPEC);
     }
 }

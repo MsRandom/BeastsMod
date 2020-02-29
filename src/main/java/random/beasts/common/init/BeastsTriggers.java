@@ -11,7 +11,7 @@ public class BeastsTriggers {
     //public static final BeastsTrigger DISCOVER_PUFFERFISH_DOG = new BeastsTrigger("pufferfish_discover");
     public static final BeastsTrigger HAMMERTIME = new BeastsTrigger("hammertime");
 
-    public static void init() {
+    static {
         for (ICriterionTrigger<? extends ICriterionInstance> trigger : BeastsRegistries.ADVANCEMENTS.get())
             CriteriaTriggers.register(trigger);
     }

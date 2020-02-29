@@ -21,7 +21,6 @@ import random.beasts.common.block.BlockCoral;
 import random.beasts.common.block.CoralColor;
 import random.beasts.common.init.BeastsBlocks;
 import random.beasts.common.init.BeastsStructures;
-import random.beasts.common.world.gen.WorldGenStructure;
 import random.beasts.common.world.gen.feature.WorldGenAnemone;
 import random.beasts.common.world.gen.feature.WorldGenJellyfishTrees;
 import random.beasts.common.world.gen.feature.WorldGenPalmTrees;
@@ -67,8 +66,6 @@ public class BiomeDriedReef extends BeastsBiome {
         //this can all be switched to be like 1.14
         BlockPos blockPos = worldIn.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, pos.add(x, 0, z));
         ChunkPos chunk = new ChunkPos(blockPos);
-        for (WorldGenStructure generator : BeastsStructures.SHELLS)
-            if (rand.nextInt(20) == 0) generator.generate(worldIn, rand, pos);
         if (rand.nextBoolean())
             generate(CORAL_PLANT_GENERATOR, worldIn, rand, blockPos);
         else if (rand.nextBoolean()) {
@@ -80,9 +77,10 @@ public class BiomeDriedReef extends BeastsBiome {
         } else if (rand.nextBoolean()) {
             //Both of these cause cascading worldgen lag
             if (rand.nextBoolean()) {
-                //if (worldIn.getBlockState(blockPos.down()).getBlock() == Blocks.SAND) BeastsStructures.SHELLS[rand.nextInt(BeastsStructures.SHELLS.length)].generate(worldIn, rand, blockPos.down(2));
+                if (worldIn.getBlockState(blockPos.down()).getBlock() == Blocks.SAND)
+                    BeastsStructures.SHELLS[rand.nextInt(BeastsStructures.SHELLS.length)].generate(worldIn, rand, blockPos.down(2));
             } else {
-                //generate(ROCK_CLUSTER, worldIn, rand, blockPos);
+                generate(ROCK_CLUSTER, worldIn, rand, blockPos);
             }
         } else if (rand.nextBoolean())
             generate(ANEMONE_GENERATOR, worldIn, rand, blockPos);
