@@ -3,6 +3,7 @@ package random.beasts.common.world.biome;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
@@ -10,19 +11,24 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.PerlinNoiseGenerator;
 import net.minecraft.world.storage.loot.RandomValueRange;
 import random.beasts.api.configuration.BeastsConfig;
+import random.beasts.api.world.IBeastsGenerator;
 import random.beasts.api.world.biome.underground.UndergroundBiome;
 import random.beasts.api.world.biome.underground.UndergroundBiomeBounds;
 import random.beasts.common.block.BlockAbyssalOre;
+import random.beasts.common.block.BlockAbyssalTendrils;
+import random.beasts.common.block.BlockGlowCoral;
 import random.beasts.common.block.OreType;
 import random.beasts.common.init.BeastsBlocks;
+import random.beasts.common.world.gen.feature.WorldGenAbyssalCoralCluster;
+import random.beasts.common.world.gen.feature.WorldGenAbyssalVentCluster;
 
 import java.util.Random;
 
 public class BiomeAbyss extends UndergroundBiome {
 	protected static final PerlinNoiseGenerator CAVE_NOISE_LAYER_1 = new PerlinNoiseGenerator(new Random(2345L), 8);
 	protected static final PerlinNoiseGenerator CAVE_NOISE_LAYER_2 = new PerlinNoiseGenerator(new Random(-123589L), 8);
-	//private static final WorldGenerator VENT_CLUSTER_GENERATOR = new WorldGenAbyssalVentCluster(6, 1, 6, 2, 4, 2);
-	//private static final WorldGenerator CORAL_CLUSTER_GENERATOR = new WorldGenAbyssalCoralCluster(3, 1, 3);
+	private static final IBeastsGenerator VENT_CLUSTER_GENERATOR = new WorldGenAbyssalVentCluster(6, 1, 6, 2, 4, 2);
+	private static final IBeastsGenerator CORAL_CLUSTER_GENERATOR = new WorldGenAbyssalCoralCluster(3, 1, 3);
 	private static final int VENT_CLUSTER_CHANCE = 50;
 	private static final int CORAL_CLUSTER_CHANCE = 50;
 	private static final int ABYSSAL_GRASS_CHANCE = 8;
@@ -96,14 +102,14 @@ public class BiomeAbyss extends UndergroundBiome {
 					if (posit.getY() < Math.round((float) -d0) + minY + layer1_height && posit.getY() > Math.round((float) d0 * 0.333f) + minY + layer1_height) {
 						world.setBlockState(posit, Blocks.AIR.getDefaultState(), 16);
 					} else if (posit.getY() <= Math.round((float) d0 * 0.333f) + minY + layer1_height && posit.getY() > Math.round((float) d0 * 0.5f) + minY + layer1_height) {
-						//world.setBlockState(posit, BeastsBlocks.ABYSSAL_SAND.getDefaultState(), 16);
+						world.setBlockState(posit, BeastsBlocks.ABYSSAL_SAND.getDefaultState(), 16);
 					}
 
 					double d1 = CAVE_NOISE_LAYER_2.getValue((double) posit.getX() * 1.6667f, (double) posit.getZ() * 1.6667f) * 0.09d;
 					if (posit.getY() < Math.round((float) -d1) + minY + layer2_height && posit.getY() > Math.round((float) d1 * 0.333f) + minY + layer2_height) {
 						world.setBlockState(posit, Blocks.AIR.getDefaultState(), 16);
 					} else if (posit.getY() <= Math.round((float) d1 * 0.333f) + minY + layer2_height && posit.getY() > Math.round((float) d1 * 0.5f) + minY + layer2_height) {
-						//world.setBlockState(posit, BeastsBlocks.ABYSSAL_SAND.getDefaultState(), 16);
+						world.setBlockState(posit, BeastsBlocks.ABYSSAL_SAND.getDefaultState(), 16);
 					}
 				}
 			}
@@ -141,11 +147,11 @@ public class BiomeAbyss extends UndergroundBiome {
 					PerlinNoiseGenerator plantNoise = new PerlinNoiseGenerator(new Random(-12L), 3);
 					double noise = plantNoise.getValue(posit.getX() * 1.5f, posit.getZ() * 1.5f);
 					if (noise > 1.5d) {
-						/*
+
 						if (rand.nextInt(VENT_CLUSTER_CHANCE) == 0 && world.getBlockState(posit.down()).getBlock() == BeastsBlocks.ABYSSAL_SAND)
 							VENT_CLUSTER_GENERATOR.generate(world, rand, posit);
-					*/
-					} /*else if (noise < 1.25d) {
+
+					} else if (noise < 1.25d) {
 						if (rand.nextInt(CORAL_CLUSTER_CHANCE) == 0 && !world.isAirBlock(posit.down()))
 							CORAL_CLUSTER_GENERATOR.generate(world, rand, posit.down());
 						if (rand.nextInt(ABYSSAL_GRASS_CHANCE) == 0 && world.getBlockState(posit.down()).getBlock() == BeastsBlocks.ABYSSAL_SAND)
@@ -156,14 +162,14 @@ public class BiomeAbyss extends UndergroundBiome {
 							world.setBlockState(posit, BeastsBlocks.ABYSSAL_TENDRILS.getDefaultState().with(BlockAbyssalTendrils.HALF, BlockAbyssalTendrils.EnumBlockHalf.LOWER), 16);
 							world.setBlockState(posit.up(), BeastsBlocks.ABYSSAL_TENDRILS.getDefaultState().with(BlockAbyssalTendrils.HALF, BlockAbyssalTendrils.EnumBlockHalf.UPPER), 16);
 						}
-						EnumFacing facing = EnumFacing.getFront(rand.nextInt(6));
+						Direction facing = Direction.byIndex(rand.nextInt(6));
 						if (rand.nextInt(GLOW_CORAL_CHANCE) == 0 && world.getBlockState(posit.offset(facing)).getBlock() == BeastsBlocks.ABYSSAL_STONE) {
 							if (rand.nextBoolean())
 								world.setBlockState(posit, BeastsBlocks.GLOW_CORAL_BLUE.getDefaultState().with(BlockGlowCoral.FACING, facing.getOpposite()), 16);
 							else
 								world.setBlockState(posit, BeastsBlocks.GLOW_CORAL_PINK.getDefaultState().with(BlockGlowCoral.FACING, facing.getOpposite()), 16);
 						}
-					}*/
+					}
 				}
 			}
 		});
