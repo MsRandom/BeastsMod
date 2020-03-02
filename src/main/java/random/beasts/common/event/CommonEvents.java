@@ -6,7 +6,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.ai.EntityAITargetNonTamed;
 import net.minecraft.entity.passive.EntityOcelot;
-import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
@@ -31,7 +30,6 @@ import random.beasts.api.entity.BeastsBranchie;
 import random.beasts.api.main.BeastsReference;
 import random.beasts.common.BeastsMod;
 import random.beasts.common.entity.passive.EntityPufferfishDog;
-import random.beasts.common.entity.passive.EntityRabbitman;
 import random.beasts.common.init.BeastsEntities;
 import random.beasts.common.init.BeastsLootTables;
 import random.beasts.common.world.storage.loot.BeastsLootTable;
@@ -83,12 +81,7 @@ public class CommonEvents {
             final EntityOcelot ocelot = (EntityOcelot) event.getEntity();
             if (ocelot != null) {
                 ocelot.targetTasks.addTask(1, new EntityAITargetNonTamed<>(ocelot, EntityPufferfishDog.class, false, target -> target != null && target.getDistance(ocelot) < 32.0));
-                ocelot.targetTasks.addTask(1, new EntityAITargetNonTamed<>(ocelot, EntityRabbitman.class, false, target -> target != null && target.getDistance(ocelot) < 32.0));
             }
-        } else if (event.getEntity() instanceof EntityWolf) {
-            final EntityWolf wolf = (EntityWolf) event.getEntity();
-            if (wolf != null)
-                wolf.targetTasks.addTask(1, new EntityAITargetNonTamed<>(wolf, EntityRabbitman.class, false, target -> target != null && target.getDistance(wolf) < 32.0));
         }
     }
 

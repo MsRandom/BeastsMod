@@ -7,7 +7,6 @@ import net.minecraft.command.WrongUsageException;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentTranslation;
-import random.beasts.common.world.gen.structure.RabbitVillageGenerator;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -35,7 +34,7 @@ public class CommandLocateStructure extends CommandBase {
             throw new WrongUsageException("commands.locate.usage");
         } else {
             String s = args[0];
-            BlockPos blockpos = s.equals("RabbitVillage") ? RabbitVillageGenerator.getNearestStructurePos(sender.getEntityWorld(), sender.getPosition()) : sender.getEntityWorld().findNearestStructure(s, sender.getPosition(), false);
+            BlockPos blockpos = sender.getEntityWorld().findNearestStructure(s, sender.getPosition(), false);
             if (blockpos != null) {
                 sender.sendMessage(new TextComponentTranslation("commands.locate.success", s, blockpos.getX(), blockpos.getZ()));
             } else {
@@ -46,6 +45,6 @@ public class CommandLocateStructure extends CommandBase {
 
     @Nonnull
     public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
-        return args.length == 1 ? getListOfStringsMatchingLastWord(args, "Stronghold", "Monument", "Village", "Mansion", "EndCity", "Fortress", "Temple", "Mineshaft", "RabbitVillage") : Collections.emptyList();
+        return args.length == 1 ? getListOfStringsMatchingLastWord(args, "Stronghold", "Monument", "Village", "Mansion", "EndCity", "Fortress", "Temple", "Mineshaft") : Collections.emptyList();
     }
 }

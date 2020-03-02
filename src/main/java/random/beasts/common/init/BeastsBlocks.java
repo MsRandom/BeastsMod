@@ -12,16 +12,15 @@ import java.util.Map;
 
 public class BeastsBlocks {
 
-    //TODO put these back in after their classes are pushed
-    //public static final Block ABYSSAL_GRASS = new BlockBeastPlant("abyssal_grass");
-    public static final Block ABYSSAL_ORE = new BlockAbyssalOre();
-    //public static final Block ABYSSAL_SAND = new BlockAbyssalSand("abyssal_sand");
-    public static final Block ABYSSAL_STONE = new BlockAbyssalStone();
-    /*public static final Block ABYSSAL_TENDRILS = new BlockAbyssalTendrils("abyssal_tendrils");
+    public static final Block ABYSSAL_GRASS = new BlockBeastPlant("abyssal_grass");
+    public static final Block ABYSSAL_ORE = new BlockAbyssalOre("abyssal_ore");
+    public static final Block ABYSSAL_SAND = new BlockAbyssalSand("abyssal_sand");
+    public static final Block ABYSSAL_STONE = new BlockAbyssalStone("abyssal_stone");
+    public static final Block ABYSSAL_TENDRILS = new BlockAbyssalTendrils("abyssal_tendrils");
     public static final Block ABYSSAL_VENT = new BlockAbyssalVentMouth("abyssal_vent");
     public static final Block GLOW_CORAL_PINK = new BlockGlowCoral("glow_coral_pink");
     public static final Block GLOW_CORAL_BLUE = new BlockGlowCoral("glow_coral_blue");
-    public static final Block TENTACLE_GRASS = new BlockTentacleGrass("tentacle_grass");*/
+    public static final Block TENTACLE_GRASS = new BlockTentacleGrass("tentacle_grass");
     public static final Block COCONUT = new BlockCoconut();
     public static final Block CORAL_BLOCK = new BlockCoral();
     public static final Block CORAL_SAPLING = new BlockCoralSapling();

@@ -1,0 +1,7 @@
+{
+  "parent": "beasts:block/coral_fan",
+  "textures": {
+    "fan": "beasts:blocks/fan_pink",
+    "fan_center": "beasts:blocks/fan_pink_center"
+  }
+}

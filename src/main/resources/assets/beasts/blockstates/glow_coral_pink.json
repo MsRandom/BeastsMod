@@ -1,0 +1,30 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "beasts:coral_fan_pink"
+    },
+    "facing=down": {
+      "model": "beasts:coral_fan_pink",
+      "x": 180
+    },
+    "facing=east": {
+      "model": "beasts:coral_fan_pink",
+      "x": 90,
+      "y": 90
+    },
+    "facing=west": {
+      "model": "beasts:coral_fan_pink",
+      "x": 90,
+      "y": 270
+    },
+    "facing=south": {
+      "model": "beasts:coral_fan_pink",
+      "x": 90,
+      "y": 180
+    },
+    "facing=north": {
+      "model": "beasts:coral_fan_pink",
+      "x": 90
+    }
+  }
+}

@@ -10,16 +10,13 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.EnumHelper;
 import random.beasts.api.item.BeastsFood;
 import random.beasts.api.item.BeastsItem;
-import random.beasts.api.item.BeastsSword;
 import random.beasts.api.item.BeastsToolSet;
 import random.beasts.common.item.*;
 
 public class BeastsItems {
     public static final Item ICON = new BeastsItem("icon", false);
     public static final Item BEASTS_PAINTING = new ItemBeastsPainting();
-    public static final Item GLOW_ROOT = new ItemGlowRoot();
     public static final Item LEAFY_BONE = new BeastsItem("leafy_bone");
-    public static final Item CARROT_COIN = new BeastsItem("carrot_coin");
     public static final Item COCONADE = new ItemCoconade("coconade");
     public static final Item CORAL_ESSENCE = new ItemCoralEssence();
     public static final Item COCONUT_BOWL = new BeastsItem("coconut_bowl").setMaxStackSize(2);
@@ -27,8 +24,6 @@ public class BeastsItems {
     public static final Item ATHAPOD_CHITIN = new BeastsItem("athapod_chitin");
     public static final Item SPARTAPOD_CHITIN = new BeastsItem("spartapod_chitin");
     public static final Item SPARTAPOD_CREST = new BeastsItem("spartapod_crest");
-    public static final Item ICE_CRAB_CHITIN = new BeastsItem("ice_crab_chitin");
-    public static final Item WORM_TOOTH = new BeastsItem("worm_tooth");
     public static final Item PUFFER_SCALE = new BeastsItem("puffer_scale");
     public static final Item HERMIT_HELM = new BeastsArmor("hermit_helm", ItemArmor.ArmorMaterial.IRON, EntityEquipmentSlot.HEAD).setMaxDamage(0);
     public static final Item MEAT_SCRAPES = new BeastsItem("meat_scrapes");
@@ -67,7 +62,6 @@ public class BeastsItems {
     public static final ItemArmor PUFFER_CHEST = new ItemPufferArmor("chest", EntityEquipmentSlot.CHEST);
     public static final ItemArmor PUFFER_LEGS = new ItemPufferArmor("legs", EntityEquipmentSlot.LEGS);
     public static final ItemArmor PUFFER_BOOTS = new ItemPufferArmor("boots", EntityEquipmentSlot.FEET);
-    public static final ItemSword DIAMOND_CARROT = new BeastsSword(Item.ToolMaterial.DIAMOND, "diamond_carrot");
     public static final BeastsToolSet JELLY_TOOLS = new ToolSetJellyWood();
     private static final Item.ToolMaterial SWORDFISH_MAT = EnumHelper.addToolMaterial("daggerfish", 0, 3, 8.0F, 4.0F, 0);
     public static final ItemSword COOKED_DAGGERFISH = new ItemDaggerfish(SWORDFISH_MAT, "cooked_daggerfish");

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=upper": {
+      "model": "beasts:abyssal_tendrils_upper"
+    },
+    "half=lower": {
+      "model": "beasts:abyssal_tendrils_lower"
+    }
+  }
+}

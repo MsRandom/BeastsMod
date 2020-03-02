@@ -1,7 +1,7 @@
 {
   "variants": {
     "normal": {
-      "model": "beasts:glow_root_bottom"
+      "model": "beasts:tentacle_grass"
     }
   }
 }
