@@ -1,6 +1,9 @@
 package random.beasts.common.block;
 
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockBush;
+import net.minecraft.block.IGrowable;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -11,7 +14,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -19,19 +21,17 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import random.beasts.api.main.BeastsUtils;
 
-import javax.annotation.Nullable;
 import java.util.Random;
 
 public class BlockAbyssalTendrils extends BlockBush implements IGrowable {
-
     public static final PropertyEnum<BlockAbyssalTendrils.EnumBlockHalf> HALF = PropertyEnum.create("half", BlockAbyssalTendrils.EnumBlockHalf.class);
 
-    public BlockAbyssalTendrils(String name) {
+    public BlockAbyssalTendrils() {
         this.setDefaultState(this.blockState.getBaseState().withProperty(HALF, BlockAbyssalTendrils.EnumBlockHalf.LOWER));
         this.setHardness(0.0F);
         this.setLightLevel(0.45F);
         this.setSoundType(SoundType.PLANT);
-        BeastsUtils.addToRegistry(this, name, ItemBlock::new);
+        BeastsUtils.addToRegistry(this, "abyssal_tendrils", ItemBlock::new);
     }
 
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
@@ -80,19 +80,8 @@ public class BlockAbyssalTendrils extends BlockBush implements IGrowable {
         }
     }
 
-    public void placeAt(World worldIn, BlockPos lowerPos, BlockDoublePlant.EnumPlantType variant, int flags) {
-        worldIn.setBlockState(lowerPos, this.getDefaultState().withProperty(HALF, BlockAbyssalTendrils.EnumBlockHalf.LOWER), flags);
-        worldIn.setBlockState(lowerPos.up(), this.getDefaultState().withProperty(HALF, BlockAbyssalTendrils.EnumBlockHalf.UPPER), flags);
-    }
-
     public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
         worldIn.setBlockState(pos.up(), this.getDefaultState().withProperty(HALF, BlockAbyssalTendrils.EnumBlockHalf.UPPER), 2);
-    }
-
-    public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, @Nullable TileEntity te, ItemStack stack) {
-        {
-            super.harvestBlock(worldIn, player, pos, state, te, stack);
-        }
     }
 
     public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
@@ -101,8 +90,6 @@ public class BlockAbyssalTendrils extends BlockBush implements IGrowable {
                 if (player.capabilities.isCreativeMode) {
                     worldIn.setBlockToAir(pos.down());
                 } else {
-                    IBlockState iblockstate = worldIn.getBlockState(pos.down());
-
                     worldIn.destroyBlock(pos.down(), true);
                 }
             }

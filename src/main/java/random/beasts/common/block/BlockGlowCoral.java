@@ -46,9 +46,6 @@ public class BlockGlowCoral extends BlockBush implements IGrowable {
         return canPlaceBlock(worldIn, pos, side);
     }
 
-    /**
-     * Checks if this block can be placed exactly at the given position.
-     */
     public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
         for (EnumFacing enumfacing : EnumFacing.values()) {
             if (canPlaceBlock(worldIn, pos, enumfacing)) {

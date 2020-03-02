@@ -15,10 +15,10 @@ import random.beasts.common.init.BeastsBlocks;
 
 public class BlockAbyssalSand extends BlockFalling {
 
-    public BlockAbyssalSand(String name) {
+    public BlockAbyssalSand() {
         this.setHardness(0.5F);
         this.setSoundType(SoundType.SAND);
-        BeastsUtils.addToRegistry(this, name, ItemBlock::new);
+        BeastsUtils.addToRegistry(this, "abyssal_sand", ItemBlock::new);
     }
 
     @Override

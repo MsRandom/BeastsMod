@@ -23,8 +23,8 @@ public class BlockAbyssalOre extends BeastsBlock {
 
     public static final PropertyEnum<OreType> ORE = PropertyEnum.create("ore", OreType.class);
 
-    public BlockAbyssalOre(String name) {
-        super(Material.ROCK, name, ItemOreBlock::new);
+    public BlockAbyssalOre() {
+        super(Material.ROCK, "abyssal_ore", ItemOreBlock::new);
         this.setHardness(3F);
         this.setResistance(5F);
         this.setSoundType(SoundType.STONE);

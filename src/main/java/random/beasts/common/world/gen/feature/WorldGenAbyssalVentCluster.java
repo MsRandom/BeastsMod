@@ -2,6 +2,7 @@ package random.beasts.common.world.gen.feature;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import random.beasts.common.init.BeastsBlocks;
@@ -26,7 +27,7 @@ public class WorldGenAbyssalVentCluster extends WorldGenerator {
     }
 
     public static float getDistance(BlockPos pos1, BlockPos pos2) {
-        return (float) Math.sqrt(Math.pow(pos1.getX() - pos2.getX(), 2) + Math.pow(pos1.getZ() - pos2.getZ(), 2));
+        return MathHelper.sqrt(Math.pow(pos1.getX() - pos2.getX(), 2) + Math.pow(pos1.getZ() - pos2.getZ(), 2));
     }
 
     public boolean generate(World worldIn, Random rand, BlockPos position) {

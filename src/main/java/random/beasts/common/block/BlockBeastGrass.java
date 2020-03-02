@@ -14,12 +14,12 @@ import random.beasts.api.main.BeastsUtils;
 
 import java.util.Random;
 
-public class BlockBeastPlant extends BlockBush implements IGrowable {
+public class BlockBeastGrass extends BlockBush implements IGrowable {
 
-    public BlockBeastPlant(String name) {
+    public BlockBeastGrass() {
         this.setHardness(0.0F);
         this.setSoundType(SoundType.PLANT);
-        BeastsUtils.addToRegistry(this, name, ItemBlock::new);
+        BeastsUtils.addToRegistry(this, "abyssal_grass", ItemBlock::new);
     }
 
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {

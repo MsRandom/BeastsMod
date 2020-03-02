@@ -11,8 +11,8 @@ import random.beasts.api.block.BeastsBlock;
 import random.beasts.common.init.BeastsBlocks;
 
 public class BlockAbyssalStone extends BeastsBlock {
-    public BlockAbyssalStone(String name) {
-        super(Material.ROCK, name);
+    public BlockAbyssalStone() {
+        super(Material.ROCK, "abyssal_stone");
         this.setHardness(2F);
         this.setResistance(5F);
         this.setSoundType(SoundType.STONE);

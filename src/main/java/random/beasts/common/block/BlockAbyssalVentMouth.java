@@ -15,9 +15,8 @@ import random.beasts.common.init.BeastsBlocks;
 import java.util.Random;
 
 public class BlockAbyssalVentMouth extends BeastsBlock {
-
-    public BlockAbyssalVentMouth(String name) {
-        super(Material.ROCK, name);
+    public BlockAbyssalVentMouth() {
+        super(Material.ROCK, "abyssal_vent");
         this.setHardness(2F);
         this.setResistance(5F);
         this.setLightLevel(0.75F);

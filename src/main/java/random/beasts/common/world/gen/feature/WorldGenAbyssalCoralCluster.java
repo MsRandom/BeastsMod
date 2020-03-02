@@ -1,7 +1,6 @@
 package random.beasts.common.world.gen.feature;
 
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import random.beasts.common.block.BlockCoral;
@@ -30,7 +29,7 @@ public class WorldGenAbyssalCoralCluster extends WorldGenerator {
             double a = Math.pow(position.getX() - pos.getX(), 2) / Math.pow(size, 2) +
                     Math.pow(position.getY() - pos.getY(), 2) / Math.pow(size, 2) +
                     Math.pow(position.getZ() - pos.getZ(), 2) / Math.pow(size, 2);
-            if (new ChunkPos(position).equals(new ChunkPos(pos)) && a <= 1d && rand.nextBoolean()) {
+            if ((pos.getX() >> 4 == position.getX() >> 4 && pos.getZ() >> 4 == position.getZ() >> 4) && a <= 1d && rand.nextBoolean()) {
                 if (rand.nextInt(coralChance) == 0)
                     worldIn.setBlockState(pos, BeastsBlocks.CORAL_BLOCK.getDefaultState().withProperty(BlockCoral.COLOR, color), 16);
                 else
