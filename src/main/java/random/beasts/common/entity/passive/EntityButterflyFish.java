@@ -3,7 +3,6 @@ package random.beasts.common.entity.passive;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
 import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -12,8 +11,10 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
-import random.beasts.common.init.BeastsItems;
+
+import javax.annotation.Nullable;
 
 public class EntityButterflyFish extends AnimalEntity {
     private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityButterflyFish.class, DataSerializers.VARINT);
@@ -24,9 +25,9 @@ public class EntityButterflyFish extends AnimalEntity {
     }
 
     @Override
-    public ILivingEntityData onInitialSpawn(DifficultyInstance difficulty, ILivingEntityData livingdata) {
+    public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, @Nullable CompoundNBT dataTag) {
         this.setVariant(this.getRNG().nextInt(4));
-        return super.onInitialSpawn(difficulty, livingdata);
+        return super.onInitialSpawn(world, difficulty, reason, livingdata, dataTag);
     }
 
     protected void registerData() {
@@ -62,11 +63,11 @@ public class EntityButterflyFish extends AnimalEntity {
         this.setMotion(getMotion().mul(0, 0.6, 0));
     }
 
-    @Override
+    /*@Override
     protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
         super.dropFewItems(wasRecentlyHit, lootingModifier);
         this.entityDropItem(new ItemStack(BeastsItems.BUTTERFLYFISH_WING, 1), 0);
-    }
+    }*/
 
     protected void updateAITasks() {
         super.updateAITasks();

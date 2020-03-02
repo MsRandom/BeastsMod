@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "beasts:scallop_tongue"
+  },
+  "result": "beasts:cooked_scallop_tongue",
+  "experience": 0.35,
+  "cookingtime": 100
+}

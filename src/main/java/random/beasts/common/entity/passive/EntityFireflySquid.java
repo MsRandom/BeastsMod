@@ -14,6 +14,7 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import random.beasts.common.init.BeastsEntities;
 
@@ -43,8 +44,8 @@ public class EntityFireflySquid extends AnimalEntity implements IFlyingAnimal {
 
     @Nullable
     @Override
-    public ILivingEntityData onInitialSpawn(DifficultyInstance difficulty, @Nullable ILivingEntityData livingdata) {
-        livingdata = super.onInitialSpawn(difficulty, livingdata);
+    public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, @Nullable CompoundNBT dataTag) {
+        livingdata = super.onInitialSpawn(world, difficulty, reason, livingdata, dataTag);
         this.setVariant(rand.nextInt(4));
         return livingdata;
     }
@@ -87,7 +88,7 @@ public class EntityFireflySquid extends AnimalEntity implements IFlyingAnimal {
         double d1 = (double) this.spawnPosition.getY() + 0.1D - this.posY;
         double d2 = (double) this.spawnPosition.getZ() + 0.5D - this.posZ;
         double speed = 0.02d;
-        this.setMotion(getMotion().add((Math.signum(d0) * 0.5 - this.getMotion().x) * 0.1, (Math.signum(d1) * 0.7 - this.getMotion().y) * 0.1, (Math.signum(d2) * 0.5 - this.getMotion().z) * 0.1);
+        this.setMotion(getMotion().add((Math.signum(d0) * 0.5 - this.getMotion().x) * 0.1, (Math.signum(d1) * 0.7 - this.getMotion().y) * 0.1, (Math.signum(d2) * 0.5 - this.getMotion().z) * 0.1));
         float f = (float) (MathHelper.atan2(this.getMotion().z, this.getMotion().x) * (180D / Math.PI)) - 90.0F;
         float f1 = MathHelper.wrapDegrees(f - this.rotationYaw);
         this.moveForward = 0.5F;

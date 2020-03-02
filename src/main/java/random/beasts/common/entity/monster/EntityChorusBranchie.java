@@ -2,15 +2,12 @@ package random.beasts.common.entity.monster;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.world.BlockEvent;
 import random.beasts.common.init.BeastsEntities;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
 public class EntityChorusBranchie extends EntityBranchieBase {
@@ -31,9 +28,9 @@ public class EntityChorusBranchie extends EntityBranchieBase {
         return null;
     }
 
-    @Nullable
+    /*@Nullable
     @Override
     protected Item getDropItem() {
         return Items.CHORUS_FRUIT;
-    }
+    }*/
 }

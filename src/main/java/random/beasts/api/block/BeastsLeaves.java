@@ -3,6 +3,7 @@ package random.beasts.api.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LeavesBlock;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
@@ -16,7 +17,11 @@ import java.util.Random;
 
 public class BeastsLeaves extends LeavesBlock {
     public BeastsLeaves() {
-        super(Block.Properties.create(Material.LEAVES));
+        this(Block.Properties.create(Material.LEAVES).sound(SoundType.PLANT));
+    }
+
+    public BeastsLeaves(Properties properties) {
+        super(properties);
         this.setDefaultState(this.getDefaultState().with(PERSISTENT, true));
     }
 

@@ -1,9 +1,6 @@
 package random.beasts.common.entity.passive;
 
-import net.minecraft.entity.AgeableEntity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ILivingEntityData;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -13,6 +10,7 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import random.beasts.common.init.BeastsEntities;
 import random.beasts.common.init.BeastsItems;
@@ -47,8 +45,8 @@ public class EntityAnemoneCrawler extends AnimalEntity {
 
     @Nullable
     @Override
-    public ILivingEntityData onInitialSpawn(DifficultyInstance difficulty, @Nullable ILivingEntityData livingdata) {
-        livingdata = super.onInitialSpawn(difficulty, livingdata);
+    public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, @Nullable CompoundNBT dataTag) {
+        livingdata = super.onInitialSpawn(world, difficulty, reason, livingdata, dataTag);
         setVariant(rand.nextInt(3));
         return livingdata;
     }
@@ -90,7 +88,7 @@ public class EntityAnemoneCrawler extends AnimalEntity {
         if (ageable instanceof EntityAnemoneCrawler) {
             EntityAnemoneCrawler child = BeastsEntities.ANEMONE_CRAWLER.create(world);
             EntityAnemoneCrawler dropper = rand.nextBoolean() ? (EntityAnemoneCrawler) ageable : this;
-            if (rand.nextBoolean()) dropper.dropItem(BeastsItems.MEAT_SCRAPES, 1);
+            if (rand.nextBoolean()) dropper.entityDropItem(new ItemStack(BeastsItems.MEAT_SCRAPES));
             child.setVariant(dropper.getVariant());
             if (this.getRNG().nextInt(10) == 0)
                 child.setVariant(3);

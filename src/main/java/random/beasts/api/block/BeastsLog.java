@@ -9,7 +9,11 @@ import random.beasts.api.main.BeastsUtils;
 public class BeastsLog extends LogBlock {
 
     public BeastsLog(String name) {
-        super(MaterialColor.WOOD, Block.Properties.create(Material.WOOD));
+        this(name, Block.Properties.create(Material.WOOD));
+    }
+
+    public BeastsLog(String name, Properties properties) {
+        super(MaterialColor.WOOD, properties);
         BeastsUtils.addToRegistry(this, name);
     }
 }

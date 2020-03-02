@@ -4,7 +4,6 @@ import net.minecraft.entity.*;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.passive.IFlyingAnimal;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.pathfinding.FlyingPathNavigator;
 import net.minecraft.pathfinding.PathNavigator;
@@ -12,10 +11,9 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
+import net.minecraft.world.gen.Heightmap;
 import random.beasts.client.init.BeastsSounds;
 import random.beasts.common.init.BeastsBiomes;
-import random.beasts.common.init.BeastsBlocks;
-import random.beasts.common.init.BeastsItems;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
@@ -51,8 +49,8 @@ public class EntityScallop extends MonsterEntity implements IFlyingAnimal {
     @Override
     public void livingTick() {
         super.livingTick();
-        int speed = MathHelper.floor(4 / getAttribute(SharedMonsterAttributes.FLYING_SPEED).get());
-        int worldHeight = world.getHeight((int) (posX + 0.5), (int) (posZ + 0.5));
+        int speed = MathHelper.floor(4 / getAttribute(SharedMonsterAttributes.FLYING_SPEED).getValue());
+        int worldHeight = world.getHeight(Heightmap.Type.WORLD_SURFACE_WG, (int) (posX + 0.5), (int) (posZ + 0.5));
         if (getAttackTarget() == null) {
             Runnable targetSetter = () -> {
                 if (needsTarget()) {
@@ -121,12 +119,12 @@ public class EntityScallop extends MonsterEntity implements IFlyingAnimal {
         return super.attackEntityAsMob(entityIn);
     }
 
-    @Override
+    /*@Override
     protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
         dropItem(Item.getItemFromBlock(BeastsBlocks.SHELL_BLOCKS[rand.nextInt(BeastsBlocks.SHELL_BLOCKS.length)]), 1);
         if (rand.nextInt(10) == 0)
             dropItem(isBurning() ? BeastsItems.COOKED_SCALLOP_TONGUE : BeastsItems.SCALLOP_TONGUE, 1);
-    }
+    }*/
 
     @Override
     public void fall(float distance, float damageMultiplier) {

@@ -4,6 +4,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.LeavesBlock;
 import net.minecraft.block.trees.Tree;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
@@ -70,13 +71,13 @@ public class WorldGenPalmTrees extends Tree {
 
             for (int i = -5; i < 5; i++) {
                 if (i != 0) {
-                    pos = world.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, position.add(i, 0, i));
+                    pos = world.getHeight(Heightmap.Type.WORLD_SURFACE_WG, position.add(i, 0, i));
                     if (world.isAirBlock(pos) && world.getBlockState(pos.down()).getBlock() == Blocks.SAND) {
                         if (rand.nextInt(3) == 0) {
                             if (world instanceof World && rand.nextInt(10) < 2) {
                                 EntityCoconutCrab crab = BeastsEntities.COCONUT_CRAB.create((World) world);
                                 crab.setLocationAndAngles(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0, 0);
-                                crab.onInitialSpawn(world.getDifficultyForLocation(pos), null);
+                                crab.onInitialSpawn(world, world.getDifficultyForLocation(pos), SpawnReason.NATURAL, null, null);
                                 world.addEntity(crab);
                             } else world.setBlockState(pos, BeastsBlocks.COCONUT.getDefaultState(), 3);
                         }

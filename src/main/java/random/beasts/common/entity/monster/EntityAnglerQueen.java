@@ -19,8 +19,10 @@ import net.minecraft.world.ServerBossInfo;
 import net.minecraft.world.World;
 import random.beasts.client.init.BeastsSounds;
 import random.beasts.common.entity.passive.EntityAnglerPup;
+import random.beasts.common.init.BeastsEntities;
 
 import java.util.EnumSet;
+import java.util.Optional;
 
 public class EntityAnglerQueen extends MonsterEntity {
     private static final DataParameter<Boolean> CHARGING_BEAM = EntityDataManager.createKey(EntityAnglerQueen.class, DataSerializers.BOOLEAN);
@@ -155,11 +157,11 @@ public class EntityAnglerQueen extends MonsterEntity {
 
             AxisAlignedBB axisalignedbb = subject.getBoundingBox().grow(0.30000001192092896D);
             Vec3d subjectLocation = new Vec3d(subject.posX, subject.posY + subject.getEyeHeight(), subject.posZ);
-            RayTraceResult traceToBlocks = subject.world.rayTraceBlocks(observer, subjectLocation, false, true, false);
-            if (traceToBlocks != null)
-                subjectLocation = traceToBlocks.hitVec;
-            RayTraceResult traceToEntity = axisalignedbb.calculateIntercept(observer, subjectLocation);
-            return traceToEntity != null;
+            RayTraceResult traceToBlocks = subject.world.rayTraceBlocks(new RayTraceContext(observer, subjectLocation, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, subject));
+            if (traceToBlocks.getType() != RayTraceResult.Type.MISS)
+                subjectLocation = traceToBlocks.getHitVec();
+            Optional<Vec3d> traceToEntity = axisalignedbb.rayTrace(observer, subjectLocation);
+            return traceToEntity.isPresent();
         }
 
         public boolean shouldExecute() {
@@ -218,9 +220,10 @@ public class EntityAnglerQueen extends MonsterEntity {
                     double range = 30d;
                     Vec3d hitVec = lureVec.add(laserAngle.scale(range));
 
-                    RayTraceResult trace = queen.world.rayTraceBlocks(lureVec, hitVec);
-                    if (trace != null && trace.hitVec != null)
-                        hitVec = trace.hitVec;
+                    RayTraceResult trace = queen.world.rayTraceBlocks(new RayTraceContext(lureVec, hitVec, RayTraceContext.BlockMode.OUTLINE, RayTraceContext.FluidMode.NONE, queen));
+                    if (trace.getType() != RayTraceResult.Type.MISS) {
+                        hitVec = trace.getHitVec();
+                    }
 
                     float f = 1.0F;
                     if (this.queen.world.getDifficulty() == Difficulty.HARD) {
@@ -230,14 +233,14 @@ public class EntityAnglerQueen extends MonsterEntity {
                     LivingEntity base = null;
                     for (LivingEntity entity : queen.world.getEntitiesWithinAABB(LivingEntity.class, queen.getBoundingBox().grow(30))) {
                         AxisAlignedBB axisalignedbb = entity.getBoundingBox().grow(0.30000001192092896D);
-                        RayTraceResult traceToEntity = axisalignedbb.calculateIntercept(lureVec, hitVec);
-                        if (traceToEntity != null && canSeeEntity(lureVec, entity) && entity != queen && (base == null || queen.getDistance(entity) < queen.getDistance(base)))
+                        Optional<Vec3d> traceToEntity = axisalignedbb.rayTrace(lureVec, hitVec);
+                        if (traceToEntity.isPresent() && canSeeEntity(lureVec, entity) && entity != queen && (base == null || queen.getDistance(entity) < queen.getDistance(base)))
                             base = entity;
                     }
 
                     if (base != null) {
                         base.attackEntityFrom(DamageSource.causeIndirectMagicDamage(this.queen, this.queen), f);
-                        base.attackEntityFrom(DamageSource.causeMobDamage(this.queen), (float) this.queen.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).get());
+                        base.attackEntityFrom(DamageSource.causeMobDamage(this.queen), (float) this.queen.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue());
                     }
 
                     if (this.queen.ticksExisted % 15 == 0)
@@ -303,7 +306,7 @@ public class EntityAnglerQueen extends MonsterEntity {
                     BlockPos blockpos = (new BlockPos(queen)).add(-2 + queen.getRNG().nextInt(5), 1, -2 + queen.getRNG().nextInt(5));
                     while (!queen.getEntityWorld().isAirBlock(blockpos))
                         blockpos = (new BlockPos(queen)).add(-2 + queen.getRNG().nextInt(5), 1, -2 + queen.getRNG().nextInt(5));
-                    EntityAnglerPup entity = new EntityAnglerPup(queen.world);
+                    EntityAnglerPup entity = BeastsEntities.ANGLER_PUP.create(queen.world);
                     entity.setPosition(blockpos.getX() + 0.5d, blockpos.getY(), blockpos.getZ() + 0.5d);
                     entity.setAttackTarget(queen.getAttackTarget());
                     if (!queen.world.isRemote) queen.world.addEntity(entity);

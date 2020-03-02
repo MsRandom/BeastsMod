@@ -1,6 +1,5 @@
 package random.beasts.common.entity.passive;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.*;
@@ -38,7 +37,6 @@ import random.beasts.api.entity.IDriedAquatic;
 import random.beasts.client.init.BeastsSounds;
 import random.beasts.common.BeastsMod;
 import random.beasts.common.block.CoralColor;
-import random.beasts.common.init.BeastsBlocks;
 import random.beasts.common.init.BeastsEntities;
 import random.beasts.common.init.BeastsItems;
 import random.beasts.common.inventory.ContainerLandwhaleInventory;
@@ -47,7 +45,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class EntityLandwhale extends TameableEntity implements IShearable, IDriedAquatic, IInventoryChangedListener, INamedContainerProvider {
     private static final DataParameter<Boolean> SHEARED = EntityDataManager.createKey(EntityLandwhale.class, DataSerializers.BOOLEAN);
@@ -177,7 +174,7 @@ public class EntityLandwhale extends TameableEntity implements IShearable, IDrie
         if (!this.world.isRemote) this.dataManager.set(SADDLE, !this.inventory.getStackInSlot(0).isEmpty());
     }
 
-    @Override
+    /*@Override
     protected Item getDropItem() {
         return Items.LEATHER;
     }
@@ -189,7 +186,7 @@ public class EntityLandwhale extends TameableEntity implements IShearable, IDrie
         if (lootingModifier > 0) i += this.rand.nextInt(lootingModifier + 1);
         for (int j = 0; j < i; ++j) this.dropItem(Item.getItemFromBlock(chop), 1);
         this.dropItem(Objects.requireNonNull(Item.getItemFromBlock(chop)), 1);
-    }
+    }*/
 
     protected void registerAttributes() {
         super.registerAttributes();
@@ -239,7 +236,7 @@ public class EntityLandwhale extends TameableEntity implements IShearable, IDrie
             this.stepHeight = 1.0F;
             if (motion.z <= 0.0F) motion = motion.mul(0, 0, 0.25F);
             if (this.canPassengerSteer()) {
-                this.setAIMoveSpeed((float) this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).get());
+                this.setAIMoveSpeed((float) this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue());
                 super.travel(motion);
             } else if (entitylivingbase instanceof PlayerEntity) {
                 setMotion(0, 0, 0);
@@ -321,7 +318,7 @@ public class EntityLandwhale extends TameableEntity implements IShearable, IDrie
             if (this.dataManager.get(COCONUT) && owner != null) {
                 this.getNavigator().tryMoveToEntityLiving(owner, 2);
                 if (getDistanceSq(owner) < 3) {
-                    this.dropItem(BeastsItems.COCONUT, 1);
+                    entityDropItem(new ItemStack(BeastsItems.COCONUT));
                     this.dataManager.set(COCONUT, false);
                 }
             }
@@ -400,7 +397,7 @@ public class EntityLandwhale extends TameableEntity implements IShearable, IDrie
         int i = 1 + this.rand.nextInt(3);
         List<ItemStack> ret = new ArrayList<>();
         for (int j = 0; j < i; ++j)
-            ret.add(new ItemStack(BeastsBlocks.CORAL_BLOCK, 1, CoralColor.getRandom(rand).ordinal()));
+            ret.add(new ItemStack(BeastsItems.CORAL_BLOCKS.get(CoralColor.getRandom(rand))));
         this.playSound(SoundEvents.ENTITY_SHEEP_SHEAR, 1.0F, 1.0F);
         return ret;
     }

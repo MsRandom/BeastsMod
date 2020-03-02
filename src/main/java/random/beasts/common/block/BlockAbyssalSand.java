@@ -1,8 +1,10 @@
 package random.beasts.common.block;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FallingBlock;
 import net.minecraft.block.SoundType;
+import net.minecraft.block.material.Material;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
@@ -15,8 +17,7 @@ import random.beasts.common.init.BeastsBlocks;
 public class BlockAbyssalSand extends FallingBlock {
 
     public BlockAbyssalSand() {
-        this.setHardness(0.5F);
-        this.setSoundType(SoundType.SAND);
+        super(Block.Properties.create(Material.SAND).hardnessAndResistance(0.5f, 0).sound(SoundType.SAND));
         BeastsUtils.addToRegistry(this, "abyssal_sand");
     }
 

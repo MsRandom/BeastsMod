@@ -1,15 +1,15 @@
 package random.beasts.api.block;
 
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.DoorBlock;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
-import net.minecraft.item.Items;
 import random.beasts.api.item.BeastsDoorItem;
 import random.beasts.api.main.BeastsUtils;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 public class BeastsDoor extends DoorBlock {
     public static final Map<BeastsDoor, Item> DOOR_ITEMS = new HashMap<>();
@@ -23,8 +23,8 @@ public class BeastsDoor extends DoorBlock {
         DOOR_ITEMS.put(this, i);
     }
 
-    @Override
+    /*@Override
     public Item getItemDropped(BlockState state, Random rand, int fortune) {
         return state.get(HALF) == BlockDoor.EnumDoorHalf.UPPER ? Items.AIR : DOOR_ITEMS.getOrDefault(this, Items.AIR);
-    }
+    }*/
 }

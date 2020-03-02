@@ -78,10 +78,10 @@ public class EntityPufferfishDog extends TameableEntity {
         return child;
     }
 
-    @Override
+    /*@Override
     protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
         this.dropItem(BeastsItems.PUFFER_SCALE, 1 + this.getRNG().nextInt(2));
-    }
+    }*/
 
     @Override
     protected void registerAttributes() {
@@ -146,7 +146,6 @@ public class EntityPufferfishDog extends TameableEntity {
                     if (bounces == 0) bounces = 1;
                     else setMotion(getMotion().add(0, 0.25 / bounces++, 0));
                 } else setMotion(getMotion().add(0, -0.01, 0));
-                ;
                 if (getThreatTime() > 140) setInflated(false);
                 for (Entity entity : this.world.getEntitiesWithinAABBExcludingEntity(this, this.getBoundingBox().grow(1)))
                     if (entity != this.getOwner()) entity.attackEntityFrom(deathSource, 1.0F);

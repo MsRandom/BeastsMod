@@ -57,14 +57,14 @@ public class BiomeDriedReef extends BeastsBiome {
         for (int j5 = 0; j5 < 2; ++j5) {
             int x = rand.nextInt(16) + 8;
             int y = rand.nextInt(16) + 8;
-            GROUND_COVER.generate(worldIn, rand, worldIn.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, pos.add(x, 0, y)));
+            GROUND_COVER.generate(worldIn, rand, worldIn.getHeight(Heightmap.Type.WORLD_SURFACE_WG, pos.add(x, 0, y)));
         }
 
         //I hate this so much but I'm too lazy to make a better system
         int x = rand.nextInt(16) + 8;
         int z = rand.nextInt(16) + 8;
         //this can all be switched to be like 1.14
-        BlockPos blockPos = worldIn.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, pos.add(x, 0, z));
+        BlockPos blockPos = worldIn.getHeight(Heightmap.Type.WORLD_SURFACE_WG, pos.add(x, 0, z));
         ChunkPos chunk = new ChunkPos(blockPos);
         if (rand.nextBoolean())
             generate(CORAL_PLANT_GENERATOR, worldIn, rand, blockPos);

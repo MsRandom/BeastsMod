@@ -23,6 +23,6 @@ public class BlockAbyssalOre extends BeastsBlock {
 
     @Override
     public ItemStack getPickBlock(BlockState state, RayTraceResult target, IBlockReader world, BlockPos pos, PlayerEntity player) {
-        return null;
+        return ItemStack.EMPTY;
     }
 }

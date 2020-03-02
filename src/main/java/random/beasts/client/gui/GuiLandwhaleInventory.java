@@ -27,7 +27,7 @@ public class GuiLandwhaleInventory extends ContainerScreen<ContainerLandwhaleInv
             this.minecraft.getTextureManager().bindTexture(landwhale.hasChest() ? CHEST : GUI);
             int i = (this.width - this.xSize) / 2;
             int j = (this.height - this.ySize) / 2;
-            this.drawTexturedModalRect(i, j, 0, 0, this.xSize, this.ySize);
+            this.blit(i, j, 0, 0, this.xSize, this.ySize);
             InventoryScreen.drawEntityOnScreen(i + 51, j + 60, 10, i + 97 - mouseX, j + 25 - mouseY, landwhale);
         }
     }

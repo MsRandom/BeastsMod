@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "beasts:shrimp"
+  },
+  "result": "beasts:cooked_shrimp",
+  "experience": 0.35,
+  "cookingtime": 100
+}

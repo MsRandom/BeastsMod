@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "beasts:eel_chop"
+  },
+  "result": "beasts:cooked_eel_chop",
+  "experience": 0.5,
+  "cookingtime": 100
+}

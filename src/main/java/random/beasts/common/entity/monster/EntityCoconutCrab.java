@@ -8,7 +8,6 @@ import net.minecraft.entity.ai.goal.RandomWalkingGoal;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.SwordItem;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
@@ -26,11 +25,9 @@ import net.minecraft.world.World;
 import random.beasts.api.entity.IShellEntity;
 import random.beasts.client.init.BeastsSounds;
 import random.beasts.common.init.BeastsBlocks;
-import random.beasts.common.init.BeastsItems;
 
 import javax.annotation.Nonnull;
 import java.util.List;
-import java.util.Objects;
 
 public class EntityCoconutCrab extends MonsterEntity implements IShellEntity {
     private static final DataParameter<Boolean> OUT = EntityDataManager.createKey(EntityCoconutCrab.class, DataSerializers.BOOLEAN);
@@ -120,7 +117,7 @@ public class EntityCoconutCrab extends MonsterEntity implements IShellEntity {
         return false;
     }
 
-    @Override
+    /*@Override
     protected Item getDropItem() {
         return BeastsItems.COCONUT;
     }
@@ -135,7 +132,7 @@ public class EntityCoconutCrab extends MonsterEntity implements IShellEntity {
         this.dropItem(Objects.requireNonNull(coconut), 1);
         if (!this.getHeldItem(Hand.MAIN_HAND).isEmpty())
             this.entityDropItem(this.getHeldItem(Hand.MAIN_HAND), 0);
-    }
+    }*/
 
     @Override
     public boolean canSpawn(IWorld worldIn, SpawnReason spawnReasonIn) {

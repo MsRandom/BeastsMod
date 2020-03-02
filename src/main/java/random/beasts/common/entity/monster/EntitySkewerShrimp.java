@@ -10,7 +10,6 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.world.World;
 import random.beasts.client.init.BeastsSounds;
-import random.beasts.common.init.BeastsItems;
 
 public class EntitySkewerShrimp extends MonsterEntity {
 
@@ -35,10 +34,10 @@ public class EntitySkewerShrimp extends MonsterEntity {
         return CreatureAttribute.ARTHROPOD;
     }
 
-    @Override
+    /*@Override
     protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
         this.dropItem(isBurning() ? BeastsItems.COOKED_SHRIMP : BeastsItems.SHRIMP, this.rand.nextInt(2) + 1);
-    }
+    }*/
 
     protected SoundEvent getAmbientSound() {
         return SoundEvents.ENTITY_SPIDER_AMBIENT;

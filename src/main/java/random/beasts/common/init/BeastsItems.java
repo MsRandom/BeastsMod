@@ -9,7 +9,12 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.world.World;
 import random.beasts.api.item.*;
 import random.beasts.api.main.BeastsUtils;
+import random.beasts.common.block.CoralColor;
+import random.beasts.common.block.OreType;
 import random.beasts.common.item.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class BeastsItems {
     public static final Item ICON = new BeastsItem("icon", false);
@@ -18,7 +23,6 @@ public class BeastsItems {
     public static final Item LEAFY_BONE = new BeastsItem("leafy_bone");
     public static final Item CARROT_COIN = new BeastsItem("carrot_coin");
     public static final Item COCONADE = new ItemCoconade("coconade");
-    public static final Item CORAL_ESSENCE = new ItemCoralEssence();
     public static final Item COCONUT_BOWL = new BeastsItem(new Item.Properties().group(BeastsUtils.getRegistryTab()).maxStackSize(2), "coconut_bowl");
     public static final Item FISHSTAR = new BeastsItem("fishstar");
     public static final Item ATHAPOD_CHITIN = new BeastsItem("athapod_chitin");
@@ -75,4 +79,19 @@ public class BeastsItems {
     public static final ArmorItem SPARTAPOD_CHEST = new BeastsArmor("spartapod_chest", SPARTAPODA, EquipmentSlotType.CHEST);
     public static final ArmorItem SPARTAPOD_LEGS = new BeastsArmor("spartapod_legs", SPARTAPODA, EquipmentSlotType.LEGS);
     public static final ArmorItem SPARTAPOD_BOOTS = new BeastsArmor("spartapod_boots", SPARTAPODA, EquipmentSlotType.FEET);
+
+    public static final Map<CoralColor, ItemCoralBlock> CORAL_BLOCKS = new HashMap<>();
+    public static final Map<CoralColor, ItemCoralBlock> CORAL_SAPLINGS = new HashMap<>();
+    public static final Map<CoralColor, ItemCoralEssence> CORAL_ESSENCE = new HashMap<>();
+    public static final Map<OreType, ItemOreBlock> ORE_ITEMS = new HashMap<>();
+
+    static {
+        for (CoralColor color : CoralColor.values()) {
+            CORAL_BLOCKS.put(color, new ItemCoralBlock(BeastsBlocks.CORAL_BLOCK, color));
+            CORAL_SAPLINGS.put(color, new ItemCoralBlock(BeastsBlocks.CORAL_SAPLING, color));
+            CORAL_ESSENCE.put(color, new ItemCoralEssence(color));
+        }
+        for (OreType ore : OreType.values())
+            ORE_ITEMS.put(ore, new ItemOreBlock(ore));
+    }
 }

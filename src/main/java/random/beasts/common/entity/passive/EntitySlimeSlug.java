@@ -1,21 +1,17 @@
 package random.beasts.common.entity.passive;
 
-import net.minecraft.entity.AgeableEntity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ILivingEntityData;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.LookRandomlyGoal;
 import net.minecraft.entity.ai.goal.PanicGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
 import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
@@ -51,17 +47,17 @@ public class EntitySlimeSlug extends AnimalEntity {
 
     @Nullable
     @Override
-    public ILivingEntityData onInitialSpawn(DifficultyInstance difficulty, @Nullable ILivingEntityData livingdata) {
-        livingdata = super.onInitialSpawn(difficulty, livingdata);
+    public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, @Nullable CompoundNBT nbt) {
+        livingdata = super.onInitialSpawn(world, difficulty, reason, livingdata, nbt);
         this.setVariant(this.getRNG().nextInt(4));
         return livingdata;
     }
 
-    @Override
+    /*@Override
     protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
         super.dropFewItems(wasRecentlyHit, lootingModifier);
         this.entityDropItem(new ItemStack(Items.SLIME_BALL, this.getRNG().nextInt(2) + 1), 0);
-    }
+    }*/
 
     public int getVariant() {
         return dataManager.get(VARIANT);

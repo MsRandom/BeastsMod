@@ -5,8 +5,6 @@ import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
@@ -14,9 +12,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import random.beasts.api.entity.IDriedAquatic;
 import random.beasts.client.init.BeastsSounds;
-import random.beasts.common.init.BeastsItems;
-
-import java.util.Objects;
 
 public class EntityVileEel extends MonsterEntity implements IDriedAquatic {
     public EntityVileEel(EntityType<? extends EntityVileEel> type, World worldIn) {
@@ -44,7 +39,7 @@ public class EntityVileEel extends MonsterEntity implements IDriedAquatic {
             passenger.setPosition(posX + getWidth() * Math.sin(Math.toRadians(-rotationYaw)), posY + 0.45, posZ + getWidth() * Math.cos(Math.toRadians(rotationYaw)));
     }
 
-    @Override
+    /*@Override
     protected Item getDropItem() {
         return Items.LEATHER;
     }
@@ -56,7 +51,7 @@ public class EntityVileEel extends MonsterEntity implements IDriedAquatic {
         if (lootingModifier > 0) i += this.rand.nextInt(lootingModifier + 1);
         for (int j = 0; j < i; ++j) this.dropItem(chop, 1);
         this.dropItem(Objects.requireNonNull(chop), 1);
-    }
+    }*/
 
     protected void registerAttributes() {
         super.registerAttributes();

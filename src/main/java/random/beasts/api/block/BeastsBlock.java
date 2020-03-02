@@ -32,10 +32,6 @@ public class BeastsBlock extends Block {
 
     public BeastsBlock(Block.Properties properties, String name, @Nullable BiFunction<Block, Item.Properties, Item> item) {
         super(properties);
-        register(name, item);
-    }
-
-    protected void register(String name, @Nullable BiFunction<Block, Item.Properties, Item> item) {
         BeastsUtils.addToRegistry(this, name, item);
     }
 }

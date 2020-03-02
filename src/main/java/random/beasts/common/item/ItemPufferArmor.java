@@ -12,6 +12,8 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.Objects;
+
 public class ItemPufferArmor extends BeastsArmor {
     public ItemPufferArmor(String type, EquipmentSlotType armorType) {
         super("puffer_" + type, ArmorMaterial.LEATHER, armorType);
@@ -23,24 +25,24 @@ public class ItemPufferArmor extends BeastsArmor {
     }
 
     @Override
-    public void tick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-        super.tick(stack, worldIn, entityIn, itemSlot, isSelected);
+    public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+        super.inventoryTick(stack, worldIn, entityIn, itemSlot, isSelected);
         //todo change this to use EnchantmentHelper and ItemEnchantedBook
         if (((NonNullList<ItemStack>) entityIn.getArmorInventoryList()).stream().allMatch(s -> s.getItem() instanceof ItemPufferArmor))
             for (ItemStack s : entityIn.getArmorInventoryList()) {
                 boolean flag = false;
-                if (s.getTagCompound() != null && s.getTagCompound().contains("ench", 9)) {
-                    ListNBT list = s.getTagCompound().getTagList("ench", 10);
+                if (s.hasTag() && Objects.requireNonNull(s.getTag()).contains("ench", 9)) {
+                    ListNBT list = s.getTag().getList("ench", 10);
                     int index = getEnchantmentIndex(list);
                     if (index != -1) flag = true;
                 }
                 if (!flag) s.addEnchantment(Enchantments.THORNS, 2);
             }
         else for (ItemStack s : entityIn.getArmorInventoryList()) {
-            if (s.getTagCompound() != null && s.getTagCompound().contains("ench", 9)) {
-                ListNBT list = s.getTagCompound().getTagList("ench", 10);
+            if (s.getTag() != null && s.getTag().contains("ench", 9)) {
+                ListNBT list = s.getTag().getList("ench", 10);
                 int index = getEnchantmentIndex(list);
-                if (index != -1) list.removeTag(index);
+                if (index != -1) list.remove(index);
             }
         }
     }

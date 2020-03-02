@@ -5,9 +5,6 @@ import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -74,7 +71,7 @@ public class EntityWoodBranchie extends EntityBranchieBase {
         this.dataManager.set(VARIANT, variant);
     }
 
-    @Nullable
+    /*@Nullable
     @Override
     protected Item getDropItem() {
         return Item.getItemFromBlock(Blocks.SAPLING);
@@ -90,7 +87,7 @@ public class EntityWoodBranchie extends EntityBranchieBase {
             for (int j = 0; j < Math.floor(i / 2f); ++j)
                 this.entityDropItem(new ItemStack(item, 1, getVariant().ordinal()), 0);
         }
-    }
+    }*/
 
     @Override
     public void writeAdditional(CompoundNBT compound) {

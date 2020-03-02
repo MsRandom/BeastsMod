@@ -21,6 +21,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
 import random.beasts.common.BeastsMod;
@@ -86,7 +87,7 @@ public class EntityTrimola extends TameableEntity implements IInventoryChangedLi
             if (motion.z <= 0.0F) motion = motion.mul(0, 0, 0.25F);
 
             if (this.canPassengerSteer()) {
-                this.setAIMoveSpeed((float) this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).get());
+                this.setAIMoveSpeed((float) this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue());
                 super.travel(motion);
             } else if (entitylivingbase instanceof PlayerEntity) {
                 setMotion(0, 0, 0);
@@ -128,9 +129,9 @@ public class EntityTrimola extends TameableEntity implements IInventoryChangedLi
 
     @Nullable
     @Override
-    public ILivingEntityData onInitialSpawn(DifficultyInstance difficulty, @Nullable ILivingEntityData livingdata) {
+    public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, @Nullable CompoundNBT dataTag) {
         this.setVariant(this.rand.nextInt(2));
-        return super.onInitialSpawn(difficulty, livingdata);
+        return super.onInitialSpawn(world, difficulty, reason, livingdata, dataTag);
     }
 
     @Override

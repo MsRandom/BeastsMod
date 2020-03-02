@@ -1,17 +1,16 @@
 package random.beasts.common.block;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.BushBlock;
-import net.minecraft.block.IGrowable;
-import net.minecraft.block.SoundType;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.block.*;
+import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraftforge.common.IPlantable;
 import random.beasts.api.main.BeastsUtils;
 
 import java.util.Random;
@@ -19,9 +18,8 @@ import java.util.Random;
 public class BlockAbyssalGrass extends BushBlock implements IGrowable {
 
     public BlockAbyssalGrass() {
-        this.setHardness(0.0F);
-        this.setSoundType(SoundType.PLANT);
-        BeastsUtils.addToRegistry(this, "abyssal_grass", ItemBlock::new);
+        super(Block.Properties.create(Material.PLANTS).sound(SoundType.PLANT));
+        BeastsUtils.addToRegistry(this, "abyssal_grass");
     }
 
     @Override
@@ -29,8 +27,9 @@ public class BlockAbyssalGrass extends BushBlock implements IGrowable {
         return VoxelShapes.fullCube();
     }
 
-    public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
-        return super.canPlaceBlockAt(worldIn, pos) && worldIn.isAirBlock(pos.up());
+    @Override
+    public boolean canSustainPlant(BlockState state, IBlockReader world, BlockPos pos, Direction facing, IPlantable plantable) {
+        return super.canSustainPlant(state, world, pos, facing, plantable) && world.getBlockState(pos.up()).isAir(world, pos.up());
     }
 
     @Override

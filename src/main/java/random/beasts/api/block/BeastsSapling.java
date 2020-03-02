@@ -6,12 +6,14 @@ import net.minecraft.block.trees.Tree;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.state.IntegerProperty;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraftforge.common.IPlantable;
 import random.beasts.api.main.BeastsUtils;
 
 import javax.annotation.Nullable;
@@ -42,28 +44,22 @@ public class BeastsSapling extends BushBlock implements IGrowable {
     }
 
     @Override
-    public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
-        BlockState soil = worldIn.getBlockState(pos.down());
-        return super.canPlaceBlockAt(worldIn, pos) && soil.getBlock() == Blocks.SAND;
-    }
-
-    @Override
-    protected boolean canSustainBush(BlockState state) {
+    public boolean canSustainPlant(BlockState state, IBlockReader world, BlockPos pos, Direction facing, IPlantable plantable) {
         return state.getBlock() == Blocks.SAND;
     }
 
     @Override
-    public void tick(World worldIn, BlockPos pos, BlockState state, Random rand) {
+    public void tick(BlockState state, World worldIn, BlockPos pos, Random rand) {
         if (!worldIn.isRemote) {
-            super.tick(worldIn, pos, state, rand);
+            super.tick(state, worldIn, pos, rand);
             if (!worldIn.isAreaLoaded(pos, 1)) return;
-            if (worldIn.getLightFromNeighbors(pos.up()) >= 9 && rand.nextInt(7) == 0)
+            if (worldIn.getLight(pos.up()) >= 9 && rand.nextInt(7) == 0)
                 this.grow(worldIn, rand, pos, state);
         }
     }
 
+
     @Override
-    @Nullable
     public VoxelShape getCollisionShape(BlockState blockState, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
         return VoxelShapes.empty();
     }

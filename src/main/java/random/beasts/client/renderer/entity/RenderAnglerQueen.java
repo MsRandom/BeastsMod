@@ -13,6 +13,7 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.api.distmarker.Dist;
@@ -52,10 +53,10 @@ public class RenderAnglerQueen extends MobRenderer<EntityAnglerQueen, ModelAngle
                 double range = 30d;
                 Vec3d hitVec = vec3d1.add(laserAngle.scale(range));
 
-                RayTraceResult trace = livingEntity.world.rayTraceBlocks(vec3d1, hitVec);
-                if (trace != null && trace.hitVec != null)
-                    hitVec = trace.hitVec;
-                
+                RayTraceResult trace = livingEntity.world.rayTraceBlocks(new RayTraceContext(vec3d1, hitVec, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, livingEntity));
+                if (trace.getType() != RayTraceResult.Type.MISS)
+                    hitVec = trace.getHitVec();
+
                 Vec3d vec3d = hitVec;
 
                 return camera.isBoundingBoxInFrustum(new AxisAlignedBB(vec3d1.x, vec3d1.y, vec3d1.z, vec3d.x, vec3d.y, vec3d.z).grow(0.5d));
@@ -119,9 +120,9 @@ public class RenderAnglerQueen extends MobRenderer<EntityAnglerQueen, ModelAngle
             double range = 30d;
             Vec3d hitVec = lurePos.add(laserAngle.scale(range));
 
-            RayTraceResult trace = entity.world.rayTraceBlocks(lurePos, hitVec);
-            if (trace != null && trace.hitVec != null) {
-                hitVec = trace.hitVec;
+            RayTraceResult trace = entity.world.rayTraceBlocks(new RayTraceContext(lurePos, hitVec, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, entity));
+            if (trace.getType() != RayTraceResult.Type.MISS) {
+                hitVec = trace.getHitVec();
                 for (int i = 0; i < 4; ++i) {
                     entity.world.addParticle(ParticleTypes.SMOKE, hitVec.x, hitVec.y, hitVec.z, 0, 0, 0);
                 }
@@ -194,7 +195,6 @@ public class RenderAnglerQueen extends MobRenderer<EntityAnglerQueen, ModelAngle
 
         f = yawOffset - prevYawOffset;
         while (f < -180.0F) {
-            ;
             f += 360.0F;
         }
 

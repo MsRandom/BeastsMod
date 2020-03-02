@@ -91,9 +91,9 @@ public class EntityHermitTurtle extends AnimalEntity implements IShellEntity {
         this.goalSelector.addGoal(0, new AIHide(this, false));
     }
 
-    protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
+    /*protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
         if (rand.nextInt(16) == 0) this.dropItem(Item.getItemFromBlock(BeastsBlocks.HERMIT_SHELL), 1);
-    }
+    }*/
 
     public boolean isOut() {
         return this.dataManager.get(OUT);

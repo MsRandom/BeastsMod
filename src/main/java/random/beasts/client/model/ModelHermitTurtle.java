@@ -49,7 +49,7 @@ public class ModelHermitTurtle extends EntityModel<EntityHermitTurtle> {
 
     @Override
     public void render(EntityHermitTurtle entity, float f, float f1, float f2, float f3, float f4, float f5) {
-        EntityHermitTurtle turtle = (EntityHermitTurtle) entity;
+        EntityHermitTurtle turtle = entity;
         this.head.offsetZ = turtle.exitTicks / 50f;
         this.leftArm.rotateAngleY = (turtle.exitTicks / 125f) - 0.2f;
         this.rightArm.rotateAngleY = (turtle.exitTicks / -125f) + 0.2f;

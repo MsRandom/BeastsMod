@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "beasts:daggerfish"
+  },
+  "result": "beasts:cooked_daggerfish",
+  "experience": 0.5,
+  "cookingtime": 100
+}

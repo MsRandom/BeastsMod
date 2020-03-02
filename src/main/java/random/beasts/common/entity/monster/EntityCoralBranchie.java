@@ -4,8 +4,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -18,7 +16,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.world.BlockEvent;
 import random.beasts.common.block.BlockCoralPlant;
 import random.beasts.common.block.CoralColor;
-import random.beasts.common.init.BeastsBlocks;
 import random.beasts.common.init.BeastsEntities;
 
 import javax.annotation.Nullable;
@@ -68,7 +65,7 @@ public class EntityCoralBranchie extends EntityBranchieBase {
         this.dataManager.set(VARIANT, variant.ordinal());
     }
 
-    @Nullable
+    /*@Nullable
     @Override
     protected Item getDropItem() {
         return Item.getItemFromBlock(BeastsBlocks.CORAL_BLOCK);
@@ -82,7 +79,7 @@ public class EntityCoralBranchie extends EntityBranchieBase {
             if (lootingModifier > 0) i += this.rand.nextInt(lootingModifier + 1);
             for (int j = 0; j < i; ++j) this.entityDropItem(new ItemStack(item, 1, getVariant().ordinal()), 0);
         }
-    }
+    }*/
 
     @Override
     public void writeAdditional(CompoundNBT compound) {
