@@ -1,10 +1,12 @@
 package random.beasts.common.block;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.state.IntegerProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Tuple;
 import net.minecraft.util.math.BlockPos;
@@ -63,5 +65,10 @@ public class BlockAnemoneMouth extends BeastsAnemoneBlock {
             return true;
         }
         return super.onBlockActivated(state, worldIn, pos, player, hand, hit);
+    }
+
+    @Override
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+        super.fillStateContainer(builder.add(FED));
     }
 }

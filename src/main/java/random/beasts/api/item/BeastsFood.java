@@ -16,7 +16,6 @@ public class BeastsFood extends Item {
 
     public BeastsFood(String name, int amount, float saturation) {
         this(name, new Item.Properties().group(BeastsUtils.getRegistryTab()).food(new Food.Builder().hunger(amount).saturation(saturation).build()));
-        BeastsUtils.addToRegistry(this, name);
     }
 
     @Override

@@ -4,10 +4,8 @@ import net.minecraft.util.Tuple;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
-import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
@@ -15,7 +13,6 @@ import net.minecraftforge.fml.network.PacketDistributor;
 import random.beasts.common.BeastsMod;
 
 import java.util.*;
-import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
 @Mod.EventBusSubscriber(modid = BeastsMod.MOD_ID)
@@ -36,7 +33,7 @@ public class UndergroundGenerationEvents {
     }
 
     //not sure if this event will work for what we need here
-    @SubscribeEvent
+    /*@SubscribeEvent
     public static void generate(ChunkEvent.Load event) {
         if (event.getWorld() instanceof World) {
             World world = (World) event.getWorld();
@@ -64,7 +61,7 @@ public class UndergroundGenerationEvents {
                 }
             }
         }
-    }
+    }*/
 
     private static void generate(World world, BlockPos pos, UndergroundBiomeBounds bounds, UndergroundBiome undergroundBiome, Random rand) {
         world.getCapability(UndergroundGenerationCapabilities.CAPABILITY, null).ifPresent(biomes -> {

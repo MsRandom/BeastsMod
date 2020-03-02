@@ -1,17 +1,9 @@
 package random.beasts.api.configuration;
 
-import net.minecraft.client.resources.I18n;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.commons.lang3.tuple.Pair;
-import random.beasts.common.init.BeastsEntities;
 
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 public class BeastsConfig {
     private static final String BIOMES = "biomes";
@@ -29,7 +21,8 @@ public class BeastsConfig {
     }
 
     public BeastsConfig(ForgeConfigSpec.Builder builder) {
-        BeastsEntities.SPAWNS.forEach((type, spawns) -> {
+        //todo
+        /*BeastsEntities.SPAWNS.forEach((type, spawns) -> {
             String category = type.getRegistryName().getPath();
             builder.push(category);
             for (int i = 0; i < spawns.length; i++) {
@@ -48,6 +41,6 @@ public class BeastsConfig {
         builder.push(BIOMES);
         reefWeight = builder.comment("The spawn chance of the Dried Reef biome").translation("config." + BIOMES + ".chance").defineInRange("Reefweight", 10, 0, 128).get();
         abyssWeight.set(builder.comment("The spawn chance of The Abyss biome").translation("config." + BIOMES + ".chance").defineInRange("AbyssWeight", 10, 2, 128).get());
-        builder.pop();
+        builder.pop();*/
     }
 }

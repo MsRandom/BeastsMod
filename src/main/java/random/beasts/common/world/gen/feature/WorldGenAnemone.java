@@ -2,6 +2,7 @@ package random.beasts.common.world.gen.feature;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
@@ -58,7 +59,7 @@ public class WorldGenAnemone implements IBeastsGenerator {
                 for (int i = 0; i < rand.nextInt(2) + 1; i++) {
                     EntityAnemoneCrawler crawler = BeastsEntities.ANEMONE_CRAWLER.create((World) worldIn);
                     crawler.setLocationAndAngles(position.getX() + i, vertical[6].getY(), position.getZ() + i, 0, 0);
-                    crawler.onInitialSpawn(worldIn.getDifficultyForLocation(crawler.getPosition()), null);
+                    crawler.onInitialSpawn(worldIn, worldIn.getDifficultyForLocation(crawler.getPosition()), SpawnReason.NATURAL, null, null);
                     worldIn.addEntity(crawler);
                 }
             }

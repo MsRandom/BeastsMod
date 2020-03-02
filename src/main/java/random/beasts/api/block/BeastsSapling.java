@@ -6,6 +6,7 @@ import net.minecraft.block.trees.Tree;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.state.IntegerProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
@@ -82,5 +83,10 @@ public class BeastsSapling extends BushBlock implements IGrowable {
 
     protected void generateTree(World worldIn, BlockPos pos, BlockState state, Random rand) {
         if (treeGen != null) treeGen.spawn(worldIn, pos, worldIn.getBlockState(pos.down()), rand);
+    }
+
+    @Override
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+        super.fillStateContainer(builder.add(STAGE));
     }
 }

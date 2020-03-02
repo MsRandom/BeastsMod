@@ -7,7 +7,6 @@ import net.minecraft.block.material.MaterialColor;
 import random.beasts.api.main.BeastsUtils;
 
 public class BeastsLog extends LogBlock {
-
     public BeastsLog(String name) {
         this(name, Block.Properties.create(Material.WOOD));
     }

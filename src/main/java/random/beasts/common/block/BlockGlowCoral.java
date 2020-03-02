@@ -5,6 +5,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
@@ -15,7 +16,7 @@ import random.beasts.api.main.BeastsUtils;
 import java.util.Random;
 
 public class BlockGlowCoral extends BushBlock implements IGrowable {
-    public static final DirectionProperty FACING = DirectionProperty.create("facing");
+    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
     public BlockGlowCoral(String name) {
         super(Block.Properties.create(Material.PLANTS).lightValue(11).sound(SoundType.PLANT));

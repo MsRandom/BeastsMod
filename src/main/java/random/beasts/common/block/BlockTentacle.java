@@ -11,6 +11,7 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.IntegerProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
@@ -23,7 +24,6 @@ import random.beasts.api.main.BeastsUtils;
 import random.beasts.common.init.BeastsBlocks;
 
 public class BlockTentacle extends BushBlock {
-
     public static final IntegerProperty SIZE = IntegerProperty.create("size", 1, 8);
     public static final BooleanProperty FULL = BooleanProperty.create("full");
     private static final VoxelShape[] BOUNDING_BOXES = new VoxelShape[8];
@@ -32,6 +32,11 @@ public class BlockTentacle extends BushBlock {
         super(Block.Properties.create(Material.PLANTS).sound(SoundType.PLANT));
         this.setDefaultState(this.getDefaultState().with(SIZE, 8).with(FULL, false));
         BeastsUtils.addToRegistry(this, "tentacle", null);
+    }
+
+    @Override
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+        super.fillStateContainer(builder.add(SIZE).add(FULL));
     }
 
     @Override

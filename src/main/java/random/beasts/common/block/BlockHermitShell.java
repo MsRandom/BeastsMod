@@ -17,7 +17,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import random.beasts.api.block.BeastsBlock;
 
 public class BlockHermitShell extends BeastsBlock {
-
     public static final VoxelShape BOUNDING_BOX = VoxelShapes.create(0.15F, 0, 0.15F, 0.85F, 0.7F, 0.85F);
 
     public BlockHermitShell() {

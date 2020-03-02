@@ -13,6 +13,7 @@ import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.GenerationStage;
+import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraft.world.storage.loot.RandomValueRange;
 import net.minecraftforge.common.MinecraftForge;
 import random.beasts.api.world.biome.BeastsBiome;
@@ -70,7 +71,7 @@ public class UndergroundBiome extends BeastsBiome {
     }
 
     public UndergroundBiome(String name, AtomicInteger rarity, Biome baseBiome, BiPredicate<World, BlockPos> conditions, RandomValueRange size, RandomValueRange height) {
-        super(name.replace(' ', '_').toLowerCase(), new Biome.Builder());
+        super(name.replace(' ', '_').toLowerCase(), new Biome.Builder().surfaceBuilder(SurfaceBuilder.DEFAULT, SurfaceBuilder.AIR_CONFIG).precipitation(RainType.NONE).category(Category.NONE).depth(-2).scale(0.4f).temperature(-0.1f).downfall(0).waterColor(4159204).waterFogColor(329011));
         this.name = Objects.requireNonNull(getRegistryName()).getPath();
         this.rarity = rarity;
         this.biome = baseBiome;
