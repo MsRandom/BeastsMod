@@ -1,3 +1,4 @@
 {
-  "Chunk Biome Injector": "javascript/chunk_plugin.js"
+  "Chunk Biome Injector": "javascript/chunk_plugin.js",
+  "Underground Chunk Generator": "javascript/underground_generator.js"
 }
