@@ -1,5 +1,7 @@
 {
   "variants": {
-    "normal": { "model": "beasts:hermit_turtle_shell" }
+    "": {
+      "model": "beasts:block/hermit_turtle_shell"
+    }
   }
 }

@@ -1,5 +1,7 @@
 {
   "variants": {
-    "normal": { "model": "beasts:palmleaves" }
+    "": {
+      "model": "beasts:block/palmleaves"
+    }
   }
 }

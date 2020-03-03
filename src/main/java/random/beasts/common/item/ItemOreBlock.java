@@ -16,7 +16,7 @@ public class ItemOreBlock extends BlockItem {
 
     public ItemOreBlock(OreType ore) {
         super(BeastsBlocks.ABYSSAL_ORE, new Item.Properties().group(BeastsUtils.getRegistryTab()));
-        BeastsUtils.addToRegistry(this, "abyssal_ore_" + ore.getName());
+        BeastsUtils.addToRegistry(this, "abyssal_" + ore.getName() + "_ore");
         this.ore = ore;
     }
 

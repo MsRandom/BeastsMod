@@ -1,5 +1,6 @@
 package random.beasts.proxy;
 
+import com.google.common.collect.Sets;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.entity.model.BipedModel;
@@ -7,6 +8,10 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
+import net.minecraft.resources.IResourcePack;
+import net.minecraft.resources.ResourcePackType;
+import net.minecraft.resources.data.IMetadataSectionSerializer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import random.beasts.client.gui.GuiLandwhaleInventory;
@@ -22,6 +27,14 @@ import random.beasts.common.entity.passive.*;
 import random.beasts.common.entity.projectile.EntityCoconutBomb;
 import random.beasts.common.init.BeastsContainers;
 import random.beasts.common.tileentity.TileEntityCoconut;
+
+import javax.annotation.Nullable;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Set;
+import java.util.function.Predicate;
 
 public class ClientProxy extends CommonProxy {
     public static final KeyBinding TRIMOLA_ATTACK = new KeyBinding("trimola.attack", 19, "key.categories.misc");
@@ -39,6 +52,12 @@ public class ClientProxy extends CommonProxy {
     @Override
     public boolean isTrimolaAttacking() {
         return TRIMOLA_ATTACK.isKeyDown();
+    }
+
+    @Override
+    public void clientSetup() {
+        super.clientSetup();
+        ClientRegistry.registerKeyBinding(TRIMOLA_ATTACK);
     }
 
     private void registerGuis() {
@@ -119,5 +138,54 @@ public class ClientProxy extends CommonProxy {
     public String getArmorTexture(Item armorItem, EquipmentSlotType armorSlot) {
         String texture = ArmorData.TEXTURES.getFrom(armorItem, armorSlot);
         return texture == null ? null : BeastsMod.MOD_ID + ":textures/models/armor/" + texture + ".png";
+    }
+
+    private static class SpawnEggLoader implements IResourcePack {
+        private static final String NAME = "Beasts Spawn Egg Loader";
+        private static final Set<String> NAMESPACES = Sets.newHashSet(BeastsMod.MOD_ID);
+        private static final byte[] SPAWN_EGG = ("{\n    \"parent\": \"item/template_spawn_egg\"\n}\n").getBytes();
+
+        @Override
+        public InputStream getRootResourceStream(String fileName) {
+            if (fileName.contains(BeastsMod.MOD_ID) && fileName.contains("spawn_egg")) {
+                return new ByteArrayInputStream(SPAWN_EGG);
+            }
+            return null;
+        }
+
+        @Override
+        public InputStream getResourceStream(ResourcePackType type, ResourceLocation location) {
+            return getRootResourceStream(location.toString());
+        }
+
+        @Override
+        public Collection<ResourceLocation> getAllResourceLocations(ResourcePackType type, String pathIn, int maxDepth, Predicate<String> filter) {
+            return Collections.emptyList();
+        }
+
+        @Override
+        public boolean resourceExists(ResourcePackType type, ResourceLocation location) {
+            return location.getNamespace().equals(BeastsMod.MOD_ID) && location.getNamespace().contains("spawn_egg");
+        }
+
+        @Override
+        public Set<String> getResourceNamespaces(ResourcePackType type) {
+            return NAMESPACES;
+        }
+
+        @Nullable
+        @Override
+        public <T> T getMetadata(IMetadataSectionSerializer<T> deserializer) {
+            return null;
+        }
+
+        @Override
+        public String getName() {
+            return NAME;
+        }
+
+        @Override
+        public void close() {
+        }
     }
 }

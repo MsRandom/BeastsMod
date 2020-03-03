@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "beasts:brown_shell_piece"
+    "": {
+      "model": "beasts:block/brown_shell_piece"
     }
   }
 }

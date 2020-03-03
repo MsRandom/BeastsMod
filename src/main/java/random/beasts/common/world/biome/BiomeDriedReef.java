@@ -54,7 +54,7 @@ public class BiomeDriedReef extends BeastsBiome {
     @Override
     public void decorate(GenerationStage.Decoration stage, ChunkGenerator<? extends GenerationSettings> chunkGenerator, IWorld worldIn, long seed, SharedSeedRandom rand, BlockPos pos) {
         super.decorate(stage, chunkGenerator, worldIn, seed, rand, pos);
-        for (int j5 = 0; j5 < 2; ++j5) {
+        {
             int x = rand.nextInt(16) + 8;
             int y = rand.nextInt(16) + 8;
             GROUND_COVER.generate(worldIn, rand, worldIn.getHeight(Heightmap.Type.WORLD_SURFACE_WG, pos.add(x, 0, y)));
@@ -65,7 +65,6 @@ public class BiomeDriedReef extends BeastsBiome {
         int z = rand.nextInt(16) + 8;
         //this can all be switched to be like 1.14
         BlockPos blockPos = worldIn.getHeight(Heightmap.Type.WORLD_SURFACE_WG, pos.add(x, 0, z));
-        ChunkPos chunk = new ChunkPos(blockPos);
         if (rand.nextBoolean())
             generate(CORAL_PLANT_GENERATOR, worldIn, rand, blockPos);
         else if (rand.nextBoolean()) {
@@ -75,12 +74,11 @@ public class BiomeDriedReef extends BeastsBiome {
                 COORDS.add(structure);
             }
         } else if (rand.nextBoolean()) {
-            //Both of these cause cascading worldgen lag
             if (rand.nextBoolean()) {
                 if (worldIn.getBlockState(blockPos.down()).getBlock() == Blocks.SAND)
                     BeastsStructures.SHELLS[rand.nextInt(BeastsStructures.SHELLS.length)].generate(worldIn, rand, blockPos.down(2));
             } else {
-                generate(ROCK_CLUSTER, worldIn, rand, blockPos);
+                //generate(ROCK_CLUSTER, worldIn, rand, blockPos);
             }
         } else if (rand.nextBoolean())
             generate(ANEMONE_GENERATOR, worldIn, rand, blockPos);
@@ -92,10 +90,6 @@ public class BiomeDriedReef extends BeastsBiome {
             generator.generate(world, rand, pos);
             COORDS.add(structure);
         }
-    }
-
-    private BlockPos center(ChunkPos chunk, BlockPos pos) {
-        return new BlockPos(chunk.getXStart() + 8, pos.getY(), chunk.getZStart() + 8);
     }
 
     private static class WorldGenRockCluster implements IBeastsGenerator {

@@ -1,8 +1,19 @@
 {
   "variants": {
-    "axis=y":  { "model": "beasts:palm_log" },
-    "axis=z":   { "model": "beasts:palm_log", "x": 90 },
-    "axis=x":   { "model": "beasts:palm_log", "x": 90, "y": 90 },
-    "axis=none": { "model": "beasts:palm_bark" }
+    "axis=y": {
+      "model": "beasts:block/palm_log"
+    },
+    "axis=z": {
+      "model": "beasts:block/palm_log",
+      "x": 90
+    },
+    "axis=x": {
+      "model": "beasts:block/palm_log",
+      "x": 90,
+      "y": 90
+    },
+    "axis=none": {
+      "model": "beasts:block/palm_bark"
+    }
   }
 }

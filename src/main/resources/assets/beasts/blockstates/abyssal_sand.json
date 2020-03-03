@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "beasts:abyssal_sand"
+    "": {
+      "model": "beasts:block/abyssal_sand"
     }
   }
 }

@@ -1,10 +1,10 @@
 {
   "variants": {
     "half=bottom,variant=default": {
-      "model": "beasts:half_slab_shell"
+      "model": "beasts:block/half_slab_shell"
     },
     "half=top,variant=default": {
-      "model": "beasts:upper_slab_shell"
+      "model": "beasts:block/upper_slab_shell"
     }
   }
 }

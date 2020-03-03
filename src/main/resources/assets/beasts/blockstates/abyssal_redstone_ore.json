@@ -1,5 +1,7 @@
 {
   "variants": {
-    "normal": { "model": "beasts:abyssal_redstone_ore" }
+    "": {
+      "model": "beasts:block/abyssal_redstone_ore"
+    }
   }
 }

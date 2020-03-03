@@ -1,5 +1,7 @@
 {
   "variants": {
-    "normal": { "model": "beasts:anemone_tentacle" }
+    "": {
+      "model": "beasts:block/anemone_tentacle"
+    }
   }
 }

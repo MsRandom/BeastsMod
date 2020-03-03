@@ -1,5 +1,7 @@
 {
   "variants": {
-    "normal": { "model": "beasts:anemone_stalk" }
+    "": {
+      "model": "beasts:block/anemone_stalk"
+    }
   }
 }

@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "beasts:shell_brick"
+    "": {
+      "model": "beasts:block/shell_brick"
     }
   }
 }

@@ -1,5 +1,7 @@
 {
   "variants": {
-    "normal": { "model": "beasts:abyssal_iron_ore" }
+    "": {
+      "model": "beasts:block/abyssal_iron_ore"
+    }
   }
 }

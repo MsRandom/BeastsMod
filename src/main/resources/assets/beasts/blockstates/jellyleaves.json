@@ -1,5 +1,7 @@
 {
   "variants": {
-    "normal": {"model": "beasts:jellyleaves"}
+    "": {
+      "model": "beasts:block/jellyleaves"
+    }
   }
 }

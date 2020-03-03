@@ -21,6 +21,9 @@ public class CommonProxy {
     public void registerEventRenders() {
     }
 
+    public void clientSetup() {
+    }
+
     public <A extends BipedModel<?>> A getArmorModel(Item armorItem, EquipmentSlotType armorSlot) {
         return null;
     }

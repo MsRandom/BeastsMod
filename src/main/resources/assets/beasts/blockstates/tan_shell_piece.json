@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "beasts:tan_shell_piece"
+    "": {
+      "model": "beasts:block/tan_shell_piece"
     }
   }
 }

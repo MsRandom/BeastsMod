@@ -11,7 +11,6 @@ import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.common.BiomeManager;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import random.beasts.api.configuration.BeastsConfig;
@@ -21,7 +20,6 @@ import random.beasts.common.BeastsMod;
 import random.beasts.common.init.*;
 
 import static net.minecraftforge.common.BiomeDictionary.Type.*;
-import static random.beasts.proxy.ClientProxy.TRIMOLA_ATTACK;
 
 @SuppressWarnings("unused")
 @Mod.EventBusSubscriber(modid = BeastsMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -83,6 +81,6 @@ public class RegistryEvents {
 
     @SubscribeEvent
     public static void registerClient(FMLClientSetupEvent event) {
-        ClientRegistry.registerKeyBinding(TRIMOLA_ATTACK);
+        BeastsMod.proxy.clientSetup();
     }
 }
