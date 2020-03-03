@@ -16,6 +16,7 @@ import random.beasts.api.world.biome.BeastsBiome;
 import random.beasts.common.block.BlockCoral;
 import random.beasts.common.block.CoralColor;
 import random.beasts.common.init.BeastsBlocks;
+import random.beasts.common.init.BeastsStructures;
 import random.beasts.common.world.gen.feature.WorldGenAnemone;
 import random.beasts.common.world.gen.feature.WorldGenJellyfishTrees;
 import random.beasts.common.world.gen.feature.WorldGenPalmTrees;
@@ -58,7 +59,7 @@ public class BiomeDriedReef extends BeastsBiome {
     @Override
     public void decorate(World worldIn, Random rand, BlockPos pos) {
         super.decorate(worldIn, rand, pos);
-        for (int j5 = 0; j5 < 2; ++j5) {
+        {
             int x = rand.nextInt(16) + 8;
             int y = rand.nextInt(16) + 8;
             GROUND_COVER.generate(worldIn, rand, worldIn.getHeight(pos.add(x, 0, y)));
@@ -74,9 +75,8 @@ public class BiomeDriedReef extends BeastsBiome {
         else if (rand.nextBoolean() && TerrainGen.decorate(worldIn, rand, chunk, DecorateBiomeEvent.Decorate.EventType.TREE))
             generate(getRandomTreeFeature(rand), worldIn, rand, blockPos);
         else if (rand.nextBoolean()) {
-            //Both of these cause cascading worldgen lag
             if (rand.nextBoolean()) {
-                //if (worldIn.getBlockState(blockPos.down()).getBlock() == Blocks.SAND) BeastsStructures.SHELLS[rand.nextInt(BeastsStructures.SHELLS.length)].generate(worldIn, rand, blockPos.down(2));
+                BeastsStructures.SHELLS[rand.nextInt(BeastsStructures.SHELLS.length)].generate(worldIn, rand, blockPos.down(2));
             } else {
                 //generate(ROCK_CLUSTER, worldIn, rand, blockPos);
             }

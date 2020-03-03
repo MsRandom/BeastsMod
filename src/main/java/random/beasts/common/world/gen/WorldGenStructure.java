@@ -1,4 +1,4 @@
-package random.beasts.common.world.gen.structure;
+package random.beasts.common.world.gen;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.server.MinecraftServer;
@@ -8,22 +8,20 @@ import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
+import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraft.world.gen.structure.template.PlacementSettings;
 import net.minecraft.world.gen.structure.template.Template;
 import net.minecraft.world.gen.structure.template.TemplateManager;
 import random.beasts.api.main.BeastsReference;
-import random.beasts.api.world.gen.structure.BeastsStructure;
 
 import java.util.Random;
 
-public class WorldGenStructure extends BeastsStructure {
+public class WorldGenStructure extends WorldGenerator {
     private static PlacementSettings settings = (new PlacementSettings()).setIgnoreEntities(false).setIgnoreStructureBlock(false).setMirror(Mirror.NONE);
     private ResourceLocation structureName;
 
     public WorldGenStructure(String name) {
-        super(() -> {
-        });
         this.structureName = new ResourceLocation(BeastsReference.ID, name);
     }
 

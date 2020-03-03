@@ -23,7 +23,6 @@ import random.beasts.api.main.BeastsUtils;
 import random.beasts.common.init.BeastsBlocks;
 
 import javax.annotation.Nullable;
-import java.util.Random;
 
 public class BlockTentacle extends BlockBush {
 
@@ -40,12 +39,6 @@ public class BlockTentacle extends BlockBush {
     public boolean canBlockStay(World worldIn, BlockPos pos, IBlockState state) {
         Block block = worldIn.getBlockState(pos.up()).getBlock();
         return block == BeastsBlocks.JELLY_LEAVES || block == this;
-    }
-
-    @Override
-    public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
-        super.updateTick(worldIn, pos, state, rand);
-
     }
 
     @Override

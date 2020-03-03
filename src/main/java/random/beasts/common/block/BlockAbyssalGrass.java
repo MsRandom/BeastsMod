@@ -14,9 +14,9 @@ import random.beasts.api.main.BeastsUtils;
 
 import java.util.Random;
 
-public class BlockBeastGrass extends BlockBush implements IGrowable {
+public class BlockAbyssalGrass extends BlockBush implements IGrowable {
 
-    public BlockBeastGrass() {
+    public BlockAbyssalGrass() {
         this.setHardness(0.0F);
         this.setSoundType(SoundType.PLANT);
         BeastsUtils.addToRegistry(this, "abyssal_grass", ItemBlock::new);

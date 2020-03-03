@@ -16,7 +16,10 @@ import random.beasts.client.init.BeastsCreativeTabs;
 import random.beasts.common.block.BlockPalmTreeLeaves;
 import random.beasts.common.block.BlockShell;
 import random.beasts.common.block.BlockShellPiece;
-import random.beasts.common.init.*;
+import random.beasts.common.init.BeastsBlocks;
+import random.beasts.common.init.BeastsLootTables;
+import random.beasts.common.init.BeastsTileEntities;
+import random.beasts.common.init.BeastsTriggers;
 import random.beasts.common.network.BeastsGuiHandler;
 import random.beasts.common.network.BeastsPacketHandler;
 import random.beasts.common.world.biome.RealisticBiomeDriedReef;
@@ -46,12 +49,10 @@ public class CommonProxy {
 
     public void preInit() {
         BeastsUtils.setRegistryTab(BeastsCreativeTabs.MAIN);
-        BeastsStructures.init();
         BeastsTriggers.init();
         BeastsTileEntities.init();
         BeastsLootTables.init();
         BeastsGuiHandler.init();
-        BeastsWorldGenerators.init();
     }
 
     public void init() {

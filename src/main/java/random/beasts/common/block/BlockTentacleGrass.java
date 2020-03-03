@@ -5,7 +5,6 @@ import net.minecraft.block.IGrowable;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -16,11 +15,10 @@ import random.beasts.api.main.BeastsUtils;
 import java.util.Random;
 
 public class BlockTentacleGrass extends BlockBush implements IGrowable {
-
-    public BlockTentacleGrass(String name) {
+    public BlockTentacleGrass() {
         this.setHardness(2.5F);
         this.setSoundType(SoundType.SLIME);
-        BeastsUtils.addToRegistry(this, name, ItemBlock::new);
+        BeastsUtils.addToRegistry(this, "tentacle_grass");
     }
 
     @Override

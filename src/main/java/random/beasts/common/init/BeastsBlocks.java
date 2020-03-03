@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class BeastsBlocks {
 
-    public static final Block ABYSSAL_GRASS = new BlockBeastGrass();
+    public static final Block ABYSSAL_GRASS = new BlockAbyssalGrass();
     public static final Block ABYSSAL_ORE = new BlockAbyssalOre();
     public static final Block ABYSSAL_SAND = new BlockAbyssalSand();
     public static final Block ABYSSAL_STONE = new BlockAbyssalStone();
@@ -20,7 +20,7 @@ public class BeastsBlocks {
     public static final Block ABYSSAL_VENT = new BlockAbyssalVentMouth();
     public static final Block GLOW_CORAL_PINK = new BlockGlowCoral("glow_coral_pink");
     public static final Block GLOW_CORAL_BLUE = new BlockGlowCoral("glow_coral_blue");
-    public static final Block TENTACLE_GRASS = new BlockTentacleGrass("tentacle_grass");
+    public static final Block TENTACLE_GRASS = new BlockTentacleGrass();
     public static final Block COCONUT = new BlockCoconut();
     public static final Block CORAL_BLOCK = new BlockCoral();
     public static final Block CORAL_SAPLING = new BlockCoralSapling();
