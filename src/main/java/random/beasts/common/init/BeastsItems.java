@@ -19,22 +19,17 @@ import java.util.Map;
 public class BeastsItems {
     public static final Item ICON = new BeastsItem("icon", false);
     public static final Item BEASTS_PAINTING = new ItemBeastsPainting();
-    public static final Item GLOW_ROOT = new ItemGlowRoot();
     public static final Item LEAFY_BONE = new BeastsItem("leafy_bone");
-    public static final Item CARROT_COIN = new BeastsItem("carrot_coin");
     public static final Item COCONADE = new ItemCoconade("coconade");
     public static final Item COCONUT_BOWL = new BeastsItem(new Item.Properties().group(BeastsUtils.getRegistryTab()).maxStackSize(2), "coconut_bowl");
     public static final Item FISHSTAR = new BeastsItem("fishstar");
     public static final Item ATHAPOD_CHITIN = new BeastsItem("athapod_chitin");
     public static final Item SPARTAPOD_CHITIN = new BeastsItem("spartapod_chitin");
     public static final Item SPARTAPOD_CREST = new BeastsItem("spartapod_crest");
-    public static final Item ICE_CRAB_CHITIN = new BeastsItem("ice_crab_chitin");
-    public static final Item WORM_TOOTH = new BeastsItem("worm_tooth");
     public static final Item PUFFER_SCALE = new BeastsItem("puffer_scale");
     public static final Item HERMIT_HELM = new BeastsArmor(new Item.Properties().group(BeastsUtils.getRegistryTab()).defaultMaxDamage(0), "hermit_helm", ArmorMaterial.IRON, EquipmentSlotType.HEAD);
     public static final Item MEAT_SCRAPES = new BeastsItem("meat_scrapes");
     public static final ShieldItem SHELL_SHIELD = new ItemShellShield();
-    public static final Item DAGGERFISH = new BeastsFood("daggerfish", 2, 0.1F);
     public static final Item COCONUT_MUSHROOM = new BeastsCoconutBowl("coconut_mushroom", 6, 0.7F);
     public static final Item COCONUT_RABBIT_STEW = new BeastsCoconutBowl("coconut_rabbit_stew", 8, 0.7F);
     public static final Item REEF_MIXTURE = new BeastsCoconutBowl("reef_mixture", 10, 0.9F, new EffectInstance(Effects.REGENERATION, 100, 0), new EffectInstance(Effects.WEAKNESS, 100, 0));
@@ -68,10 +63,8 @@ public class BeastsItems {
     public static final ArmorItem PUFFER_CHEST = new ItemPufferArmor("chest", EquipmentSlotType.CHEST);
     public static final ArmorItem PUFFER_LEGS = new ItemPufferArmor("legs", EquipmentSlotType.LEGS);
     public static final ArmorItem PUFFER_BOOTS = new ItemPufferArmor("boots", EquipmentSlotType.FEET);
-    public static final SwordItem DIAMOND_CARROT = new BeastsSword(ItemTier.DIAMOND, "diamond_carrot");
     public static final BeastsToolSet JELLY_TOOLS = new ToolSetJellyWood();
     private static final IItemTier SWORDFISH_MAT = new BeastsItemTier(0, 3, 8.0F, 4.0F, 0);
-    public static final SwordItem COOKED_DAGGERFISH = new ItemDaggerfish(SWORDFISH_MAT, "cooked_daggerfish");
     private static final IArmorMaterial SPARTAPOD = new BeastsArmorMaterial("beasts:spartapod", 15, new int[]{2, 5, 6, 2}, 12, SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 0.0F);
     //todo do armor sets like with the tool set with the jelly tools
     public static final ArmorItem SPARTAPOD_HELMET = new BeastsArmor("spartapod_helmet", SPARTAPOD, EquipmentSlotType.HEAD);
