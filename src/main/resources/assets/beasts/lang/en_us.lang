@@ -1,5 +1,8 @@
 Entities
 
+entity.abyssal_legfish.name=Abyssal Legfish
+entity.angler_pup.name=Angler Pup
+entity.angler_queen.name=Angler Queen
 entity.butterfly_fish.name=Butterflyfish
 entity.vile_eel.name=Vile Eel
 entity.pufferfish_dog.name=Pufferpup
@@ -7,7 +10,10 @@ entity.rabbitman.name=Rabbitman
 entity.coconut_crab.name=Coconut Crab
 entity.landwhale.name=Landwhale
 entity.skewer_shrimp.name=Skewer Shrimp
+entity.firefly_squid.name=Firefly Squid
 entity.giant_garden_eel.name=Giant Garden Eel
+entity.glow_shrimp.name=Glow Shrimp
+entity.isopod.name=Isopod
 entity.legfish.name=Legfish
 entity.beasts_painting.name=Beasts Painting
 entity.coral_branchie.name=Coral Branchie
@@ -18,10 +24,14 @@ entity.hermit_turtle.name=Hermit Turtle
 entity.anemone_crawler.name=Anemone Crawler
 entity.scallop.name=Scallop
 entity.trimola.name=Trimola
+entity.tupala.name=Tupala
 entity.slime_slug.name=Slime Slug
 
 Items
 
+item.tubeworm_seeds.name=Tubeworm Seeds
+item.tubeworms.name=Tubeworms
+item.firefly_squid_bucket.name=Firefly Squid Bucket
 item.fairy_bread.name=Fairy Bread
 item.butterflyfish_wing.name=Butterflyfish Wing
 item.reef_mixture.name=Reef Mixture
@@ -135,6 +145,24 @@ tile.light_brown_shell_piece.name=Light Brown Shell Piece
 tile.shell_brick.name=Shell Bricks
 tile.shell_stairs.name=Shell Brick Stairs
 tile.shell_slab.name=Shell Brick Slab
+tile.tentacle_grass.name=Graspers
+tile.abyssal_grass.name=Abyssal Grass
+tile.abyssal_tendrils.name=Abyssal Tendrils
+tile.abyssal_stone.name=Abyssal Stone
+tile.abyssal_sandstone.name=Abyssal Sandstone
+tile.abyssal_sandstone_chiseled.name=Chiseled Abyssal Sandstone
+tile.abyssal_sandstone_smooth.name=Smooth Abyssal Sandstone
+tile.abyssal_sand.name=Abyssal Sand
+tile.abyssal_vent.name=Abyssal Vent
+tile.abyssal_ore.coal.name=Abyssal Coal Ore
+tile.abyssal_ore.diamond.name=Abyssal Diamond Ore
+tile.abyssal_ore.lapis.name=Abyssal Lapis Ore
+tile.abyssal_ore.redstone.name=Abyssal Redstone Ore
+tile.abyssal_ore.gold.name=Abyssal Gold Ore
+tile.abyssal_ore.iron.name=Abyssal Iron Ore
+tile.abyssal_ore.emerald.name=Abyssal Emerald Ore
+tile.glow_coral_pink.name=Pink Jelly Moss
+tile.glow_coral_blue.name=Blue Jelly Moss
 
 
 Config
