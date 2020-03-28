@@ -30,6 +30,7 @@ import random.beasts.common.entity.item.EntityThrownCoconut;
 import random.beasts.common.entity.monster.*;
 import random.beasts.common.entity.passive.*;
 import random.beasts.common.entity.projectile.EntityCoconutBomb;
+import random.beasts.common.entity.projectile.EntityGlowShrimpShot;
 import random.beasts.common.init.BeastsBlocks;
 import random.beasts.common.tileentity.TileEntityCoconut;
 
@@ -76,28 +77,30 @@ public class ClientProxy extends CommonProxy {
         RenderingRegistry.registerEntityRenderingHandler(EntityVileEel.class, RenderVileEel::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityLandwhale.class, RenderLandwhale::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityCoconutBomb.class, RenderCoconutBomb::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityCoralBranchie.class, RenderCoralBranchie::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityChorusBranchie.class, RenderChorusBranchie::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityWoodBranchie.class, RenderWoodBranchie::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityBeastsPainting.class, RenderBeastsPainting::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityFallingCoconut.class, RenderFallingCoconut::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityWhippingBarnacle.class, RenderWhippingBarnacle::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityHermitTurtle.class, RenderHermitTurtle::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityAnemoneCrawler.class, RenderAnemoneCrawler::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityLegfish.class, RenderLegfish::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityScallop.class, RenderScallop::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityThrownCoconut.class, RenderThrownCoconut::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityTrimola.class, RenderTrimola::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntitySlimeSlug.class, RenderSlimeSlug::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityButterflyFish.class, RenderButterflyFish::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityFireflySquid.class, RenderFireflySquid::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityIsopod.class, RenderIsopod::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityGlowShrimp.class, RenderGlowShrimp::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityTupala.class, RenderTupala::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityAnglerPup.class, RenderAnglerPup::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityAnglerQueen.class, RenderAnglerQueen::new);
-		registerTileEntityRenders();
-	}
+        RenderingRegistry.registerEntityRenderingHandler(EntityCoralBranchie.class, RenderCoralBranchie::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityChorusBranchie.class, RenderChorusBranchie::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityWoodBranchie.class, RenderWoodBranchie::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityBeastsPainting.class, RenderBeastsPainting::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityFallingCoconut.class, RenderFallingCoconut::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityWhippingBarnacle.class, RenderWhippingBarnacle::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityHermitTurtle.class, RenderHermitTurtle::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityAnemoneCrawler.class, RenderAnemoneCrawler::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityLegfish.class, RenderLegfish::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityScallop.class, RenderScallop::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityThrownCoconut.class, RenderThrownCoconut::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityTrimola.class, RenderTrimola::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntitySlimeSlug.class, RenderSlimeSlug::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityButterflyFish.class, RenderButterflyFish::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityFireflySquid.class, RenderFireflySquid::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityIsopod.class, RenderIsopod::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityGlowShrimp.class, RenderGlowShrimp::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityTupala.class, RenderTupala::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityAnglerPup.class, RenderAnglerPup::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityAnglerQueen.class, RenderAnglerQueen::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityAbyssalLegfish.class, RenderAbyssalLegfish::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityGlowShrimpShot.class, RenderGlowShrimpShot::new);
+        registerTileEntityRenders();
+    }
 
 	public void registerEventRenders() {
         for (Item item : BeastsRegistries.ITEMS.get()) {

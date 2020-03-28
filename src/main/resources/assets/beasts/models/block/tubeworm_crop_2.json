@@ -1,0 +1,6 @@
+{
+  "parent": "block/cross",
+  "textures": {
+    "cross": "beasts:blocks/tube_worms_2"
+  }
+}

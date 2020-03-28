@@ -18,7 +18,10 @@ public class BeastsItems {
     public static final Item BEASTS_PAINTING = new ItemBeastsPainting();
     public static final Item LEAFY_BONE = new BeastsItem("leafy_bone");
     public static final Item COCONADE = new ItemCoconade("coconade");
+    public static final Item FIREFLY_SQUID_BUCKET = new ItemFireflySquid();
     public static final Item CORAL_ESSENCE = new ItemCoralEssence();
+    public static final Item TUBEWORM_SEEDS = new ItemTubewormSeeds();
+    public static final Item TUBEWORMS = new BeastsItem("tubeworms");
     public static final Item COCONUT_BOWL = new BeastsItem("coconut_bowl").setMaxStackSize(2);
     public static final Item FISHSTAR = new BeastsItem("fishstar");
     public static final Item ATHAPOD_CHITIN = new BeastsItem("athapod_chitin");

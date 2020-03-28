@@ -25,31 +25,32 @@ import random.beasts.common.init.BeastsItems;
 import javax.annotation.Nonnull;
 
 public class EntityAnglerPup extends EntityTameable {
-
     private static final DataParameter<Integer> COLLAR_COLOR = EntityDataManager.createKey(EntityAnglerPup.class, DataSerializers.VARINT);
-    private static final DataParameter<Float> THREAT_TIME = EntityDataManager.createKey(EntityAnglerPup.class, DataSerializers.FLOAT);
-    private int bounces = 0;
     private BlockPos jukeboxPosition;
-    private boolean partyPufferfishDog;
+    private boolean partyAnglerPup;
 
     public EntityAnglerPup(World worldIn) {
-		super(worldIn);
-	}
+        super(worldIn);
+        this.setSize(0.3f, 0.3f);
+    }
 
     @Override
     protected void initEntityAI() {
         super.initEntityAI();
         this.aiSit = new EntityAISit(this);
-        this.tasks.addTask(2, aiSit);
-        this.tasks.addTask(2, new EntityAIMate(this, 1.0D));
-        this.tasks.addTask(2, new EntityAISwimming(this));
+        this.tasks.addTask(0, new EntityAISwimming(this));
+        this.tasks.addTask(1, aiSit);
         this.tasks.addTask(2, new EntityAIFollowOwner(this, 0.5, 2f, 5f));
-        this.tasks.addTask(2, new EntityAIWander(this, 0.5, 50) {
+        this.tasks.addTask(3, new EntityAIAttackMelee(this, 0.5d, true));
+        this.tasks.addTask(4, new EntityAIMate(this, 1.0D));
+        this.tasks.addTask(5, new EntityAIWander(this, 0.5d, 50) {
             @Override
             public boolean shouldExecute() {
                 return !isSitting() && super.shouldExecute();
             }
         });
+        this.targetTasks.addTask(1, new EntityAIOwnerHurtByTarget(this));
+        this.targetTasks.addTask(2, new EntityAIOwnerHurtTarget(this));
     }
 
 	@Override
@@ -59,42 +60,36 @@ public class EntityAnglerPup extends EntityTameable {
 	
 	@Override
     protected void applyEntityAttributes() {
+        this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(8d);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.4);
+        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.4d);
+        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1.5d);
     }
 
     @Override
     protected void entityInit() {
         super.entityInit();
         this.dataManager.register(COLLAR_COLOR, EnumDyeColor.RED.getDyeDamage());
-        this.dataManager.register(THREAT_TIME, 0.0f);
     }
 
     @Override
     public void writeEntityToNBT(NBTTagCompound compound) {
         super.writeEntityToNBT(compound);
         compound.setInteger("collarColor", this.getCollarColor().getDyeDamage());
-        compound.setBoolean("sitting", this.isSitting());
     }
 
     @Override
     public void readEntityFromNBT(NBTTagCompound compound) {
         super.readEntityFromNBT(compound);
         this.setCollarColor(EnumDyeColor.byDyeDamage(compound.getInteger("collarColor")));
-        this.setSitting(compound.getBoolean("sitting"));
     }
 
     @Override
     public void onLivingUpdate() {
-
         if (this.jukeboxPosition == null || this.jukeboxPosition.distanceSq(this.posX, this.posY, this.posZ) > 12.0D || this.world.getBlockState(this.jukeboxPosition).getBlock() != Blocks.JUKEBOX) {
-            this.partyPufferfishDog = false;
+            this.partyAnglerPup = false;
             this.jukeboxPosition = null;
-        }
-
-        if (!world.isRemote) {
-            if (isInWater()) this.setAir(300);
         }
         super.onLivingUpdate();
     }
@@ -102,22 +97,30 @@ public class EntityAnglerPup extends EntityTameable {
     @Override
     public boolean processInteract(EntityPlayer player, @Nonnull EnumHand hand) {
         ItemStack stack = player.getHeldItem(hand);
-        if (this.isTamed()) {
-            if (!stack.isEmpty() && stack.getItem() == Items.DYE) {
+        if (this.isTamed() && this.isOwner(player)) {
+            if (stack.isEmpty()) {
+                this.setSitting(!this.isSitting());
+                this.isJumping = false;
+                this.navigator.clearPath();
+                return true;
+            } else if (stack.getItem() == Items.DYE) {
                 EnumDyeColor color = EnumDyeColor.byDyeDamage(stack.getMetadata());
                 if (color != this.getCollarColor()) {
                     this.setCollarColor(color);
                     if (!player.capabilities.isCreativeMode) stack.shrink(1);
                     return true;
                 }
-            }
-            if (this.isOwner(player) && !this.world.isRemote && stack.isEmpty()) {
-                this.setSitting(!this.isSitting());
-                this.isJumping = false;
-                this.navigator.clearPath();
+                return false;
+            } else if (stack.getItem() == Items.FISH) {
+                if (!player.capabilities.isCreativeMode) stack.shrink(1);
+                this.setHealth(2.0F);
+                return true;
+            } else if (stack.getItem() == BeastsItems.MEAT_SCRAPES) {
+                if (!player.capabilities.isCreativeMode) stack.shrink(1);
+                this.setInLove(player);
                 return true;
             }
-        } else if (stack.getItem() == BeastsItems.LEAFY_BONE) {
+        } else if (stack.getItem() == BeastsItems.TUBEWORMS) {
             if (!player.capabilities.isCreativeMode) stack.shrink(1);
             if (this.rand.nextInt(3) == 0 && !ForgeEventFactory.onAnimalTame(this, player)) {
                 this.isJumping = false;
@@ -137,32 +140,32 @@ public class EntityAnglerPup extends EntityTameable {
         }
         return super.processInteract(player, hand);
     }
-    
+
     @Override
-    public boolean canMateWith(@Nonnull EntityAnimal animal) {
-        if (animal == this || !this.isTamed() || !(animal instanceof EntityPufferfishDog)) {
-            return false;
-        } else {
-            EntityPufferfishDog entity = (EntityPufferfishDog) animal;
-            return !(!entity.isTamed() || entity.isSitting()) && this.isInLove() && entity.isInLove();
-        }
+    public int getBrightnessForRender() {
+        return Math.max(155, super.getBrightnessForRender());
     }
 
     @Override
-    public boolean isBreedingItem(ItemStack stack) {
-        return stack.getItem() == Items.SPIDER_EYE;
+    public boolean canMateWith(@Nonnull EntityAnimal animal) {
+        if (animal == this || !this.isTamed() || !(animal instanceof EntityAnglerPup)) {
+            return false;
+        } else {
+            EntityAnglerPup entity = (EntityAnglerPup) animal;
+            return !(!entity.isTamed() || entity.isSitting()) && this.isInLove() && entity.isInLove();
+        }
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public void setPartying(BlockPos pos, boolean p_191987_2_) {
         this.jukeboxPosition = pos;
-        this.partyPufferfishDog = p_191987_2_;
+        this.partyAnglerPup = p_191987_2_;
     }
 
     @SideOnly(Side.CLIENT)
     public boolean isPartying() {
-        return this.partyPufferfishDog;
+        return this.partyAnglerPup;
     }
 
     public EnumDyeColor getCollarColor() {
@@ -171,14 +174,6 @@ public class EntityAnglerPup extends EntityTameable {
 
     private void setCollarColor(EnumDyeColor color) {
         this.dataManager.set(COLLAR_COLOR, color.getDyeDamage());
-    }
-
-    private float getThreatTime() {
-        return this.dataManager.get(THREAT_TIME);
-    }
-
-    private void setThreatTime(float time) {
-        this.dataManager.set(THREAT_TIME, time);
     }
 
 }

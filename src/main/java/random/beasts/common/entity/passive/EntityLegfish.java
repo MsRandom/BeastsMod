@@ -5,7 +5,7 @@ import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
+import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
@@ -13,11 +13,13 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
+import random.beasts.common.entity.ai.EntityAIFollowAngler;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
 
 public class EntityLegfish extends EntityAnimal {
+
     public static final HashMap<Integer, Integer> VARIANTS = new HashMap<>();
     private static final DataParameter<Integer> TYPE = EntityDataManager.createKey(EntityLegfish.class, DataSerializers.VARINT);
     private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityLegfish.class, DataSerializers.VARINT);
@@ -30,14 +32,16 @@ public class EntityLegfish extends EntityAnimal {
 
     public EntityLegfish(World worldIn) {
         super(worldIn);
+        this.setSize(0.3F, 0.3F);
     }
 
     @Override
     protected void initEntityAI() {
         super.initEntityAI();
-        this.tasks.addTask(0, new EntityAIWanderAvoidWater(this, 0.2D));
         this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityAILookIdle(this));
+        this.tasks.addTask(1, new EntityAIFollowAngler(this, 1d, 2f, 15f));
+        this.tasks.addTask(2, new EntityAILookIdle(this));
+        this.tasks.addTask(3, new EntityAIWander(this, 1d, 20));
     }
 
     @Override
@@ -50,6 +54,7 @@ public class EntityLegfish extends EntityAnimal {
     @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
+        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.2D);
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(6.0D);
     }
 

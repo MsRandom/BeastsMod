@@ -5,8 +5,8 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 import random.beasts.api.main.BeastsReference;
 import random.beasts.client.model.ModelPufferFishDog;
-import random.beasts.client.renderer.entity.layers.LayerCollar;
 import random.beasts.client.renderer.entity.layers.LayerGlasses;
+import random.beasts.client.renderer.entity.layers.LayerPufferfishDogCollar;
 import random.beasts.common.entity.passive.EntityPufferfishDog;
 
 import javax.annotation.Nullable;
@@ -19,7 +19,7 @@ public class RenderPufferfishDog extends RenderLiving<EntityPufferfishDog> {
     public RenderPufferfishDog(RenderManager manager) {
         super(manager, new ModelPufferFishDog(), 0.3f);
         this.addLayer(new LayerGlasses(this));
-        this.addLayer(new LayerCollar(this));
+        this.addLayer(new LayerPufferfishDogCollar(this));
     }
 
     @Nullable

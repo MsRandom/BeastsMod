@@ -15,7 +15,10 @@ public class BeastsBlocks {
     public static final Block ABYSSAL_GRASS = new BlockAbyssalGrass();
     public static final Block ABYSSAL_ORE = new BlockAbyssalOre();
     public static final Block ABYSSAL_SAND = new BlockAbyssalSand();
-    public static final Block ABYSSAL_STONE = new BlockAbyssalStone();
+    public static final Block ABYSSAL_SANDSTONE = new BlockAbyssalStone("abyssal_sandstone");
+    public static final Block ABYSSAL_SANDSTONE_CHISELED = new BlockAbyssalStone("abyssal_sandstone_chiseled");
+    public static final Block ABYSSAL_SANDSTONE_SMOOTH = new BlockAbyssalStone("abyssal_sandstone_smooth");
+    public static final Block ABYSSAL_STONE = new BlockAbyssalStone("abyssal_stone");
     public static final Block ABYSSAL_TENDRILS = new BlockAbyssalTendrils();
     public static final Block ABYSSAL_VENT = new BlockAbyssalVentMouth();
     public static final Block GLOW_CORAL_PINK = new BlockGlowCoral("glow_coral_pink");
@@ -27,6 +30,7 @@ public class BeastsBlocks {
     public static final Block JELLYWOOD_SAPLING = new BeastsSapling("jellyfish_sapling", WorldGenJellyfishTrees::new);
     public static final Block PALM_SAPLING = new BeastsSapling("palm_sapling", WorldGenPalmTrees::new);
     public static final Block TENTACLE = new BlockTentacle();
+    public static final Block TUBEWORM_CROP = new BlockTubewormCrop();
     public static final Block PALM_LEAVES = new BlockPalmTreeLeaves();
     public static final Block PALM_LOG = new BeastsLog("palm_log");
     public static final Block PALM_PLANKS = new BeastsBlock(Material.WOOD, "palm_planks").setHardness(2.0F).setResistance(5.0F);

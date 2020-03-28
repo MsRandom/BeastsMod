@@ -9,12 +9,10 @@ import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityGuardian;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.relauncher.Side;
@@ -22,11 +20,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import random.beasts.api.main.BeastsReference;
 import random.beasts.client.init.BeastsSounds;
 import random.beasts.client.model.ModelAnglerQueen;
-import random.beasts.client.model.ModelVileEel;
 import random.beasts.client.renderer.entity.layers.LayerAnglerQueenGlow;
-import random.beasts.client.renderer.entity.layers.LayerFireflySquidSpots;
 import random.beasts.common.entity.monster.EntityAnglerQueen;
-import random.beasts.common.entity.monster.EntityVileEel;
 
 @SideOnly(Side.CLIENT)
 public class RenderAnglerQueen extends RenderLiving<EntityAnglerQueen> {
@@ -47,24 +42,22 @@ public class RenderAnglerQueen extends RenderLiving<EntityAnglerQueen> {
         else {
             if (livingEntity.isUsingBeam()) {
                 double rot = livingEntity.renderYawOffset * 0.01745329238474369D + (Math.PI / 2D);
-                double xMod = Math.cos(rot) * (double)(livingEntity.width+1f);
-                double zMod = Math.sin(rot) * (double)(livingEntity.width+1f);
-                double yMod = livingEntity.height+1f;
+                double xMod = Math.cos(rot) * (double) (livingEntity.width + 1f);
+                double zMod = Math.sin(rot) * (double) (livingEntity.width + 1f);
+                double yMod = 2.75f;
                 Vec3d vec3d1 = this.getPosition(livingEntity, xMod, yMod, zMod, 1.0F);
-                
+
                 Vec3d laserAngle = Vec3d.fromPitchYaw(livingEntity.getLaserPitch(), livingEntity.getLaserYaw());
                 double range = 30d;
-    			Vec3d hitVec = vec3d1.add(laserAngle.scale(range));
-                
-    			RayTraceResult trace = livingEntity.world.rayTraceBlocks(vec3d1, hitVec);
-    			if(trace != null && trace.hitVec != null) 
-    				hitVec = trace.hitVec;
+                Vec3d hitVec = vec3d1.add(laserAngle.scale(range));
+
+                RayTraceResult trace = livingEntity.world.rayTraceBlocks(vec3d1, hitVec);
+                if (trace != null && trace.hitVec != null)
+                    hitVec = trace.hitVec;
                 
                 Vec3d vec3d = hitVec;
 
-                if (camera.isBoundingBoxInFrustum(new AxisAlignedBB(vec3d1.x, vec3d1.y, vec3d1.z, vec3d.x, vec3d.y, vec3d.z).grow(0.5d))) {
-                    return true;
-                }
+                return camera.isBoundingBoxInFrustum(new AxisAlignedBB(vec3d1.x, vec3d1.y, vec3d1.z, vec3d.x, vec3d.y, vec3d.z).grow(0.5d));
             }
             return false;
         }
@@ -80,27 +73,26 @@ public class RenderAnglerQueen extends RenderLiving<EntityAnglerQueen> {
     /**
      * Renders the desired {@code T} type Entity.
      */
-    public void doRender(EntityAnglerQueen entity, double x, double y, double z, float entityYaw, float partialTicks)
-    {
+    public void doRender(EntityAnglerQueen entity, double x, double y, double z, float entityYaw, float partialTicks) {
         super.doRender(entity, x, y, z, entityYaw, partialTicks);
 
-        double rot = this.interpolateValue((double)entity.prevRenderYawOffset, (double)entity.renderYawOffset, (double)partialTicks) * 0.01745329238474369D + (Math.PI / 2D);
-        double xMod = Math.cos(rot) * (double)(entity.width+1f);
-        double zMod = Math.sin(rot) * (double)(entity.width+1f);
-        double yMod = entity.height + 0.8f;
+        double rot = this.interpolateValue(entity.prevRenderYawOffset, entity.renderYawOffset, partialTicks) * 0.01745329238474369D + (Math.PI / 2D);
+        double xMod = Math.cos(rot) * (double) (entity.width + 1f);
+        double zMod = Math.sin(rot) * (double) (entity.width + 1f);
+        double yMod = 2.75f;
         Vec3d lurePos = this.getPosition(entity, xMod, yMod, zMod, partialTicks);
-        if(entity.isChargingBeam()) {
-        	if(entity.getRNG().nextBoolean() && entity.getRNG().nextBoolean()) {
-				double alfa = entity.getRNG().nextDouble()*2*(double)Math.PI;
-				double beta = entity.getRNG().nextDouble()*2*(double)Math.PI;
-				double gamma = entity.getRNG().nextDouble()*2*(double)Math.PI;
-				double distance = 0.6d;
-				double x2 = distance*Math.cos(alfa);
-				double z2 = distance*Math.cos(beta);
-				double y2 = distance*Math.cos(gamma);
-			
-				entity.world.spawnParticle(EnumParticleTypes.END_ROD, lurePos.x + x2, lurePos.y + y2, lurePos.z + z2, -x2/15d, -y2/15d, -z2/15d);	
-        	}
+        if (entity.isChargingBeam()) {
+            if (entity.getRNG().nextBoolean() && entity.getRNG().nextBoolean()) {
+                double alfa = entity.getRNG().nextDouble() * 2 * Math.PI;
+                double beta = entity.getRNG().nextDouble() * 2 * Math.PI;
+                double gamma = entity.getRNG().nextDouble() * 2 * Math.PI;
+                double distance = 0.6d;
+                double x2 = distance * Math.cos(alfa);
+                double z2 = distance * Math.cos(beta);
+                double y2 = distance * Math.cos(gamma);
+
+                entity.world.spawnParticle(EnumParticleTypes.END_ROD, lurePos.x + x2, lurePos.y + y2, lurePos.z + z2, -x2 / 15d, -y2 / 15d, -z2 / 15d);
+            }
         }
         if (entity.isUsingBeam())
         {
@@ -172,7 +164,7 @@ public class RenderAnglerQueen extends RenderLiving<EntityAnglerQueen> {
             double d19 = 0.0D + Math.sin(d1 + (Math.PI * 3D / 2D)) * 0.2D;
             double d20 = 0.0D;
             double d21 = 0.4999D;
-            double d22 = (double)(-1.0F + f3);
+            double d22 = -1.0F + f3;
             double d23 = d0 * 2.5D + d22;
             bufferbuilder.pos(d12, d0, d13).tex(0.4999D, d23).color(j, k, l, 255).endVertex();
             bufferbuilder.pos(d12, 0.0D, d13).tex(0.4999D, d22).color(j, k, l, 255).endVertex();
@@ -204,7 +196,6 @@ public class RenderAnglerQueen extends RenderLiving<EntityAnglerQueen> {
 
         for (f = yawOffset - prevYawOffset; f < -180.0F; f += 360.0F)
         {
-            ;
         }
 
         while (f >= 180.0F)

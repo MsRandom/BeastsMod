@@ -1,6 +1,7 @@
 package random.beasts.common.world.biome;
 
 import net.minecraft.block.BlockPrismarine;
+import net.minecraft.block.BlockSandStone;
 import net.minecraft.block.BlockStone;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -60,7 +61,6 @@ public class BiomeAbyss extends UndergroundBiome {
 		int radiusZ = (bounds.maxZ * 16 - bounds.minZ * 16) / 2;
 		BlockPos center = new BlockPos(bounds.minX * 16, minY, bounds.minZ * 16).add(radiusX, radiusY, radiusZ);
 		for (BlockPos posit : BlockPos.getAllInBox(chunkStart, chunkEnd)) {
-
 			double a = Math.pow(posit.getX() - center.getX(), 2) / Math.pow(radiusX, 2) +
 					Math.pow(posit.getY() - center.getY(), 2) / Math.pow(radiusY, 2) +
 					Math.pow(posit.getZ() - center.getZ(), 2) / Math.pow(radiusZ, 2);
@@ -82,6 +82,9 @@ public class BiomeAbyss extends UndergroundBiome {
 					else
 						world.setBlockState(posit, BeastsBlocks.ABYSSAL_STONE.getDefaultState(), 16);
 				}
+				if (world.getBlockState(posit) == Blocks.SANDSTONE.getDefaultState().withProperty(BlockSandStone.TYPE, BlockSandStone.EnumType.DEFAULT)) {
+					world.setBlockState(posit, BeastsBlocks.ABYSSAL_SANDSTONE.getDefaultState(), 16);
+				}
 
 				ItemStack stack = new ItemStack(world.getBlockState(posit).getBlock());
 				if (!stack.isEmpty())
@@ -97,23 +100,23 @@ public class BiomeAbyss extends UndergroundBiome {
 					int layer2_height = layerHeight2;
 
 					double d0 = CAVE_NOISE_LAYER_1.getValue((double) posit.getX() * 1.6667f, (double) posit.getZ() * 1.6667f) * 0.09d;
-					if (posit.getY() < Math.round((float) -d0) + minY + layer1_height && posit.getY() > Math.round((float) d0 * 0.333f) + minY + layer1_height) {
+					if (posit.getY() < Math.round((float) -d0) + minY + layer1_height && posit.getY() > Math.round((float) d0 * 0.25f) + minY + layer1_height)
 						world.setBlockState(posit, Blocks.AIR.getDefaultState(), 16);
-					} else if (posit.getY() <= Math.round((float) d0 * 0.333f) + minY + layer1_height && posit.getY() > Math.round((float) d0 * 0.5f) + minY + layer1_height) {
+					else if (posit.getY() <= Math.round((float) d0 * 0.25f) + minY + layer1_height && posit.getY() > Math.round((float) d0 * 0.5f) + minY + layer1_height)
 						world.setBlockState(posit, BeastsBlocks.ABYSSAL_SAND.getDefaultState(), 16);
-					}
+					else if (posit.getY() <= Math.round((float) d0 * 0.5f) + minY + layer1_height && posit.getY() > Math.round((float) d0 * 0.667f) + minY + layer1_height)
+						world.setBlockState(posit, BeastsBlocks.ABYSSAL_SANDSTONE.getDefaultState(), 16);
 
 					double d1 = CAVE_NOISE_LAYER_2.getValue((double) posit.getX() * 1.6667f, (double) posit.getZ() * 1.6667f) * 0.09d;
-					if (posit.getY() < Math.round((float) -d1) + minY + layer2_height && posit.getY() > Math.round((float) d1 * 0.333f) + minY + layer2_height) {
+					if (posit.getY() < Math.round((float) -d1) + minY + layer2_height && posit.getY() > Math.round((float) d1 * 0.25f) + minY + layer2_height)
 						world.setBlockState(posit, Blocks.AIR.getDefaultState(), 16);
-					} else if (posit.getY() <= Math.round((float) d1 * 0.333f) + minY + layer2_height && posit.getY() > Math.round((float) d1 * 0.5f) + minY + layer2_height) {
+					else if (posit.getY() <= Math.round((float) d1 * 0.25f) + minY + layer2_height && posit.getY() > Math.round((float) d1 * 0.5f) + minY + layer2_height)
 						world.setBlockState(posit, BeastsBlocks.ABYSSAL_SAND.getDefaultState(), 16);
-					}
+					else if (posit.getY() <= Math.round((float) d1 * 0.5f) + minY + layer2_height && posit.getY() > Math.round((float) d1 * 0.667f) + minY + layer2_height)
+						world.setBlockState(posit, BeastsBlocks.ABYSSAL_SANDSTONE.getDefaultState(), 16);
 				}
 			}
 		}
-		//Random random = new Random(center.toLong());
-		//this.generateCave(world, pos, rand, bounds);
 	}
 
 	@Override
@@ -139,8 +142,8 @@ public class BiomeAbyss extends UndergroundBiome {
 				int layer2_height = layerHeight2;
 				double d0 = CAVE_NOISE_LAYER_1.getValue((double) posit.getX() * 1.6667f, (double) posit.getZ() * 1.6667f) * 0.09d;
 				double d1 = CAVE_NOISE_LAYER_2.getValue((double) posit.getX() * 1.6667f, (double) posit.getZ() * 1.6667f) * 0.09d;
-				if ((posit.getY() < Math.round((float) -d0) + minY + layer1_height && posit.getY() > Math.round((float) d0 * 0.333f) + minY + layer1_height) ||
-						(posit.getY() < Math.round((float) -d1) + minY + layer2_height && posit.getY() > Math.round((float) d1 * 0.333f) + minY + layer2_height)) {
+				if ((posit.getY() < Math.round((float) -d0) + minY + layer1_height && posit.getY() > Math.round((float) d0 * 0.25f) + minY + layer1_height) ||
+						(posit.getY() < Math.round((float) -d1) + minY + layer2_height && posit.getY() > Math.round((float) d1 * 0.25f) + minY + layer2_height)) {
 
 					NoiseGeneratorPerlin plantNoise = new NoiseGeneratorPerlin(new Random(-12L), 3);
 					double noise = plantNoise.getValue(posit.getX() * 1.5f, posit.getZ() * 1.5f);
@@ -148,18 +151,18 @@ public class BiomeAbyss extends UndergroundBiome {
 						if (rand.nextInt(VENT_CLUSTER_CHANCE) == 0 && world.getBlockState(posit.down()).getBlock() == BeastsBlocks.ABYSSAL_SAND)
 							VENT_CLUSTER_GENERATOR.generate(world, rand, posit);
 					} else if (noise < 1.25d) {
-						if (rand.nextInt(CORAL_CLUSTER_CHANCE) == 0 && !world.isAirBlock(posit.down()))
+						if (rand.nextInt(CORAL_CLUSTER_CHANCE) == 0 && world.getBlockState(posit.down()).getBlock() == BeastsBlocks.ABYSSAL_SAND)
 							CORAL_CLUSTER_GENERATOR.generate(world, rand, posit.down());
-						if (rand.nextInt(ABYSSAL_GRASS_CHANCE) == 0 && world.getBlockState(posit.down()).getBlock() == BeastsBlocks.ABYSSAL_SAND)
+						if (rand.nextInt(ABYSSAL_GRASS_CHANCE) == 0 && world.getBlockState(posit.down()).getBlock() == BeastsBlocks.ABYSSAL_SAND && world.isAirBlock(posit))
 							world.setBlockState(posit, BeastsBlocks.ABYSSAL_GRASS.getDefaultState(), 16);
-						if (rand.nextInt(TENTACLE_GRASS_CHANCE) == 0 && world.getBlockState(posit.down()).getBlock() == BeastsBlocks.ABYSSAL_SAND)
+						if (rand.nextInt(TENTACLE_GRASS_CHANCE) == 0 && world.getBlockState(posit.down()).getBlock() == BeastsBlocks.ABYSSAL_SAND && world.isAirBlock(posit))
 							world.setBlockState(posit, BeastsBlocks.TENTACLE_GRASS.getDefaultState(), 16);
-						if (rand.nextInt(ABYSSAL_TENDRILS_CHANCE) == 0 && world.getBlockState(posit.down()).getBlock() == BeastsBlocks.ABYSSAL_SAND && world.isAirBlock(posit.up())) {
+						if (rand.nextInt(ABYSSAL_TENDRILS_CHANCE) == 0 && world.getBlockState(posit.down()).getBlock() == BeastsBlocks.ABYSSAL_SAND && world.isAirBlock(posit.up()) && world.isAirBlock(posit)) {
 							world.setBlockState(posit, BeastsBlocks.ABYSSAL_TENDRILS.getDefaultState().withProperty(BlockAbyssalTendrils.HALF, BlockAbyssalTendrils.EnumBlockHalf.LOWER), 16);
 							world.setBlockState(posit.up(), BeastsBlocks.ABYSSAL_TENDRILS.getDefaultState().withProperty(BlockAbyssalTendrils.HALF, BlockAbyssalTendrils.EnumBlockHalf.UPPER), 16);
 						}
 						EnumFacing facing = EnumFacing.getFront(rand.nextInt(6));
-						if (rand.nextInt(GLOW_CORAL_CHANCE) == 0 && world.getBlockState(posit.offset(facing)).getBlock() == BeastsBlocks.ABYSSAL_STONE) {
+						if (rand.nextInt(GLOW_CORAL_CHANCE) == 0 && world.getBlockState(posit.offset(facing)).getBlock() == BeastsBlocks.ABYSSAL_STONE && world.isAirBlock(posit)) {
 							if (rand.nextBoolean())
 								world.setBlockState(posit, BeastsBlocks.GLOW_CORAL_BLUE.getDefaultState().withProperty(BlockGlowCoral.FACING, facing.getOpposite()), 16);
 							else
@@ -170,39 +173,4 @@ public class BiomeAbyss extends UndergroundBiome {
 			}
 		}
 	}
-
-	/*public void generateCave(World world, BlockPos pos, Random rand, UndergroundBiomeBounds bounds) {
-		ChunkPos chunk = new ChunkPos(pos);
-		int minY = (pos.getY() >> 5) * 32;
-		BlockPos chunkStart = new BlockPos(chunk.getXStart(), minY, chunk.getZStart());
-		BlockPos chunkEnd = new BlockPos(chunk.getXEnd(), minY + 32, chunk.getZEnd());
-		NoiseGeneratorPerlin cave_noise = new NoiseGeneratorPerlin(rand, 1);
-
-		int radiusX = (bounds.maxX * 16 - bounds.minX * 16) / 2;
-		int radiusY = 16;
-		int radiusZ = (bounds.maxZ * 16 - bounds.minZ * 16) / 2;
-		BlockPos center = new BlockPos(bounds.minX * 16, minY, bounds.minZ * 16).add(radiusX, radiusY, radiusZ);
-
-		for (int y = -16; y <= 16; ++y) {
-			int x = Math.round((float) cave_noise.getValue(chunk.getXStart() * 0.5d, (double) y * 0.5d) * radiusX * 0.5f);
-			int z = Math.round((float) cave_noise.getValue(chunk.getZStart() * 0.5d, (double) y * 0.5d) * radiusZ * 0.5f);
-			BlockPos position = center.add(x, y, z);
-			double a = Math.pow(position.getX() - center.getX(), 2) / Math.pow(radiusX, 2) +
-					Math.pow(position.getY() - center.getY(), 2) / Math.pow(radiusY, 2) +
-					Math.pow(position.getZ() - center.getZ(), 2) / Math.pow(radiusZ, 2);
-			if (a < 1)
-				this.clearSphere(world, (1d - a) * 5, position, chunk);
-		}
-	}
-
-	public void clearSphere(World world, double radius, BlockPos pos, ChunkPos chunkPos) {
-		int radInt = Math.round((float) radius);
-		for (BlockPos posit : BlockPos.getAllInBox(pos.add(radInt, radInt, radInt), pos.add(-radInt, -radInt, -radInt))) {
-			double a = Math.pow(posit.getX() - pos.getX(), 2) / Math.pow(radius, 2) +
-					Math.pow(posit.getY() - pos.getY(), 2) / Math.pow(radius, 2) +
-					Math.pow(posit.getZ() - pos.getZ(), 2) / Math.pow(radius, 2);
-			if (chunkPos.equals(new ChunkPos(posit)) && a < 1)
-				world.setBlockState(posit, Blocks.AIR.getDefaultState(), 16);
-		}
-	}*/
 }

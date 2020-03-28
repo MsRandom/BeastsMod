@@ -8,16 +8,21 @@ import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityFlying;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.pathfinding.PathNavigateFlying;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
+import random.beasts.common.init.BeastsItems;
 
 import javax.annotation.Nullable;
 
@@ -55,12 +60,36 @@ public class EntityFireflySquid extends EntityAnimal implements EntityFlying {
         return Integer.valueOf(this.dataManager.get(VARIANT));
     }
 
-    private void setVariant(int variant) {
+    public void setVariant(int variant) {
         this.dataManager.set(VARIANT, variant);
     }
 
     @Override
+    public boolean processInteract(EntityPlayer player, EnumHand hand) {
+        ItemStack itemstack = player.getHeldItem(hand);
+        if (itemstack.getItem() == Items.BUCKET) {
+            if (!player.capabilities.isCreativeMode) itemstack.shrink(1);
+            ItemStack bucket = new ItemStack(BeastsItems.FIREFLY_SQUID_BUCKET);
+            bucket.setTagCompound(this.writeToNBT(new NBTTagCompound()).copy());
+            player.addItemStackToInventory(bucket);
+            this.setDead();
+            return true;
+        }
+        if (itemstack.getItem() == BeastsItems.SHRIMP) {
+            if (!player.capabilities.isCreativeMode) itemstack.shrink(1);
+            this.setInLove(player);
+            return true;
+        }
+        return super.processInteract(player, hand);
+    }
+
+    @Override
     protected void jump() {
+    }
+
+    @Override
+    public int getBrightnessForRender() {
+        return Math.max(155, super.getBrightnessForRender());
     }
 
     @Override

@@ -4,7 +4,10 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.MathHelper;
+import random.beasts.common.entity.monster.EntityAnglerQueen;
 
 /**
  * ModelAnglerQueen - Coda
@@ -83,19 +86,69 @@ public class ModelAnglerQueen extends ModelBase {
     
     @Override
     public void setLivingAnimations(EntityLivingBase entitylivingbaseIn, float f, float f1, float partialTickTime) {
-    	float speed = 1.0f;
-    	float degree = 1.0f;
-    	this.hips.rotateAngleY = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * 0.4F) * f1 * 0.5F;
-    	this.tail.rotateAngleY = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * 0.6F) * f1 * 0.5F;
-    	this.armRight.rotateAngleX = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * 0.8F) * f1 * 0.5F;
-    	this.legLeft.rotateAngleX = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * 0.8F) * f1 * 0.5F;
-    	this.legRight.rotateAngleX = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * -0.8F) * f1 * 0.5F;
-    	this.armLeft.rotateAngleX = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * -0.8F) * f1 * 0.5F;
-    	this.neckJoint.offsetY = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * 0.2F) * f1 * 0.5F;
-    	this.lure.rotateAngleX = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * 0.2F) * f1 * 0.5F + 0.1F;
-    	this.mouth.rotateAngleX = MathHelper.cos((f * speed * 0.3F) + (float) Math.PI) * (degree * 0.3F) * f1 * 0.5F;
-    	this.jaw.rotateAngleX = MathHelper.cos((f * speed * 0.3F) + (float) Math.PI) * (degree * 0.5F) * f1 * 0.5F + 0.1F;
+        float speed = 1.0f;
+        float degree = 1.0f;
 
+        this.body.setRotationPoint(0.0F, -6.5F, 0.0F);
+        this.setRotateAngle(body, 0f, 0f, 0f);
+        this.jaw.setRotationPoint(0.0F, 0.0F, 0.0F);
+
+        this.hips.rotateAngleY = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * 0.4F) * f1 * 0.5F;
+        this.tail.rotateAngleY = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * 0.6F) * f1 * 0.5F;
+        this.armRight.rotateAngleX = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * 0.8F) * f1 * 0.5F;
+        this.legLeft.rotateAngleX = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * 0.8F) * f1 * 0.5F;
+        this.legRight.rotateAngleX = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * -0.8F) * f1 * 0.5F;
+        this.armLeft.rotateAngleX = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * -0.8F) * f1 * 0.5F;
+        this.neckJoint.offsetY = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * 0.2F) * f1 * 0.5F;
+        this.lure.rotateAngleX = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * 0.2F) * f1 * 0.5F + 0.1F;
+        this.mouth.rotateAngleX = MathHelper.cos((f * speed * 0.3F) + (float) Math.PI) * (degree * 0.3F) * f1 * 0.5F;
+        this.jaw.rotateAngleX = MathHelper.cos((f * speed * 0.3F) + (float) Math.PI) * (degree * 0.5F) * f1 * 0.5F + 0.1F;
+
+        if (entitylivingbaseIn instanceof EntityAnglerQueen && ((EntityAnglerQueen) entitylivingbaseIn).isBiting()) {
+            EntityAnglerQueen queen = (EntityAnglerQueen) entitylivingbaseIn;
+            int tick = queen.getBiteTick();
+            if (tick <= 7) {
+                this.animateAnglesToLinear(this.jaw, 0f, 0f, 0f, (float) Math.toRadians(5.22d), 0f, 0f, tick, 7);
+                this.animatePointsToLinear(this.jaw, 0f, 0f, 0f, 0f, 0f, 3f, tick, 7);
+            }
+            if (tick >= 7 && tick <= 12) {
+                this.animateAnglesToLinear(this.mouth, 0f, 0f, 0f, (float) Math.toRadians(-21d), 0f, 0f, tick - 7, 5);
+                this.animateAnglesToLinear(this.jaw, (float) Math.toRadians(5.22d), 0f, 0f, (float) Math.toRadians(31.3d), 0f, 0f, tick - 7, 5);
+                this.animatePointsToLinear(this.jaw, 0f, 0f, 3f, 0f, 0f, -6f, tick - 7, 5);
+            }
+            if (tick >= 12 && tick <= 17) {
+                this.animateAnglesToLinear(this.mouth, (float) Math.toRadians(-21d), 0f, 0f, 0f, 0f, 0f, tick - 12, 5);
+                this.animateAnglesToLinear(this.jaw, (float) Math.toRadians(31.3d), 0f, 0f, 0f, 0f, 0f, tick - 12, 5);
+                this.animatePointsToLinear(this.jaw, 0f, 0f, -6f, 0f, 0f, 0f, tick - 12, 5);
+            }
+            if (tick == 12)
+                queen.getEntityWorld().playSound(queen.posX, queen.posY, queen.posZ, SoundEvents.EVOCATION_FANGS_ATTACK, SoundCategory.HOSTILE, 1f, 1f, false);
+        }
+
+        if (entitylivingbaseIn instanceof EntityAnglerQueen && ((EntityAnglerQueen) entitylivingbaseIn).isRearing()) {
+            EntityAnglerQueen queen = (EntityAnglerQueen) entitylivingbaseIn;
+            int tick = queen.getRearTick();
+            if (tick <= 10) {
+                this.animateAnglesToLinear(this.body, 0f, 0f, 0f, (float) Math.toRadians(-33.91d), 0f, 0f, tick, 10);
+                this.animatePointsToLinear(this.body, 0f, -6.5f, 0f, 0f, -10f, 10f, tick, 10);
+                this.animateAnglesToLinear(this.legLeft, 0f, 0f, 0f, (float) Math.toRadians(33.91d), 0f, 0f, tick, 10);
+                this.animateAnglesToLinear(this.legRight, 0f, 0f, 0f, (float) Math.toRadians(33.91d), 0f, 0f, tick, 10);
+            }
+            if (tick >= 10 && tick <= 20) {
+                this.setRotateAngle(body, (float) Math.toRadians(-33.91d), 0f, 0f);
+                this.setRotationPoint(body, 0f, -10f, 10f);
+                this.setRotateAngle(legLeft, (float) Math.toRadians(33.91d), 0f, 0f);
+                this.setRotateAngle(legRight, (float) Math.toRadians(33.91d), 0f, 0f);
+            }
+            if (tick >= 20 && tick <= 26) {
+                this.animateAnglesToLinear(this.body, (float) Math.toRadians(-33.91d), 0f, 0f, 0f, 0f, 0f, tick - 20, 6);
+                this.animatePointsToLinear(this.body, 0f, -10f, 10f, 0f, -6.5f, 0f, tick - 20, 6);
+                this.animateAnglesToLinear(this.legLeft, (float) Math.toRadians(33.91d), 0f, 0f, 0f, 0f, 0f, tick - 20, 6);
+                this.animateAnglesToLinear(this.legRight, (float) Math.toRadians(33.91d), 0f, 0f, 0f, 0f, 0f, tick - 20, 6);
+            }
+            if (tick == 25)
+                queen.getEntityWorld().playSound(queen.posX, queen.posY, queen.posZ, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.HOSTILE, 0.4f, 1f, false);
+        }
     }
 
     @Override
@@ -110,5 +163,19 @@ public class ModelAnglerQueen extends ModelBase {
         modelRenderer.rotateAngleX = x;
         modelRenderer.rotateAngleY = y;
         modelRenderer.rotateAngleZ = z;
+    }
+
+    public void setRotationPoint(ModelRenderer modelRenderer, float x, float y, float z) {
+        modelRenderer.rotationPointX = x;
+        modelRenderer.rotationPointY = y;
+        modelRenderer.rotationPointZ = z;
+    }
+
+    public void animateAnglesToLinear(ModelRenderer modelRenderer, float startX, float startY, float startZ, float finishX, float finishY, float finishZ, int tick, int totalTime) {
+        this.setRotateAngle(modelRenderer, startX + tick * ((finishX - startX) / totalTime), startY + tick * ((finishY - startY) / totalTime), startZ + tick * ((finishZ - startZ) / totalTime));
+    }
+
+    public void animatePointsToLinear(ModelRenderer modelRenderer, float startX, float startY, float startZ, float finishX, float finishY, float finishZ, int tick, int totalTime) {
+        this.setRotationPoint(modelRenderer, startX + tick * ((finishX - startX) / totalTime), startY + tick * ((finishY - startY) / totalTime), startZ + tick * ((finishZ - startZ) / totalTime));
     }
 }

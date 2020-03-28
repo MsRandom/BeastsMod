@@ -1,6 +1,5 @@
 package random.beasts.client.renderer.entity.layers;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
@@ -26,7 +25,6 @@ public class LayerFireflySquidSpots implements LayerRenderer<EntityFireflySquid>
             this.squidRenderer.bindTexture(SPOTS_BLUE);
 
         GlStateManager.enableBlend();
-        GlStateManager.disableAlpha();
         GlStateManager.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE);
         GlStateManager.disableLighting();
         GlStateManager.depthMask(!entitylivingbaseIn.isInvisible());
@@ -36,17 +34,14 @@ public class LayerFireflySquidSpots implements LayerRenderer<EntityFireflySquid>
         OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 61680.0F, 0.0F);
         GlStateManager.enableLighting();
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        Minecraft.getMinecraft().entityRenderer.setupFogColor(true);
         ((ModelFireflySquid) this.squidRenderer.getMainModel()).finLeft.isHidden = true;
         ((ModelFireflySquid) this.squidRenderer.getMainModel()).finRight.isHidden = true;
         this.squidRenderer.getMainModel().render(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
         ((ModelFireflySquid) this.squidRenderer.getMainModel()).finLeft.isHidden = false;
         ((ModelFireflySquid) this.squidRenderer.getMainModel()).finRight.isHidden = false;
-        Minecraft.getMinecraft().entityRenderer.setupFogColor(false);
         this.squidRenderer.setLightmap(entitylivingbaseIn);
         GlStateManager.depthMask(true);
         GlStateManager.disableBlend();
-        GlStateManager.enableAlpha();
     }
 
     public boolean shouldCombineTextures() {

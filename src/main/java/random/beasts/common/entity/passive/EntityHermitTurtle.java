@@ -20,6 +20,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 import random.beasts.api.entity.IShellEntity;
 import random.beasts.client.init.BeastsSounds;
+import random.beasts.common.entity.IHiding;
 import random.beasts.common.entity.monster.EntityVileEel;
 import random.beasts.common.init.BeastsBlocks;
 import random.beasts.common.init.BeastsEntities;
@@ -27,7 +28,7 @@ import random.beasts.common.init.BeastsEntities;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class EntityHermitTurtle extends EntityAnimal implements IShellEntity {
+public class EntityHermitTurtle extends EntityAnimal implements IShellEntity, IHiding {
     private static final DataParameter<Boolean> OUT = EntityDataManager.createKey(EntityHermitTurtle.class, DataSerializers.BOOLEAN);
     public int exitTicks = 25;
 
@@ -96,6 +97,10 @@ public class EntityHermitTurtle extends EntityAnimal implements IShellEntity {
 
     public boolean isOut() {
         return this.dataManager.get(OUT);
+    }
+
+    public boolean isHiding() {
+        return !this.isOut();
     }
 
     private void setOut(boolean out) {

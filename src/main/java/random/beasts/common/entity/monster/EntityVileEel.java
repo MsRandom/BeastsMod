@@ -16,6 +16,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import random.beasts.api.entity.IDriedAquatic;
 import random.beasts.client.init.BeastsSounds;
+import random.beasts.common.entity.IHiding;
 import random.beasts.common.init.BeastsItems;
 
 import java.util.Objects;
@@ -27,7 +28,7 @@ public class EntityVileEel extends EntityMob implements IDriedAquatic {
 
     protected void initEntityAI() {
         this.tasks.addTask(0, new EntityAISwimming(this));
-        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityLivingBase.class, 10, true, false, entity -> !(entity instanceof IDriedAquatic) && getRidingEntity() != entity));
+        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityLivingBase.class, 10, true, false, entity -> !(entity instanceof IDriedAquatic) && getRidingEntity() != entity && !(entity instanceof IHiding && ((IHiding) entity).isHiding())));
         this.tasks.addTask(2, new EntityAIAttackMelee(this, 1.1D, true));
         this.tasks.addTask(3, new EntityAIWanderAvoidWater(this, 1.0D));
         this.tasks.addTask(4, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
@@ -42,6 +43,8 @@ public class EntityVileEel extends EntityMob implements IDriedAquatic {
     @Override
     public void onLivingUpdate() {
         if (this.getRidingEntity() != null) getRidingEntity().attackEntityFrom(DamageSource.causeMobDamage(this), 1);
+        if (this.getAttackTarget() instanceof IHiding && ((IHiding) this.getAttackTarget()).isHiding())
+            this.setAttackTarget(null);
         super.onLivingUpdate();
     }
 

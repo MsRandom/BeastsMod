@@ -7,12 +7,12 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import random.beasts.api.main.BeastsReference;
 import random.beasts.client.model.ModelGlowShrimp;
-import random.beasts.common.entity.passive.EntityGlowShrimp;
+import random.beasts.common.entity.monster.EntityGlowShrimp;
 
 @SideOnly(Side.CLIENT)
 public class RenderGlowShrimp extends RenderLiving<EntityGlowShrimp> {
-	
-    private static final ResourceLocation SHRIMP = new ResourceLocation(BeastsReference.ID, "textures/entity/glow_shrimp.png");
+
+    private static final ResourceLocation SHRIMP = new ResourceLocation(BeastsReference.ID, "textures/entity/glow_shrimp/glow_shrimp.png");
 
     public RenderGlowShrimp(RenderManager rm) {
         super(rm, new ModelGlowShrimp(), 0.3f);

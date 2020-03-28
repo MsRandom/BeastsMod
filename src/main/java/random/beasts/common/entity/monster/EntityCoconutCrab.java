@@ -24,6 +24,7 @@ import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import random.beasts.api.entity.IShellEntity;
 import random.beasts.client.init.BeastsSounds;
+import random.beasts.common.entity.IHiding;
 import random.beasts.common.init.BeastsBlocks;
 import random.beasts.common.init.BeastsItems;
 
@@ -31,7 +32,7 @@ import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Objects;
 
-public class EntityCoconutCrab extends EntityMob implements IShellEntity {
+public class EntityCoconutCrab extends EntityMob implements IShellEntity, IHiding {
 
     private static final DataParameter<Boolean> OUT = EntityDataManager.createKey(EntityCoconutCrab.class, DataSerializers.BOOLEAN);
     private static final float defaultHeight = 0.4f;
@@ -87,6 +88,10 @@ public class EntityCoconutCrab extends EntityMob implements IShellEntity {
 
     public boolean isOut() {
         return this.dataManager.get(OUT);
+    }
+
+    public boolean isHiding() {
+        return !this.isOut();
     }
 
     private void setOut(boolean out) {
