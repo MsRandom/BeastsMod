@@ -9,16 +9,26 @@ import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.stats.StatList;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.IShearable;
 import random.beasts.api.main.BeastsUtils;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Random;
 
-public class BlockGlowCoral extends BlockBush implements IGrowable {
+public class BlockGlowCoral extends BlockBush implements IGrowable, IShearable {
 
     public static final PropertyDirection FACING = PropertyDirection.create("facing");
 
@@ -110,5 +120,30 @@ public class BlockGlowCoral extends BlockBush implements IGrowable {
     @Override
     protected BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, FACING);
+    }
+
+
+    @Override
+    public boolean isShearable(@Nonnull ItemStack item, IBlockAccess world, BlockPos pos) {
+        return true;
+    }
+
+    public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, @Nullable TileEntity te, ItemStack stack) {
+        if (!worldIn.isRemote && stack.getItem() == Items.SHEARS) {
+            player.addStat(StatList.getBlockStats(this));
+            spawnAsEntity(worldIn, pos, new ItemStack(this, 1));
+        } else {
+            super.harvestBlock(worldIn, player, pos, state, te, stack);
+        }
+    }
+
+    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+        return null;
+    }
+
+    @Nonnull
+    @Override
+    public NonNullList<ItemStack> onSheared(@Nonnull ItemStack item, IBlockAccess world, BlockPos pos, int fortune) {
+        return NonNullList.withSize(1, new ItemStack(this, 1));
     }
 }

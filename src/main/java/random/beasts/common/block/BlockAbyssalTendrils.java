@@ -14,16 +14,23 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.stats.StatList;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.IShearable;
 import random.beasts.api.main.BeastsUtils;
+import random.beasts.common.init.BeastsBlocks;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Random;
 
-public class BlockAbyssalTendrils extends BlockBush implements IGrowable {
+public class BlockAbyssalTendrils extends BlockBush implements IGrowable, IShearable {
     public static final PropertyEnum<BlockAbyssalTendrils.EnumBlockHalf> HALF = PropertyEnum.create("half", BlockAbyssalTendrils.EnumBlockHalf.class);
 
     public BlockAbyssalTendrils() {
@@ -72,14 +79,6 @@ public class BlockAbyssalTendrils extends BlockBush implements IGrowable {
         }
     }
 
-    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-        if (state.getValue(HALF) == BlockAbyssalTendrils.EnumBlockHalf.UPPER) {
-            return Items.AIR;
-        } else {
-            return super.getItemDropped(state, rand, fortune);
-        }
-    }
-
     public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
         worldIn.setBlockState(pos.up(), this.getDefaultState().withProperty(HALF, BlockAbyssalTendrils.EnumBlockHalf.UPPER), 2);
     }
@@ -98,6 +97,30 @@ public class BlockAbyssalTendrils extends BlockBush implements IGrowable {
         }
 
         super.onBlockHarvested(worldIn, pos, state, player);
+    }
+
+    @Override
+    public boolean isShearable(@Nonnull ItemStack item, IBlockAccess world, BlockPos pos) {
+        return true;
+    }
+
+    @Nonnull
+    @Override
+    public NonNullList<ItemStack> onSheared(@Nonnull ItemStack item, IBlockAccess world, BlockPos pos, int fortune) {
+        return NonNullList.withSize(1, new ItemStack(BeastsBlocks.ABYSSAL_TENDRILS, 1));
+    }
+
+    public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, @Nullable TileEntity te, ItemStack stack) {
+        if (!worldIn.isRemote && stack.getItem() == Items.SHEARS) {
+            player.addStat(StatList.getBlockStats(this));
+            spawnAsEntity(worldIn, pos, new ItemStack(BeastsBlocks.ABYSSAL_TENDRILS, 1));
+        } else {
+            super.harvestBlock(worldIn, player, pos, state, te, stack);
+        }
+    }
+
+    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+        return null;
     }
 
     @Override

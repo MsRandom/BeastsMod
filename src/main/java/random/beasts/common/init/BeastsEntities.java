@@ -177,7 +177,7 @@ public class BeastsEntities {
 
             public EntityType<T> build(String id) {
                 EntityEntryBuilder<T> builder = EntityEntryBuilder.create();
-                builder.name(id).tracker(20, 2, true);
+                builder.name(id).tracker(40, 2, true);
                 return new EntityType<>(builder, cls, classification, factory);
             }
         }

@@ -16,7 +16,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import random.beasts.api.main.BeastsUtils;
-import random.beasts.common.init.BeastsBlocks;
 
 import javax.annotation.Nullable;
 import java.util.Random;
@@ -47,12 +46,12 @@ public class BeastsSapling extends BlockBush implements IGrowable {
     @Override
     public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
         IBlockState soil = worldIn.getBlockState(pos.down());
-        return super.canPlaceBlockAt(worldIn, pos) && (soil.getBlock() == Blocks.SAND || soil.getBlock() == BeastsBlocks.ABYSSAL_SAND || soil.getBlock() == BeastsBlocks.ABYSSAL_STONE);
+        return super.canPlaceBlockAt(worldIn, pos) && soil.getBlock() == Blocks.SAND;
     }
 
     @Override
     protected boolean canSustainBush(IBlockState state) {
-        return state.getBlock() == Blocks.SAND || state.getBlock() == BeastsBlocks.ABYSSAL_SAND || state.getBlock() == BeastsBlocks.ABYSSAL_STONE;
+        return state.getBlock() == Blocks.SAND;
     }
 
     @Override

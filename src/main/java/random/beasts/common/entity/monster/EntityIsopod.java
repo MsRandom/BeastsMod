@@ -7,6 +7,7 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -16,6 +17,7 @@ import net.minecraft.pathfinding.PathNavigateFlying;
 import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.world.World;
+import random.beasts.common.init.BeastsItems;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -26,6 +28,7 @@ public class EntityIsopod extends EntityMob {
 
 	public EntityIsopod(World worldIn) {
 		super(worldIn);
+		setSize(1f, 1f);
 	}
 
 	public boolean isSpartapod() {
@@ -88,9 +91,26 @@ public class EntityIsopod extends EntityMob {
 					break;
 				}
 			}
-			if (!flag)
+			if (!flag) {
 				this.setAttackTarget(null);
+				this.setRevengeTarget(null);
+			}
 		}
+	}
+
+	@Override
+	protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
+		super.dropFewItems(wasRecentlyHit, lootingModifier);
+		int chitin = 1;
+		for (int i = 0; i <= lootingModifier; ++i) {
+			chitin += rand.nextInt(2);
+		}
+		if (this.isSpartapod()) {
+			this.entityDropItem(new ItemStack(BeastsItems.SPARTAPOD_CHITIN, chitin), 0);
+			if (rand.nextInt(20) == 0)
+				this.entityDropItem(new ItemStack(BeastsItems.SPARTAPOD_CREST, 1), 0);
+		} else
+			this.entityDropItem(new ItemStack(BeastsItems.ATHAPOD_CHITIN, chitin), 0);
 	}
 
 	@Override

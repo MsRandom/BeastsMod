@@ -1,5 +1,6 @@
 package random.beasts.common.entity.passive;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
@@ -14,6 +15,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -53,18 +55,35 @@ public class EntityAnglerPup extends EntityTameable {
         this.targetTasks.addTask(2, new EntityAIOwnerHurtTarget(this));
     }
 
-	@Override
-	public EntityAgeable createChild(EntityAgeable ageable) {
-		return null;
-	}
-	
-	@Override
+    public boolean attackEntityAsMob(Entity entityIn) {
+        boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float) ((int) this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue()));
+
+        if (flag) {
+            this.applyEnchantments(this, entityIn);
+        }
+
+        return flag;
+    }
+
+    @Override
+    protected void updateAITasks() {
+        super.updateAITasks();
+        if (isSitting()) {
+            this.getNavigator().clearPath();
+        }
+    }
+
+    @Override
+    public EntityAgeable createChild(EntityAgeable ageable) {
+        return new EntityAnglerPup(this.world);
+    }
+
+    @Override
     protected void applyEntityAttributes() {
-        this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(8d);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.4d);
-        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1.5d);
+        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(16D);
+        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.4D);
+        this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(2.0D);
     }
 
     @Override

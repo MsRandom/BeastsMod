@@ -36,6 +36,10 @@ public class BlockAbyssalOre extends BeastsBlock {
         for (int i = 0; i < OreType.values().length; i++) items.add(i, new ItemStack(this, 1, i));
     }
 
+    @Override
+    public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
+        return super.getLightValue(state, world, pos);
+    }
 
     @Override
     public int getExpDrop(IBlockState state, net.minecraft.world.IBlockAccess world, BlockPos pos, int fortune) {
@@ -123,7 +127,7 @@ public class BlockAbyssalOre extends BeastsBlock {
 
     @Override
     public int getHarvestLevel(IBlockState state) {
-        return 2;
+        return state.getValue(ORE) == OreType.DIAMOND || state.getValue(ORE) == OreType.EMERALD ? 2 : state.getValue(ORE) == OreType.COAL ? 0 : 1;
     }
 
     @Override

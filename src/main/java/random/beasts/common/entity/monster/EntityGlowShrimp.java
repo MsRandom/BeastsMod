@@ -7,9 +7,11 @@ import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import random.beasts.common.entity.projectile.EntityGlowShrimpShot;
+import random.beasts.common.init.BeastsItems;
 
 public class EntityGlowShrimp extends EntityMob implements IRangedAttackMob {
 
@@ -52,6 +54,16 @@ public class EntityGlowShrimp extends EntityMob implements IRangedAttackMob {
 		glowShrimpShot.shoot(d1, d2 + (double) (f * 0.2F), d3, 0.75F, 8.0F);
 		this.world.playSound(null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_WITCH_THROW, this.getSoundCategory(), 1.0F, 0.8F + this.rand.nextFloat() * 0.4F);
 		this.world.spawnEntity(glowShrimpShot);
+	}
+
+	@Override
+	protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
+		super.dropFewItems(wasRecentlyHit, lootingModifier);
+		int shrimp = 1;
+		for (int i = 0; i <= lootingModifier; ++i) {
+			shrimp += rand.nextInt(2);
+		}
+		this.entityDropItem(new ItemStack(BeastsItems.SHRIMP, shrimp), 0);
 	}
 
 	@Override
