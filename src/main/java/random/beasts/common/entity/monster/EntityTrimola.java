@@ -153,10 +153,11 @@ public class EntityTrimola extends EntityTameable implements IInventoryChangedLi
         if (world.isRemote) {
             if (isPassenger(passenger) && passenger == BeastsMod.proxy.getPlayer()) {
                 if (BeastsMod.proxy.isClientSneaking()) {
-                    removePassenger(passenger);
+                    passenger.dismountRidingEntity();
                     return;
                 }
                 //There is 2 cool downs??
+                //Yeah theres two cooldowns, problem???
                 if (attackTimeout == 0 && BeastsMod.proxy.isTrimolaAttacking() && rearCoolDown == 0) {
                     attackTimeout = 1;
                     this.rearing = true;

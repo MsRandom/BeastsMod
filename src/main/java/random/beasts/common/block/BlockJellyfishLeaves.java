@@ -91,6 +91,6 @@ public class BlockJellyfishLeaves extends BeastsLeaves {
 
     @Override
     public NonNullList<ItemStack> onSheared(ItemStack item, IBlockAccess world, BlockPos pos, int fortune) {
-        return NonNullList.withSize(1, new ItemStack(this));
+        return NonNullList.withSize(1, new ItemStack(BeastsBlocks.JELLY_LEAVES));
     }
 }

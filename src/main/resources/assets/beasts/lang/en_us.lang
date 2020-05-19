@@ -60,16 +60,16 @@ item.daggerfish.name=Raw Daggerfish
 item.cooked_daggerfish.name=Cooked Daggerfish
 item.fishstar.name=Fishstar [NYI]
 item.athapod_chitin.name=Athapod Chitin [NYI]
-item.spartapod_chitin.name=Spartapod Chitin [NYI]
-item.spartapod_crest.name=Spartapod Crest [NYI]
+item.spartapod_chitin.name=Spartapod Chitin
+item.spartapod_crest.name=Spartapod Crest
 item.ice_crab_chitin.name=Ice Crab Chitin [NYI]
 item.worm_tooth.name=Worm Tooth [NYI]
 item.glow_root.name=Glow Root [NYI]
 item.hermit_helm.name=Hermit Helm
-item.spartapod_helmet.name=Spartapod Helmet [NYI]
-item.spartapod_chest.name=Spartapod Chestplate [NYI]
-item.spartapod_legs.name=Spartapod Leggings [NYI]
-item.spartapod_boots.name=Spartapod Boots [NYI]
+item.spartapod_helmet.name=Spartapod Helmet
+item.spartapod_chest.name=Spartapod Chestplate
+item.spartapod_legs.name=Spartapod Leggings
+item.spartapod_boots.name=Spartapod Boots
 item.puffer_helmet.name=Puffer Helmet
 item.puffer_chest.name=Puffer Tunic
 item.puffer_legs.name=Puffer Leggings
@@ -183,3 +183,7 @@ generator.beasts.info=Only Beasts Mod Biomes.
 config.biomes.category=Biomes
 death.attack.pufferpup=%1$s was pricked to death by %2s
 death.attack.pufferpup.player=%1$s was pricked to death by %2s whilst trying to escape %3$s
+
+//Attack
+
+trimola.attack=Trimola Attack

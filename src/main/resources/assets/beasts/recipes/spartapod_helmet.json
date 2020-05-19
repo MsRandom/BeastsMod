@@ -1,0 +1,20 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        " # ",
+        "BBB",
+        "B B"
+    ],
+    "key": {
+        "#": {
+            "item": "beasts:spartapod_crest"
+        },
+        "B": {
+            "item": "beasts:spartapod_chitin"
+        }
+    },
+    "result": {
+        "item": "beasts:spartapod_helmet",
+        "count": 1
+    }
+}

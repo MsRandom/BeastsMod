@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "###",
+        "# #",
+        "# #"
+    ],
+    "key": {
+        "#": {
+            "item": "beasts:spartapod_chitin"
+        }
+    },
+    "result": {
+        "item": "beasts:spartapod_legs",
+        "count": 1
+    }
+}

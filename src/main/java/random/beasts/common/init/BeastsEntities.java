@@ -44,7 +44,7 @@ public class BeastsEntities {
     public static final EntityType<EntityCoralBranchie> CORAL_BRANCHIE = createBranchie(EntityCoralBranchie::new, EntityCoralBranchie.class, 0xEDEC4C, 0xD6549B, BeastsBlocks.CORAL_PLANTS.values(), new Tuple<>(2, EntityCoralBranchie::create));
     public static final EntityType<EntityChorusBranchie> CHORUS_BRANCHIE = createBranchie(EntityChorusBranchie::new, EntityChorusBranchie.class, 0x401A40, 0xEED6EE, Collections.singletonList(Blocks.CHORUS_PLANT), new Tuple<>(2, EntityChorusBranchie::create));
     public static final EntityType<EntityWoodBranchie> WOOD_BRANCHIE = createBranchie(EntityWoodBranchie::new, EntityWoodBranchie.class, 0x745A36, 0x57AD3F, Arrays.asList(Blocks.LOG, Blocks.LOG2), new Tuple<>(6, EntityWoodBranchie::create));
-    public static final EntityType<EntityVileEel> VILE_EEL = create(EntityVileEel::new, EntityVileEel.class, EnumCreatureType.AMBIENT, 1.5F, 1.8F, 0x313337, 0x987CAF, new SpawnEntry(40, 1, 1, BeastsBiomes.DRIED_REEF));
+    public static final EntityType<EntityVileEel> VILE_EEL = create(EntityVileEel::new, EntityVileEel.class, EnumCreatureType.AMBIENT, 1.5F, 1.8F, 0x313337, 0x987CAF, new SpawnEntry(20, 1, 1, BeastsBiomes.DRIED_REEF));
     public static final EntityType<EntityLandwhale> LANDWHALE = create(EntityLandwhale::new, EntityLandwhale.class, EnumCreatureType.CREATURE, 1.8F, 2.0F, 0x587377, 0xE25AA5, new SpawnEntry(30, 1, 1, BeastsBiomes.DRIED_REEF));
     public static final EntityType<EntityGiantGardenEel> GIANT_GARDEN_EEL = create(EntityGiantGardenEel::new, EntityGiantGardenEel.class, EnumCreatureType.CREATURE, 0.5f, 2.7f, 0xCECEAF, 0x7A745E, new SpawnEntry(30, 4, 8, BeastsBiomes.DRIED_REEF));
     public static final EntityType<EntitySkewerShrimp> SKEWER_SHRIMP = create(EntitySkewerShrimp::new, EntitySkewerShrimp.class, EnumCreatureType.CREATURE, 0.5f, 0.4f, 0xEA4E3C, 0xFFACA3, new SpawnEntry(30, 4, 8, BeastsBiomes.DRIED_REEF));
@@ -56,13 +56,13 @@ public class BeastsEntities {
     public static final EntityType<EntityTrimola> TRIMOLA = create(EntityTrimola::new, EntityTrimola.class, EnumCreatureType.CREATURE, 1.0F, 1.2F, 0x261E1B, 0xA09783, new SpawnEntry(20, 2, 4, BeastsBiomes.DRIED_REEF));
     public static final EntityType<EntitySlimeSlug> SLIME_SLUG = create(EntitySlimeSlug::new, EntitySlimeSlug.class, EnumCreatureType.CREATURE, 0.8f, 1.0f, 0xD3524C, 0xFFDB66, new SpawnEntry(20, 2, 4, BeastsBiomes.DRIED_REEF));
     public static final EntityType<EntityButterflyFish> BUTTERFLYFISH = create(EntityButterflyFish::new, EntityButterflyFish.class, EnumCreatureType.CREATURE, 0.3F, 0.3F, 0x5B3138, 0xEE5705, new SpawnEntry(20, 2, 4, BeastsBiomes.DRIED_REEF));
-    public static final EntityType<EntityFireflySquid> FIREFLY_SQUID = create(EntityFireflySquid::new, EntityFireflySquid.class, EnumCreatureType.CREATURE, 0.5f, 0.5f, 0x411A43, 0x50A870);
-    public static final EntityType<EntityTupala> TUPALA = create(EntityTupala::new, EntityTupala.class, EnumCreatureType.AMBIENT, 0.3F, 0.3F, 0xCFDBE4, 0x772D2C);
-    public static final EntityType<EntityGlowShrimp> GLOW_SHRIMP = create(EntityGlowShrimp::new, EntityGlowShrimp.class, EnumCreatureType.CREATURE, 0.3F, 0.3F, 0x0C4089, 0x38A0BC);
-    public static final EntityType<EntityAnglerQueen> ANGLER_QUEEN = create(EntityAnglerQueen::new, EntityAnglerQueen.class, EnumCreatureType.AMBIENT, 2.4F, 1.8F, 0x33251E, 0x26E2FF);
-    public static final EntityType<EntityAnglerPup> ANGLER_PUP = create(EntityAnglerPup::new, EntityAnglerPup.class, EnumCreatureType.AMBIENT, 0.5F, 0.5F, 0x33251E, 0x4FC8DA);
-    public static final EntityType<EntityIsopod> ISOPOD = create(EntityIsopod::new, EntityIsopod.class, EnumCreatureType.CREATURE, 0.3F, 0.3F, 0xCCCBCD, 0xCCB03F);
-    public static final EntityType<EntityAbyssalLegfish> ABYSSAL_LEGFISH = create(EntityAbyssalLegfish::new, EntityAbyssalLegfish.class, EnumCreatureType.CREATURE, 0.3F, 0.3F, 0x3A6053, 0xA9609D);
+    public static final EntityType<EntityFireflySquid> FIREFLY_SQUID = create(EntityFireflySquid::new, EntityFireflySquid.class, EnumCreatureType.CREATURE, 0.5f, 0.5f, 0x411A43, 0x50A870, new SpawnEntry(20, 2, 4, BeastsBiomes.THE_ABYSS));
+    public static final EntityType<EntityTupala> TUPALA = create(EntityTupala::new, EntityTupala.class, EnumCreatureType.AMBIENT, 0.3F, 0.3F, 0xCFDBE4, 0x772D2C, new SpawnEntry(20, 2, 4, BeastsBiomes.THE_ABYSS));
+    public static final EntityType<EntityGlowShrimp> GLOW_SHRIMP = create(EntityGlowShrimp::new, EntityGlowShrimp.class, EnumCreatureType.CREATURE, 0.3F, 0.3F, 0x0C4089, 0x38A0BC, new SpawnEntry(20, 2, 4, BeastsBiomes.THE_ABYSS));
+    public static final EntityType<EntityAnglerQueen> ANGLER_QUEEN = create(EntityAnglerQueen::new, EntityAnglerQueen.class, EnumCreatureType.AMBIENT, 2.4F, 1.8F, 0x33251E, 0x26E2FF, new SpawnEntry(20, 2, 4, BeastsBiomes.THE_ABYSS));
+    public static final EntityType<EntityAnglerPup> ANGLER_PUP = create(EntityAnglerPup::new, EntityAnglerPup.class, EnumCreatureType.AMBIENT, 0.5F, 0.5F, 0x33251E, 0x4FC8DA, new SpawnEntry(20, 2, 4, BeastsBiomes.THE_ABYSS));
+    public static final EntityType<EntityIsopod> ISOPOD = create(EntityIsopod::new, EntityIsopod.class, EnumCreatureType.CREATURE, 0.3F, 0.3F, 0xCCCBCD, 0xCCB03F, new SpawnEntry(20, 2, 4, BeastsBiomes.THE_ABYSS));
+    public static final EntityType<EntityAbyssalLegfish> ABYSSAL_LEGFISH = create(EntityAbyssalLegfish::new, EntityAbyssalLegfish.class, EnumCreatureType.CREATURE, 0.3F, 0.3F, 0x3A6053, 0xA9609D, new SpawnEntry(20, 2, 4, BeastsBiomes.THE_ABYSS));
     public static final EntityType<EntityGlowShrimpShot> GLOW_SHRIMP_SHOT = create(EntityGlowShrimpShot::new, EntityGlowShrimpShot.class, 0.25F, 0.25F);
 
     private static <T extends BeastsBranchie> EntityType<T> createBranchie(Function<World, T> factory, Class<T> cls, int prim, int sec, Collection<? extends Block> validBlocks, Tuple<Integer, Function<BlockEvent.BreakEvent, ? extends BeastsBranchie>> create) {
@@ -177,7 +177,7 @@ public class BeastsEntities {
 
             public EntityType<T> build(String id) {
                 EntityEntryBuilder<T> builder = EntityEntryBuilder.create();
-                builder.name(id).tracker(40, 2, true);
+                builder.name(id).tracker(200, 2, true);
                 return new EntityType<>(builder, cls, classification, factory);
             }
         }
