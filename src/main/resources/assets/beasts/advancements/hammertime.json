@@ -11,7 +11,7 @@
       "translate": "advancements.beasts.hammertime.description"
     },
     "frame": "task",
-    "background": "minecraft:textures/blocks/log_jungle.png"
+    "background": "minecraft:textures/blocks/sand.png"
   },
   "criteria": {
     "hasbasicbinos": {

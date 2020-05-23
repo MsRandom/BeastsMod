@@ -27,10 +27,10 @@ public class LayerAbyssalLegfishSpots implements LayerRenderer<EntityAbyssalLegf
 
     public void doRenderLayer(EntityAbyssalLegfish entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
         this.renderer.bindTexture(this.getEntityTexture(entitylivingbaseIn));
-        GlStateManager.enableBlend();
-        GlStateManager.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE);
-        GlStateManager.disableLighting();
-        GlStateManager.depthMask(!entitylivingbaseIn.isInvisible());
+//        GlStateManager.enableBlend();
+//        GlStateManager.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE);
+//        GlStateManager.disableLighting();
+//        GlStateManager.depthMask(!entitylivingbaseIn.isInvisible());
         int i = 61680;
         int j = 61680;
         int k = 0;
@@ -46,8 +46,8 @@ public class LayerAbyssalLegfishSpots implements LayerRenderer<EntityAbyssalLegf
             part.isHidden = false;
         }
         this.renderer.setLightmap(entitylivingbaseIn);
-        GlStateManager.depthMask(true);
-        GlStateManager.disableBlend();
+//        GlStateManager.depthMask(true);
+//        GlStateManager.disableBlend();
     }
 
     protected ResourceLocation getEntityTexture(EntityAbyssalLegfish entity) {

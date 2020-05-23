@@ -6,10 +6,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.MathHelper;
 
-/**
- * ModelTupala - mubbs
- * Created using Tabula 7.1.0
- */
 public class ModelTupala extends ModelBase {
     public ModelRenderer body;
     public ModelRenderer base1;
@@ -113,9 +109,6 @@ public class ModelTupala extends ModelBase {
         this.body.render(f5);
     }
 
-    /**
-     * This is a helper function from Tabula to set the rotation of model parts
-     */
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
         modelRenderer.rotateAngleX = x;
         modelRenderer.rotateAngleY = y;

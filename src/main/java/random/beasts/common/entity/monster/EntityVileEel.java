@@ -22,6 +22,8 @@ import random.beasts.common.init.BeastsItems;
 import java.util.Objects;
 
 public class EntityVileEel extends EntityMob implements IDriedAquatic {
+    private int pickupCooldown;
+
     public EntityVileEel(World worldIn) {
         super(worldIn);
     }
@@ -45,6 +47,8 @@ public class EntityVileEel extends EntityMob implements IDriedAquatic {
         if (this.getRidingEntity() != null) getRidingEntity().attackEntityFrom(DamageSource.causeMobDamage(this), 1);
         if (this.getAttackTarget() instanceof IHiding && ((IHiding) this.getAttackTarget()).isHiding())
             this.setAttackTarget(null);
+        if(pickupCooldown > 0)
+            pickupCooldown--;
         super.onLivingUpdate();
     }
 
@@ -98,7 +102,11 @@ public class EntityVileEel extends EntityMob implements IDriedAquatic {
 
     @Override
     public boolean attackEntityAsMob(Entity entityIn) {
-        if (!this.world.isRemote) entityIn.startRiding(this, true);
+        if(pickupCooldown <= 0) {
+            pickupCooldown = 60;
+            if (!this.world.isRemote) entityIn.startRiding(this, true); {
+            }
+        }
         return super.attackEntityAsMob(entityIn);
     }
 }

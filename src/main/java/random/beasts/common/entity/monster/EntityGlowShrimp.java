@@ -64,6 +64,7 @@ public class EntityGlowShrimp extends EntityMob implements IRangedAttackMob {
 			shrimp += rand.nextInt(2);
 		}
 		this.entityDropItem(new ItemStack(BeastsItems.SHRIMP, shrimp), 0);
+		System.out.println(lootingModifier);
 	}
 
 	@Override

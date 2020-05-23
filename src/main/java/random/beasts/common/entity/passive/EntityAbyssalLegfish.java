@@ -16,7 +16,7 @@ public class EntityAbyssalLegfish extends EntityLegfish {
 
     @Override
     public int getBrightnessForRender() {
-        return Math.max(95, super.getBrightnessForRender());
+        return Math.max(100, super.getBrightnessForRender());
     }
 
 }
