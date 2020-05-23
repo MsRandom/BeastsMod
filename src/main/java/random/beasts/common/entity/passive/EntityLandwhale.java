@@ -213,7 +213,7 @@ public class EntityLandwhale extends EntityTameable implements IShearable, IDrie
     public void updatePassenger(Entity passenger) {
         if (this.isPassenger(passenger)) {
             if (world.isRemote && passenger == BeastsMod.proxy.getPlayer() && BeastsMod.proxy.isClientSneaking()) {
-                removePassenger(passenger);
+                passenger.dismountRidingEntity();
                 return;
             }
             float f;
