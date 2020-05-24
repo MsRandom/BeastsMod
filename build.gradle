@@ -9,7 +9,7 @@ buildscript {
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = "1.12.2-1.2.0"
+version = "1.12.2-1.2.2"
 group = "random.beasts"
 archivesBaseName = "Beasts"
 
@@ -44,7 +44,7 @@ processResources {
 
 jar {
     manifest {
-        attributes "FMLCorePlugin": "random.beasts.api.world.biome.ChunkCorePlugin"
+        attributes "FMLCorePlugin": "net.msrandom.beasts.api.world.biome.underground.ChunkCorePlugin"
         attributes "FMLCorePluginContainsFMLMod": true
     }
 }
