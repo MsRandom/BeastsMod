@@ -1,7 +1,5 @@
 {
   "variants": {
-    "": {
-      "model": "beasts:block/light_brown_shell_block"
-    }
+    "": { "model": "beasts:block/light_brown_shell_block" }
   }
 }

@@ -1,174 +1,34 @@
 {
     "multipart": [ {   "when": { "north": true },
-            "apply": {
-                "model": "beasts:block/coral/plant/purple/side"
-            }
+            "apply": { "model": "beasts:block/coral/plant/purple/side" }
         }, {   "when": { "east": true },
-        "apply": {
-            "model": "beasts:block/coral/plant/purple/side",
-            "y": 90,
-            "uvlock": true
-        }
+            "apply": { "model": "beasts:block/coral/plant/purple/side", "y": 90, "uvlock": true }
         }, {   "when": { "south": true },
-        "apply": {
-            "model": "beasts:block/coral/plant/purple/side",
-            "y": 180,
-            "uvlock": true
-        }
+            "apply": { "model": "beasts:block/coral/plant/purple/side", "y": 180, "uvlock": true }
         }, {   "when": { "west": true },
-        "apply": {
-            "model": "beasts:block/coral/plant/purple/side",
-            "y": 270,
-            "uvlock": true
-        }
+            "apply": { "model": "beasts:block/coral/plant/purple/side", "y": 270, "uvlock": true }
         }, {   "when": { "up": true },
-        "apply": {
-            "model": "beasts:block/coral/plant/purple/side",
-            "x": 270,
-            "uvlock": true
-        }
+            "apply": { "model": "beasts:block/coral/plant/purple/side", "x": 270, "uvlock": true }
         }, {   "when": { "down": true },
-        "apply": {
-            "model": "beasts:block/coral/plant/purple/side",
-            "x": 90,
-            "uvlock": true
-        }
+            "apply": { "model": "beasts:block/coral/plant/purple/side", "x": 90, "uvlock": true }
         }, {   "when": { "north": false },
-        "apply": [
-            {
-                "model": "beasts:block/coral/plant/purple/noside",
-                "weight": 2
-            },
-            {
-                "model": "beasts:block/coral/plant/purple/noside1"
-            },
-            {
-                "model": "beasts:block/coral/plant/purple/noside2"
-            },
-            {
-                "model": "beasts:block/coral/plant/purple/noside3"
-            }
-        ]
+            "apply": [ { "model": "beasts:block/coral/plant/purple/noside", "weight": 2 }, { "model": "beasts:block/coral/plant/purple/noside1" }, { "model": "beasts:block/coral/plant/purple/noside2" }, { "model": "beasts:block/coral/plant/purple/noside3" }
+            ]
         }, {   "when": { "east": false },
-        "apply": [
-            {
-                "model": "beasts:block/coral/plant/purple/noside1",
-                "y": 90,
-                "uvlock": true
-            },
-            {
-                "model": "beasts:block/coral/plant/purple/noside2",
-                "y": 90,
-                "uvlock": true
-            },
-            {
-                "model": "beasts:block/coral/plant/purple/noside3",
-                "y": 90,
-                "uvlock": true
-            },
-            {
-                "model": "beasts:block/coral/plant/purple/noside",
-                "weight": 2,
-                "y": 90,
-                "uvlock": true
-            }
-        ]
+            "apply": [ { "model": "beasts:block/coral/plant/purple/noside1", "y": 90, "uvlock": true }, { "model": "beasts:block/coral/plant/purple/noside2", "y": 90, "uvlock": true }, { "model": "beasts:block/coral/plant/purple/noside3", "y": 90, "uvlock": true }, { "model": "beasts:block/coral/plant/purple/noside", "weight": 2, "y": 90, "uvlock": true }
+            ]
         }, {   "when": { "south": false },
-        "apply": [
-            {
-                "model": "beasts:block/coral/plant/purple/noside2",
-                "y": 180,
-                "uvlock": true
-            },
-            {
-                "model": "beasts:block/coral/plant/purple/noside3",
-                "y": 180,
-                "uvlock": true
-            },
-            {
-                "model": "beasts:block/coral/plant/purple/noside",
-                "weight": 2,
-                "y": 180,
-                "uvlock": true
-            },
-            {
-                "model": "beasts:block/coral/plant/purple/noside1",
-                "y": 180,
-                "uvlock": true
-            }
-        ]
+            "apply": [ { "model": "beasts:block/coral/plant/purple/noside2", "y": 180, "uvlock": true }, { "model": "beasts:block/coral/plant/purple/noside3", "y": 180, "uvlock": true }, { "model": "beasts:block/coral/plant/purple/noside", "weight": 2, "y": 180, "uvlock": true }, { "model": "beasts:block/coral/plant/purple/noside1", "y": 180, "uvlock": true }
+            ]
         }, {   "when": { "west": false },
-        "apply": [
-            {
-                "model": "beasts:block/coral/plant/purple/noside3",
-                "y": 270,
-                "uvlock": true
-            },
-            {
-                "model": "beasts:block/coral/plant/purple/noside",
-                "weight": 2,
-                "y": 270,
-                "uvlock": true
-            },
-            {
-                "model": "beasts:block/coral/plant/purple/noside1",
-                "y": 270,
-                "uvlock": true
-            },
-            {
-                "model": "beasts:block/coral/plant/purple/noside2",
-                "y": 270,
-                "uvlock": true
-            }
-        ]
+            "apply": [ { "model": "beasts:block/coral/plant/purple/noside3", "y": 270, "uvlock": true }, { "model": "beasts:block/coral/plant/purple/noside", "weight": 2, "y": 270, "uvlock": true }, { "model": "beasts:block/coral/plant/purple/noside1", "y": 270, "uvlock": true }, { "model": "beasts:block/coral/plant/purple/noside2", "y": 270, "uvlock": true }
+            ]
         }, {   "when": { "up": false },
-        "apply": [
-            {
-                "model": "beasts:block/coral/plant/purple/noside",
-                "weight": 2,
-                "x": 270,
-                "uvlock": true
-            },
-            {
-                "model": "beasts:block/coral/plant/purple/noside3",
-                "x": 270,
-                "uvlock": true
-            },
-            {
-                "model": "beasts:block/coral/plant/purple/noside1",
-                "x": 270,
-                "uvlock": true
-            },
-            {
-                "model": "beasts:block/coral/plant/purple/noside2",
-                "x": 270,
-                "uvlock": true
-            }
-        ]
+            "apply": [ { "model": "beasts:block/coral/plant/purple/noside", "weight": 2, "x": 270, "uvlock": true }, { "model": "beasts:block/coral/plant/purple/noside3", "x": 270, "uvlock": true }, { "model": "beasts:block/coral/plant/purple/noside1", "x": 270, "uvlock": true }, { "model": "beasts:block/coral/plant/purple/noside2", "x": 270, "uvlock": true }
+            ]
         }, {   "when": { "down": false },
-        "apply": [
-            {
-                "model": "beasts:block/coral/plant/purple/noside3",
-                "x": 90,
-                "uvlock": true
-            },
-            {
-                "model": "beasts:block/coral/plant/purple/noside2",
-                "x": 90,
-                "uvlock": true
-            },
-            {
-                "model": "beasts:block/coral/plant/purple/noside1",
-                "x": 90,
-                "uvlock": true
-            },
-            {
-                "model": "beasts:block/coral/plant/purple/noside",
-                "weight": 2,
-                "x": 90,
-                "uvlock": true
-            }
-        ]
+            "apply": [ { "model": "beasts:block/coral/plant/purple/noside3", "x": 90, "uvlock": true }, { "model": "beasts:block/coral/plant/purple/noside2", "x": 90, "uvlock": true }, { "model": "beasts:block/coral/plant/purple/noside1", "x": 90, "uvlock": true }, { "model": "beasts:block/coral/plant/purple/noside", "weight": 2, "x": 90, "uvlock": true }
+            ]
         }
     ]
 }

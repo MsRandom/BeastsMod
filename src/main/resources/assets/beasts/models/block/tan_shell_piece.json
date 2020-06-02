@@ -1,7 +1,7 @@
 {
   "textures": {
-    "0": "beasts:blocks/tan_shell_block",
-    "particle": "beasts:blocks/tan_shell_block"
+    "0": "beasts:blocks/tan_shell_piece",
+    "particle": "beasts:blocks/tan_shell_piece"
   },
   "elements": [
     {
@@ -140,5 +140,41 @@
         }
       }
     }
-  ]
+  ],
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [75, 45, 0],
+      "translation": [0, 2.5, 0],
+      "scale": [0.375, 0.375, 0.375]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [75, 45, 0],
+      "translation": [0, 2.5, 0],
+      "scale": [0.375, 0.375, 0.375]
+    },
+    "firstperson_righthand": {
+      "rotation": [0, 45, 0],
+      "scale": [0.4, 0.4, 0.4]
+    },
+    "firstperson_lefthand": {
+      "rotation": [0, 225, 0],
+      "scale": [0.4, 0.4, 0.4]
+    },
+    "ground": {
+      "translation": [0, 3, 0],
+      "scale": [0.25, 0.25, 0.25]
+    },
+    "gui": {
+      "rotation": [30, 225, 0],
+      "scale": [0.625, 0.625, 0.625]
+    },
+    "head": {
+      "rotation": [-150, 0, 0],
+      "translation": [0, 2.25, -11.5]
+    },
+    "fixed": {
+      "rotation": [90, 0, 0],
+      "translation": [0, 1, 5]
+    }
+  }
 }

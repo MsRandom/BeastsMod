@@ -1,7 +1,5 @@
 {
     "variants": {
-        "": {
-            "model": "beasts:block/jellywood_planks"
-        }
+        "": { "model": "beasts:block/jellywood_planks" }
     }
 }

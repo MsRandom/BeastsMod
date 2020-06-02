@@ -50,7 +50,8 @@ public class EntityScallop extends MonsterEntity implements IFlyingAnimal {
     public void livingTick() {
         super.livingTick();
         int speed = MathHelper.floor(4 / getAttribute(SharedMonsterAttributes.FLYING_SPEED).getValue());
-        int worldHeight = world.getHeight(Heightmap.Type.WORLD_SURFACE_WG, (int) (posX + 0.5), (int) (posZ + 0.5));
+        int worldHeight = world.getActualHeight();
+        //int worldHeight = world.getHeight(Heightmap.Type.WORLD_SURFACE_WG, (int) (posX + 0.5), (int) (posZ + 0.5));
         if (getAttackTarget() == null) {
             Runnable targetSetter = () -> {
                 if (needsTarget()) {

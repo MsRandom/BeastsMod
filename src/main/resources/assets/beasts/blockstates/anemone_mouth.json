@@ -1,7 +1,5 @@
 {
   "variants": {
-    "": {
-      "model": "beasts:block/anemone_mouth"
-    }
+    "": { "model": "beasts:block/anemone_mouth" }
   }
 }

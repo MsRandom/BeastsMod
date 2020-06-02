@@ -1,5 +1,5 @@
 {
-    "parent": "block/trapdoor_top",
+    "parent": "block/template_orientable_trapdoor_top",
     "textures": {
         "texture": "beasts:blocks/palm_trapdoor"
     }

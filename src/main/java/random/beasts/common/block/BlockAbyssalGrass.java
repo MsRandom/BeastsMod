@@ -18,7 +18,7 @@ import java.util.Random;
 public class BlockAbyssalGrass extends BushBlock implements IGrowable {
 
     public BlockAbyssalGrass() {
-        super(Block.Properties.create(Material.PLANTS).sound(SoundType.PLANT));
+        super(Block.Properties.create(Material.PLANTS).doesNotBlockMovement().sound(SoundType.PLANT));
         BeastsUtils.addToRegistry(this, "abyssal_grass");
     }
 

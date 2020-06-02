@@ -1,7 +1,5 @@
 {
   "variants": {
-    "": {
-      "model": "beasts:block/coconut"
-    }
+    "": { "model": "beasts:block/coconut" }
   }
 }
