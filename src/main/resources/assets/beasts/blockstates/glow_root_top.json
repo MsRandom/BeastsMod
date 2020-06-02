@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "beasts:block/glow_root_top"
+      "model": "beasts:block/block/glow_root_top"
     }
   }
 }

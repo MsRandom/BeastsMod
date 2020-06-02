@@ -1,7 +1,5 @@
 {
   "variants": {
-    "": {
-      "model": "beasts:block/abyssal_stone"
-    }
+    "": { "model": "beasts:block/abyssal_stone" }
   }
 }

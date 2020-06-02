@@ -1,7 +1,5 @@
 {
   "variants": {
-    "": {
-      "model": "beasts:block/shell_block"
-    }
+    "": { "model": "beasts:block/shell_block" }
   }
 }

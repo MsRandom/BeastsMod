@@ -1,19 +1,9 @@
 {
     "variants": {
-		"": {
-			"model": "beasts:block/none"
-		},
-		"facing=east": {
-			"model": "beasts:block/none"
-		},
-		"facing=west": {
-			"model": "beasts:block/none"
-		},
-		"facing=north": {
-			"model": "beasts:block/none"
-		},
-		"facing=south": {
-			"model": "beasts:block/none"
-		}
-	}
+        "": { "model": "beasts:block/none" },
+		"facing=east": { "model": "beasts:block/none"},
+		"facing=west": { "model": "beasts:block/none"},
+		"facing=north": { "model": "beasts:block/none"},
+		"facing=south": { "model": "beasts:block/none"}
+    }
 }

@@ -1,23 +1,13 @@
 {
 	"forge_marker": 1,
     "variants": {
-        "type": {
-			"blue": {
-				"model": "beasts:block/coral/sapling/blue"
-			},
-			"yellow": {
-				"model": "beasts:block/coral/sapling/yellow"
-			},
-			"pink": {
-				"model": "beasts:block/coral/sapling/pink"
-			},
-			"purple": {
-				"model": "beasts:block/coral/sapling/purple"
-			},
-			"red": {
-				"model": "beasts:block/coral/sapling/red"
-			}
-		},
+        "type": { 
+        	"blue": { "model": "beasts:block/coral/sapling/blue" },
+        	"yellow": { "model": "beasts:block/coral/sapling/yellow" },
+        	"pink": { "model": "beasts:block/coral/sapling/pink" },
+        	"purple": { "model": "beasts:block/coral/sapling/purple" },
+        	"red": { "model": "beasts:block/coral/sapling/red" }
+        },
         "stage": {
         	"0": {},
         	"1": {}

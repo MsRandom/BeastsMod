@@ -25,7 +25,7 @@ public class BlockAbyssalTendrils extends BushBlock implements IGrowable {
     public static final EnumProperty<BlockAbyssalTendrils.EnumBlockHalf> HALF = EnumProperty.create("half", BlockAbyssalTendrils.EnumBlockHalf.class);
 
     public BlockAbyssalTendrils() {
-        super(Block.Properties.create(Material.PLANTS).lightValue(7).sound(SoundType.PLANT));
+        super(Block.Properties.create(Material.PLANTS).doesNotBlockMovement().lightValue(7).sound(SoundType.PLANT));
         this.setDefaultState(this.stateContainer.getBaseState().with(HALF, BlockAbyssalTendrils.EnumBlockHalf.LOWER));
         BeastsUtils.addToRegistry(this, "abyssal_tendrils");
     }

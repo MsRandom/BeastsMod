@@ -1,0 +1,8 @@
+{
+  "parent": "block/cube_bottom_top",
+  "textures": {
+    "bottom": "beasts:blocks/abyssal_sandstone_bottom",
+    "top": "beasts:blocks/abyssal_sandstone_top",
+    "side": "beasts:blocks/abyssal_sandstone"
+  }
+}

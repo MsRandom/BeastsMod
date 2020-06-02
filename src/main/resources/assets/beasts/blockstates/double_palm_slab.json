@@ -1,7 +1,5 @@
 {
     "variants": {
-        "": {
-            "model": "beasts:block/palm_planks"
-        }
+        "": { "model": "beasts:block/palm_planks" }
     }
 }

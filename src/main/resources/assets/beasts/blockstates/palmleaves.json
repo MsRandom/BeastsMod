@@ -1,7 +1,5 @@
 {
   "variants": {
-    "": {
-      "model": "beasts:block/palmleaves"
-    }
+    "": { "model": "beasts:block/palmleaves" }
   }
 }
