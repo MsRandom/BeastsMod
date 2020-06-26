@@ -18,7 +18,6 @@ import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -39,10 +38,6 @@ public class BlockAbyssalTendrils extends BlockBush implements IGrowable, IShear
         this.setLightLevel(0.45F);
         this.setSoundType(SoundType.PLANT);
         BeastsUtils.addToRegistry(this, "abyssal_tendrils", ItemBlock::new);
-    }
-
-    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-        return FULL_BLOCK_AABB;
     }
 
     public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {

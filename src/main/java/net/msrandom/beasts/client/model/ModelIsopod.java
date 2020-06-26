@@ -5,11 +5,10 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
-/**
- * ModelIsopod - Coda
- * Created using Tabula 7.1.0
- */
+@SideOnly(Side.CLIENT)
 public class ModelIsopod extends ModelBase {
     public ModelRenderer body;
     public ModelRenderer head;
@@ -78,23 +77,20 @@ public class ModelIsopod extends ModelBase {
     
     @Override
     public void setLivingAnimations(EntityLivingBase entitylivingbaseIn, float f, float f1, float partialTickTime) {
-    	float speed = 1.0f;
-    	float degree = 1.0f;
-    	this.legLeft1.rotateAngleX = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * 0.7F) * f1 * 0.5F;
-    	this.legLeft2.rotateAngleX = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * -0.7F) * f1 * 0.5F;
-    	this.legLeft3.rotateAngleX = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * 0.7F) * f1 * 0.5F;
-    	this.legLeft4.rotateAngleX = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * -0.7F) * f1 * 0.5F;
-    	this.legRight1.rotateAngleX = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * -0.7F) * f1 * 0.5F;
-    	this.legRight2.rotateAngleX = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * 0.7F) * f1 * 0.5F;
-    	this.legRight3.rotateAngleX = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * -0.7F) * f1 * 0.5F;
-    	this.legRight4.rotateAngleX = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * 0.7F) * f1 * 0.5F;
-    	this.head.offsetY = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * 0.1F) * f1 * 0.5F;
-    	this.crest.offsetY = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * 0.1F) * f1 * 0.5F;
+        float speed = 1.3f;
+        float degree = 1.0f;
+        this.legLeft1.rotateAngleX = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * 0.7F) * f1 * 0.8F;
+        this.legLeft2.rotateAngleX = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * -0.7F) * f1 * 0.8F;
+        this.legLeft3.rotateAngleX = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * 0.7F) * f1 * 0.8F;
+        this.legLeft4.rotateAngleX = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * -0.7F) * f1 * 0.8F;
+        this.legRight1.rotateAngleX = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * -0.7F) * f1 * 0.8F;
+        this.legRight2.rotateAngleX = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * 0.7F) * f1 * 0.8F;
+        this.legRight3.rotateAngleX = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * -0.7F) * f1 * 0.8F;
+        this.legRight4.rotateAngleX = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * 0.7F) * f1 * 0.8F;
+        this.head.offsetY = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * 0.1F) * f1 * 0.5F;
+        this.crest.offsetY = MathHelper.cos((f * speed * 0.4F) + (float) Math.PI) * (degree * 0.1F) * f1 * 0.5F;
     }
 
-    /**
-     * This is a helper function from Tabula to set the rotation of model parts
-     */
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
         modelRenderer.rotateAngleX = x;
         modelRenderer.rotateAngleY = y;

@@ -40,8 +40,8 @@ public class BiomeAbyss extends UndergroundBiome {
 	private static final int VENT_CLUSTER_CHANCE = 50;
 	private static final int CORAL_CLUSTER_CHANCE = 50;
 	private static final int ABYSSAL_GRASS_CHANCE = 8;
-	private static final int TENTACLE_GRASS_CHANCE = 40;
-	private static final int ABYSSAL_TENDRILS_CHANCE = 15;
+	private static final int TENTACLE_GRASS_CHANCE = 30;
+	private static final int ABYSSAL_TENDRILS_CHANCE = 10;
 	private static final int GLOW_CORAL_CHANCE = 15;
 	private final int layerHeight1;
 	private final int layerHeight2;
@@ -119,15 +119,25 @@ public class BiomeAbyss extends UndergroundBiome {
 						if (rand.nextInt(VENT_CLUSTER_CHANCE) == 0 && world.getBlockState(posit.down()).getBlock() == BeastsBlocks.ABYSSAL_SAND)
 							VENT_CLUSTER_GENERATOR.generate(world, rand, posit);
 					} else if (noise < 1.25d) {
-						if (rand.nextInt(CORAL_CLUSTER_CHANCE) == 0 && world.getBlockState(posit.down()).getBlock() == BeastsBlocks.ABYSSAL_SAND)
-							CORAL_CLUSTER_GENERATOR.generate(world, rand, posit.down());
-						if (rand.nextInt(ABYSSAL_GRASS_CHANCE) == 0 && world.getBlockState(posit.down()).getBlock() == BeastsBlocks.ABYSSAL_SAND && world.isAirBlock(posit))
-							world.setBlockState(posit, BeastsBlocks.ABYSSAL_GRASS.getDefaultState(), 16);
-						if (rand.nextInt(TENTACLE_GRASS_CHANCE) == 0 && world.getBlockState(posit.down()).getBlock() == BeastsBlocks.ABYSSAL_SAND && world.isAirBlock(posit))
-							world.setBlockState(posit, BeastsBlocks.TENTACLE_GRASS.getDefaultState(), 16);
-						if (rand.nextInt(ABYSSAL_TENDRILS_CHANCE) == 0 && world.getBlockState(posit.down()).getBlock() == BeastsBlocks.ABYSSAL_SAND && world.isAirBlock(posit.up()) && world.isAirBlock(posit)) {
-							world.setBlockState(posit, BeastsBlocks.ABYSSAL_TENDRILS.getDefaultState().withProperty(BlockAbyssalTendrils.HALF, BlockAbyssalTendrils.EnumBlockHalf.LOWER), 16);
-							world.setBlockState(posit.up(), BeastsBlocks.ABYSSAL_TENDRILS.getDefaultState().withProperty(BlockAbyssalTendrils.HALF, BlockAbyssalTendrils.EnumBlockHalf.UPPER), 16);
+						Block block = world.getBlockState(posit.down()).getBlock();
+						if (block == BeastsBlocks.ABYSSAL_SAND) {
+							if (rand.nextInt(CORAL_CLUSTER_CHANCE) == 0) {
+								CORAL_CLUSTER_GENERATOR.generate(world, rand, posit.down());
+							} else {
+								if (world.isAirBlock(posit)) {
+									//This needs redoing
+									if (rand.nextInt(ABYSSAL_GRASS_CHANCE) == 0) {
+										world.setBlockState(posit, BeastsBlocks.ABYSSAL_GRASS.getDefaultState(), 16);
+									} else if (rand.nextInt(TENTACLE_GRASS_CHANCE) == 0) {
+										world.setBlockState(posit, BeastsBlocks.TENTACLE_GRASS.getDefaultState(), 16);
+									} else if (rand.nextInt(ABYSSAL_TENDRILS_CHANCE) == 0) {
+										world.setBlockState(posit, BeastsBlocks.ABYSSAL_TENDRILS.getDefaultState().withProperty(BlockAbyssalTendrils.HALF, BlockAbyssalTendrils.EnumBlockHalf.LOWER), 16);
+										world.setBlockState(posit.up(), BeastsBlocks.ABYSSAL_TENDRILS.getDefaultState().withProperty(BlockAbyssalTendrils.HALF, BlockAbyssalTendrils.EnumBlockHalf.UPPER), 16);
+									} else if (rand.nextInt(20) == 0) {
+										world.setBlockState(posit, BeastsBlocks.TUBEWORM_CROP.getDefaultState());
+									}
+								}
+							}
 						}
 						EnumFacing facing = EnumFacing.getFront(rand.nextInt(6));
 						if (rand.nextInt(GLOW_CORAL_CHANCE) == 0 && world.getBlockState(posit.offset(facing)).getBlock() == BeastsBlocks.ABYSSAL_STONE && world.isAirBlock(posit)) {

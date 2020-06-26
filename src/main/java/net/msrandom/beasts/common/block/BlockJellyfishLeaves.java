@@ -21,7 +21,6 @@ import net.msrandom.beasts.common.init.BeastsBlocks;
 import java.util.Random;
 
 public class BlockJellyfishLeaves extends BeastsLeaves {
-
     public BlockJellyfishLeaves() {
         this.setSoundType(SoundType.SLIME);
         BeastsUtils.addToRegistry(this, "jellyleaves", ItemBlock::new);

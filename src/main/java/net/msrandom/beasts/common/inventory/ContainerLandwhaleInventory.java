@@ -8,7 +8,6 @@ import net.minecraft.item.ItemStack;
 import net.msrandom.beasts.common.entity.passive.EntityLandwhale;
 
 public class ContainerLandwhaleInventory extends Container {
-
     private final EntityLandwhale landwhale;
 
     public ContainerLandwhaleInventory(EntityLandwhale landwhale, EntityPlayer player) {
@@ -33,24 +32,27 @@ public class ContainerLandwhaleInventory extends Container {
     }
 
     public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
-        //slot.getSlot is causing the game to freeze by never existing this method
-        /*ItemStack itemstack = ItemStack.EMPTY;
+        ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.inventorySlots.get(index);
 
         if (slot != null && slot.getHasStack()) {
             ItemStack itemstack1 = slot.getStack();
             itemstack = itemstack1.copy();
 
-            if (index < 1)
-                if (!this.mergeItemStack(itemstack1, 1, this.inventorySlots.size(), true)) return ItemStack.EMPTY;
-                else if (this.getSlot(0).isItemValid(itemstack1))
-                    if (!this.mergeItemStack(itemstack1, 0, 1, false)) return ItemStack.EMPTY;
-
+            if (index < this.landwhale.inventory.getSizeInventory()) {
+                if (!this.mergeItemStack(itemstack1, this.landwhale.inventory.getSizeInventory(), this.inventorySlots.size(), true))
+                    return ItemStack.EMPTY;
+            } else if (this.getSlot(1).isItemValid(itemstack1) && !this.getSlot(1).getHasStack()) {
+                if (!this.mergeItemStack(itemstack1, 1, 2, false)) return ItemStack.EMPTY;
+            } else if (this.getSlot(0).isItemValid(itemstack1)) {
+                if (!this.mergeItemStack(itemstack1, 0, 1, false)) return ItemStack.EMPTY;
+            } else if (this.landwhale.inventory.getSizeInventory() <= 2 || !this.mergeItemStack(itemstack1, 2, this.landwhale.inventory.getSizeInventory(), false))
+                return ItemStack.EMPTY;
             if (itemstack1.isEmpty()) slot.putStack(ItemStack.EMPTY);
             else slot.onSlotChanged();
-        }*/
+        }
 
-        return ItemStack.EMPTY;
+        return itemstack;
     }
 
     @Override

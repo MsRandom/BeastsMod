@@ -18,6 +18,7 @@ import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -26,9 +27,21 @@ import net.msrandom.beasts.api.main.BeastsUtils;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class BlockGlowCoral extends BlockBush implements IGrowable, IShearable {
+    private static final Map<EnumFacing, AxisAlignedBB> AABB = new HashMap<>();
+
+    static {
+        AABB.put(EnumFacing.UP, BUSH_AABB);
+        AABB.put(EnumFacing.DOWN, new AxisAlignedBB(0.30000001192092896D, 0.399999976158, 0.30000001192092896D, 0.699999988079071D, 1, 0.699999988079071D));
+        AABB.put(EnumFacing.SOUTH, new AxisAlignedBB(0.30000001192092896D, 0.30000001192092896D, 0, 0.699999988079071D, 0.699999988079071D, 0.6000000238418579D));
+        AABB.put(EnumFacing.NORTH, new AxisAlignedBB(0.30000001192092896D, 0.30000001192092896D, 0.399999976158, 0.699999988079071D, 0.699999988079071D, 1));
+        AABB.put(EnumFacing.EAST, new AxisAlignedBB(0, 0.30000001192092896D, 0.30000001192092896D, 0.6000000238418579D, 0.699999988079071D, 0.699999988079071D));
+        AABB.put(EnumFacing.WEST, new AxisAlignedBB(0.399999976158, 0.30000001192092896D, 0.30000001192092896D, 1, 0.699999988079071D, 0.699999988079071D));
+    }
 
     public static final PropertyDirection FACING = PropertyDirection.create("facing");
 
@@ -37,6 +50,11 @@ public class BlockGlowCoral extends BlockBush implements IGrowable, IShearable {
         this.setLightLevel(0.75F);
         this.setSoundType(SoundType.PLANT);
         BeastsUtils.addToRegistry(this, name, ItemBlock::new);
+    }
+
+    @Override
+    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+        return AABB.get(state.getValue(FACING));
     }
 
     protected static boolean canPlaceBlock(World worldIn, BlockPos pos, EnumFacing direction) {

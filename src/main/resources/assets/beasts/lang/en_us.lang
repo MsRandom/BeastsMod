@@ -1,4 +1,4 @@
-Entities
+#Entities
 
 entity.abyssal_legfish.name=Abyssal Legfish
 entity.angler_pup.name=Angler Pup
@@ -27,7 +27,7 @@ entity.trimola.name=Trimola
 entity.tupala.name=Tupala
 entity.slime_slug.name=Slime Slug
 
-Items
+#Items
 
 item.tubeworm_seeds.name=Tubeworm Seeds
 item.tubeworms.name=Tubeworms
@@ -89,7 +89,7 @@ item.meat_scrapes.name=Meat Scraps
 item.palm_door.name=Palm Door
 item.shell_shield.name=Shell Shield
 
-Blocks
+#Blocks
 
 tile.coconut.name=Coconut
 tile.coral_block.blue.name=Blue Coral
@@ -165,16 +165,16 @@ tile.glow_coral_pink.name=Pink Jelly Moss
 tile.glow_coral_blue.name=Blue Jelly Moss
 
 
-Config
+#Config
 
 config.logCascadingWorldGeneration=LogCascadingWorldGeneration
 
-Advancements
+#Advancements
 
 advancements.beasts.hammertime.title=Stop, Hammertime!
 advancements.beasts.hammertime.description=Get attacked by a Giant Garden Eel
 
-Miscellaneous
+#Miscellaneous
 
 itemGroup.beasts=Beasts
 item.icon.name=Beasts Icon
@@ -184,6 +184,6 @@ config.biomes.category=Biomes
 death.attack.pufferpup=%1$s was pricked to death by %2s
 death.attack.pufferpup.player=%1$s was pricked to death by %2s whilst trying to escape %3$s
 
-//Attack
+#Attack
 
 trimola.attack=Trimola Attack

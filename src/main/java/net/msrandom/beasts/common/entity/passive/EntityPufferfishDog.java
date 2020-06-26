@@ -7,6 +7,7 @@ import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
@@ -154,8 +155,8 @@ public class EntityPufferfishDog extends EntityTameable {
                     else motionY += 0.25 / bounces++;
                 } else motionY -= 0.01;
                 if (getThreatTime() > 140) setInflated(false);
-                for (Entity entity : this.world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().grow(1)))
-                    if (entity != this.getOwner()) entity.attackEntityFrom(deathSource, 1.0F);
+                for (Entity entity : this.world.getEntitiesInAABBexcluding(this, this.getEntityBoundingBox().grow(1), entity -> entity != getOwner() && !(entity instanceof EntityItem)))
+                    entity.attackEntityFrom(deathSource, 1.0F);
             } else bounces = 0;
         }
         super.onLivingUpdate();

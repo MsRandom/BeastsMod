@@ -2,13 +2,11 @@ package net.msrandom.beasts.proxy;
 
 import net.minecraft.block.*;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
-import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
@@ -24,7 +22,6 @@ import net.msrandom.beasts.api.main.BeastsRegistries;
 import net.msrandom.beasts.client.renderer.entity.*;
 import net.msrandom.beasts.client.renderer.tileentity.TileEntityCoconutRenderer;
 import net.msrandom.beasts.common.block.BlockAnemoneMouth;
-import net.msrandom.beasts.common.block.BlockPalmTreeLeaves;
 import net.msrandom.beasts.common.entity.item.EntityBeastsPainting;
 import net.msrandom.beasts.common.entity.item.EntityFallingCoconut;
 import net.msrandom.beasts.common.entity.item.EntityThrownCoconut;
@@ -135,17 +132,7 @@ public class ClientProxy extends CommonProxy {
     }
 
     @Override
-    public ModelBiped getArmorModel(Item armorItem, EntityEquipmentSlot armorSlot) {
-        return ArmorData.MODELS.getFrom(armorItem, armorSlot);
-    }
-
-    @Override
-    public String getArmorTexture(Item armorItem, EntityEquipmentSlot armorSlot) {
-        String texture = ArmorData.TEXTURES.getFrom(armorItem, armorSlot);
-        return texture == null ? null : BeastsReference.ID + ":textures/models/armor/" + texture + ".png";
-    }
-
-    public void setGraphicsLevel(BlockPalmTreeLeaves block, boolean enabled) {
-        block.setGraphicsLevel(enabled);
+    public boolean isFancyGraphics() {
+        return Minecraft.getMinecraft().gameSettings.fancyGraphics;
     }
 }

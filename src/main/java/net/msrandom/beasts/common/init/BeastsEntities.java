@@ -61,7 +61,7 @@ public class BeastsEntities {
     public static final EntityType<EntityGlowShrimp> GLOW_SHRIMP = create(EntityGlowShrimp::new, EntityGlowShrimp.class, EnumCreatureType.CREATURE, 0.3F, 0.3F, 0x0C4089, 0x38A0BC, new SpawnEntry(20, 2, 4, BeastsBiomes.THE_ABYSS));
     public static final EntityType<EntityAnglerQueen> ANGLER_QUEEN = create(EntityAnglerQueen::new, EntityAnglerQueen.class, EnumCreatureType.AMBIENT, 2.4F, 1.8F, 0x33251E, 0x26E2FF, new SpawnEntry(20, 2, 4, BeastsBiomes.THE_ABYSS));
     public static final EntityType<EntityAnglerPup> ANGLER_PUP = create(EntityAnglerPup::new, EntityAnglerPup.class, EnumCreatureType.AMBIENT, 0.5F, 0.5F, 0x33251E, 0x4FC8DA, new SpawnEntry(20, 2, 4, BeastsBiomes.THE_ABYSS));
-    public static final EntityType<EntityIsopod> ISOPOD = create(EntityIsopod::new, EntityIsopod.class, EnumCreatureType.CREATURE, 0.3F, 0.3F, 0xCCCBCD, 0xCCB03F, new SpawnEntry(20, 2, 4, BeastsBiomes.THE_ABYSS));
+    public static final EntityType<EntityIsopod> ISOPOD = create(EntityIsopod::new, EntityIsopod.class, EnumCreatureType.CREATURE, 1F, 1F, 0xCCCBCD, 0xCCB03F, new SpawnEntry(20, 2, 4, BeastsBiomes.THE_ABYSS));
     public static final EntityType<EntityAbyssalLegfish> ABYSSAL_LEGFISH = create(EntityAbyssalLegfish::new, EntityAbyssalLegfish.class, EnumCreatureType.CREATURE, 0.3F, 0.3F, 0x3A6053, 0xA9609D, new SpawnEntry(20, 2, 4, BeastsBiomes.THE_ABYSS));
     public static final EntityType<EntityGlowShrimpShot> GLOW_SHRIMP_SHOT = create(EntityGlowShrimpShot::new, EntityGlowShrimpShot.class, 0.25F, 0.25F);
 
@@ -150,7 +150,7 @@ public class BeastsEntities {
         }
 
         public EntityEntry getFinal() {
-            if (this.built == null) this.built = this.base.id(name, entityId++).build();
+            if (this.built == null) this.built = this.base.id(name, entityId++).factory(factory).build();
             return this.built;
         }
 
@@ -176,7 +176,7 @@ public class BeastsEntities {
 
             public EntityType<T> build(String id) {
                 EntityEntryBuilder<T> builder = EntityEntryBuilder.create();
-                builder.name(id).tracker(200, 2, true);
+                builder.name(id).tracker(120, 3, true);
                 return new EntityType<>(builder, cls, classification, factory);
             }
         }

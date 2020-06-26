@@ -1,6 +1,7 @@
 package net.msrandom.beasts.common.init;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.material.Material;
 import net.msrandom.beasts.api.block.*;
 import net.msrandom.beasts.common.block.*;
@@ -11,7 +12,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BeastsBlocks {
-
     public static final Block ABYSSAL_GRASS = new BlockAbyssalGrass();
     public static final Block ABYSSAL_ORE = new BlockAbyssalOre();
     public static final Block ABYSSAL_SAND = new BlockAbyssalSand();
@@ -31,7 +31,7 @@ public class BeastsBlocks {
     public static final Block PALM_SAPLING = new BeastsSapling("palm_sapling", WorldGenPalmTrees::new);
     public static final Block TENTACLE = new BlockTentacle();
     public static final Block TUBEWORM_CROP = new BlockTubewormCrop();
-    public static final Block PALM_LEAVES = new BlockPalmTreeLeaves();
+    public static final BlockLeaves PALM_LEAVES = new BlockPalmTreeLeaves();
     public static final Block PALM_LOG = new BeastsLog("palm_log");
     public static final Block PALM_PLANKS = new BeastsBlock(Material.WOOD, "palm_planks").setHardness(2.0F).setResistance(5.0F);
     public static final BeastsDoor PALM_DOOR = new BeastsDoor("palm");
@@ -59,7 +59,7 @@ public class BeastsBlocks {
     public static final Block SHELL_STAIRS = new BeastsStairs(SHELL_BRICK, "shell");
     public static final BeastsSlab SHELL_SLAB = new BeastsSlab("shell");
     public static final BlockShell[] SHELL_BLOCKS = {new BlockShell("shell_block"), new BlockShell("brown_shell_block"), new BlockShell("light_brown_shell_block"), new BlockShell("tan_shell_block")};
-    public static final BlockShellPiece[] SHELL_PIECES = {new BlockShellPiece("shell_piece"), new BlockShellPiece("brown_shell_piece"), new BlockShellPiece("light_brown_shell_piece"), new BlockShellPiece("tan_shell_piece")};
+    public static final BlockShellPiece[] SHELL_PIECES = {new BlockShellPiece("shell_piece"), new BlockShellPiece.Brown(), new BlockShellPiece.LightBrown(), new BlockShellPiece.Tan()};
 
     static {
         for (CoralColor color : CoralColor.values()) CORAL_PLANTS.put(color, new BlockCoralPlant(color));

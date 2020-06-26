@@ -1,12 +1,10 @@
 package net.msrandom.beasts.common.entity.monster;
 
-import com.google.common.base.Predicate;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
@@ -21,14 +19,13 @@ import net.msrandom.beasts.common.init.BeastsItems;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class EntityIsopod extends EntityMob {
-
 	private static final DataParameter<Boolean> IS_SPARTAPOD = EntityDataManager.createKey(EntityIsopod.class, DataSerializers.BOOLEAN);
 
 	public EntityIsopod(World worldIn) {
 		super(worldIn);
-		setSize(1f, 1f);
 	}
 
 	public boolean isSpartapod() {
@@ -49,34 +46,31 @@ public class EntityIsopod extends EntityMob {
 		super.initEntityAI();
 		this.tasks.addTask(0, new EntityAISwimming(this));
 		this.tasks.addTask(1, new EntityAIAttackMelee(this, 1f, true));
-		this.tasks.addTask(2, new EntityAIFollowSpartapod(this, 1d, 4f, 30f));
-		this.tasks.addTask(3, new EntityAIAvoidEntity<EntityLivingBase>(this, EntityLivingBase.class, new Predicate<EntityLivingBase>() {
-			@Override
-			public boolean apply(@Nullable EntityLivingBase input) {
-				boolean flag = false;
-				for (EntityIsopod isopod : world.getEntitiesWithinAABB(EntityIsopod.class, getEntityBoundingBox().grow(20d))) {
-					if (isopod.isSpartapod()) {
-						flag = true;
-						break;
-					}
+		this.tasks.addTask(2, new EntityAIFollowSpartapod(this, 1, 4f, 30f));
+		this.tasks.addTask(3, new EntityAIAvoidEntity<>(this, EntityLivingBase.class, input -> {
+			boolean flag = false;
+			for (EntityIsopod isopod : world.getEntitiesWithinAABB(EntityIsopod.class, getEntityBoundingBox().grow(20))) {
+				if (isopod.isSpartapod()) {
+					flag = true;
+					break;
 				}
-				return !isSpartapod() && !flag && (input instanceof EntityPlayer || input instanceof EntityVileEel);
 			}
-		}, 5f, 1d, 1.1d));
+			return !isSpartapod() && !flag && !(input instanceof EntityIsopod);
+		}, 5f, 1, 1.1));
 		this.tasks.addTask(3, new EntityAIWander(this, 0.8f));
 		this.tasks.addTask(4, new EntityAILookIdle(this));
-		this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<EntityLivingBase>(this, EntityLivingBase.class, 10, true, true, new Predicate<EntityLivingBase>() {
-			@Override
-			public boolean apply(@Nullable EntityLivingBase input) {
+		this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityLivingBase.class, 10, true, true, input -> {
+			if (input == getAttackTarget()) {
 				boolean flag = false;
-				for (EntityIsopod isopod : world.getEntitiesWithinAABB(EntityIsopod.class, getEntityBoundingBox().grow(20d))) {
+				for (EntityIsopod isopod : world.getEntitiesWithinAABB(EntityIsopod.class, getEntityBoundingBox().grow(20))) {
 					if (isopod.isSpartapod()) {
 						flag = true;
 						break;
 					}
 				}
-				return (isSpartapod() || flag) && (input instanceof EntityPlayer || input instanceof EntityVileEel);
+				return (isSpartapod() || flag) && !(input instanceof EntityIsopod);
 			}
+			return false;
 		}));
 	}
 
@@ -139,7 +133,15 @@ public class EntityIsopod extends EntityMob {
 		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
 	}
 
-	public class EntityAIFollowSpartapod extends EntityAIBase {
+	@Override
+	public void setRevengeTarget(@Nullable EntityLivingBase livingBase) {
+		super.setRevengeTarget(livingBase);
+		for (EntityIsopod isopod : world.getEntitiesWithinAABB(EntityIsopod.class, getEntityBoundingBox().grow(20))) {
+			isopod.setAttackTarget(livingBase);
+		}
+	}
+
+	public static class EntityAIFollowSpartapod extends EntityAIBase {
 		private final EntityIsopod entity;
 		private final Predicate<EntityIsopod> followPredicate;
 		private final double speedModifier;
@@ -150,32 +152,25 @@ public class EntityIsopod extends EntityMob {
 		private int timeToRecalcPath;
 		private float oldWaterCost;
 
-		public EntityAIFollowSpartapod(final EntityIsopod p_i47417_1_, double p_i47417_2_, float p_i47417_4_, float p_i47417_5_) {
-			this.entity = p_i47417_1_;
-			this.followPredicate = new Predicate<EntityIsopod>() {
-				public boolean apply(@Nullable EntityIsopod isopod) {
-					return isopod != null && isopod.isSpartapod();
-				}
-			};
-			this.speedModifier = p_i47417_2_;
-			this.navigation = p_i47417_1_.getNavigator();
-			this.stopDistance = p_i47417_4_;
-			this.areaSize = p_i47417_5_;
+		public EntityAIFollowSpartapod(final EntityIsopod entity, double speed, float distance, float area) {
+			this.entity = entity;
+			this.followPredicate = isopod -> isopod != null && isopod.isSpartapod();
+			this.speedModifier = speed;
+			this.navigation = entity.getNavigator();
+			this.stopDistance = distance;
+			this.areaSize = area;
 			this.setMutexBits(3);
 
-			if (!(p_i47417_1_.getNavigator() instanceof PathNavigateGround) && !(p_i47417_1_.getNavigator() instanceof PathNavigateFlying)) {
+			if (!(entity.getNavigator() instanceof PathNavigateGround) && !(entity.getNavigator() instanceof PathNavigateFlying)) {
 				throw new IllegalArgumentException("Unsupported mob type for FollowMobGoal");
 			}
 		}
 
-		/**
-		 * Returns whether the EntityAIBase should begin execution.
-		 */
 		public boolean shouldExecute() {
 			if (entity.isSpartapod())
 				return false;
 
-			List<EntityIsopod> list = this.entity.world.getEntitiesWithinAABB(EntityIsopod.class, this.entity.getEntityBoundingBox().grow(this.areaSize), this.followPredicate);
+			List<EntityIsopod> list = this.entity.world.getEntitiesWithinAABB(EntityIsopod.class, this.entity.getEntityBoundingBox().grow(this.areaSize), this.followPredicate::test);
 
 			if (!list.isEmpty()) {
 				for (EntityIsopod entityliving : list) {

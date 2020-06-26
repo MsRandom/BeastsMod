@@ -18,7 +18,6 @@ import net.minecraft.util.Tuple;
 import net.minecraft.world.storage.loot.LootPool;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.LootTableLoadEvent;
-import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.world.BlockEvent;
@@ -41,7 +40,6 @@ import java.util.function.Function;
 @SuppressWarnings("unused")
 @Mod.EventBusSubscriber(modid = BeastsReference.ID)
 public class CommonEvents {
-
     private static final BiConsumer<Entity, Tuple<Float, Float>> entitySizeSetter;
     private static final BiConsumer<Entity, Tuple<Float, Float>> ageableSizeSetter;
 
@@ -59,7 +57,7 @@ public class CommonEvents {
         ageableSizeSetter = (entity, size) -> {
             try {
                 ageableSize.invoke(entity, size.getFirst(), size.getSecond());
-                ageableScale.invoke(entity, 1);
+                ageableScale.invoke(entity, 1f);
             } catch (ReflectiveOperationException ignored) {
             }
         };
@@ -67,7 +65,7 @@ public class CommonEvents {
 
     @Deprecated
     @SubscribeEvent
-    public static void constructEntity(EntityEvent.EntityConstructing event) {
+    public static void constructEntity(EntityJoinWorldEvent event) {
         if (BeastsEntities.SIZES.containsKey(event.getEntity().getClass())) {
             BiConsumer<Entity, Tuple<Float, Float>> setSize = event.getEntity() instanceof EntityAgeable ? ageableSizeSetter : entitySizeSetter;
             setSize.accept(event.getEntity(), BeastsEntities.SIZES.get(event.getEntity().getClass()));

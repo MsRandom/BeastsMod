@@ -20,7 +20,6 @@ import net.msrandom.beasts.common.init.BeastsItems;
 import java.util.Random;
 
 public class BlockTubewormCrop extends BlockBush implements IGrowable {
-
     public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 4);
     private static final AxisAlignedBB[] CROPS_AABB = new AxisAlignedBB[]{new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.125D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.25D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.375D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.5D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.625D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.75D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.875D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D)};
 
@@ -34,6 +33,10 @@ public class BlockTubewormCrop extends BlockBush implements IGrowable {
 
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
         return CROPS_AABB[state.getValue(AGE)];
+    }
+
+    public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
+        return worldIn.getBlockState(pos).getBlock() == BeastsBlocks.ABYSSAL_STONE && worldIn.isAirBlock(pos.up());
     }
 
     protected boolean canSustainBush(IBlockState state) {

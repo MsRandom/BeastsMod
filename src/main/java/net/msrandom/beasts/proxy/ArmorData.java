@@ -3,6 +3,8 @@ package net.msrandom.beasts.proxy;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.msrandom.beasts.client.model.ModelHermitHelm;
 import net.msrandom.beasts.client.model.ModelPufferArmor;
 import net.msrandom.beasts.client.model.ModelSpartapodArmor;
@@ -11,9 +13,10 @@ import net.msrandom.beasts.common.init.BeastsItems;
 import java.util.HashMap;
 import java.util.Map;
 
-class ArmorData {
-    static final ArmorMap<ModelBiped> MODELS = new ArmorMap<>();
-    static final ArmorMap<String> TEXTURES = new ArmorMap<>();
+@SideOnly(Side.CLIENT)
+public class ArmorData {
+    public static final ArmorMap<ModelBiped> MODELS = new ArmorMap<>();
+    public static final ArmorMap<String> TEXTURES = new ArmorMap<>();
 
     static {
         //this is where armor models and textures are defined
@@ -35,8 +38,8 @@ class ArmorData {
         TEXTURES.set(EntityEquipmentSlot.HEAD, BeastsItems.PUFFER_HELMET, "puffer_helmet");
     }
 
-    static class ArmorMap<T> extends HashMap<EntityEquipmentSlot, Map<Item, T>> {
-        T getFrom(Item item, EntityEquipmentSlot slot) {
+    public static class ArmorMap<T> extends HashMap<EntityEquipmentSlot, Map<Item, T>> {
+        public T getFrom(Item item, EntityEquipmentSlot slot) {
             return computeIfAbsent(slot, k -> new HashMap<>()).get(item);
         }
 

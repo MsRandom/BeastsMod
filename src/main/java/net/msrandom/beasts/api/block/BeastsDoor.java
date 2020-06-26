@@ -6,6 +6,9 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.msrandom.beasts.api.item.BeastsDoorItem;
 import net.msrandom.beasts.api.main.BeastsUtils;
 
@@ -30,6 +33,11 @@ public class BeastsDoor extends BlockDoor {
 
     @Override
     public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-        return state.getValue(HALF) == BlockDoor.EnumDoorHalf.UPPER ? Items.AIR : DOOR_ITEMS.getOrDefault(this, Items.AIR);
+        return state.getValue(HALF) == BlockDoor.EnumDoorHalf.UPPER || !DOOR_ITEMS.containsKey(this) ? Items.AIR : DOOR_ITEMS.get(this);
+    }
+
+    @Override
+    public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state) {
+        return new ItemStack(DOOR_ITEMS.get(this));
     }
 }

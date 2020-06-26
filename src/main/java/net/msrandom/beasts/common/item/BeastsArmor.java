@@ -9,8 +9,9 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.msrandom.beasts.api.main.BeastsReference;
 import net.msrandom.beasts.api.main.BeastsUtils;
-import net.msrandom.beasts.common.BeastsMod;
+import net.msrandom.beasts.proxy.ArmorData;
 
 import javax.annotation.Nullable;
 
@@ -24,7 +25,7 @@ public class BeastsArmor extends ItemArmor {
     @Override
     @SideOnly(Side.CLIENT)
     public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, EntityEquipmentSlot armorSlot, ModelBiped defaultModel) {
-        ModelBiped armorModel = BeastsMod.proxy.getArmorModel(this, armorSlot);
+        ModelBiped armorModel = ArmorData.MODELS.getFrom(this, armorSlot);
         if (armorModel != null) {
             armorModel.isSneak = defaultModel.isSneak;
             armorModel.isRiding = defaultModel.isRiding;
@@ -43,7 +44,9 @@ public class BeastsArmor extends ItemArmor {
 
     @Nullable
     @Override
+    @SideOnly(Side.CLIENT)
     public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type) {
-        return BeastsMod.proxy.getArmorTexture(this, slot);
+        String texture = ArmorData.TEXTURES.getFrom(this, slot);
+        return texture == null ? null : BeastsReference.ID + ":textures/models/armor/" + texture + ".png";
     }
 }

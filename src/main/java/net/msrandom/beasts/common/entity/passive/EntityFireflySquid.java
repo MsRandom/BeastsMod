@@ -2,10 +2,7 @@ package net.msrandom.beasts.common.entity.passive;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityAgeable;
-import net.minecraft.entity.IEntityLivingData;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.*;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityFlying;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,20 +14,21 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.pathfinding.PathNavigateFlying;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.msrandom.beasts.common.init.BeastsItems;
 
 import javax.annotation.Nullable;
 
 public class EntityFireflySquid extends EntityAnimal implements EntityFlying {
-
     private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityFireflySquid.class, DataSerializers.VARINT);
 	private BlockPos spawnPosition;
-	private int stopped;
 
     public EntityFireflySquid(World worldIn) {
         super(worldIn);
@@ -57,7 +55,7 @@ public class EntityFireflySquid extends EntityAnimal implements EntityFlying {
     }
 
     public int getVariant() {
-        return Integer.valueOf(this.dataManager.get(VARIANT));
+        return this.dataManager.get(VARIANT);
     }
 
     public void setVariant(int variant) {
@@ -70,7 +68,10 @@ public class EntityFireflySquid extends EntityAnimal implements EntityFlying {
         if (itemstack.getItem() == Items.BUCKET) {
             if (!player.capabilities.isCreativeMode) itemstack.shrink(1);
             ItemStack bucket = new ItemStack(BeastsItems.FIREFLY_SQUID_BUCKET);
-            bucket.setTagCompound(this.writeToNBT(new NBTTagCompound()).copy());
+            if (!bucket.hasTagCompound()) bucket.setTagCompound(new NBTTagCompound());
+            NBTTagCompound compound = this.writeToNBT(new NBTTagCompound());
+            compound.setString("id", EntityList.getKey(this).toString());
+            bucket.getTagCompound().setTag("EntityData", compound);
             player.addItemStackToInventory(bucket);
             this.setDead();
             return true;
@@ -87,6 +88,7 @@ public class EntityFireflySquid extends EntityAnimal implements EntityFlying {
     protected void jump() {
     }
 
+    @SideOnly(Side.CLIENT)
     @Override
     public int getBrightnessForRender() {
         return Math.max(155, super.getBrightnessForRender());
@@ -119,18 +121,20 @@ public class EntityFireflySquid extends EntityAnimal implements EntityFlying {
         double d2 = (double) this.spawnPosition.getZ() + 0.5D - this.posZ;
         double speed = 0.02d;
         this.motionX += (Math.signum(d0) * 0.5D - this.motionX) * speed;
-		this.motionY += (Math.signum(d1) * 0.699999988079071D - this.motionY) * speed;
-		this.motionZ += (Math.signum(d2) * 0.5D - this.motionZ) * speed;
-		float f = (float) (MathHelper.atan2(this.motionZ, this.motionX) * (180D / Math.PI)) - 90.0F;
-		float f1 = MathHelper.wrapDegrees(f - this.rotationYaw);
-		this.moveForward = 0.5F;
-		this.rotationYaw += f1;
+        BlockPos p = new BlockPos(posX, posY + 2, posZ);
+        if (!world.getBlockState(p).isSideSolid(world, p, EnumFacing.DOWN))
+            this.motionY += (Math.signum(d1) * 0.699999988079071D - this.motionY) * speed;
+        else motionY -= 0.005;
+        this.motionZ += (Math.signum(d2) * 0.5D - this.motionZ) * speed;
+        float f = (float) (MathHelper.atan2(this.motionZ, this.motionX) * (180D / Math.PI)) - 90.0F;
+        float f1 = MathHelper.wrapDegrees(f - this.rotationYaw);
+        this.moveForward = 0.5F;
+        this.rotationYaw += f1;
 
-		if (this.world.handleMaterialAcceleration(
-				this.getEntityBoundingBox().grow(0.0D, -4.0D, 0.0D).shrink(0.001D), Material.WATER, this)) {
-			this.motionY = 0.1F;
-		}
-	}
+        if (this.world.handleMaterialAcceleration(this.getEntityBoundingBox().grow(0.0D, -4.0D, 0.0D).shrink(0.001D), Material.WATER, this)) {
+            this.motionY = 0.1F;
+        }
+    }
 
 	protected boolean canTriggerWalking() {
 		return false;

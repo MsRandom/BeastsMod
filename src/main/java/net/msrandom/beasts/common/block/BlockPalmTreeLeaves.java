@@ -15,7 +15,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.msrandom.beasts.api.block.BeastsLeaves;
 import net.msrandom.beasts.api.main.BeastsUtils;
-import net.msrandom.beasts.common.BeastsMod;
 import net.msrandom.beasts.common.entity.item.EntityFallingCoconut;
 import net.msrandom.beasts.common.init.BeastsBlocks;
 
@@ -24,7 +23,6 @@ import java.util.Random;
 
 public class BlockPalmTreeLeaves extends BeastsLeaves {
     public BlockPalmTreeLeaves() {
-        BeastsMod.proxy.setGraphicsLevel(this, true);
         BeastsUtils.addToRegistry(this, "palmleaves");
     }
 

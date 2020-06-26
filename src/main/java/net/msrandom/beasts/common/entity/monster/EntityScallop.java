@@ -18,7 +18,6 @@ import net.msrandom.beasts.common.init.BeastsBlocks;
 import net.msrandom.beasts.common.init.BeastsItems;
 
 import javax.annotation.Nullable;
-import java.util.Optional;
 
 public class EntityScallop extends EntityMob implements EntityFlying {
 
@@ -41,7 +40,7 @@ public class EntityScallop extends EntityMob implements EntityFlying {
     @Override
     public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
         livingdata = super.onInitialSpawn(difficulty, livingdata);
-        this.motionY += 0.5;
+        this.motionY += 0.2;
         return livingdata;
     }
 
@@ -58,7 +57,7 @@ public class EntityScallop extends EntityMob implements EntityFlying {
             Runnable targetSetter = () -> {
                 if (needsTarget()) {
                     this.preferredRotation = this.rand.nextDouble() * 360;
-                    this.preferredAltitude = worldHeight + this.rand.nextInt(30) + 30;
+                    this.preferredAltitude = worldHeight + this.rand.nextInt(20) + 10;
                     this.targetBlocks = this.rand.nextInt(20) + 30;
                 } else {
                     this.preferredRotation += this.rand.nextInt(31) - 15;
@@ -68,18 +67,14 @@ public class EntityScallop extends EntityMob implements EntityFlying {
             };
             if (needsTarget()) targetSetter.run();
             double angle = Math.toRadians(preferredRotation);
-            this.motionX += Math.cos(angle) / 24;
-            this.motionZ += Math.sin(-angle) / 24;
+            this.motionX += Math.cos(angle) / 32;
+            this.motionZ += Math.sin(-angle) / 32;
             this.blocksFlew += (posX - prevPosX) + (posZ - prevPosZ);
             if (Math.abs(targetBlocks - blocksFlew) < 3) targetSetter.run();
             this.getLookHelper().setLookPosition(posX + (posX - prevPosX), 0, posZ + (posZ - prevPosZ), 0, 0);
-
-            Optional<EntityPlayer> player = world.playerEntities.stream().filter(p -> !p.capabilities.isCreativeMode && !p.isSpectator() && world.getBiome(p.getPosition()) == BeastsBiomes.DRIED_REEF && getDistanceSq(p) <= 1280).reduce((p1, p2) -> {
-                if (getDistanceSq(p1) > getDistanceSq(p2)) return p2;
-                return p1;
-            });
-
-            player.ifPresent(this::setAttackTarget);
+            this.world.playerEntities.stream().filter(p -> !p.capabilities.isCreativeMode && !p.isSpectator() && world.getBiome(p.getPosition()) == BeastsBiomes.DRIED_REEF && getDistanceSq(p) <= 1280)
+                    .reduce((p1, p2) -> getDistanceSq(p1) > getDistanceSq(p2) ? p2 : p1)
+                    .ifPresent(this::setAttackTarget);
         } else {
             if (getAttackTarget() instanceof EntityPlayer) {
                 EntityPlayer player = (EntityPlayer) getAttackTarget();

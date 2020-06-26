@@ -1,6 +1,5 @@
 package net.msrandom.beasts.common.entity.passive;
 
-import com.google.common.base.Predicate;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -20,11 +19,9 @@ import net.msrandom.beasts.common.entity.monster.EntityVileEel;
 import net.msrandom.beasts.common.init.BeastsBlocks;
 import net.msrandom.beasts.common.init.BeastsItems;
 
-import javax.annotation.Nullable;
-
 public class EntityTupala extends EntityAnimal implements IHiding {
-
     private static final DataParameter<Boolean> HIDING = EntityDataManager.createKey(EntityTupala.class, DataSerializers.BOOLEAN);
+    private int hidingTicks = 0;
 
     public EntityTupala(World worldIn) {
         super(worldIn);
@@ -35,12 +32,7 @@ public class EntityTupala extends EntityAnimal implements IHiding {
     protected void initEntityAI() {
         super.initEntityAI();
         this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityAIAvoidEntity<EntityLivingBase>(this, EntityLivingBase.class, new Predicate<EntityLivingBase>() {
-            @Override
-            public boolean apply(@Nullable EntityLivingBase input) {
-                return input instanceof EntityPlayer || input instanceof EntityVileEel;
-            }
-        }, 5f, 1d, 1.1d) {
+        this.tasks.addTask(1, new EntityAIAvoidEntity<EntityLivingBase>(this, EntityLivingBase.class, entity -> entity instanceof EntityPlayer || entity instanceof EntityVileEel, 5f, 1d, 1.1d) {
             @Override
             public boolean shouldExecute() {
                 return super.shouldExecute() && !isHiding();
@@ -49,16 +41,6 @@ public class EntityTupala extends EntityAnimal implements IHiding {
             @Override
             public boolean shouldContinueExecuting() {
                 return super.shouldContinueExecuting() && !isHiding();
-            }
-
-            @Override
-            public void updateTask() {
-                if (world.getBlockState(getPosition().down()).getBlock() == BeastsBlocks.ABYSSAL_STONE && rand.nextInt(20) == 0 && !isHiding()) {
-                    setHiding(true);
-                    setPositionAndUpdate(posX, posY - 1, posZ);
-                    navigator.clearPath();
-                }
-                super.updateTask();
             }
         });
         this.tasks.addTask(2, new EntityAIWander(this, 1d, 20) {
@@ -98,13 +80,23 @@ public class EntityTupala extends EntityAnimal implements IHiding {
     @Override
     public void onLivingUpdate() {
         super.onLivingUpdate();
-        if (this.isHiding()) {
-            navigator.clearPath();
-            if ((world.getEntitiesWithinAABB(EntityPlayer.class, getEntityBoundingBox().grow(5d)).isEmpty() && rand.nextInt(80) == 0 &&
-                    world.getEntitiesWithinAABB(EntityVileEel.class, getEntityBoundingBox().grow(5d)).isEmpty()) ||
-                    world.getBlockState(getPosition()).getBlock() != BeastsBlocks.ABYSSAL_STONE) {
-                this.setHiding(false);
-                setPositionAndUpdate(posX, posY + 1, posZ);
+        if (!world.isRemote) {
+            if (hidingTicks > 100) setDead();
+
+            boolean safe = world.getEntitiesInAABBexcluding(this, getEntityBoundingBox().grow(5), entity -> entity instanceof EntityPlayer || entity instanceof EntityVileEel).isEmpty();
+            if (this.isHiding()) {
+                ++hidingTicks;
+                navigator.clearPath();
+                if ((safe && rand.nextInt(80) == 0) || world.getBlockState(getPosition()).getBlock() != BeastsBlocks.ABYSSAL_STONE) {
+                    this.setHiding(false);
+                    setPositionAndUpdate(posX, posY + 1, posZ);
+                }
+            } else {
+                if (!safe && world.getBlockState(new BlockPos(posX, posY - 1, posZ)).getBlock() == BeastsBlocks.ABYSSAL_STONE && rand.nextInt(20) == 0 && !isHiding()) {
+                    setHiding(true);
+                    setPositionAndUpdate(posX, posY - 1, posZ);
+                    navigator.clearPath();
+                }
             }
         }
     }

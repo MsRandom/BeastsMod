@@ -12,7 +12,6 @@ import org.apache.logging.log4j.Logger;
 @SuppressWarnings("unused")
 @Mod(modid = BeastsReference.ID, name = BeastsReference.NAME, version = BeastsReference.CURRENT_VERSION, acceptableRemoteVersions = BeastsReference.VERSION_RANGE, guiFactory = BeastsReference.GUI_FACTORY)
 public class BeastsMod {
-
     @SidedProxy(serverSide = BeastsReference.COMMON_PROXY, clientSide = BeastsReference.CLIENT_PROXY)
     public static CommonProxy proxy;
     @Mod.Instance(BeastsReference.ID)
